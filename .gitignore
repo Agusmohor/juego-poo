@@ -1,0 +1,17 @@
+#compilacion
+*.o
+*.out
+*.exe
+
+#temporales
+*.log
+*.tmp
+*.swp
+*.swo
+
+#archivos extra
+.DS_Store
+
+#generados
+*.user
+*.cache
