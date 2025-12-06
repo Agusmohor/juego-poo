@@ -1,6 +1,8 @@
+#include "core/Game.hpp"
 #include <iostream>
 
 int main() {
-    std::cout << "Juego POO - placeholder" << std::endl;
+    Game game;
+    game.run();
     return 0;
 }
