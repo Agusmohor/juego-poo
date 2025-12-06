@@ -1,3 +1,4 @@
+#los archivos con estas extensiones, se ignoran
 #compilacion
 *.o
 *.out
