@@ -3,6 +3,9 @@
 *.o
 *.out
 *.exe
+*.run
+prueba
+juego
 
 #temporales
 *.log
