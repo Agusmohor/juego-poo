@@ -8,7 +8,6 @@
 class player{
 public:
     player();
-    void move();
     void update();
     void draw(sf::RenderWindow& m_win);
 private:
