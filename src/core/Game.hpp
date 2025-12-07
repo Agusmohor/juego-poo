@@ -9,7 +9,6 @@ public:
     void run();
 private:
     sf::RenderWindow m_win;  
-    sf::CircleShape m_spr;
 };
 
 #endif
