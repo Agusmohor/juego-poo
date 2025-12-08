@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "Scene.hpp"
 #include "Match.hpp"
+#include "menu.hpp"
 
 class Game {
 public:
