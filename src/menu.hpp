@@ -1,14 +1,15 @@
-
+#pragma once
 #ifndef MENU_HPP
 #define MENU_HPP
 #include "Scene.hpp"
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-class menu: public scene{
+class menu : public scene{
 public:
     menu();
-    void update()override;
+    void update(Game &m_gam)override;
     void draw(sf::RenderWindow &win)override;
 private:
     sf::Font m_font;

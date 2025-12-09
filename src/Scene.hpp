@@ -4,9 +4,11 @@
 
 #include <SFML/Graphics.hpp>
 
+class Game;
+
 class scene{
 public:
-    virtual void update() = 0;
+    virtual void update(Game &m_gam) = 0;
     virtual void draw(sf::RenderWindow &m_win) = 0;
     virtual ~scene() {}
 };

@@ -11,10 +11,18 @@ void Game::run(){
             //evento cerrar ventana
             if(evt->is<sf::Event::Closed>()) m_win.close();
         }
-        m_win.clear(sf::Color(220,220,180,255));
-        curr_scene->update();
+        curr_scene->update(*this);
         curr_scene->draw(m_win);
         m_win.display();
     }
 
+}
+
+void Game::setScene(scene * new_scene){
+    delete curr_scene;
+    curr_scene = new_scene;
+}
+
+Game::~Game(){
+    delete curr_scene;
 }

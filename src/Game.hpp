@@ -4,18 +4,16 @@
 
 #include <SFML/Graphics.hpp>
 #include "Scene.hpp"
-#include "Match.hpp"
-#include "menu.hpp"
 
 class Game {
 public:
     Game(scene* f_scene);
     void run();
-    void setScene(scene &new_scene);
+    void setScene(scene *new_scene);
+    ~Game();
 private:
     sf::RenderWindow m_win;  
     scene *curr_scene;
-    scene *next_scene;
 };
 
 #endif
