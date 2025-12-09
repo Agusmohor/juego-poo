@@ -27,6 +27,7 @@ void Game::setScene(scene *newScene){
     next_scene = newScene;
 }
 
+
 Game::~Game(){
     delete curr_scene;
     delete next_scene;

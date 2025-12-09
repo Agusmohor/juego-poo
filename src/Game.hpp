@@ -15,6 +15,8 @@ private:
     sf::RenderWindow m_win;  
     scene *curr_scene; 
     scene *next_scene = nullptr;
+    sf::View m_view;
+    
 };
 
 #endif

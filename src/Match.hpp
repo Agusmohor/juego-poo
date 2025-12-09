@@ -8,6 +8,8 @@
 class match : public scene {
 private:
     player m_ply;
+    sf::Texture m_text;
+    sf::Sprite Fondo;
 public:
     match();
     void update(Game &m_gam) override;

@@ -10,12 +10,13 @@ player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt) {
 
 void player::draw(sf::RenderWindow& m_win){
     m_win.draw(m_spr);
+    player::viewCentre(m_win);
 }
 
 void player::m_key(){
     //interaccion teclas
-    sf::Vector2f offsetx(3,0);
-    sf::Vector2f offsety(0,3);
+    sf::Vector2f offsetx(0.2,0);
+    sf::Vector2f offsety(0,0.2);
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) m_spr.move(-offsety);
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) m_spr.move(-offsetx);
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) m_spr.move(offsety);
@@ -25,10 +26,15 @@ void player::m_key(){
 void player::m_mouse(){
     //interaccion mouse
 }
+void player::viewCentre(sf::RenderWindow &m_win){
+    m_view.setCenter(pl_pos);
+    m_win.setView(m_view);
 
+}
 void player::update(){
     //actualizar player
     player::m_key();
     player::m_mouse();
+    pl_pos=m_spr.getPosition();
 }
 
