@@ -1,7 +1,7 @@
 #include "menu.hpp"
 #include "Match.hpp"
 #include "Game.hpp"
-sf::Clock timer;
+
 menu::menu() : m_font("../assets/fonts/fuente.ttf"),m_text1(m_font,"Jueguito"),m_text2(m_font,"press Enter to start"){
     m_text1.setCharacterSize(100);
     sf::Vector2f v(220,150);
@@ -17,10 +17,8 @@ void menu::update(Game &m_gam){
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) m_gam.setScene(new match);
     if (timer.getElapsedTime().asSeconds() >= 0.28f) {
         // cambiar color
-            unsigned char r=rand();
-            unsigned char g=rand();
-            unsigned char b=rand();
-            m_text1.setFillColor(sf::Color(r,g,b));
+        r=rand();b=rand();g=rand();
+        m_text1.setFillColor(sf::Color(r,g,b));
         timer.restart();
     }
     

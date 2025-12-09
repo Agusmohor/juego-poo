@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene){
-    // m_win.setFramerateLimit(120);
+    m_win.setFramerateLimit(60);
 }
 
 void Game::run(){
@@ -14,15 +14,20 @@ void Game::run(){
         curr_scene->update(*this);
         curr_scene->draw(m_win);
         m_win.display();
+        if(next_scene){
+            delete curr_scene;
+            curr_scene = next_scene;
+            next_scene = nullptr;
+        }
     }
 
 }
 
-void Game::setScene(scene * new_scene){
-    delete curr_scene;
-    curr_scene = new_scene;
+void Game::setScene(scene *newScene){
+    next_scene = newScene;
 }
 
 Game::~Game(){
     delete curr_scene;
+    delete next_scene;
 }

@@ -15,6 +15,8 @@ public:
 private:
     sf::Font m_font;
     sf::Text m_text1,m_text2;
+    sf::Clock timer;
+    unsigned char r,g,b;
 };
 
 #endif
