@@ -5,6 +5,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/View.hpp>
+#include <Hud.hpp>
 #include "Entity.hpp"
 
 class player : public entity{
@@ -27,6 +28,7 @@ private:
     sf::Vector2i posMouse;
     sf::Keyboard::Key wKey,aKey,sKey,dKey;
     sf::Mouse::Button rClick;
+    hud m_hud;
 
 };
 

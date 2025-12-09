@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textures/derecha.png"), text2("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(m_txt),m_speed(5),stamina(200){
+player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textures/derecha.png"), text2("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(m_txt),m_speed(5),stamina(200), m_hud(){
     if(!m_txt.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
     sf::Vector2f scl(5.f,5.f); m_spr.setScale(scl);
     dir.x = 0.f; dir.y = 0.f;
@@ -55,7 +55,7 @@ void player::m_mouse(sf::RenderWindow &m_win){
     posMouse = sf::Mouse::getPosition(m_win);
     //convierte las pos del cursor, a coordenadas en la ventana
     mouseCoords = m_win.mapPixelToCoords(posMouse);
-    //dx y dy, son las distancias entre el personaje, y el cursor en ese momento, (coords cursor - coords player)
+    //dx  //dx y dy, son las distancias entre el personaje, y el cursor en ese momento, (coords cursor - coords player)
     dx = mouseCoords.x - pl_pos.x; dy = mouseCoords.y - pl_pos.y;
     //angulo entre el player y el cursor (0-180)
     m_angle = atan2(dy,dx); m_angle *= 180 / 3.14;
@@ -79,10 +79,14 @@ void player::update() {
     player::texture();
     m_spr.move(dir*m_speed);
     pl_pos=m_spr.getPosition();
+    m_hud.update();
 }
 
 void player::draw(sf::RenderWindow& m_win) {
     m_win.draw(m_spr);
+    //cambio pos de pantalla, para mantener el hud quieto
+    m_win.setView(m_win.getDefaultView());
+    m_hud.draw(m_win);
     player::viewCentre(m_win);
     if(sf::Mouse::isButtonPressed(rClick)) player::m_mouse(m_win);
 }
