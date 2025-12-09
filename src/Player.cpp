@@ -1,7 +1,9 @@
 #include "Player.hpp"
+#include <cmath>
 #include <iostream>
 
-player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt), m_speed(5), stamina(200){
+player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt),m_speed(5),stamina(200),  text1("../assets/textures/derecha.png"), text2("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"){
+    
     if(!m_txt.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
     sf::Vector2f scl(5.f,5.f); m_spr.setScale(scl);
     dir.x = 0.f; dir.y = 0.f;
@@ -10,6 +12,7 @@ player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt), m_speed
 void player::draw(sf::RenderWindow& m_win) {
     m_win.draw(m_spr);
     player::viewCentre(m_win);
+    player::m_mouse(m_win);
 }
 
 void player::m_key(){
@@ -32,7 +35,7 @@ void player::speed(){
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && player::cond()){
         stamina--; m_speed *= 2; 
     }
-    std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
+    // std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
 }
 
 bool player::cond(){
@@ -43,8 +46,23 @@ bool player::cond(){
     return false;
 }
 
-void player::m_mouse(){
+void player::m_mouse(sf::RenderWindow &m_win){
     //interaccion mouse
+    //posicion del mouse en la ventana
+    posMouse = sf::Mouse::getPosition(m_win);
+    //convierte las pos del cursor, a coordenadas en la ventana
+    mouseCoords = m_win.mapPixelToCoords(posMouse);
+    //dx y dy, son las distancias entre el personaje, y el cursor en ese momento, (coords cursor - coords player)
+    dx = mouseCoords.x - pl_pos.x; dy = mouseCoords.y - pl_pos.y;
+    //angulo entre el player y el cursor (0-180)
+    m_angle = atan2(dy,dx); m_angle *= 180 / 3.14;
+    if(m_angle < 0 && m_angle > -90) m_spr.setTexture(text1); 
+    if(m_angle <= -90 && m_angle >= -180) m_spr.setTexture(text2);
+    if(m_angle > 90 && m_angle < 180) m_spr.setTexture(text3);
+    if(m_angle <= 90 && m_angle >= 0) m_spr.setTexture(m_txt);
+        
+    // std::cout << "ang " << m_angle << " dx " << dx<< " dy " << dy << " posmouse " << mouseCoords.x << " x "<< mouseCoords.y << " y "<<std::endl;
+    // std::cout << mouseCoords.x << " " << mouseCoords.y <<std::endl;aW
 }
 
 void player::viewCentre(sf::RenderWindow &m_win){
@@ -56,7 +74,7 @@ void player::update() {
     //actualizar player
     player::m_key();
     m_spr.move(dir*m_speed);
-    player::m_mouse();
     pl_pos=m_spr.getPosition();
 }
+
 
