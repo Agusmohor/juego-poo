@@ -15,10 +15,10 @@ void player::m_key(){
     //speed
     player::speed();
     //interaccion teclas
-    if(sf::Keyboard::isKeyPressed(wKey)) dir.y = -1.f;  
-    if(sf::Keyboard::isKeyPressed(aKey)) dir.x = -1.f; 
-    if(sf::Keyboard::isKeyPressed(sKey)) dir.y = 1.f;  
-    if(sf::Keyboard::isKeyPressed(dKey)) dir.x = 1.f; 
+    if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) dir.y = -1.f;  
+    if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) dir.x = -1.f; 
+    if(sf::Keyboard::isKeyPressed(sKey) && !sf::Keyboard::isKeyPressed(wKey)) dir.y = 1.f;  
+    if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) dir.x = 1.f; 
 }
 
 void player::texture(){
@@ -33,8 +33,8 @@ void player::speed(){
     if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && player::cond()) && stamina < 200){
         stamina++; 
     }
-
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && player::cond()){
+    
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && player::cond() && !sf::Mouse::isButtonPressed(rClick)){
         stamina--; m_speed *= 2; 
     }
     // std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
