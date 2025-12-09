@@ -1,4 +1,4 @@
-
+#pragma once
 #ifndef PAUSE_HPP
 #define PAUSE_HPP
 
@@ -7,9 +7,9 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-class pause: public scene{
+class PauseScene : public scene{
 public:
-    pause();
+    PauseScene();
     void update(Game &m_gam)override;
     void draw(sf::RenderWindow &win)override;
 private:
