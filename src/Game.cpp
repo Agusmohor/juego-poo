@@ -1,9 +1,7 @@
 #include "Game.hpp"
-#include "Player.hpp"
 
-player m_spr;
-
-Game::Game() : m_win(sf::VideoMode({800,800}), "Juego Poo"){
+Game::Game(match &f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo") {
+    curr_scene = &f_scene;
 }
 
 void Game::run(){
@@ -14,8 +12,8 @@ void Game::run(){
             if(evt->is<sf::Event::Closed>()) m_win.close();
         }
         m_win.clear(sf::Color(220,220,180,255));
-        m_spr.update();
-        m_spr.draw(m_win);
+        curr_scene->update();
+        curr_scene->draw(m_win);
         m_win.display();
     }
 

@@ -12,7 +12,19 @@ void player::draw(sf::RenderWindow& m_win){
     m_win.draw(m_spr);
 }
 
+void player::m_key(){
+    //interaccion teclas
+
+}
+
+void player::m_mouse(){
+    //interaccion mouse
+}
+
 void player::update(){
+    //actualizar player
+    // player::m_key();
+    // player::m_mouse();
     sf::Vector2f offsetx(0.2,0);
     sf::Vector2f offsety(0,0.2);
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) m_spr.move(-offsety);
