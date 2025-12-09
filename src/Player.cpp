@@ -1,8 +1,11 @@
 #include "Player.hpp"
 
-player::player(){
-    m_spr.setRadius(100.f);
-    m_spr.setFillColor(sf::Color::Green);
+player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt) {
+    if(!m_txt.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
+    m_spr.setTexture(m_txt);
+    sf::Vector2f scl(10.f,10.f);
+    m_spr.setScale(scl);
+    m_spr.setPosition({300,300});
 }
 
 void player::draw(sf::RenderWindow& m_win){

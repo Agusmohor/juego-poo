@@ -11,7 +11,8 @@ public:
     void update();
     void draw(sf::RenderWindow& m_win);
 private:
-    sf::CircleShape m_spr;
+    sf::Texture m_txt;
+    sf::Sprite m_spr;
 };
 
 

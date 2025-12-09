@@ -13,7 +13,7 @@ void Game::run(){
             //evento cerrar ventana
             if(evt->is<sf::Event::Closed>()) m_win.close();
         }
-        m_win.clear();
+        m_win.clear(sf::Color(220,220,180,255));
         m_spr.update();
         m_spr.draw(m_win);
         m_win.display();
