@@ -4,6 +4,7 @@
 
 #include "Scene.hpp"
 #include "Player.hpp"
+#include <SFML/System/Clock.hpp>
 
 class match : public scene {
 private:
@@ -14,6 +15,7 @@ public:
     match();
     void update(Game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
+    sf::Clock timer;
 };
 
 #endif
