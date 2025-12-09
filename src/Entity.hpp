@@ -8,6 +8,7 @@ class entity{
 public:
     virtual void update() = 0;
     virtual void draw(sf::RenderWindow& m_win) = 0;
+    virtual void texture() = 0;
     virtual ~entity() = default;
 };
 

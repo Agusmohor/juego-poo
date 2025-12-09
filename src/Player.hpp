@@ -12,6 +12,7 @@ public:
     player();
     void update() override;
     void draw(sf::RenderWindow &m_win) override;
+    void texture() override;
     void m_mouse(sf::RenderWindow &m_win);
     void m_key();
     void viewCentre(sf::RenderWindow &m_win);
@@ -19,20 +20,13 @@ public:
     bool cond();
 private:
     sf::View m_view;
-    sf::Vector2f pl_pos;
-    sf::Texture m_txt;
+    sf::Texture m_txt,text1,text2,text3;
     sf::Sprite m_spr;
-    float m_speed;
-    int stamina;
-    sf::Texture text1;
-    sf::Texture text2;
-    sf::Texture text3;
-    sf::Vector2f dir;
+    float m_speed,dx,dy,m_angle; int stamina;
+    sf::Vector2f pl_pos,dir, mouseCoords;
     sf::Vector2i posMouse;
-    sf::Vector2f mouseCoords;
-    float dx,dy;
-    float hip;
-    float m_angle;
+    sf::Keyboard::Key wKey,aKey,sKey,dKey;
+    sf::Mouse::Button rClick;
 
 };
 

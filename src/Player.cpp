@@ -2,17 +2,12 @@
 #include <cmath>
 #include <iostream>
 
-player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt),m_speed(5),stamina(200),  text1("../assets/textures/derecha.png"), text2("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"){
-    
+player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textures/derecha.png"), text2("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(m_txt),m_speed(5),stamina(200){
     if(!m_txt.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
     sf::Vector2f scl(5.f,5.f); m_spr.setScale(scl);
     dir.x = 0.f; dir.y = 0.f;
-}
-
-void player::draw(sf::RenderWindow& m_win) {
-    m_win.draw(m_spr);
-    player::viewCentre(m_win);
-    player::m_mouse(m_win);
+    wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
+    rClick = sf::Mouse::Button::Right;
 }
 
 void player::m_key(){
@@ -20,10 +15,17 @@ void player::m_key(){
     //speed
     player::speed();
     //interaccion teclas
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) dir.y = -1.f;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) dir.x = -1.f;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) dir.y = 1.f;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) dir.x = 1.f;
+    if(sf::Keyboard::isKeyPressed(wKey)) dir.y = -1.f;  
+    if(sf::Keyboard::isKeyPressed(aKey)) dir.x = -1.f; 
+    if(sf::Keyboard::isKeyPressed(sKey)) dir.y = 1.f;  
+    if(sf::Keyboard::isKeyPressed(dKey)) dir.x = 1.f; 
+}
+
+void player::texture(){
+    if(sf::Keyboard::isKeyPressed(wKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(text2);
+    if(sf::Keyboard::isKeyPressed(aKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(text3);
+    if(sf::Keyboard::isKeyPressed(sKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(m_txt);
+    if(sf::Keyboard::isKeyPressed(dKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(text1);
 }
 
 void player::speed(){
@@ -39,13 +41,14 @@ void player::speed(){
 }
 
 bool player::cond(){
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) return true;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) return true;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) return true;
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) return true;
+    if(sf::Keyboard::isKeyPressed(wKey)) return true;
+    if(sf::Keyboard::isKeyPressed(aKey)) return true;
+    if(sf::Keyboard::isKeyPressed(sKey)) return true;
+    if(sf::Keyboard::isKeyPressed(dKey)) return true;
     return false;
 }
 
+//movimiento enfoque mouse
 void player::m_mouse(sf::RenderWindow &m_win){
     //interaccion mouse
     //posicion del mouse en la ventana
@@ -73,8 +76,13 @@ void player::viewCentre(sf::RenderWindow &m_win){
 void player::update() {
     //actualizar player
     player::m_key();
+    player::texture();
     m_spr.move(dir*m_speed);
     pl_pos=m_spr.getPosition();
 }
 
-
+void player::draw(sf::RenderWindow& m_win) {
+    m_win.draw(m_spr);
+    player::viewCentre(m_win);
+    if(sf::Mouse::isButtonPressed(rClick)) player::m_mouse(m_win);
+}
