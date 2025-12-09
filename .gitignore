@@ -6,6 +6,9 @@
 *.run
 prueba
 juego
+.vscode/
+.idea/
+
 
 #temporales
 *.log
