@@ -5,8 +5,7 @@
 
 int main() {
     // scene *first_scene = new match;
-    match m;
-    Game game(m);
+    Game game(new match);
     game.run();
     return 0;
 }

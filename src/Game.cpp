@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
-Game::Game(match &f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo") {
-    curr_scene = &f_scene;
+Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene){
+    // m_win.setFramerateLimit(120);
 }
 
 void Game::run(){
