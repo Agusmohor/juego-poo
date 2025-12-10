@@ -1,7 +1,7 @@
 #include "Match.hpp"
 #include "Game.hpp"
 
-match::match() : m_ply() , m_text("../assets/textures/fotito.jpg"),Fondo(m_text){}
+match::match() : m_ply() , m_text("../assets/textures/fondo.jpg"),Fondo(m_text){}
 
 void match::update(Game &m_gam){
     m_ply.update();

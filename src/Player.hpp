@@ -20,6 +20,8 @@ private:
     sf::Sprite m_spr;
     sf::View m_view;
     sf::Vector2f pl_pos;
+    float speed;
+    sf::Vector2f dir;
 };
 
 #endif
