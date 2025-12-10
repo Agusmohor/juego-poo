@@ -1,17 +1,13 @@
 #include "Player.hpp"
 #include <iostream>
 
-player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt) {
+player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt), m_speed(5), stamina(200){
     if(!m_txt.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
-    m_spr.setTexture(m_txt);
-    sf::Vector2f scl(10.f,10.f);
-    m_spr.setScale(scl);
-    m_spr.setPosition({300,300});
-    m_speed = 5; stamina = 200;
+    sf::Vector2f scl(5.f,5.f); m_spr.setScale(scl);
     dir.x = 0.f; dir.y = 0.f;
 }
 
-void player::draw(sf::RenderWindow& m_win){
+void player::draw(sf::RenderWindow& m_win) {
     m_win.draw(m_spr);
     player::viewCentre(m_win);
 }
@@ -29,13 +25,12 @@ void player::m_key(){
 
 void player::speed(){
     m_speed = 5;
-    if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && player::cond()) && stamina < 200 && timer.getElapsedTime().asSeconds() >= 0.025f ){
+    if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && player::cond()) && stamina < 200){
         stamina++; 
-        timer.restart();
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && player::cond()){
-       stamina--; m_speed *= 2; 
+        stamina--; m_speed *= 2; 
     }
     std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
 }
@@ -51,12 +46,13 @@ bool player::cond(){
 void player::m_mouse(){
     //interaccion mouse
 }
+
 void player::viewCentre(sf::RenderWindow &m_win){
     m_view.setCenter(pl_pos);
     m_win.setView(m_view);
-
 }
-void player::update(){
+
+void player::update() {
     //actualizar player
     player::m_key();
     m_spr.move(dir*m_speed);

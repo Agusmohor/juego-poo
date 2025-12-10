@@ -10,7 +10,7 @@ class scene{
 public:
     virtual void update(Game &m_gam) = 0;
     virtual void draw(sf::RenderWindow &m_win) = 0;
-    virtual ~scene() {}
+    virtual ~scene() = default;
 };
 
 #endif
