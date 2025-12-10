@@ -3,6 +3,7 @@
 #define HUD_HPP
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <vector>
 
 class hud{
@@ -10,10 +11,11 @@ public:
     hud();
     void update();
     void draw(sf::RenderWindow &m_win);
-    std::vector<sf::Sprite> bar;
+    void keyBoard();
 private:
     sf::Texture hobTexture,hselTe;
     sf::Sprite hotbarBar, hsel;
+    sf::Keyboard::Key k_1,k_2,k_3,k_4,k_5,k_6;
 };
 
 #endif
