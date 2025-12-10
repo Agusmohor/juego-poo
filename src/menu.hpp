@@ -14,11 +14,14 @@ public:
     void update(Game &m_gam)override;
     void draw(sf::RenderWindow &win)override;
 private:
-    sf::Font m_font;
-    sf::Text m_text1,m_text2;
+    sf::Font m_font1,m_font2;
+    sf::Text m_text1,m_text2,m_text3;
+    sf::Texture boton,botonselec;
     sf::Clock timer;
     unsigned char r,g,b;
     sf::RectangleShape shape;
+    sf::Vector2i mouse_pos;
+    float posx1,posx2,posy1,posy2;
 };
 
 #endif
