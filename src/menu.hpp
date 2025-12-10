@@ -6,6 +6,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Clock.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 class menu : public scene{
 public:
@@ -17,6 +18,7 @@ private:
     sf::Text m_text1,m_text2;
     sf::Clock timer;
     unsigned char r,g,b;
+    sf::RectangleShape shape;
 };
 
 #endif

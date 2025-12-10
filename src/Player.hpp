@@ -5,7 +5,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/Graphics/View.hpp>
-#include <Hud.hpp>
+#include "Hud.hpp"
 #include "Entity.hpp"
 
 class player : public entity{

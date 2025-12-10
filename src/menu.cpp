@@ -2,7 +2,10 @@
 #include "Match.hpp"
 #include "Game.hpp"
 
-menu::menu() : m_font("../assets/fonts/fuente.ttf"),m_text1(m_font,"Jueguito"),m_text2(m_font,"press Enter to start"){
+menu::menu() : m_font("../assets/fonts/fuente.ttf"),m_text1(m_font,"Jueguito"),m_text2(m_font,"press Enter to start"),shape({150.f,40.f}){
+    sf::Vector2f BotSet(320,520);
+    shape.setPosition({BotSet});
+
     m_text1.setCharacterSize(100);
     sf::Vector2f v(220,150);
     m_text1.setPosition(v);
@@ -28,4 +31,5 @@ void menu::draw(sf::RenderWindow &m_win){
     m_win.clear(sf::Color::Black);
     m_win.draw(m_text1);
     m_win.draw(m_text2);
+    m_win.draw(shape);
 }
