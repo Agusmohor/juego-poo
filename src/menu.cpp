@@ -8,7 +8,7 @@ menu::menu() : m_font("../assets/fonts/fuente.ttf"),m_text1(m_font,"Jueguito"),m
     m_text1.setPosition(v);
 
     m_text2.setCharacterSize(30);
-    m_text2.setFillColor(sf::Color::White);
+    m_text2.setFillColor(sf::Color(150,150,150));
     sf::Vector2f g(250,450);
     m_text2.setPosition(g);
 }
