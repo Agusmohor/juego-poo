@@ -15,13 +15,17 @@ public:
     void m_mouse();
     void m_key();
     void viewCentre(sf::RenderWindow &m_win);
+    void speed();
+    bool cond();
 private:
     sf::Texture m_txt;
     sf::Sprite m_spr;
     sf::View m_view;
     sf::Vector2f pl_pos;
-    float speed;
+    float m_speed;
     sf::Vector2f dir;
+    int stamina;
+    sf::Clock timer;
 };
 
 #endif

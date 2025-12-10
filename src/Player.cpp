@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include <iostream>
 
 player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt) {
     if(!m_txt.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
@@ -6,7 +7,7 @@ player::player() : m_txt("../assets/textures/prueba.png"), m_spr(m_txt) {
     sf::Vector2f scl(10.f,10.f);
     m_spr.setScale(scl);
     m_spr.setPosition({300,300});
-    speed = 10;
+    m_speed = 5; stamina = 200;
     dir.x = 0.f; dir.y = 0.f;
 }
 
@@ -17,11 +18,34 @@ void player::draw(sf::RenderWindow& m_win){
 
 void player::m_key(){
     dir.x = 0.f; dir.y = 0.f;
+    //speed
+    player::speed();
     //interaccion teclas
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) dir.y = -1.f;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) dir.x = -1.f;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) dir.y = 1.f;
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) dir.x = 1.f;
+}
+
+void player::speed(){
+    m_speed = 5;
+    if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && player::cond()) && stamina < 200 && timer.getElapsedTime().asSeconds() >= 0.025f ){
+        stamina++; 
+        timer.restart();
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && player::cond()){
+       stamina--; m_speed *= 2; 
+    }
+    std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
+}
+
+bool player::cond(){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) return true;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) return true;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) return true;
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) return true;
+    return false;
 }
 
 void player::m_mouse(){
@@ -35,7 +59,7 @@ void player::viewCentre(sf::RenderWindow &m_win){
 void player::update(){
     //actualizar player
     player::m_key();
-    m_spr.move(dir*speed);
+    m_spr.move(dir*m_speed);
     player::m_mouse();
     pl_pos=m_spr.getPosition();
 }
