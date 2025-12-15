@@ -27,5 +27,5 @@ void hud::keyBoard(){
     if(sf::Keyboard::isKeyPressed(k_3))hsel.setPosition(sf::Vector2f(368,798));
     if(sf::Keyboard::isKeyPressed(k_4))hsel.setPosition(sf::Vector2f(432,798));
     if(sf::Keyboard::isKeyPressed(k_5))hsel.setPosition(sf::Vector2f(496,798));
-    if(sf::Keyboard::isKeyPressed(k_5))hsel.setPosition(sf::Vector2f(560,798));
+    if(sf::Keyboard::isKeyPressed(k_6))hsel.setPosition(sf::Vector2f(560,798));
 }
