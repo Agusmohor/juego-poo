@@ -13,6 +13,7 @@ private:
     sf::Sprite Fondo;
 public:
     match();
+    void doPause(Game &m_gam);
     void update(Game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
     sf::Clock timer;

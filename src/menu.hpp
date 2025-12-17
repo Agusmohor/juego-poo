@@ -13,6 +13,10 @@ public:
     menu();
     void update(Game &m_gam)override;
     void draw(sf::RenderWindow &win)override;
+    void buttons();
+    void button_overlay(sf::RenderWindow &m_win);
+    void titleColor();
+    void dibujado(sf::RenderWindow &m_win);
 private:
     sf::Font m_font1,m_font2;
     sf::Text m_text1,m_text2,m_text3;
