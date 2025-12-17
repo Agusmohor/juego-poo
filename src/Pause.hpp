@@ -12,6 +12,7 @@ public:
     PauseScene();
     void update(Game &m_gam)override;
     void draw(sf::RenderWindow &win)override;
+    void backMatch(Game &m_gam);
 private:
     sf::Font m_font;
     sf::Text m_text;

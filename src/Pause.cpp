@@ -9,6 +9,10 @@ PauseScene::PauseScene():m_font("../assets/fonts/fuente.ttf"),m_text(m_font,"Pau
 }
 
 void PauseScene::update(Game &m_gam){
+    PauseScene::backMatch(m_gam);
+}
+
+void PauseScene::backMatch(Game &m_gam){
     if (timer.getElapsedTime().asSeconds() >= 0.1f) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) m_gam.setScene(new match);
         timer.restart();
