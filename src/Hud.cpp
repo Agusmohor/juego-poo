@@ -12,6 +12,8 @@ hud::hud() : hobTexture("../assets/textures/entity/player/gui/entire_hotbar.png"
     hotbarBar.setPosition(sf::Vector2f(400,798));
 }
 
+
+
 void hud::draw(sf::RenderWindow &m_win){
     m_win.draw(hotbarBar);
     m_win.draw(hsel);

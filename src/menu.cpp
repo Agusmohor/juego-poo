@@ -2,21 +2,8 @@
 #include "Match.hpp"
 #include "Game.hpp"
 
-menu::menu() : m_font1("../assets/fonts/fuente.ttf"),m_font2("../assets/fonts/MineFont.ttf"),m_text1(m_font1,"Jueguito"),m_text2(m_font1,"press Enter to start"),m_text3(m_font2,"Settings"){
-    
+menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), m_text3(m_font2,"") {
     menu::buttons();
-
-    m_text1.setCharacterSize(100);
-    m_text1.setPosition(sf::Vector2f(220,150));
-
-    m_text2.setCharacterSize(30);
-    m_text2.setFillColor(sf::Color(150,150,150));
-    m_text2.setPosition(sf::Vector2f(250,450));
-
-
-    m_text3.setCharacterSize(15);
-    m_text3.setFillColor(sf::Color::White);
-    m_text3.setPosition(sf::Vector2f(358,535));
 }
 
 void menu::update(Game &m_gam){
@@ -50,6 +37,24 @@ void menu::titleColor(){
 }
 //crea todos los botones del menu
 void menu::buttons(){
+    if(!m_font1.openFromFile("../assets/fonts/fuente.ttf")) throw std::runtime_error("error");
+    if(!m_font2.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("error"); 
+    m_text1.setFont(m_font1); m_text1.setString("Jueguito"); 
+    m_text2.setFont(m_font1); m_text2.setString("press Enter to start"); 
+    m_text3.setFont(m_font2); m_text3.setString("Settings");
+
+    m_text1.setCharacterSize(100);
+    m_text1.setPosition(sf::Vector2f(220,150));
+
+    m_text2.setCharacterSize(30);
+    m_text2.setFillColor(sf::Color(150,150,150));
+    m_text2.setPosition(sf::Vector2f(250,450));
+
+
+    m_text3.setCharacterSize(15);
+    m_text3.setFillColor(sf::Color::White);
+    m_text3.setPosition(sf::Vector2f(358,535));
+
     shape.setSize({220.f,30.f});
     shape.setPosition({sf::Vector2f(290,520)});
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("no se pudo abrir el archivo");
