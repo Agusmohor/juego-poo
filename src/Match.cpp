@@ -11,18 +11,12 @@ void match::update(Game &m_gam){
 }
 
 void match::draw(sf::RenderWindow &m_win){
-    m_win.clear();
     match::render(m_win);
 
 }
 
 void match::doPause(Game &m_gam){
-    if (timer.getElapsedTime().asSeconds() >= 0.1f) {
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)){
-            m_gam.setScene(new PauseScene);
-        }
-        timer.restart();
-    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))   m_gam.isPaused(true);
 }
 
 // dibujo de camara, centrado del hud

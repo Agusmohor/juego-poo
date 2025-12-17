@@ -18,7 +18,6 @@ void menu::draw(sf::RenderWindow &m_win){
 }
 
 void menu::dibujado(sf::RenderWindow &m_win){
-    m_win.clear(sf::Color::Black);
     m_win.draw(m_text1);
     m_win.draw(m_text2);
 

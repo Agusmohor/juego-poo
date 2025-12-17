@@ -1,6 +1,4 @@
 #include "Pause.hpp"
-#include "Game.hpp"
-#include "Match.hpp"
 
 PauseScene::PauseScene():m_font("../assets/fonts/fuente.ttf"),m_text(m_font,"Pause"){
     m_text.setCharacterSize(100);
@@ -13,13 +11,9 @@ void PauseScene::update(Game &m_gam){
 }
 
 void PauseScene::backMatch(Game &m_gam){
-    if (timer.getElapsedTime().asSeconds() >= 0.1f) {
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) m_gam.setScene(new match);
-        timer.restart();
-    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) m_gam.isPaused(false);
 }
 
 void PauseScene::draw(sf::RenderWindow &m_win){
-    m_win.clear(sf::Color::Black);
     m_win.draw(m_text);
 }

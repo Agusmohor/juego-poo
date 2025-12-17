@@ -6,6 +6,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include "Game.hpp"
 
 class PauseScene : public scene{
 public:
@@ -16,7 +17,6 @@ public:
 private:
     sf::Font m_font;
     sf::Text m_text;
-    sf::Clock timer;
 };
 
 #endif
