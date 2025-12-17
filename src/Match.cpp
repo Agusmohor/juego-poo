@@ -16,7 +16,7 @@ void match::draw(sf::RenderWindow &m_win){
 }
 
 void match::doPause(Game &m_gam){
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))   m_gam.isPaused(true);
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) m_gam.isPaused(true);
 }
 
 // dibujo de camara, centrado del hud
