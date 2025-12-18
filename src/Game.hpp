@@ -17,17 +17,21 @@ public:
     void loadConfig(sf::RenderWindow &m_win);
     void makeConfig();
     void takeConfig(std::ifstream &file);
+    const sf::Vector2u &getWinSize();
+    const sf::View& getUIWinView();
     ~Game();
 private:
     sf::RenderWindow m_win;  
     scene *curr_scene; 
     scene *next_scene = nullptr;
     scene *m_pause = nullptr;
-    sf::View m_view;
+    sf::View m_view,m_uiview;
     bool ispaused;
     sf::Clock timer;
     sf::Vector2u resolution;
     std::string name;
+    sf::Vector2u m_winSize;
+
     
 };
 

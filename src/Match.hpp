@@ -12,7 +12,9 @@ private:
     player m_ply;
     sf::Texture m_text;
     sf::Sprite Fondo;
-    sf::View m_view;
+    sf::View m_view,m_uiview;
+    sf::Vector2u m_winSize;
+    sf::Clock timer;
     hud m_hud;
 public:
     match();
@@ -21,7 +23,6 @@ public:
     void draw(sf::RenderWindow &m_win) override;
     void render(sf::RenderWindow &m_win);
     void mouseSkin(sf::RenderWindow &m_win);
-    sf::Clock timer;
 };
 
 #endif

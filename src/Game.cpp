@@ -12,6 +12,14 @@ void Game::run(){
         while(const auto evt = m_win.pollEvent()){
             //evento cerrar ventana
             if(evt->is<sf::Event::Closed>()) m_win.close();
+            if(const auto* resized = evt->getIf<sf::Event::Resized>()){
+                m_winSize = sf::Vector2u(resized->size);
+                sf::FloatRect visibleArea({0.f,0.f},sf::Vector2f(m_winSize));
+                //centra la view cuando se hace un resize de la window
+                m_view = sf::View(visibleArea); m_view.setCenter(m_win.getDefaultView().getCenter());
+                m_uiview = sf::View(visibleArea); m_uiview.setCenter(m_win.getDefaultView().getCenter());
+                m_win.setView(m_view);
+            }
         }
 
         m_win.clear();
@@ -77,8 +85,15 @@ void Game::takeConfig(std::ifstream &file){
     std::getline(file,aux); 
     resolution.x = std::stoi(aux.substr(aux.find("=")+1,(aux.find("x")-aux.find("=")+1)));
     resolution.y = std::stoi(aux.substr(aux.find("x")+1));
-    std::cout << resolution.x<<std::endl;
-    std::cout << resolution.y<<std::endl;
     std::getline(file,aux);
     name = aux.substr(aux.find("=")+1);
 }
+
+const sf::Vector2u& Game::getWinSize(){
+    return m_winSize;
+}
+
+const sf::View& Game::getUIWinView(){
+    return m_uiview;
+}
+

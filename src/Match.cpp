@@ -4,10 +4,13 @@
 
 match::match() : m_ply() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {}
 
+
 void match::update(Game &m_gam){
     m_ply.update();
     m_hud.update();
     match::doPause(m_gam);
+    m_winSize = m_gam.getWinSize();
+    m_uiview = m_gam.getUIWinView();
 }
 
 void match::draw(sf::RenderWindow &m_win){
@@ -22,12 +25,14 @@ void match::doPause(Game &m_gam){
 // dibujo de camara, centrado del hud
 // view = camara, win = ventana 
 void match::render(sf::RenderWindow &m_win){
+    m_view.setSize(sf::Vector2f(m_winSize));
     m_view.setCenter(m_ply.getPosition());
     m_win.setView(m_view);
     m_win.draw(Fondo);
     match::mouseSkin(m_win);
     m_ply.draw(m_win);
-    m_win.setView(m_win.getDefaultView());
+
+    m_win.setView(m_uiview);
     m_hud.draw(m_win);
 }
 
