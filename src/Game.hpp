@@ -5,16 +5,18 @@
 #include <SFML/Graphics.hpp>
 #include "Scene.hpp"
 #include "Pause.hpp"
+#include <fstream>
 
 class Game {
 public:
     Game(scene* f_scene);
     void run();
     void setScene(scene *newScene);
-    void makePause();
-    void makePause(scene *newScene);
     void delPause();
     void isPaused(bool condition);
+    void loadConfig(sf::RenderWindow &m_win);
+    void makeConfig();
+    void takeConfig(std::ifstream &file);
     ~Game();
 private:
     sf::RenderWindow m_win;  
@@ -24,6 +26,8 @@ private:
     sf::View m_view;
     bool ispaused;
     sf::Clock timer;
+    sf::Vector2u resolution;
+    std::string name;
     
 };
 

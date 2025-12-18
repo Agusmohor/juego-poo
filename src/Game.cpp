@@ -3,6 +3,7 @@
 
 Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false){
     m_win.setFramerateLimit(60);
+    Game::loadConfig(m_win);
 }
 
 void Game::run(){
@@ -53,4 +54,31 @@ void Game::isPaused(bool condition){
 void Game::delPause(){
     delete m_pause;
     m_pause = nullptr;
+}
+
+void Game::loadConfig(sf::RenderWindow &m_win){
+    std::ifstream file("../data/config/config.txt");
+    if(!file.is_open()) Game::makeConfig();
+    file.close();
+    file.open("../data/config/config.txt");
+    Game::takeConfig(file);
+    m_win.setSize(resolution);
+}
+
+void Game::makeConfig(){
+    std::ofstream cfile("../data/config/config.txt");
+    cfile << "Resolution = 800x800" << std::endl;
+    cfile << "Name = null" << std::endl;
+    cfile.close();
+}
+
+void Game::takeConfig(std::ifstream &file){
+    std::string aux;
+    std::getline(file,aux); 
+    resolution.x = std::stoi(aux.substr(aux.find("=")+1,(aux.find("x")-aux.find("=")+1)));
+    resolution.y = std::stoi(aux.substr(aux.find("x")+1));
+    std::cout << resolution.x<<std::endl;
+    std::cout << resolution.y<<std::endl;
+    std::getline(file,aux);
+    name = aux.substr(aux.find("=")+1);
 }

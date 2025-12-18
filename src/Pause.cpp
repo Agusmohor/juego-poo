@@ -2,8 +2,7 @@
 
 PauseScene::PauseScene():m_font("../assets/fonts/fuente.ttf"),m_text(m_font,"Pause"){
     m_text.setCharacterSize(100);
-    sf::Vector2f v(300,400);
-    m_text.setPosition(v);
+    m_text.setPosition(sf::Vector2f(300,150));
     overlay.setSize({800.f,800.f});
     overlay.setFillColor(sf::Color(0,0,0,170));
 }
@@ -20,3 +19,4 @@ void PauseScene::draw(sf::RenderWindow &m_win){
     m_win.draw(overlay);
     m_win.draw(m_text);
 }
+
