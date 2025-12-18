@@ -20,6 +20,7 @@ public:
     match();
     void doPause(Game &m_gam);
     void update(Game &m_gam) override;
+    void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
     void render(sf::RenderWindow &m_win);
     void mouseSkin(sf::RenderWindow &m_win);

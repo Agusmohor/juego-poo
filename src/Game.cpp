@@ -25,6 +25,7 @@ void Game::run(){
         m_win.clear();
 
         if(!ispaused) curr_scene->update(*this);
+        curr_scene->updateView(*this);
         if(ispaused) m_pause->update(*this); 
 
         curr_scene->draw(m_win);

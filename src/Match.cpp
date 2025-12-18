@@ -9,6 +9,9 @@ void match::update(Game &m_gam){
     m_ply.update();
     m_hud.update();
     match::doPause(m_gam);
+}
+
+void match::updateView(Game &m_gam){
     m_winSize = m_gam.getWinSize();
     m_uiview = m_gam.getUIWinView();
 }

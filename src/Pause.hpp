@@ -12,6 +12,7 @@ class PauseScene : public scene{
 public:
     PauseScene();
     void update(Game &m_gam)override;
+    void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &win)override;
     void backMatch(Game &m_gam);
 private:

@@ -11,6 +11,8 @@ void PauseScene::update(Game &m_gam){
     PauseScene::backMatch(m_gam);
 }
 
+void PauseScene::updateView(Game &m_gam){}
+
 void PauseScene::backMatch(Game &m_gam){
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) m_gam.isPaused(false);
 }

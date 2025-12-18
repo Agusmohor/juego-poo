@@ -12,6 +12,7 @@ class menu : public scene{
 public:
     menu();
     void update(Game &m_gam)override;
+    void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &win)override;
     void buttons();
     void button_overlay(sf::RenderWindow &m_win);

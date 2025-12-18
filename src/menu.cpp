@@ -11,6 +11,8 @@ void menu::update(Game &m_gam){
     menu::titleColor();
 }
 
+void menu::updateView(Game &m_gam){}
+
 void menu::draw(sf::RenderWindow &m_win){
     menu::dibujado(m_win);
     menu::button_overlay(m_win);
