@@ -36,6 +36,7 @@ void match::render(sf::RenderWindow &m_win){
     m_ply.draw(m_win);
 
     m_win.setView(m_uiview);
+    m_hud.moveHotbar(m_win.mapPixelToCoords(sf::Vector2i(m_uiview.getSize().x,m_uiview.getSize().y )));
     m_hud.draw(m_win);
 }
 
