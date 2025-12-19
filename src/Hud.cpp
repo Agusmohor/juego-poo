@@ -21,9 +21,12 @@ void hud::draw(sf::RenderWindow &m_win){
 }
 
 void hud::update(){
+    hud::keyBoard();
+}
+
+void hud::updateView(){
     //reposicionamiento del hud con el resize
     hotbarBar.setPosition(sf::Vector2f(400,newpos));
-    hud::keyBoard();
     hselpos = sf::Vector2f(hselpos.x,newpos);
     hsel.setPosition(hselpos);
 }
@@ -42,3 +45,4 @@ void hud::moveHotbar(const sf::Vector2f &winview){
         m_winSize = winview;
         newpos = m_winSize.y-2;
 }
+

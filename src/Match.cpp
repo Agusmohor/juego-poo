@@ -14,6 +14,7 @@ void match::update(Game &m_gam){
 void match::updateView(Game &m_gam){
     m_winSize = m_gam.getWinSize();
     m_uiview = m_gam.getUIWinView();
+    m_hud.updateView();
 }
 
 void match::draw(sf::RenderWindow &m_win){

@@ -10,6 +10,7 @@ class hud{
 public:
     hud();
     void update();
+    void updateView();
     void draw(sf::RenderWindow &m_win);
     void keyBoard();
     void moveHotbar(const sf::Vector2f &winview);
