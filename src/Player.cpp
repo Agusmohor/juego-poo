@@ -13,7 +13,7 @@ player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textu
 void player::m_key(){
     dir.x = 0.f; dir.y = 0.f;
     //speed
-    player::speed();
+    this->speed();
     //interaccion teclas
     if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) dir.y = -1.f;  
     if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) dir.x = -1.f; 
@@ -30,11 +30,11 @@ void player::texture(){
 
 void player::speed(){
     m_speed = 5;
-    if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && player::cond()) && stamina < 200){
+    if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 200){
         stamina++; 
     }
     
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && player::cond() && !sf::Mouse::isButtonPressed(rClick)){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && this->cond() && !sf::Mouse::isButtonPressed(rClick)){
         stamina--; m_speed *= 2; 
     }
     // std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
@@ -66,8 +66,8 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 
 void player::update() {
     //actualizar player
-    player::m_key();
-    player::texture();
+    this->m_key();
+    this->texture();
     m_spr.move(dir*m_speed);
     pl_pos=m_spr.getPosition();
 }
@@ -77,7 +77,7 @@ void player::draw(sf::RenderWindow& m_win) {
 }
 
 void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
-    player::m_mouse(mouseCoords);
+    this->m_mouse(mouseCoords);
 }
 
 //posicion del player

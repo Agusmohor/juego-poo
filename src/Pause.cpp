@@ -8,7 +8,7 @@ PauseScene::PauseScene():m_font("../assets/fonts/fuente.ttf"),m_text(m_font,"Pau
 }
 
 void PauseScene::update(Game &m_gam){
-    PauseScene::backMatch(m_gam);
+    this->backMatch(m_gam);
 }
 
 void PauseScene::updateView(Game &m_gam){}

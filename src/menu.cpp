@@ -3,19 +3,19 @@
 #include "Game.hpp"
 
 menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), m_text3(m_font2,"") {
-    menu::buttons();
+    this->buttons();
 }
 
 void menu::update(Game &m_gam){
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) m_gam.setScene(new match);
-    menu::titleColor();
+    this->titleColor();
 }
 
 void menu::updateView(Game &m_gam){}
 
 void menu::draw(sf::RenderWindow &m_win){
-    menu::dibujado(m_win);
-    menu::button_overlay(m_win);
+    this->dibujado(m_win);
+    this->button_overlay(m_win);
     
 }
 

@@ -8,7 +8,7 @@ match::match() : m_ply() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text)
 void match::update(Game &m_gam){
     m_ply.update();
     m_hud.update();
-    match::doPause(m_gam);
+    this->doPause(m_gam);
 }
 
 void match::updateView(Game &m_gam){
@@ -18,7 +18,7 @@ void match::updateView(Game &m_gam){
 }
 
 void match::draw(sf::RenderWindow &m_win){
-    match::render(m_win);
+    this->render(m_win);
 
 }
 
@@ -33,7 +33,7 @@ void match::render(sf::RenderWindow &m_win){
     m_view.setCenter(m_ply.getPosition());
     m_win.setView(m_view);
     m_win.draw(Fondo);
-    match::mouseSkin(m_win);
+    this->mouseSkin(m_win);
     m_ply.draw(m_win);
 
     m_win.setView(m_uiview);

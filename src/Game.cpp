@@ -3,7 +3,7 @@
 
 Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false){
     m_win.setFramerateLimit(60);
-    Game::loadConfig(m_win);
+    this->loadConfig(m_win);
 }
 
 void Game::run(){
@@ -54,7 +54,7 @@ Game::~Game(){
 void Game::isPaused(bool condition){
     if (timer.getElapsedTime().asSeconds() >= 0.2f) {
         if(condition && !ispaused){ m_pause = new PauseScene; } 
-        else{ Game::delPause(); }
+        else{ this->delPause(); }
         ispaused = condition;
     }
     timer.restart();
@@ -67,10 +67,10 @@ void Game::delPause(){
 
 void Game::loadConfig(sf::RenderWindow &m_win){
     std::ifstream file("../data/config/config.txt");
-    if(!file.is_open()) Game::makeConfig();
+    if(!file.is_open()) this->makeConfig();
     file.close();
     file.open("../data/config/config.txt");
-    Game::takeConfig(file);
+    this->takeConfig(file);
     m_win.setSize(resolution);
 }
 

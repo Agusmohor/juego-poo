@@ -21,7 +21,7 @@ void hud::draw(sf::RenderWindow &m_win){
 }
 
 void hud::update(){
-    hud::keyBoard();
+    this->keyBoard();
 }
 
 void hud::updateView(){
