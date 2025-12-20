@@ -9,8 +9,8 @@ void match::update(Game &m_gam){
     m_ply.update();
     m_hud.update();
     this->doPause(m_gam);
-    m_zombie.update();
     m_zombie.getPlyPos(m_ply.getPosition());
+    m_zombie.update();
 }
 
 void match::updateView(Game &m_gam){

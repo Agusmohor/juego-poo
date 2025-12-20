@@ -10,7 +10,7 @@ private:
     sf::Sprite m_spr;
     // sf::CircleShape shape;
     sf::Vector2f pl_pos,dif;
-    float dist,rad;
+    float dist,max_rad,min_rad,dist2;
 public:
     zombie();
     void update() override;

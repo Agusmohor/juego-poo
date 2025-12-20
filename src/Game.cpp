@@ -8,6 +8,7 @@ Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_
 
 void Game::run(){
     while(m_win.isOpen()){
+
         // ve todos los eventos q ocurren en la ventana
         while(const auto evt = m_win.pollEvent()){
             //evento cerrar ventana

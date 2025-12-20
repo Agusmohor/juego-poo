@@ -35,8 +35,8 @@ void zombie::getPlyPos(const sf::Vector2f &pl_pos) {
 }
 
 bool zombie::inRaduis() {
-    rad = sqrt((m_spr.getPosition().x - pl_pos.x) * (m_spr.getPosition().x - pl_pos.x) + (m_spr.getPosition().y - pl_pos.y) * (m_spr.getPosition().y - pl_pos.y));
+    dist2 = (m_spr.getPosition().x - pl_pos.x) * (m_spr.getPosition().x - pl_pos.x) + (m_spr.getPosition().y - pl_pos.y) * (m_spr.getPosition().y - pl_pos.y);
 
-    if (rad < 600 && rad > 20) {return true;}
+    if (dist2 < 600*600 && dist2 > 20*20) {return true;}
     return false;
 }
