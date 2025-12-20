@@ -4,9 +4,11 @@
 #include <SFML/Graphics.hpp>
 
 
-class Mapa {
+class mapa {
     sf::Texture m_tex;
     sf::Sprite m_fondo;
+public:
+    mapa();
 };
 
 #endif

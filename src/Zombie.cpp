@@ -19,10 +19,15 @@ void zombie::texture() {
 }
 
 void zombie::move() {
-    dir.x = 0.f; dir.y = 0.f;
-    if (pl_pos.x >= m_spr.getPosition().x) {dir.x = 1.f;} else {dir.x = -1.f;}
-    if (pl_pos.y >= m_spr.getPosition().y) {dir.y = 1.f;} else {dir.y = -1.f;}
-   m_spr.move(dir);
+    //diferencia x,y entre el player y la entidad
+    dif = pl_pos - m_spr.getPosition();
+
+    //distancia player y entidad
+    dist = sqrt(dif.x * dif.x + dif.y * dif.y);
+    if (dist != 0.f) { dif /= dist; }
+
+    //dif seria la "direccion"
+    m_spr.move(dif*2.f);
 }
 
 void zombie::getPlyPos(const sf::Vector2f &pl_pos) {
@@ -30,8 +35,8 @@ void zombie::getPlyPos(const sf::Vector2f &pl_pos) {
 }
 
 bool zombie::inRaduis() {
-    dist = sqrt((m_spr.getPosition().x - pl_pos.x) * (m_spr.getPosition().x - pl_pos.x) + (m_spr.getPosition().y - pl_pos.y) * (m_spr.getPosition().y - pl_pos.y));
+    rad = sqrt((m_spr.getPosition().x - pl_pos.x) * (m_spr.getPosition().x - pl_pos.x) + (m_spr.getPosition().y - pl_pos.y) * (m_spr.getPosition().y - pl_pos.y));
 
-    if (dist < 600 && dist > 20) {return true;}
+    if (rad < 600 && rad > 20) {return true;}
     return false;
 }

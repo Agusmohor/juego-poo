@@ -9,8 +9,8 @@ private:
     sf::Texture m_tex;
     sf::Sprite m_spr;
     // sf::CircleShape shape;
-    sf::Vector2f pl_pos,dir;
-    float dist;
+    sf::Vector2f pl_pos,dif;
+    float dist,rad;
 public:
     zombie();
     void update() override;

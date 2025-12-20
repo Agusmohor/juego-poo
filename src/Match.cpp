@@ -2,7 +2,7 @@
 #include "Match.hpp"
 #include "Game.hpp"
 
-match::match() : m_ply(), m_zombie()  , m_hud() {}
+match::match() : m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {}
 
 
 void match::update(Game &m_gam){
