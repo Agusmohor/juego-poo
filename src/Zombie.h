@@ -6,10 +6,11 @@
 
 class zombie : public entity {
 private:
-    // sf::Sprite m_spr;
-    // sf::Texture m_tex;
-    sf::CircleShape shape;
+    sf::Texture m_tex;
+    sf::Sprite m_spr;
+    // sf::CircleShape shape;
     sf::Vector2f pl_pos,dir;
+    float dist;
 public:
     zombie();
     void update() override;
@@ -18,6 +19,8 @@ public:
     void move() override;
 
     void getPlyPos(const sf::Vector2f &pl_pos);
+
+    bool inRaduis();
 };
 
 #endif
