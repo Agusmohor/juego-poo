@@ -10,15 +10,20 @@
 class player : public entity{
 public:
     player();
+
     void update() override;
     void draw(sf::RenderWindow &m_win) override;
     void texture() override;
+
     void m_mouse(const sf::Vector2f &mouseCoords);
-    void m_key();
+    void move() override;
     void speed();
     bool cond();
+
     void updateSkinByMouse(const sf::Vector2f &mouseCoords);
     sf::Vector2f getPosition();
+
+
 private:
     sf::Texture m_txt,text1,text2,text3;
     sf::Sprite m_spr;

@@ -9,17 +9,21 @@
 
 class Game {
 public:
+    
     Game(scene* f_scene);
+    ~Game();
+
     void run();
     void setScene(scene *newScene);
     void delPause();
     void isPaused(bool condition);
+
     void loadConfig(sf::RenderWindow &m_win);
     void makeConfig();
     void takeConfig(std::ifstream &file);
+
     const sf::Vector2u &getWinSize();
     const sf::View& getUIWinView();
-    ~Game();
 private:
     sf::RenderWindow m_win;  
     scene *curr_scene; 

@@ -10,7 +10,7 @@ player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textu
     rClick = sf::Mouse::Button::Right;
 }
 
-void player::m_key(){
+void player::move(){
     dir.x = 0.f; dir.y = 0.f;
     //speed
     this->speed();
@@ -66,7 +66,7 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 
 void player::update() {
     //actualizar player
-    this->m_key();
+    this->move();
     this->texture();
     m_spr.move(dir*m_speed);
     pl_pos=m_spr.getPosition();
@@ -84,3 +84,4 @@ void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
 sf::Vector2f player::getPosition(){
     return pl_pos;
 }
+

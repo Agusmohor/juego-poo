@@ -6,10 +6,11 @@
 #include "Player.hpp"
 #include "Hud.hpp"
 #include <SFML/System/Clock.hpp>
+#include "Zombie.h"
 
 class match : public scene {
-private:
     player m_ply;
+    zombie m_zombie;
     sf::Texture m_text;
     sf::Sprite Fondo;
     sf::View m_view,m_uiview;
@@ -23,7 +24,7 @@ public:
     void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
     void render(sf::RenderWindow &m_win);
-    void mouseSkin(sf::RenderWindow &m_win);
+    void mouseSkin(const sf::RenderWindow &m_win);
 };
 
 #endif

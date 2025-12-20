@@ -2,13 +2,15 @@
 #include "Match.hpp"
 #include "Game.hpp"
 
-match::match() : m_ply() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {}
+match::match() : m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {}
 
 
 void match::update(Game &m_gam){
     m_ply.update();
     m_hud.update();
     this->doPause(m_gam);
+    m_zombie.update();
+    m_zombie.getPlyPos(m_ply.getPosition());
 }
 
 void match::updateView(Game &m_gam){
@@ -19,7 +21,7 @@ void match::updateView(Game &m_gam){
 
 void match::draw(sf::RenderWindow &m_win){
     this->render(m_win);
-
+    m_zombie.draw(m_win);
 }
 
 void match::doPause(Game &m_gam){
@@ -29,19 +31,27 @@ void match::doPause(Game &m_gam){
 // dibujo de camara, centrado del hud
 // view = camara, win = ventana 
 void match::render(sf::RenderWindow &m_win){
+
     m_view.setSize(sf::Vector2f(m_winSize));
     m_view.setCenter(m_ply.getPosition());
     m_win.setView(m_view);
+
     m_win.draw(Fondo);
+
     this->mouseSkin(m_win);
     m_ply.draw(m_win);
 
     m_win.setView(m_uiview);
+
     m_hud.moveHotbar(m_win.mapPixelToCoords(sf::Vector2i(m_uiview.getSize().x,m_uiview.getSize().y )));
     m_hud.draw(m_win);
+
+    m_view.setSize(sf::Vector2f(m_winSize));
+    m_view.setCenter(m_ply.getPosition());
+    m_win.setView(m_view);
 }
 
-void match::mouseSkin(sf::RenderWindow &m_win){
+void match::mouseSkin(const sf::RenderWindow &m_win){
     //si se toca click izq, le manda al player las coords del cursor
     if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
         //mouse getposition(posicion del mouse), mappixel(cambia la pos del mouse a coordenadas en el mundo, para comparar con las coords del player)

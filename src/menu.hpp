@@ -3,7 +3,6 @@
 #define MENU_HPP
 #include "Scene.hpp"
 #include <SFML/Graphics/Font.hpp>
-#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
