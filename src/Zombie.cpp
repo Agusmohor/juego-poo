@@ -1,5 +1,6 @@
 #include "Zombie.h"
 #include <cmath>
+#include <iostream>
 
 zombie::zombie() : m_tex("../assets/textures/prueba.png"), m_spr(m_tex) {
     m_spr.setScale(sf::Vector2f(5.f,5.f));
@@ -25,7 +26,7 @@ void zombie::move() {
     //distancia player y entidad
     dist = sqrt(dif.x * dif.x + dif.y * dif.y);
     if (dist != 0.f) { dif /= dist; }
-
+    //{1,-1}
     //dif seria la "direccion"
     m_spr.move(dif*2.f);
 }

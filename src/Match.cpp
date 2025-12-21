@@ -22,6 +22,8 @@ void match::updateView(Game &m_gam){
 void match::draw(sf::RenderWindow &m_win){
     this->render(m_win);
     m_zombie.draw(m_win);
+
+    m_win.setView(m_uiview);
 }
 
 void match::doPause(Game &m_gam){

@@ -18,6 +18,8 @@ public:
     void delPause();
     void isPaused(bool condition);
 
+    bool getPausedCondition();
+
     void loadConfig(sf::RenderWindow &m_win);
     void makeConfig();
     void takeConfig(std::ifstream &file);

@@ -17,6 +17,7 @@ class match : public scene {
     sf::Vector2u m_winSize;
     sf::Clock timer;
     hud m_hud;
+
 public:
     match();
     void doPause(Game &m_gam);
