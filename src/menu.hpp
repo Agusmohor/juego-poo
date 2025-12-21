@@ -2,10 +2,8 @@
 #ifndef MENU_HPP
 #define MENU_HPP
 #include "Scene.hpp"
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
 
 class menu : public scene{
 public:
@@ -14,7 +12,10 @@ public:
     void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &win)override;
     void buttons();
-    void button_overlay(sf::RenderWindow &m_win);
+    void button_overlay(const sf::RenderWindow &m_win);
+
+    void newMatch(Game &m_gam);
+
     void titleColor();
     void dibujado(sf::RenderWindow &m_win);
 private:
@@ -26,6 +27,7 @@ private:
     sf::RectangleShape shape;
     sf::Vector2i mouse_pos;
     float posx1,posx2,posy1,posy2;
+    bool ispressed = false;
 };
 
 #endif

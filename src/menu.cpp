@@ -1,6 +1,7 @@
 #include "menu.hpp"
 #include "Match.hpp"
 #include "Game.hpp"
+#include <iostream>
 
 menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), m_text3(m_font2,"") {
     this->buttons();
@@ -8,6 +9,7 @@ menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), m_text3(m_font2,"") {
 
 void menu::update(Game &m_gam){
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) m_gam.setScene(new match);
+    this->newMatch(m_gam);
     this->titleColor();
 }
 
@@ -64,7 +66,7 @@ void menu::buttons(){
 }
 
 //cambia el overlay si el cursor esta encima del boton
-void menu::button_overlay(sf::RenderWindow &m_win){
+void menu::button_overlay(const sf::RenderWindow &m_win){
     mouse_pos=sf::Mouse::getPosition(m_win);
 
     posx1=shape.getPosition().x; posy1=shape.getPosition().y;
@@ -72,8 +74,15 @@ void menu::button_overlay(sf::RenderWindow &m_win){
 
     if(mouse_pos.x>=posx1 && mouse_pos.x<=posx2 && mouse_pos.y>=posy1 && mouse_pos.y<=posy2){
         shape.setTexture(&botonselec);
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)){  ispressed = true;  }
     }else{
         shape.setTexture(&boton);
     }
 }
 
+void menu::newMatch(Game &m_gam) {
+    if (ispressed) {
+        m_gam.setScene(new match);
+        ispressed = false;
+    }
+}
