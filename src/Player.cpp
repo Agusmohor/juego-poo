@@ -81,7 +81,7 @@ void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
 }
 
 //posicion del player
-sf::Vector2f player::getPosition(){
+sf::Vector2f player::getPosition() const {
     return pl_pos;
 }
 

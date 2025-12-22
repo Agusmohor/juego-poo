@@ -4,7 +4,6 @@
 
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
-#include <SFML/Graphics/View.hpp>
 #include "Entity.hpp"
 
 class player : public entity{
@@ -21,7 +20,7 @@ public:
     bool cond();
 
     void updateSkinByMouse(const sf::Vector2f &mouseCoords);
-    sf::Vector2f getPosition();
+    sf::Vector2f getPosition() const ;
 
 
 private:
