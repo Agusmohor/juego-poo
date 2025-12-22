@@ -43,11 +43,13 @@ void match::render(sf::RenderWindow &m_win){
     this->mouseSkin(m_win);
     m_ply.draw(m_win);
 
+    //view de UI
     m_win.setView(m_uiview);
 
     m_hud.moveHotbar(m_win.mapPixelToCoords(sf::Vector2i(m_uiview.getSize().x,m_uiview.getSize().y )));
     m_hud.draw(m_win);
 
+    //view mapa
     m_view.setSize(sf::Vector2f(m_winSize));
     m_view.setCenter(m_ply.getPosition());
     m_win.setView(m_view);

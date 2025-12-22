@@ -14,10 +14,12 @@ void Game::run(){
             //evento cerrar ventana
             if(evt->is<sf::Event::Closed>()) m_win.close();
             if(const auto* resized = evt->getIf<sf::Event::Resized>()){
+
                 m_winSize = sf::Vector2u(resized->size);
                 sf::FloatRect visibleArea({0.f,0.f},sf::Vector2f(m_winSize));
+
                 //centra la view cuando se hace un resize de la window
-                m_view = sf::View(visibleArea); m_view.setCenter(m_win.getDefaultView().getCenter());
+                m_view = sf::View(visibleArea);
                 m_uiview = sf::View(visibleArea); m_uiview.setCenter(m_win.getDefaultView().getCenter());
                 m_win.setView(m_view);
             }

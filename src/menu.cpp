@@ -43,7 +43,7 @@ void menu::buttons(){
     if(!m_font1.openFromFile("../assets/fonts/fuente.ttf")) throw std::runtime_error("error");
     if(!m_font2.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("error"); 
     m_text1.setFont(m_font1); m_text1.setString("Jueguito"); 
-    m_text2.setFont(m_font1); m_text2.setString("press Enter to start"); 
+    m_text2.setFont(m_font1); m_text2.setString("press Enter to start");
     m_text3.setFont(m_font2); m_text3.setString("Settings");
 
     m_text1.setCharacterSize(100);
