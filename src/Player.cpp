@@ -4,7 +4,7 @@
 
 player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textures/derecha.png"), text2("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(m_txt),m_speed(5),stamina(200){
     if(!m_txt.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
-    sf::Vector2f scl(5.f,5.f); m_spr.setScale(scl);
+    m_spr.setScale({2,2});
     dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     rClick = sf::Mouse::Button::Right;

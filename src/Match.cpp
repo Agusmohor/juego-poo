@@ -1,8 +1,12 @@
 #include "Pause.hpp"
 #include "Match.hpp"
 #include "Game.hpp"
+#include <string>
 
-match::match() : m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {}
+match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
+    std::string pngpath ="../assets/textures/map/Sprite-0001.png" ; std::string ground = "../assets/textures/map/ground";
+    m_mapa.load(pngpath,ground);
+}
 
 
 void match::update(Game &m_gam){
@@ -33,12 +37,13 @@ void match::doPause(Game &m_gam){
 // dibujo de camara, centrado del hud
 // view = camara, win = ventana 
 void match::render(sf::RenderWindow &m_win){
+    
+    //view mapa centrado en el player
+    this->normalView(m_win);
 
-    m_view.setSize(sf::Vector2f(m_winSize));
-    m_view.setCenter(m_ply.getPosition());
-    m_win.setView(m_view);
-
-    m_win.draw(Fondo);
+    //se dibuja el mapa
+    m_mapa.draw(m_win);
+    // m_win.draw(Fondo);
 
     this->mouseSkin(m_win);
     m_ply.draw(m_win);
@@ -50,9 +55,7 @@ void match::render(sf::RenderWindow &m_win){
     m_hud.draw(m_win);
 
     //view mapa
-    m_view.setSize(sf::Vector2f(m_winSize));
-    m_view.setCenter(m_ply.getPosition());
-    m_win.setView(m_view);
+    this->normalView(m_win);
 }
 
 void match::mouseSkin(const sf::RenderWindow &m_win){
@@ -61,4 +64,11 @@ void match::mouseSkin(const sf::RenderWindow &m_win){
         //mouse getposition(posicion del mouse), mappixel(cambia la pos del mouse a coordenadas en el mundo, para comparar con las coords del player)
         m_ply.updateSkinByMouse(m_win.mapPixelToCoords(sf::Mouse::getPosition(m_win)));
     }
+}
+
+void match::normalView(sf::RenderWindow& m_win) {
+    m_view.setSize(sf::Vector2f(m_winSize));
+    m_view.setCenter(m_ply.getPosition());
+    m_view.zoom(0.5);
+    m_win.setView(m_view);
 }

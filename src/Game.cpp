@@ -19,7 +19,7 @@ void Game::run(){
                 sf::FloatRect visibleArea({0.f,0.f},sf::Vector2f(m_winSize));
 
                 //centra la view cuando se hace un resize de la window
-                m_view = sf::View(visibleArea);
+                m_view = sf::View(visibleArea); m_view.setCenter(m_win.getDefaultView().getCenter());
                 m_uiview = sf::View(visibleArea); m_uiview.setCenter(m_win.getDefaultView().getCenter());
                 m_win.setView(m_view);
             }
