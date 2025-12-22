@@ -37,7 +37,7 @@ void match::doPause(Game &m_gam){
 // dibujo de camara, centrado del hud
 // view = camara, win = ventana 
 void match::render(sf::RenderWindow &m_win){
-    
+
     //view mapa centrado en el player
     this->normalView(m_win);
 

@@ -5,7 +5,7 @@
 #include "Hud.hpp"
 #include <SFML/System/Clock.hpp>
 #include "Zombie.h"
-#include "Mapa.h"
+#include "Mapa.hpp"
 
 class match : public scene {
     mapa m_mapa;
