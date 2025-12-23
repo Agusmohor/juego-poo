@@ -93,11 +93,11 @@ void Game::takeConfig(std::ifstream &file){
     name = aux.substr(aux.find("=")+1);
 }
 
-const sf::Vector2u& Game::getWinSize(){
+const sf::Vector2u& Game::getWinSize() const {
     return m_winSize;
 }
 
-const sf::View& Game::getUIWinView(){
+const sf::View& Game::getUIWinView() const {
     return m_uiview;
 }
 

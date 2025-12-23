@@ -3,7 +3,7 @@
 #include <iostream>
 
 zombie::zombie() : m_tex("../assets/textures/prueba.png"), m_spr(m_tex) {
-    m_spr.setScale(sf::Vector2f(5.f,5.f));
+    // m_spr.setScale(sf::Vector2f(5.f,5.f));
     m_spr.setPosition({100.f, 100.f});
 }
 

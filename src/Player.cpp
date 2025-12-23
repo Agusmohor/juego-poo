@@ -1,10 +1,12 @@
 #include "Player.hpp"
 #include <cmath>
+#include "Mapa.hpp"
 #include <iostream>
 
 player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textures/derecha.png"), text2("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(m_txt),m_speed(5),stamina(200){
     if(!m_txt.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
-    m_spr.setScale({2,2});
+    // m_spr.setScale({1,1});
+    m_spr.setOrigin({8,8}); m_spr.setPosition({80,80});
     dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     rClick = sf::Mouse::Button::Right;
@@ -64,11 +66,15 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
     // std::cout << mouseCoords.x << " " << mouseCoords.y <<std::endl;aW
 }
 
+
 void player::update() {
     //actualizar player
     this->move();
     this->texture();
-    m_spr.move(dir*m_speed);
+    sf::Vector2f delta = dir * m_speed;
+
+    m_spr.move(delta);
+
     pl_pos=m_spr.getPosition();
 }
 

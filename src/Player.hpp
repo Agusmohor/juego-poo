@@ -5,6 +5,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include "Entity.hpp"
+#include "Mapa.hpp"
 
 class player : public entity{
 public:
@@ -30,7 +31,6 @@ private:
     sf::Vector2f pl_pos,dir;
     sf::Keyboard::Key wKey,aKey,sKey,dKey;
     sf::Mouse::Button rClick;
-
 };
 
 #endif

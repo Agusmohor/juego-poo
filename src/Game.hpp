@@ -18,14 +18,12 @@ public:
     void delPause();
     void isPaused(bool condition);
 
-    bool getPausedCondition();
-
     void loadConfig(sf::RenderWindow &m_win);
     void makeConfig();
     void takeConfig(std::ifstream &file);
 
-    const sf::Vector2u &getWinSize();
-    const sf::View& getUIWinView();
+    const sf::Vector2u &getWinSize() const;
+    const sf::View& getUIWinView() const;
 private:
     sf::RenderWindow m_win;  
     scene *curr_scene; 

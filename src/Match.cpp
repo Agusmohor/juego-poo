@@ -4,8 +4,8 @@
 #include <string>
 
 match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
-    std::string pngpath ="../assets/textures/map/Sprite-0001.png" ; std::string ground = "../assets/textures/map/ground";
-    m_mapa.load(pngpath,ground);
+    std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/ground_base.csv"; std::string collision = "../assets/textures/map/ground_collision.csv";
+    m_mapa.load(pngpath,ground,collision);
 }
 
 
@@ -69,6 +69,6 @@ void match::mouseSkin(const sf::RenderWindow &m_win){
 void match::normalView(sf::RenderWindow& m_win) {
     m_view.setSize(sf::Vector2f(m_winSize));
     m_view.setCenter(m_ply.getPosition());
-    m_view.zoom(0.5);
+    m_view.zoom(0.2);
     m_win.setView(m_view);
 }
