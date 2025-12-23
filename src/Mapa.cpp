@@ -58,17 +58,5 @@ void mapa::draw(sf::RenderWindow& m_win) {
     }
 }
 
-bool mapa::isSolidAtPixel(float px, float py) const {
-    int tx = static_cast<int>(px) / m_tilesize;
-    int ty = static_cast<int>(py) / m_tilesize;
-    return isSolidTile(tx,ty);
-}
 
-bool mapa::isSolidTile(int tx, int ty) const {
-    if (tx < 0 || ty < 0 ) return false;
-    if (tx >= m_collision.w || ty >= m_collision.h) return false;
-
-    int id = m_collision.tiles[ty * m_collision.w + tx];
-    return id >= 0;
-}
 
