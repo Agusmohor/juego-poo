@@ -8,13 +8,13 @@
 class menu : public scene{
 public:
     menu();
-    void update(Game &m_gam)override;
+    void update(float delta,Game &m_gam)override;
     void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &win)override;
     void buttons();
     void button_overlay(const sf::RenderWindow &m_win);
 
-    void newMatch(Game &m_gam);
+    //void newMatch(Game &m_gam);
 
     void titleColor();
     void dibujado(sf::RenderWindow &m_win);

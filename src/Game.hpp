@@ -2,6 +2,7 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#include <string>
 #include <SFML/Graphics.hpp>
 #include "Scene.hpp"
 #include "Pause.hpp"
@@ -31,7 +32,7 @@ private:
     scene *m_pause = nullptr;
     sf::View m_view,m_uiview;
     bool ispaused;
-    sf::Clock timer;
+    sf::Clock timer,timer2;
     sf::Vector2u resolution;
     std::string name;
     sf::Vector2u m_winSize;

@@ -1,6 +1,7 @@
 #include "Pause.hpp"
 #include "Match.hpp"
 #include "Game.hpp"
+#include "Mapa.hpp"
 #include <string>
 
 match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
@@ -9,12 +10,13 @@ match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fond
 }
 
 
-void match::update(Game &m_gam){
-    m_ply.update();
+void match::update(float delta,Game &m_gam){
+    m_ply.update(delta,m_mapa);
+    m_zombie.getPlyPos(m_ply.getPosition());
+    m_zombie.update(delta,m_mapa);
+
     m_hud.update();
     this->doPause(m_gam);
-    m_zombie.getPlyPos(m_ply.getPosition());
-    m_zombie.update();
 }
 
 void match::updateView(Game &m_gam){
@@ -25,7 +27,16 @@ void match::updateView(Game &m_gam){
 
 void match::draw(sf::RenderWindow &m_win){
     this->render(m_win);
-    m_zombie.draw(m_win);
+
+    if (timer.getElapsedTime().asSeconds() >= 0.2f) {
+        if(attact(m_win,m_zombie.getTheBounds())){
+            m_zombie.RecieveDamage();
+        }
+        timer.restart();
+    }
+    if(m_zombie.isAlive()){
+        m_zombie.draw(m_win);
+    }
 
     m_win.setView(m_uiview);
 }
@@ -71,4 +82,8 @@ void match::normalView(sf::RenderWindow& m_win) {
     m_view.setCenter(m_ply.getPosition());
     m_view.zoom(0.2);
     m_win.setView(m_view);
+}
+
+bool match::attact(sf::RenderWindow &m_win,sf::FloatRect entpos){
+    return m_ply.attact(m_win,entpos);
 }

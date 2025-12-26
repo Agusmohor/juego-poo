@@ -7,7 +7,7 @@ PauseScene::PauseScene():m_font("../assets/fonts/fuente.ttf"),m_text(m_font,"Pau
     overlay.setFillColor(sf::Color(0,0,0,170));
 }
 
-void PauseScene::update(Game &m_gam){
+void PauseScene::update(float delta,Game &m_gam){
     this->backMatch(m_gam);
 }
 

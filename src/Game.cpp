@@ -2,13 +2,14 @@
 #include <iostream>
 
 Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false){
-    m_win.setFramerateLimit(60);
+    //m_win.setFramerateLimit(60);
     this->loadConfig(m_win);
 }
 
 void Game::run(){
     while(m_win.isOpen()){
-
+        sf::Time time=timer2.restart();
+        float delta = time.asSeconds();
         // ve todos los eventos q ocurren en la ventana
         while(const auto evt = m_win.pollEvent()){
             //evento cerrar ventana
@@ -27,9 +28,9 @@ void Game::run(){
 
         m_win.clear();
 
-        if(!ispaused) curr_scene->update(*this);
+        if(!ispaused) curr_scene->update(delta,*this);
         curr_scene->updateView(*this);
-        if(ispaused) m_pause->update(*this); 
+        if(ispaused) m_pause->update(delta,*this); 
 
         curr_scene->draw(m_win);
         if(ispaused && m_pause) m_pause->draw(m_win);

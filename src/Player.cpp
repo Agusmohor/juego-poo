@@ -10,18 +10,47 @@ player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textu
     dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     rClick = sf::Mouse::Button::Right;
+    lClick = sf::Mouse::Button::Left;
 }
 
-void player::move(){
+void player::move(float delta, mapa &mapa){
     dir.x = 0.f; dir.y = 0.f;
-    //speed
-    this->speed();
     //interaccion teclas
     if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) dir.y = -1.f;  
     if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) dir.x = -1.f; 
     if(sf::Keyboard::isKeyPressed(sKey) && !sf::Keyboard::isKeyPressed(wKey)) dir.y = 1.f;  
     if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) dir.x = 1.f; 
+
+    //speed
+    this->speed();
+    sf::Vector2f velocity = dir * m_speed * delta;
+
+    // --- COLISIÓN HORIZONTAL ---
+    float nextX = m_spr.getPosition().x + velocity.x;
+    float sideX = (velocity.x > 0) ? m_width/2 : -m_width/2;
+    
+    // Revisamos bordes laterales con un pequeño margen de 1px para no trabarse
+    bool chocaArriba = mapa.isSolidAtPixel(nextX + sideX, m_spr.getPosition().y - m_height/2 + 1);
+    bool chocaAbajo = mapa.isSolidAtPixel(nextX + sideX, m_spr.getPosition().y + m_height/2 - 1);
+
+    if (!chocaArriba && !chocaAbajo) {
+        m_spr.move({velocity.x, 0});
+    }
+
+    // --- COLISIÓN VERTICAL ---
+    float nextY = m_spr.getPosition().y + velocity.y;
+    float sideY = (velocity.y > 0) ? m_height/2 : -m_height/2;
+
+    bool chocaIzq = mapa.isSolidAtPixel(m_spr.getPosition().x - m_width/2 + 1, nextY + sideY);
+    bool chocaDer = mapa.isSolidAtPixel(m_spr.getPosition().x + m_width/2 - 1, nextY + sideY);
+
+    if (!chocaIzq && !chocaDer) {
+        m_spr.move({0, velocity.y});
+    }
+
 }
+
+
 
 void player::texture(){
     if(sf::Keyboard::isKeyPressed(wKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(text2);
@@ -31,7 +60,7 @@ void player::texture(){
 }
 
 void player::speed(){
-    m_speed = 5;
+    m_speed = 200.f;
     if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 200){
         stamina++; 
     }
@@ -67,15 +96,15 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 }
 
 
-void player::update() {
+void player::update(float delta,mapa &mapa) {
     //actualizar player
-    this->move();
     this->texture();
-    sf::Vector2f delta = dir * m_speed;
-
-    m_spr.move(delta);
-
-    pl_pos=m_spr.getPosition();
+    this->move(delta,mapa);
+    
+    //sf::Vector2f delta1 = dir * m_speed;
+    //pl_pos=m_spr.getPosition();
+    //m_spr.move(delta1);
+    
 }
 
 void player::draw(sf::RenderWindow& m_win) {
@@ -88,6 +117,31 @@ void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
 
 //posicion del player
 sf::Vector2f player::getPosition() const {
-    return pl_pos;
+    return m_spr.getPosition();
 }
 
+sf::FloatRect player::getTheBounds(){
+    return m_spr.getGlobalBounds();
+}
+
+bool player::attact(sf::RenderWindow &m_win,sf::FloatRect entpos){
+    mouse_pos=m_win.mapPixelToCoords(sf::Mouse::getPosition(m_win));
+    if(entpos.contains(mouse_pos)){
+        if(sf::Mouse::isButtonPressed(lClick)){
+            return true;
+        }
+    }
+    return false;
+}
+
+int player::manyLife(){
+    return corazones;
+} 
+
+bool player::isAlive(){
+    return vivo;
+}
+
+void player::RecieveDamage() {
+    this->rDamage = true; // Esto activará la resta de corazones en el siguiente update
+}

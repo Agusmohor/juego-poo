@@ -25,12 +25,12 @@ class match : public scene {
 public:
     match();
     void doPause(Game &m_gam);
-    void update(Game &m_gam) override;
+    void update(float delta,Game &m_gam) override;
     void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
     void render(sf::RenderWindow &m_win);
     void mouseSkin(const sf::RenderWindow &m_win);
-
+    bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos);
 
     void normalView(sf::RenderWindow& m_win);
 

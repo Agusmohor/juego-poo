@@ -11,12 +11,17 @@ class player : public entity{
 public:
     player();
 
-    void update() override;
+    void update(float delta,mapa &mapa);
     void draw(sf::RenderWindow &m_win) override;
     void texture() override;
+    sf::FloatRect getTheBounds() override;
+    bool isAlive() override;
+    int manyLife() override;
+    bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
+    void RecieveDamage() override;
 
     void m_mouse(const sf::Vector2f &mouseCoords);
-    void move() override;
+    void move(float delta,mapa &mapa) override;
     void speed();
     bool cond();
 
@@ -25,12 +30,18 @@ public:
 
 
 private:
+    int corazones = 5;
+    bool vivo = true;
+    bool rDamage = false;
     sf::Texture m_txt,text1,text2,text3;
     sf::Sprite m_spr;
     float m_speed,dx,dy,m_angle; int stamina;
-    sf::Vector2f pl_pos,dir;
+    sf::Vector2f pl_pos,dir,mouse_pos;
     sf::Keyboard::Key wKey,aKey,sKey,dKey;
-    sf::Mouse::Button rClick;
+    sf::Mouse::Button rClick,lClick;
+
+    float m_width = 14.0f;  // Ajusta según veas en el juego
+    float m_height = 18.0f;
 };
 
 #endif

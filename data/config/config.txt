@@ -1,2 +1,2 @@
-Resolution = 800x800
+Resolution = 800x801
 Name = null

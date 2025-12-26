@@ -1,13 +1,14 @@
 #include "Mapa.hpp"
 #include <cmath>
 #include <fstream>
+#include<iostream>
 
 
 mapa::mapa(){}
 
 csv mapa::loadCsv(const std::string &path) {
     std::ifstream file(path); if (!file.is_open()) throw std::runtime_error("error al cargar el csv");
-
+    
     csv layer;
     std::string line;
 
@@ -65,10 +66,17 @@ bool mapa::isSolidAtPixel(float px, float py) const {
 }
 
 bool mapa::isSolidTile(int tx, int ty) const {
-    if (tx < 0 || ty < 0 ) return false;
-    if (tx >= m_collision.w || ty >= m_collision.h) return false;
+    // 1. Validar bordes izquierdos y superiores (coordenadas < 0)
+    // Si tx o ty son negativos, el personaje está en la zona negra.
+    if (tx < 0 || ty < 0) return true;
 
+    // 2. Validar bordes derechos e inferiores
+    if (tx >= m_collision.w || ty >= m_collision.h) return true;
+
+    // 3. Obtener el ID del tile si está dentro del mapa
     int id = m_collision.tiles[ty * m_collision.w + tx];
+    
+    // Si el ID es 0 o más, es un obstáculo (como el agua ID: 9)
     return id >= 0;
 }
 
