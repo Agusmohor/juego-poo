@@ -58,9 +58,12 @@ void mapa::draw(sf::RenderWindow& m_win) {
         }
     }
 }
+bool mapa::isSolidAtPixel(float px, float py) const {
+    int tx = static_cast<int>(px) / m_tilesize;
+    int ty = static_cast<int>(py) / m_tilesize;
+    return isSolidTile(tx,ty);
+}
 
-
-<<<<<<< HEAD
 bool mapa::isSolidTile(int tx, int ty) const {
     // 1. Validar bordes izquierdos y superiores (coordenadas < 0)
     // Si tx o ty son negativos, el personaje está en la zona negra.
@@ -75,6 +78,4 @@ bool mapa::isSolidTile(int tx, int ty) const {
     // Si el ID es 0 o más, es un obstáculo (como el agua ID: 9)
     return id >= 0;
 }
-=======
->>>>>>> 83c89af86b051c1721d51c3616d1f48511b628d9
 

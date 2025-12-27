@@ -25,6 +25,9 @@ public:
 
     void load(std::string& texturePath, std::string& groundCSV, std::string& collisionCSV);
 
+    bool isSolidTile(int tx, int ty) const;
+    bool isSolidAtPixel(float px, float py) const;
+
     void draw(sf::RenderWindow& m_win);
 
 };
