@@ -40,8 +40,8 @@ private:
     sf::Keyboard::Key wKey,aKey,sKey,dKey;
     sf::Mouse::Button rClick,lClick;
 
-    float m_width = 14.0f;  // Ajusta según veas en el juego
-    float m_height = 18.0f;
+    float m_width = 30.0f;  // ancho player
+    float m_height = 40.0f; //altura player
 };
 
 #endif

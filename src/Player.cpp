@@ -13,7 +13,7 @@ player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textu
     lClick = sf::Mouse::Button::Left;
 }
 
-void player::move(float delta, mapa &mapa){
+void player::move(float delta, mapa &mapa) {
     dir.x = 0.f; dir.y = 0.f;
     //interaccion teclas
     if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) dir.y = -1.f;  
@@ -27,7 +27,8 @@ void player::move(float delta, mapa &mapa){
 
     // --- COLISIÓN HORIZONTAL ---
     float nextX = m_spr.getPosition().x + velocity.x;
-    float sideX = (velocity.x > 0) ? m_width/2 : -m_width/2;
+    float sideX;
+    if (velocity.x > 0) {sideX = m_width/2;} else {sideX = -m_width/2;}
     
     // Revisamos bordes laterales con un pequeño margen de 1px para no trabarse
     bool chocaArriba = mapa.isSolidAtPixel(nextX + sideX, m_spr.getPosition().y - m_height/2 + 1);
@@ -39,7 +40,8 @@ void player::move(float delta, mapa &mapa){
 
     // --- COLISIÓN VERTICAL ---
     float nextY = m_spr.getPosition().y + velocity.y;
-    float sideY = (velocity.y > 0) ? m_height/2 : -m_height/2;
+    float sideY;
+    if(velocity.y > 0) {sideY = m_height/2;} else {sideY = -m_height/2;}
 
     bool chocaIzq = mapa.isSolidAtPixel(m_spr.getPosition().x - m_width/2 + 1, nextY + sideY);
     bool chocaDer = mapa.isSolidAtPixel(m_spr.getPosition().x + m_width/2 - 1, nextY + sideY);

@@ -32,7 +32,7 @@ private:
     scene *m_pause = nullptr;
     sf::View m_view,m_uiview;
     bool ispaused;
-    sf::Clock timer,timer2;
+    sf::Clock timer,time;
     sf::Vector2u resolution;
     std::string name;
     sf::Vector2u m_winSize;

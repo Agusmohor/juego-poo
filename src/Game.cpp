@@ -2,14 +2,13 @@
 #include <iostream>
 
 Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false){
-    //m_win.setFramerateLimit(60);
+    m_win.setFramerateLimit(60);
     this->loadConfig(m_win);
 }
 
 void Game::run(){
     while(m_win.isOpen()){
-        sf::Time time=timer2.restart();
-        float delta = time.asSeconds();
+        float delta = time.restart().asSeconds();
         // ve todos los eventos q ocurren en la ventana
         while(const auto evt = m_win.pollEvent()){
             //evento cerrar ventana
