@@ -6,6 +6,7 @@
 #include <SFML/Window/Mouse.hpp>
 #include "Entity.hpp"
 #include "Mapa.hpp"
+#include "Tree.hpp"
 
 class player : public entity{
 public:
@@ -13,8 +14,11 @@ public:
 
     void update(float delta,mapa &mapa);
     void draw(sf::RenderWindow &m_win) override;
+    sf::Sprite& getSprite() override;
+
+
     void texture() override;
-    sf::FloatRect getTheBounds() override;
+    sf::FloatRect getHitbox() override;
     bool isAlive() override;
     int manyLife() override;
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
@@ -25,14 +29,25 @@ public:
     void speed();
     bool cond();
 
+
     void updateSkinByMouse(const sf::Vector2f &mouseCoords);
     sf::Vector2f getPosition() const ;
 
+    void colx(sf::FloatRect hitbox);
+    void coly(sf::FloatRect hitbox);
+
+    void getHitboxes(std::vector<tree> &hitboxes);
 
 private:
+    sf::Vector2f prevPos;
+
+    std::vector<tree> hitboxes;
+    sf::RectangleShape m_hitbox;
+
     int corazones = 5;
     bool vivo = true;
     bool rDamage = false;
+    bool colision = false;
     sf::Texture m_txt,text1,text2,text3;
     sf::Sprite m_spr;
     float m_speed,dx,dy,m_angle; int stamina;

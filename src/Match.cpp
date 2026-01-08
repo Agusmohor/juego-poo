@@ -1,17 +1,29 @@
 #include "Pause.hpp"
 #include "Match.hpp"
+
+#include <algorithm>
+#include <iostream>
+
 #include "Game.hpp"
 #include "Mapa.hpp"
 #include <string>
 
-match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
+match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud(), m_trees(10) {
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/ground_base.csv"; std::string collision = "../assets/textures/map/ground_collision.csv";
     m_mapa.load(pngpath,ground,collision);
+    for (auto &trees : m_trees) {
+        float random = (1 + rand()%200);
+        trees.random();
+        trees.setPos({random+200,random+100});
+    }
 }
 
 
 void match::update(float delta,Game &m_gam){
+    m_ply.getHitboxes(m_trees);
     m_ply.update(delta,m_mapa);
+
+
     m_zombie.getPlyPos(m_ply.getPosition());
     m_zombie.update(delta,m_mapa);
 
@@ -27,9 +39,10 @@ void match::updateView(Game &m_gam){
 
 void match::draw(sf::RenderWindow &m_win){
     this->render(m_win);
+    for (auto &trees : m_trees) { trees.draw(m_win); }
 
     if (timer.getElapsedTime().asSeconds() >= 0.2f) {
-        if(attact(m_win,m_zombie.getTheBounds())){
+        if(attact(m_win,m_zombie.getHitbox())){
             m_zombie.RecieveDamage();
         }
         timer.restart();
@@ -57,8 +70,22 @@ void match::render(sf::RenderWindow &m_win){
     // m_win.draw(Fondo);
 
     this->mouseSkin(m_win);
-    m_ply.draw(m_win);
+    m_wordlSprites.clear();
+    m_wordlSprites.push_back(&m_ply.getSprite());
 
+    for (auto &trees : m_trees) {
+        m_wordlSprites.push_back(&trees.getSprite());
+    }
+    // m_ply.draw(m_win);
+
+    std::sort(m_wordlSprites.begin(),m_wordlSprites.end(),[](sf::Sprite* a, sf::Sprite* b){
+        return (a->getPosition().y + a->getGlobalBounds().size.y) <
+               (b->getPosition().y + b->getGlobalBounds().size.y);
+    });
+
+    for (auto *spr : m_wordlSprites) {
+        m_win.draw(*spr);
+    }
     //view de UI
     m_win.setView(m_uiview);
 

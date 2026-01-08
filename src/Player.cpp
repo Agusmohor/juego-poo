@@ -11,15 +11,18 @@ player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textu
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     rClick = sf::Mouse::Button::Right;
     lClick = sf::Mouse::Button::Left;
+    m_hitbox.setSize({20,20}); m_hitbox.setPosition({80,80}); m_hitbox.setFillColor(sf::Color::Red);
 }
 
 void player::move(float delta, mapa &mapa) {
     dir.x = 0.f; dir.y = 0.f;
     //interaccion teclas
-    if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) dir.y = -1.f;  
-    if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) dir.x = -1.f; 
-    if(sf::Keyboard::isKeyPressed(sKey) && !sf::Keyboard::isKeyPressed(wKey)) dir.y = 1.f;  
-    if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) dir.x = 1.f; 
+    if (!colision) {
+        if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) dir.y = -1.f;
+        if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) dir.x = -1.f;
+        if(sf::Keyboard::isKeyPressed(sKey) && !sf::Keyboard::isKeyPressed(wKey)) dir.y = 1.f;
+        if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) dir.x = 1.f;
+    }
 
     //speed
     this->speed();
@@ -38,6 +41,8 @@ void player::move(float delta, mapa &mapa) {
         m_spr.move({velocity.x, 0});
     }
 
+    for (auto &box : hitboxes) this->colx(box.getHitbox());
+
     // --- COLISIÓN VERTICAL ---
     float nextY = m_spr.getPosition().y + velocity.y;
     float sideY;
@@ -50,6 +55,7 @@ void player::move(float delta, mapa &mapa) {
         m_spr.move({0, velocity.y});
     }
 
+    for (auto &box : hitboxes) this->coly(box.getHitbox());
 }
 
 
@@ -62,7 +68,7 @@ void player::texture(){
 }
 
 void player::speed(){
-    m_speed = 200.f;
+    m_speed = 100;
     if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 200){
         stamina++; 
     }
@@ -99,10 +105,12 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 
 
 void player::update(float delta,mapa &mapa) {
+
+    prevPos = m_spr.getPosition();
     //actualizar player
     this->texture();
     this->move(delta,mapa);
-    
+
     //sf::Vector2f delta1 = dir * m_speed;
     //pl_pos=m_spr.getPosition();
     //m_spr.move(delta1);
@@ -111,6 +119,7 @@ void player::update(float delta,mapa &mapa) {
 
 void player::draw(sf::RenderWindow& m_win) {
     m_win.draw(m_spr);
+    m_win.draw(m_hitbox);
 }
 
 void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
@@ -122,7 +131,7 @@ sf::Vector2f player::getPosition() const {
     return m_spr.getPosition();
 }
 
-sf::FloatRect player::getTheBounds(){
+sf::FloatRect player::getHitbox(){
     return m_spr.getGlobalBounds();
 }
 
@@ -147,3 +156,24 @@ bool player::isAlive(){
 void player::RecieveDamage() {
     this->rDamage = true; // Esto activará la resta de corazones en el siguiente update
 }
+
+sf::Sprite &player::getSprite(){ return m_spr; }
+
+
+void player::colx(sf::FloatRect hitbox) {
+    if (this->getHitbox().findIntersection(hitbox).has_value()) {
+        m_spr.setPosition({prevPos.x,m_spr.getPosition().y});;
+    }
+
+}
+
+void player::coly(sf::FloatRect hitbox) {
+    if (this->getHitbox().findIntersection(hitbox).has_value()) {
+        m_spr.setPosition({m_spr.getPosition().x,prevPos.y});
+    }
+}
+
+void player::getHitboxes(std::vector<tree> &hitboxes) {
+    this->hitboxes = hitboxes;
+}
+

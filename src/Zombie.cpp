@@ -17,12 +17,14 @@ void zombie::update(float delta,mapa &mapa) {
     }else{
         vivo=false;
     }
-    std::cout<<corazones<<std::endl;
+    // std::cout<<corazones<<std::endl;
 }
 
 void zombie::draw(sf::RenderWindow &m_win) {
     m_win.draw(m_spr);
 }
+
+sf::Sprite &zombie::getSprite() { return m_spr;}
 
 void zombie::texture() {
 
@@ -51,7 +53,7 @@ bool zombie::inRaduis() {
     return false;
 }
 
-sf::FloatRect zombie::getTheBounds(){
+sf::FloatRect zombie::getHitbox(){
     return m_spr.getGlobalBounds();
 }
 

@@ -6,6 +6,7 @@
 #include <SFML/System/Clock.hpp>
 #include "Zombie.h"
 #include "Mapa.hpp"
+#include "Tree.hpp"
 
 class match : public scene {
     mapa m_mapa;
@@ -16,6 +17,11 @@ class match : public scene {
 
     sf::Texture m_text;
     sf::Sprite Fondo;
+
+    std::vector<tree> m_trees;
+    std::vector<sf::Sprite*> m_wordlSprites;
+
+
     sf::View m_view,m_uiview;
     sf::Vector2u m_winSize;
     sf::Clock timer;
