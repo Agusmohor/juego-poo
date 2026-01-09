@@ -86,6 +86,9 @@ void match::render(sf::RenderWindow &m_win){
     for (auto *spr : m_wordlSprites) {
         m_win.draw(*spr);
     }
+
+    // m_ply.drawHitbox(m_win);
+
     //view de UI
     m_win.setView(m_uiview);
 

@@ -11,7 +11,7 @@ player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textu
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     rClick = sf::Mouse::Button::Right;
     lClick = sf::Mouse::Button::Left;
-    m_hitbox.setSize({20,20}); m_hitbox.setPosition({80,80}); m_hitbox.setFillColor(sf::Color::Red);
+    hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-4,m_spr.getPosition().y}); hitbox.setFillColor(sf::Color::Blue);
 }
 
 void player::move(float delta, mapa &mapa) {
@@ -27,7 +27,7 @@ void player::move(float delta, mapa &mapa) {
     //speed
     this->speed();
     sf::Vector2f velocity = dir * m_speed * delta;
-
+    prevPos = m_spr.getPosition();
     // --- COLISIÓN HORIZONTAL ---
     float nextX = m_spr.getPosition().x + velocity.x;
     float sideX;
@@ -41,8 +41,10 @@ void player::move(float delta, mapa &mapa) {
         m_spr.move({velocity.x, 0});
     }
 
+    this->syncHitbox();
     for (auto &box : hitboxes) this->colx(box.getHitbox());
 
+    prevPos = m_spr.getPosition();
     // --- COLISIÓN VERTICAL ---
     float nextY = m_spr.getPosition().y + velocity.y;
     float sideY;
@@ -54,7 +56,7 @@ void player::move(float delta, mapa &mapa) {
     if (!chocaIzq && !chocaDer) {
         m_spr.move({0, velocity.y});
     }
-
+    this->syncHitbox();
     for (auto &box : hitboxes) this->coly(box.getHitbox());
 }
 
@@ -105,8 +107,8 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 
 
 void player::update(float delta,mapa &mapa) {
+    prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
 
-    prevPos = m_spr.getPosition();
     //actualizar player
     this->texture();
     this->move(delta,mapa);
@@ -119,7 +121,6 @@ void player::update(float delta,mapa &mapa) {
 
 void player::draw(sf::RenderWindow& m_win) {
     m_win.draw(m_spr);
-    m_win.draw(m_hitbox);
 }
 
 void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
@@ -160,16 +161,18 @@ void player::RecieveDamage() {
 sf::Sprite &player::getSprite(){ return m_spr; }
 
 
-void player::colx(sf::FloatRect hitbox) {
-    if (this->getHitbox().findIntersection(hitbox).has_value()) {
-        m_spr.setPosition({prevPos.x,m_spr.getPosition().y});;
+void player::colx(sf::FloatRect other_hitbox) {
+    if (hitbox.getGlobalBounds().findIntersection(other_hitbox).has_value()) {
+        m_spr.setPosition({prevPos.x,m_spr.getPosition().y});
+        hitbox.setPosition({hitboxPrevPos.x,hitbox.getPosition().y});
     }
 
 }
 
-void player::coly(sf::FloatRect hitbox) {
-    if (this->getHitbox().findIntersection(hitbox).has_value()) {
+void player::coly(sf::FloatRect other_hitbox) {
+    if (hitbox.getGlobalBounds().findIntersection(other_hitbox).has_value()) {
         m_spr.setPosition({m_spr.getPosition().x,prevPos.y});
+        hitbox.setPosition({hitbox.getPosition().x,hitboxPrevPos.y});
     }
 }
 
@@ -177,3 +180,10 @@ void player::getHitboxes(std::vector<tree> &hitboxes) {
     this->hitboxes = hitboxes;
 }
 
+void player::drawHitbox(sf::RenderWindow &m_win) {
+    m_win.draw(hitbox);
+}
+
+void player::syncHitbox() {
+    hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+5});
+}

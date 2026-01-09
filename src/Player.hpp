@@ -34,15 +34,19 @@ public:
     sf::Vector2f getPosition() const ;
 
     void colx(sf::FloatRect hitbox);
-    void coly(sf::FloatRect hitbox);
+    void coly(sf::FloatRect other_hitbox);
 
     void getHitboxes(std::vector<tree> &hitboxes);
 
+    void drawHitbox(sf::RenderWindow &m_win);
+
+    void syncHitbox();
+
 private:
-    sf::Vector2f prevPos;
+    sf::Vector2f prevPos, hitboxPrevPos;
 
     std::vector<tree> hitboxes;
-    sf::RectangleShape m_hitbox;
+    sf::RectangleShape hitbox;
 
     int corazones = 5;
     bool vivo = true;

@@ -7,7 +7,7 @@ tree::tree() : arbol("../assets/textures/trees/tree1.png"),arbol2("../assets/tex
 }
 
 void tree::draw(sf::RenderWindow &m_win) {
-    m_win.draw(m_base);
+    // m_win.draw(m_base);
 }
 
 void tree::random() {
