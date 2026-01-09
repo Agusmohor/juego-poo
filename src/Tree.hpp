@@ -25,7 +25,7 @@ private:
     int m_rand;
     sf::Texture arbol,arbol2,arbol3;
     sf::Sprite m_spr;
-    sf::RectangleShape m_base;
+    sf::RectangleShape m_hitbox;
 
 
 };

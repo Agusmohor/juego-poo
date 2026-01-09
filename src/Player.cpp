@@ -11,7 +11,7 @@ player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textu
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     rClick = sf::Mouse::Button::Right;
     lClick = sf::Mouse::Button::Left;
-    hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-4,m_spr.getPosition().y}); hitbox.setFillColor(sf::Color::Blue);
+    hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+2}); hitbox.setFillColor(sf::Color::Blue);
 }
 
 void player::move(float delta, mapa &mapa) {
@@ -27,37 +27,38 @@ void player::move(float delta, mapa &mapa) {
     //speed
     this->speed();
     sf::Vector2f velocity = dir * m_speed * delta;
-    prevPos = m_spr.getPosition();
-    // --- COLISIÓN HORIZONTAL ---
-    float nextX = m_spr.getPosition().x + velocity.x;
-    float sideX;
-    if (velocity.x > 0) {sideX = m_width/2;} else {sideX = -m_width/2;}
-    
-    // Revisamos bordes laterales con un pequeño margen de 1px para no trabarse
-    bool chocaArriba = mapa.isSolidAtPixel(nextX + sideX, m_spr.getPosition().y - m_height/2 + 1);
-    bool chocaAbajo = mapa.isSolidAtPixel(nextX + sideX, m_spr.getPosition().y + m_height/2 - 1);
+    prevPos = m_spr.getPosition(); this->syncHitbox();
+    sf::FloatRect hb = hitbox.getGlobalBounds();
 
-    if (!chocaArriba && !chocaAbajo) {
-        m_spr.move({velocity.x, 0});
+    float dx = velocity.x;
+    if (dx != 0.f)
+    {
+        float probeX = (dx > 0.f) ? (hb.position.x + hb.size.x + dx + 10.f) : (hb.position.x + dx - 10.f);
+        bool top    = mapa.isSolidAtPixel(probeX, hb.position.y + 10.f);
+        bool midx    = mapa.isSolidAtPixel(probeX,hb.position.y + hb.size.y * 0.5f);
+        bool bottom = mapa.isSolidAtPixel(probeX, hb.position.y + hb.size.y - 8.f);
+        if (!top && !bottom && !midx)
+            m_spr.move({dx, 0.f});
     }
 
     this->syncHitbox();
-    for (auto &box : hitboxes) this->colx(box.getHitbox());
+    for (auto& box : hitboxes) colx(box.getHitbox());
 
-    prevPos = m_spr.getPosition();
-    // --- COLISIÓN VERTICAL ---
-    float nextY = m_spr.getPosition().y + velocity.y;
-    float sideY;
-    if(velocity.y > 0) {sideY = m_height/2;} else {sideY = -m_height/2;}
-
-    bool chocaIzq = mapa.isSolidAtPixel(m_spr.getPosition().x - m_width/2 + 1, nextY + sideY);
-    bool chocaDer = mapa.isSolidAtPixel(m_spr.getPosition().x + m_width/2 - 1, nextY + sideY);
-
-    if (!chocaIzq && !chocaDer) {
-        m_spr.move({0, velocity.y});
+    hb = hitbox.getGlobalBounds();
+    float dy = velocity.y;
+    if (dy != 0.f)
+    {
+        float probeY = (dy > 0.f) ? (hb.position.y + hb.size.y + dy + 24.f) : (hb.position.y + dy - 5.f);
+        bool left  = mapa.isSolidAtPixel(hb.position.x + 10.f, probeY);
+        bool midy = mapa.isSolidAtPixel(hb.position.x + hb.size.x * 0.8f, probeY);
+        bool right = mapa.isSolidAtPixel(hb.position.x + hb.size.x - 10.f, probeY);
+        if (!left && !right && !midy)
+            m_spr.move({0.f, dy});
     }
+
     this->syncHitbox();
-    for (auto &box : hitboxes) this->coly(box.getHitbox());
+    for (auto& box : hitboxes) coly(box.getHitbox());
+
 }
 
 
@@ -185,5 +186,5 @@ void player::drawHitbox(sf::RenderWindow &m_win) {
 }
 
 void player::syncHitbox() {
-    hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+5});
+    hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+2});
 }
