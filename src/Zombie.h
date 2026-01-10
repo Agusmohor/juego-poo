@@ -5,8 +5,8 @@
 #include <SFML/Graphics.hpp>
 
 class zombie : public entity {
-    sf::Texture m_tex;
-    sf::Sprite m_spr;
+    sf::Texture m_tex,shadowText;
+    sf::Sprite m_spr,shadow;
     sf::RectangleShape hitbox;
     sf::Vector2f pl_pos,dif,scale,prevPos,hitboxPrevPos;
     std::vector<sf::FloatRect> hitboxes;

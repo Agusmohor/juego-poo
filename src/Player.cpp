@@ -112,7 +112,7 @@ void player::updateTexture() {
 }
 
 void player::speed(){
-    m_speed = 70;
+    m_speed = 50;
     if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 200){
         stamina++; 
     }

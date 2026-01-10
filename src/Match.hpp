@@ -19,6 +19,7 @@ class match : public scene {
     sf::Texture m_text;
     sf::Sprite Fondo;
 
+    //vector de obstaculos para agregar arboles,rocas,etc
     std::vector<std::unique_ptr<obstacle>> m_obtacles;
     std::vector<sf::FloatRect> m_hitboxes;
     std::vector<sf::Sprite*> m_wordlSprites;

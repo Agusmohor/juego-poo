@@ -2,10 +2,10 @@
 #include <cmath>
 #include <iostream>
 
-zombie::zombie() : m_tex("../assets/textures/entity/zombie/sprite.png"), m_spr(m_tex) {
+zombie::zombie() : m_tex("../assets/textures/entity/zombie/sprite.png"),shadowText("../assets/textures/entity/zombie/plshadow.png"), m_spr(m_tex),shadow(shadowText) {
     scale = sf::Vector2f(0.6,0.6); m_spr.setScale(scale);
-    m_spr.setTextureRect({{0,0},{32,32}}); m_spr.setOrigin({16,16});
-    m_spr.setPosition({100.f, 100.f}); m_speed = 40;
+    m_spr.setTextureRect({{0,0},{32,32}}); m_spr.setOrigin({16,16}); shadow.setOrigin({9,3}); shadow.setScale({0.6,0.6});
+    m_spr.setPosition({100.f, 100.f}); m_speed = 20;
     hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Red);
 }
 
@@ -20,6 +20,7 @@ void zombie::update(float delta,mapa &mapa) {
     }else{
         vivo=false;
     }
+    shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     // std::cout<<corazones<<std::endl;
 }
 
@@ -39,7 +40,7 @@ void zombie::updateTexture() {
 }
 
 void zombie::draw(sf::RenderWindow &m_win) {
-    m_win.draw(m_spr);
+    m_win.draw(shadow);
 }
 
 void zombie::drawHitbox(sf::RenderWindow &m_win) {

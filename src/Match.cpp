@@ -25,7 +25,7 @@ match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fond
 
 
 void match::update(float delta,Game &m_gam){
-    if (time.getElapsedTime().asSeconds() >= 0.15f) {
+    if (time.getElapsedTime().asSeconds() >= 0.2f) {
         for (auto &tree : m_obtacles) {
             tree->update();
         }
@@ -33,6 +33,7 @@ void match::update(float delta,Game &m_gam){
         m_zombie.updateTexture();
         time.restart();
     }
+    //actualizado de hitbox obstaculos
     for (auto &box : m_obtacles) {
         m_hitboxes.push_back(box->getHitbox());
     }
@@ -97,7 +98,7 @@ void match::render(sf::RenderWindow &m_win){
                (b->getPosition().y + b->getGlobalBounds().size.y);
     });
 
-    m_ply.draw(m_win);
+    m_ply.draw(m_win);m_zombie.draw(m_win);
     for (auto *spr : m_wordlSprites) {
             m_win.draw(*spr);
 
