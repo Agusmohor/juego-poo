@@ -80,6 +80,7 @@ void zombie::move(float delta,mapa &mapa) {
     dist = sqrt(dif.x * dif.x + dif.y * dif.y);
     if (dist != 0.f) { dif /= dist;}
     if (dist > 21){ismoving = true;} else{ismoving = false;}
+    if (dif.x < 0){m_spr.setScale({-scale.x,scale.y});} else{m_spr.setScale(scale);y}
     // std::cout << dist << std::endl;
     //{1,-1}
     //dif seria la "direccion"
