@@ -11,6 +11,8 @@ public:
     virtual void draw(sf::RenderWindow& m_win) = 0;
     virtual sf::Sprite& getSprite() = 0;
 
+    virtual void updateTexture()=0;
+
     virtual void texture() = 0;
     virtual void move(float delta,mapa &mapa) = 0;
     virtual int manyLife() = 0;

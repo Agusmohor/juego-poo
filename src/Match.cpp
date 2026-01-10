@@ -10,7 +10,8 @@
 
 match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud(), m_trees(10) {
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/ground_base.csv"; std::string collision = "../assets/textures/map/ground_collision.csv";
-    m_mapa.load(pngpath,ground,collision);
+    std::string grass = "../assets/textures/map/ground_grass.csv";
+    m_mapa.load(pngpath,ground,grass,collision);
     for (auto &trees : m_trees) {
         float random = (1 + rand()%300);
         float random2 = (1 + rand()%300);
@@ -26,6 +27,7 @@ void match::update(float delta,Game &m_gam){
             tree.update();
         }
         m_ply.updateTexture();
+        m_zombie.updateTexture();
         time.restart();
     }
     m_ply.getHitboxes(m_trees);
@@ -54,9 +56,9 @@ void match::draw(sf::RenderWindow &m_win){
         }
         timer.restart();
     }
-    if(m_zombie.isAlive()){
-        m_zombie.draw(m_win);
-    }
+    // if(m_zombie.isAlive()){
+    //     m_zombie.draw(m_win);
+    // }
 
     m_win.setView(m_uiview);
 }
@@ -79,7 +81,7 @@ void match::render(sf::RenderWindow &m_win){
     this->mouseSkin(m_win);
     m_wordlSprites.clear();
     m_wordlSprites.push_back(&m_ply.getSprite());
-
+    m_wordlSprites.push_back(&m_zombie.getSprite());
     for (auto &trees : m_trees) {
         m_wordlSprites.push_back(&trees.getSprite());
     }

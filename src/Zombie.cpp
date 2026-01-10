@@ -2,9 +2,10 @@
 #include <cmath>
 #include <iostream>
 
-zombie::zombie() : m_tex("../assets/textures/prueba.png"), m_spr(m_tex) {
-    // m_spr.setScale(sf::Vector2f(5.f,5.f));
-    m_spr.setPosition({100.f, 100.f});
+zombie::zombie() : m_tex("../assets/textures/entity/zombie/sprite.png"), m_spr(m_tex) {
+    scale = sf::Vector2f(0.6,0.6); m_spr.setScale(scale);
+    m_spr.setTextureRect({{0,0},{32,32}}); m_spr.setOrigin({16,16});
+    m_spr.setPosition({100.f, 100.f}); m_speed = 40;
 }
 
 void zombie::update(float delta,mapa &mapa) {
@@ -18,6 +19,21 @@ void zombie::update(float delta,mapa &mapa) {
         vivo=false;
     }
     // std::cout<<corazones<<std::endl;
+}
+
+void zombie::updateTexture() {
+    sf::IntRect rect = m_spr.getTextureRect();
+    if (ismoving) {
+        if (rect.position.x >= 96) {
+            rect.position.x = 0;
+        }
+        m_spr.setTextureRect({{rect.position.x + 32, 64},{32,32}});
+    }else {
+        if (rect.position.x >= 160) {
+            rect.position.x = 0;
+        }
+        m_spr.setTextureRect({{rect.position.x + 32, 0},{32,32}});
+    }
 }
 
 void zombie::draw(sf::RenderWindow &m_win) {
@@ -36,10 +52,12 @@ void zombie::move(float delta,mapa &mapa) {
 
     //distancia player y entidad
     dist = sqrt(dif.x * dif.x + dif.y * dif.y);
-    if (dist != 0.f) { dif /= dist; }
+    if (dist != 0.f) { dif /= dist;}
+    if (dist > 21){ismoving = true;} else{ismoving = false;}
+    // std::cout << dist << std::endl;
     //{1,-1}
     //dif seria la "direccion"
-    m_spr.move(dif*120.f*delta);
+    m_spr.move(dif*m_speed*delta);
 }
 
 void zombie::getPlyPos(const sf::Vector2f &pl_pos) {

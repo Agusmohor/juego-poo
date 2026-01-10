@@ -8,10 +8,11 @@ class zombie : public entity {
     sf::Texture m_tex;
     sf::Sprite m_spr;
     // sf::CircleShape shape;
-    sf::Vector2f pl_pos,dif;
-    float dist,max_rad,min_rad,dist2;
+    sf::Vector2f pl_pos,dif,scale;
+    float dist,max_rad,min_rad,dist2,m_speed;
     bool vivo=true;
     bool rDamage=false;
+    bool ismoving=false;
     int corazones=5;
 public:
     zombie();
@@ -29,6 +30,8 @@ public:
     sf::FloatRect getHitbox() override;
 
     void getPlyPos(const sf::Vector2f &pl_pos);
+
+    void updateTexture() override;
 
     bool inRaduis();
 };

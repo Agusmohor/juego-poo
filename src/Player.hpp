@@ -42,7 +42,7 @@ public:
 
     void syncHitbox();
 
-    void updateTexture();
+    void updateTexture() override;
 private:
     int state;
     sf::Clock time;

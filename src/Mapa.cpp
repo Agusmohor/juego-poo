@@ -32,20 +32,26 @@ csv mapa::loadCsv(const std::string &path) {
     return layer;
 }
 
-void mapa::load(std::string &texturePath, std::string &groundCSV, std::string &collisionCSV) {
+void mapa::load(std::string &texturePath, std::string &groundCSV, std::string &grassCSV,std::string &collisionCSV) {
     if (!m_tileTexture.loadFromFile(texturePath)) throw std::runtime_error("error al cargar el texture");
     m_tileTexture.setSmooth(false);
     m_ground = loadCsv(groundCSV);
+    m_grass = loadCsv(grassCSV);
     m_collision = loadCsv(collisionCSV);
 }
 
 void mapa::draw(sf::RenderWindow& m_win) {
+    this->drawCSV(m_win,m_ground);
+    this->drawCSV(m_win,m_grass);
+}
+
+void mapa::drawCSV(sf::RenderWindow& m_win, csv &m_csv) {
     sf::Sprite sprite(m_tileTexture);
 
     int columns = m_tileTexture.getSize().x / m_tilesize;
-    for (int y = 0; y < m_ground.h; y++) {
-        for (int x = 0; x < m_ground.w; x++) {
-            int id = m_ground.tiles[y * m_ground.w + x];
+    for (int y = 0; y < m_csv.h; y++) {
+        for (int x = 0; x < m_csv.w; x++) {
+            int id = m_csv.tiles[y * m_csv.w + x];
             if (id < 0) continue;
 
             int tx = (id % columns) * m_tilesize;

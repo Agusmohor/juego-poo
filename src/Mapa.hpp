@@ -15,7 +15,7 @@ class mapa {
     csv loadCsv(const std::string& path);
 
     sf::Texture m_tileTexture;
-    csv m_ground;
+    csv m_ground,m_grass;
     csv m_collision;
 
     std::vector<sf::FloatRect> m_colliders;
@@ -23,12 +23,13 @@ class mapa {
 public:
     mapa();
 
-    void load(std::string& texturePath, std::string& groundCSV, std::string& collisionCSV);
+    void load(std::string& texturePath, std::string& groundCSV, std::string &grassCSV, std::string& collisionCSV);
 
     bool isSolidTile(int tx, int ty) const;
     bool isSolidAtPixel(float px, float py) const;
 
     void draw(sf::RenderWindow& m_win);
 
+    void drawCSV(sf::RenderWindow &m_win, csv &m_csv);
 };
 
