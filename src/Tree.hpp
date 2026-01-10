@@ -4,9 +4,8 @@
 
 #include "Entity.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/System/Clock.hpp>
 
-class tree{
+class tree {
 public:
     tree();
 

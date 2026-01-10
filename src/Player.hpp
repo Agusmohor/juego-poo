@@ -55,8 +55,8 @@ private:
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;
-    sf::Texture sprite,walk,run,text3;
-    sf::Sprite m_spr;
+    sf::Texture sprite,shadow;
+    sf::Sprite m_spr,m_shadow;
     float m_speed,dx,dy,m_angle; int stamina;
     sf::Vector2f pl_pos,dir,mouse_pos,m_scale;
     sf::Keyboard::Key wKey,aKey,sKey,dKey;

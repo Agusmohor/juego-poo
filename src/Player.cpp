@@ -3,9 +3,9 @@
 #include "Mapa.hpp"
 #include <iostream>
 
-player::player() : sprite("../assets/textures/entity/player/sprite.png"),walk("../assets/textures/entity/player/sprite.png"), run("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(sprite),m_speed(5),stamina(200){
+player::player() : sprite("../assets/textures/entity/player/sprite.png"),shadow("../assets/textures/entity/player/plshadow.png"), m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(200){
     m_spr.setTextureRect({{0,0},{32,32}});
-    m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale);
+    m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3});
     m_spr.setOrigin({16,16}); m_spr.setPosition({80,80});
     dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
@@ -32,9 +32,14 @@ void player::move(float delta, mapa &mapa) {
         }
     }
 
+    //normalizar direccion
+    if (dir.x != 0 && dir.y != 0) {
+        float length = sqrt(dir.x*dir.x + dir.y*dir.y);
+        dir /= length;
+    }
     //speed
     this->speed();
-    sf::Vector2f velocity = dir * m_speed * delta;
+    sf::Vector2f velocity = dir * m_speed *delta;
     prevPos = m_spr.getPosition(); this->syncHitbox();
     sf::FloatRect hb = hitbox.getGlobalBounds();
 
@@ -73,9 +78,9 @@ void player::move(float delta, mapa &mapa) {
 
 void player::texture(){
     if (!sf::Mouse::isButtonPressed(rClick) && (sf::Keyboard::isKeyPressed(wKey) || sf::Keyboard::isKeyPressed(aKey) || sf::Keyboard::isKeyPressed(sKey) || sf::Keyboard::isKeyPressed(dKey) )) {
-        m_spr.setTexture(walk); state = 1;
+         state = 1;
     }else {
-        m_spr.setTexture(sprite); state = 0;
+         state = 0;
     }
 
 
@@ -89,14 +94,12 @@ void player::updateTexture() {
                 rect.position.x = 0;
             }
             m_spr.setTextureRect({{rect.position.x + 32, 0},{32,32}});
-            std::cout << rect.position.x << std::endl;
             break;
         case 1:
             if (rect.position.x >= 96) {
                 rect.position.x = 0;
             }
             m_spr.setTextureRect({{rect.position.x + 32, 64},{32,32}});
-            std::cout << state << std::endl;
             break;
         case 2:
             if (rect.position.x >= 224) {
@@ -108,13 +111,13 @@ void player::updateTexture() {
 }
 
 void player::speed(){
-    m_speed = 100;
+    m_speed = 70;
     if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 200){
         stamina++; 
     }
     
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && this->cond() && !sf::Mouse::isButtonPressed(rClick)){
-        stamina--; m_speed *= 2; state = 2;
+        stamina--; m_speed *= 1.2; state = 2;
     }
     // std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
 }
@@ -134,9 +137,9 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
     dx = mouseCoords.x - pl_pos.x; dy = mouseCoords.y - pl_pos.y;
     //angulo entre el player y el cursor (0-180)
     m_angle = atan2(dy,dx); m_angle *= 180 / 3.14;
-    if(m_angle < 0 && m_angle > -90) m_spr.setTexture(walk);
-    if(m_angle <= -90 && m_angle >= -180) m_spr.setTexture(run);
-    if(m_angle > 90 && m_angle < 180) m_spr.setTexture(text3);
+    if(m_angle < 0 && m_angle > -90) m_spr.setTexture(sprite);
+    if(m_angle <= -90 && m_angle >= -180) m_spr.setTexture(sprite);
+    if(m_angle > 90 && m_angle < 180) m_spr.setTexture(sprite);
     if(m_angle <= 90 && m_angle >= 0) m_spr.setTexture(sprite);
         
     // std::cout << "ang " << m_angle << " dx " << dx<< " dy " << dy << " posmouse " << mouseCoords.x << " x "<< mouseCoords.y << " y "<<std::endl;
@@ -146,11 +149,11 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 
 void player::update(float delta,mapa &mapa) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
-
     //actualizar player
     this->texture();
     this->move(delta,mapa);
 
+    m_shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     //sf::Vector2f delta1 = dir * m_speed;
     //pl_pos=m_spr.getPosition();
     //m_spr.move(delta1);
@@ -158,7 +161,7 @@ void player::update(float delta,mapa &mapa) {
 }
 
 void player::draw(sf::RenderWindow& m_win) {
-    m_win.draw(m_spr);
+    m_win.draw(m_shadow);
 }
 
 void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){

@@ -21,7 +21,7 @@ match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fond
 
 
 void match::update(float delta,Game &m_gam){
-    if (time.getElapsedTime().asSeconds() >= 0.2f) {
+    if (time.getElapsedTime().asSeconds() >= 0.15f) {
         for (auto &tree : m_trees) {
             tree.update();
         }
@@ -47,7 +47,6 @@ void match::updateView(Game &m_gam){
 
 void match::draw(sf::RenderWindow &m_win){
     this->render(m_win);
-    for (auto &trees : m_trees) { trees.draw(m_win); }
 
     if (timer.getElapsedTime().asSeconds() >= 0.2f) {
         if(attact(m_win,m_zombie.getHitbox())){
@@ -90,10 +89,11 @@ void match::render(sf::RenderWindow &m_win){
                (b->getPosition().y + b->getGlobalBounds().size.y);
     });
 
+    m_ply.draw(m_win);
     for (auto *spr : m_wordlSprites) {
-        m_win.draw(*spr);
-    }
+            m_win.draw(*spr);
 
+    }
     // m_ply.drawHitbox(m_win);
 
     //view de UI
