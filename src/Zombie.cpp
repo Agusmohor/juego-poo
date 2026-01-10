@@ -6,9 +6,11 @@ zombie::zombie() : m_tex("../assets/textures/entity/zombie/sprite.png"), m_spr(m
     scale = sf::Vector2f(0.6,0.6); m_spr.setScale(scale);
     m_spr.setTextureRect({{0,0},{32,32}}); m_spr.setOrigin({16,16});
     m_spr.setPosition({100.f, 100.f}); m_speed = 40;
+    hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Red);
 }
 
 void zombie::update(float delta,mapa &mapa) {
+    prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     if (this->inRaduis()) {this->move(delta,mapa);}
     if(corazones!=0){
         if(rDamage){
@@ -40,11 +42,34 @@ void zombie::draw(sf::RenderWindow &m_win) {
     m_win.draw(m_spr);
 }
 
+void zombie::drawHitbox(sf::RenderWindow &m_win) {
+    m_win.draw(hitbox);
+}
+
+void zombie::syncHitbox() {
+    hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4});
+}
+
+void zombie::colx(sf::FloatRect hitbox) {
+    if (this->hitbox.getGlobalBounds().findIntersection(hitbox).has_value()) {
+        m_spr.setPosition({prevPos.x,m_spr.getPosition().y});
+        this->hitbox.setPosition({hitboxPrevPos.x,this->hitbox.getPosition().y});
+    }
+}
+
+void zombie::coly(sf::FloatRect hitbox) {
+    if (this->hitbox.getGlobalBounds().findIntersection(hitbox).has_value()) {
+        m_spr.setPosition({m_spr.getPosition().x,prevPos.y});
+        this->hitbox.setPosition({this->hitbox.getPosition().x,hitboxPrevPos.y});
+    }
+}
+
+void zombie::getHitboxes(std::vector<sf::FloatRect> &hitboxes) {
+    this->hitboxes = hitboxes;
+}
+
 sf::Sprite &zombie::getSprite() { return m_spr;}
 
-void zombie::texture() {
-
-}
 
 void zombie::move(float delta,mapa &mapa) {
     //diferencia x,y entre el player y la entidad
@@ -58,6 +83,15 @@ void zombie::move(float delta,mapa &mapa) {
     //{1,-1}
     //dif seria la "direccion"
     m_spr.move(dif*m_speed*delta);
+    this->syncHitbox();
+    for (auto &box : hitboxes) {
+        colx(box);
+    }
+    this->syncHitbox();
+    for (auto &box : hitboxes) {
+        coly(box);
+    }
+    this->syncHitbox();
 }
 
 void zombie::getPlyPos(const sf::Vector2f &pl_pos) {

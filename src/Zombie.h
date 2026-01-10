@@ -7,8 +7,9 @@
 class zombie : public entity {
     sf::Texture m_tex;
     sf::Sprite m_spr;
-    // sf::CircleShape shape;
-    sf::Vector2f pl_pos,dif,scale;
+    sf::RectangleShape hitbox;
+    sf::Vector2f pl_pos,dif,scale,prevPos,hitboxPrevPos;
+    std::vector<sf::FloatRect> hitboxes;
     float dist,max_rad,min_rad,dist2,m_speed;
     bool vivo=true;
     bool rDamage=false;
@@ -21,7 +22,12 @@ public:
     void draw(sf::RenderWindow& m_win) override;
     sf::Sprite &getSprite() override;
 
-    void texture() override;
+    void drawHitbox(sf::RenderWindow &m_win) override;
+    void syncHitbox() override;
+    void getHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
+    void coly(sf::FloatRect hitbox) override;
+    void colx(sf::FloatRect hitbox) override;
+
     void move(float delta,mapa &mapa) override;
     int manyLife() override;
     bool isAlive() override;

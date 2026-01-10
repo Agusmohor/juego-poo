@@ -7,13 +7,18 @@
 
 class entity{
 public:
+    entity() = default;
     virtual void update(float delta,mapa &mapa) = 0;
     virtual void draw(sf::RenderWindow& m_win) = 0;
     virtual sf::Sprite& getSprite() = 0;
 
     virtual void updateTexture()=0;
+    virtual void drawHitbox(sf::RenderWindow &m_win)=0;
+    virtual void syncHitbox()=0;
+    virtual void getHitboxes(std::vector<sf::FloatRect> &hitboxes) = 0;
+    virtual void colx(sf::FloatRect hitbox) = 0;
+    virtual void coly(sf::FloatRect hitbox) = 0;
 
-    virtual void texture() = 0;
     virtual void move(float delta,mapa &mapa) = 0;
     virtual int manyLife() = 0;
     virtual bool isAlive() = 0;

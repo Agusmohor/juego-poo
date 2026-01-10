@@ -8,29 +8,35 @@
 #include "Mapa.hpp"
 #include <string>
 
-match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud(), m_trees(10) {
+match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/ground_base.csv"; std::string collision = "../assets/textures/map/ground_collision.csv";
     std::string grass = "../assets/textures/map/ground_grass.csv";
     m_mapa.load(pngpath,ground,grass,collision);
-    for (auto &trees : m_trees) {
+    for (size_t i=0;i<10;i++) {
+        m_obtacles.push_back(std::make_unique<tree>());
+    }
+    for (auto &trees : m_obtacles) {
         float random = (1 + rand()%300);
         float random2 = (1 + rand()%300);
-        trees.random();
-        trees.setPos({random*2,random2+100});
+        trees->random();
+        trees->setPos({random*2,random2+100});
     }
 }
 
 
 void match::update(float delta,Game &m_gam){
     if (time.getElapsedTime().asSeconds() >= 0.15f) {
-        for (auto &tree : m_trees) {
-            tree.update();
+        for (auto &tree : m_obtacles) {
+            tree->update();
         }
         m_ply.updateTexture();
         m_zombie.updateTexture();
         time.restart();
     }
-    m_ply.getHitboxes(m_trees);
+    for (auto &box : m_obtacles) {
+        m_hitboxes.push_back(box->getHitbox());
+    }
+    m_ply.getHitboxes(m_hitboxes); m_zombie.getHitboxes(m_hitboxes);
     m_ply.update(delta,m_mapa);
 
 
@@ -82,8 +88,8 @@ void match::render(sf::RenderWindow &m_win){
     m_wordlSprites.clear();
     m_wordlSprites.push_back(&m_ply.getSprite());
     m_wordlSprites.push_back(&m_zombie.getSprite());
-    for (auto &trees : m_trees) {
-        m_wordlSprites.push_back(&trees.getSprite());
+    for (auto &trees : m_obtacles) {
+        m_wordlSprites.push_back(&trees->getSprite());
     }
 
     std::sort(m_wordlSprites.begin(),m_wordlSprites.end(),[](sf::Sprite* a, sf::Sprite* b){
@@ -97,6 +103,7 @@ void match::render(sf::RenderWindow &m_win){
 
     }
     // m_ply.drawHitbox(m_win);
+    // m_zombie.drawHitbox(m_win);
 
     //view de UI
     m_win.setView(m_uiview);

@@ -2,6 +2,7 @@
 #include <cmath>
 #include "Mapa.hpp"
 #include <iostream>
+#include "Tree.hpp"
 
 player::player() : sprite("../assets/textures/entity/player/sprite.png"),shadow("../assets/textures/entity/player/plshadow.png"), m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(200){
     m_spr.setTextureRect({{0,0},{32,32}});
@@ -55,7 +56,7 @@ void player::move(float delta, mapa &mapa) {
     }
 
     this->syncHitbox();
-    for (auto& box : hitboxes) colx(box.getHitbox());
+    for (auto& box : hitboxes) colx(box);
 
     hb = hitbox.getGlobalBounds();
     float dy = velocity.y;
@@ -70,7 +71,7 @@ void player::move(float delta, mapa &mapa) {
     }
 
     this->syncHitbox();
-    for (auto& box : hitboxes) coly(box.getHitbox());
+    for (auto& box : hitboxes) coly(box);
 
 }
 
@@ -202,22 +203,22 @@ void player::RecieveDamage() {
 sf::Sprite &player::getSprite(){ return m_spr; }
 
 
-void player::colx(sf::FloatRect other_hitbox) {
-    if (hitbox.getGlobalBounds().findIntersection(other_hitbox).has_value()) {
+void player::colx(sf::FloatRect hitbox) {
+    if (this->hitbox.getGlobalBounds().findIntersection(hitbox).has_value()) {
         m_spr.setPosition({prevPos.x,m_spr.getPosition().y});
-        hitbox.setPosition({hitboxPrevPos.x,hitbox.getPosition().y});
+        this->hitbox.setPosition({hitboxPrevPos.x,this->hitbox.getPosition().y});
     }
 
 }
 
-void player::coly(sf::FloatRect other_hitbox) {
-    if (hitbox.getGlobalBounds().findIntersection(other_hitbox).has_value()) {
+void player::coly(sf::FloatRect hitbox) {
+    if (this->hitbox.getGlobalBounds().findIntersection(hitbox).has_value()) {
         m_spr.setPosition({m_spr.getPosition().x,prevPos.y});
-        hitbox.setPosition({hitbox.getPosition().x,hitboxPrevPos.y});
+        this->hitbox.setPosition({this->hitbox.getPosition().x,hitboxPrevPos.y});
     }
 }
 
-void player::getHitboxes(std::vector<tree> &hitboxes) {
+void player::getHitboxes(std::vector<sf::FloatRect> &hitboxes) {
     this->hitboxes = hitboxes;
 }
 

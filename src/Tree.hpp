@@ -5,20 +5,22 @@
 #include "Entity.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
 
-class tree {
+#include "obstacle.h"
+
+class tree : public obstacle{
 public:
     tree();
 
-    void update();
-    void draw(sf::RenderWindow &m_win);
+    void update() override;
+    void draw(sf::RenderWindow &m_win) override;
 
-    void setPos(sf::Vector2f pos);
+    void setPos(sf::Vector2f pos) override;
 
-    sf::FloatRect getHitbox();
+    sf::FloatRect getHitbox() override;
 
-    void random();
+    void random() override;
 
-    sf::Sprite& getSprite() ;
+    sf::Sprite& getSprite() override;
 
 private:
     int m_rand;

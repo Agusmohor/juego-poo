@@ -6,6 +6,7 @@
 #include <SFML/System/Clock.hpp>
 #include "Zombie.h"
 #include "Mapa.hpp"
+#include "obstacle.h"
 #include "Tree.hpp"
 
 class match : public scene {
@@ -18,7 +19,8 @@ class match : public scene {
     sf::Texture m_text;
     sf::Sprite Fondo;
 
-    std::vector<tree> m_trees;
+    std::vector<std::unique_ptr<obstacle>> m_obtacles;
+    std::vector<sf::FloatRect> m_hitboxes;
     std::vector<sf::Sprite*> m_wordlSprites;
 
 

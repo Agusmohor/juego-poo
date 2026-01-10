@@ -8,6 +8,7 @@
 #include "Mapa.hpp"
 #include "Tree.hpp"
 
+
 class player : public entity{
 public:
     player();
@@ -16,8 +17,16 @@ public:
     void draw(sf::RenderWindow &m_win) override;
     sf::Sprite& getSprite() override;
 
+    void updateTexture() override;
 
-    void texture() override;
+    void drawHitbox(sf::RenderWindow &m_win) override;
+    void syncHitbox() override;
+    void getHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
+
+    void colx(sf::FloatRect hitbox) override;
+    void coly(sf::FloatRect hitbox) override;
+
+    void texture();
     sf::FloatRect getHitbox() override;
     bool isAlive() override;
     int manyLife() override;
@@ -33,22 +42,16 @@ public:
     void updateSkinByMouse(const sf::Vector2f &mouseCoords);
     sf::Vector2f getPosition() const ;
 
-    void colx(sf::FloatRect hitbox);
-    void coly(sf::FloatRect other_hitbox);
 
-    void getHitboxes(std::vector<tree> &hitboxes);
 
-    void drawHitbox(sf::RenderWindow &m_win);
 
-    void syncHitbox();
 
-    void updateTexture() override;
 private:
     int state;
     sf::Clock time;
     sf::Vector2f prevPos, hitboxPrevPos;
 
-    std::vector<tree> hitboxes;
+    std::vector<sf::FloatRect> hitboxes;
     sf::RectangleShape hitbox;
 
     int corazones = 5;
