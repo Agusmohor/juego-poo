@@ -3,8 +3,8 @@
 #include "Mapa.hpp"
 #include <iostream>
 
-player::player() : m_txt("../assets/textures/prueba.png"),text1("../assets/textures/derecha.png"), text2("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(m_txt),m_speed(5),stamina(200){
-    if(!m_txt.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
+player::player() : still("../assets/textures/prueba.png"),walk("../assets/textures/derecha.png"), run("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(still),m_speed(5),stamina(200){
+    if(!still.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
     // m_spr.setScale({1,1});
     m_spr.setOrigin({8,8}); m_spr.setPosition({80,80});
     dir.x = 0.f; dir.y = 0.f;
@@ -64,10 +64,10 @@ void player::move(float delta, mapa &mapa) {
 
 
 void player::texture(){
-    if(sf::Keyboard::isKeyPressed(wKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(text2);
+    if(sf::Keyboard::isKeyPressed(wKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(run);
     if(sf::Keyboard::isKeyPressed(aKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(text3);
-    if(sf::Keyboard::isKeyPressed(sKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(m_txt);
-    if(sf::Keyboard::isKeyPressed(dKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(text1);
+    if(sf::Keyboard::isKeyPressed(sKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(still);
+    if(sf::Keyboard::isKeyPressed(dKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(walk);
 }
 
 void player::speed(){
@@ -97,10 +97,10 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
     dx = mouseCoords.x - pl_pos.x; dy = mouseCoords.y - pl_pos.y;
     //angulo entre el player y el cursor (0-180)
     m_angle = atan2(dy,dx); m_angle *= 180 / 3.14;
-    if(m_angle < 0 && m_angle > -90) m_spr.setTexture(text1); 
-    if(m_angle <= -90 && m_angle >= -180) m_spr.setTexture(text2);
+    if(m_angle < 0 && m_angle > -90) m_spr.setTexture(walk);
+    if(m_angle <= -90 && m_angle >= -180) m_spr.setTexture(run);
     if(m_angle > 90 && m_angle < 180) m_spr.setTexture(text3);
-    if(m_angle <= 90 && m_angle >= 0) m_spr.setTexture(m_txt);
+    if(m_angle <= 90 && m_angle >= 0) m_spr.setTexture(still);
         
     // std::cout << "ang " << m_angle << " dx " << dx<< " dy " << dy << " posmouse " << mouseCoords.x << " x "<< mouseCoords.y << " y "<<std::endl;
     // std::cout << mouseCoords.x << " " << mouseCoords.y <<std::endl;aW

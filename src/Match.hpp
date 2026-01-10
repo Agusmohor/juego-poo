@@ -24,7 +24,7 @@ class match : public scene {
 
     sf::View m_view,m_uiview;
     sf::Vector2u m_winSize;
-    sf::Clock timer;
+    sf::Clock timer,time;
     hud m_hud;
 
 

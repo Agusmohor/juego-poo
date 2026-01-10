@@ -12,14 +12,21 @@ match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fond
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/ground_base.csv"; std::string collision = "../assets/textures/map/ground_collision.csv";
     m_mapa.load(pngpath,ground,collision);
     for (auto &trees : m_trees) {
-        float random = (1 + rand()%200);
+        float random = (1 + rand()%300);
+        float random2 = (1 + rand()%300);
         trees.random();
-        trees.setPos({random+200,random+100});
+        trees.setPos({random*2,random2+100});
     }
 }
 
 
 void match::update(float delta,Game &m_gam){
+    if (time.getElapsedTime().asSeconds() >= 0.3f) {
+        for (auto &tree : m_trees) {
+            tree.update();
+        }
+        time.restart();
+    }
     m_ply.getHitboxes(m_trees);
     m_ply.update(delta,m_mapa);
 

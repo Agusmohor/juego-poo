@@ -52,7 +52,7 @@ private:
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;
-    sf::Texture m_txt,text1,text2,text3;
+    sf::Texture still,walk,run,text3;
     sf::Sprite m_spr;
     float m_speed,dx,dy,m_angle; int stamina;
     sf::Vector2f pl_pos,dir,mouse_pos;
