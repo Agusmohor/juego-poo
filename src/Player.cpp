@@ -3,25 +3,33 @@
 #include "Mapa.hpp"
 #include <iostream>
 
-player::player() : still("../assets/textures/prueba.png"),walk("../assets/textures/derecha.png"), run("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(still),m_speed(5),stamina(200){
-    if(!still.loadFromFile("../assets/textures/prueba.png")) throw std::runtime_error("err");
-    // m_spr.setScale({1,1});
-    m_spr.setOrigin({8,8}); m_spr.setPosition({80,80});
+player::player() : sprite("../assets/textures/entity/player/sprite.png"),walk("../assets/textures/entity/player/sprite.png"), run("../assets/textures/izq.png"), text3("../assets/textures/abajoizq.png"), m_spr(sprite),m_speed(5),stamina(200){
+    m_spr.setTextureRect({{0,0},{32,32}});
+    m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale);
+    m_spr.setOrigin({16,16}); m_spr.setPosition({80,80});
     dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     rClick = sf::Mouse::Button::Right;
     lClick = sf::Mouse::Button::Left;
-    hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+2}); hitbox.setFillColor(sf::Color::Blue);
+    hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Blue);
 }
 
 void player::move(float delta, mapa &mapa) {
     dir.x = 0.f; dir.y = 0.f;
     //interaccion teclas
     if (!colision) {
-        if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) dir.y = -1.f;
-        if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) dir.x = -1.f;
-        if(sf::Keyboard::isKeyPressed(sKey) && !sf::Keyboard::isKeyPressed(wKey)) dir.y = 1.f;
-        if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) dir.x = 1.f;
+        if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) {
+            dir.y = -1.f; m_spr.setScale(m_scale);
+        }
+        if(sf::Keyboard::isKeyPressed(sKey) && !sf::Keyboard::isKeyPressed(wKey)) {
+            dir.y = 1.f; m_spr.setScale(m_scale);
+        }
+        if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) {
+            dir.x = 1.f; m_spr.setScale(m_scale);
+        }
+        if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) {
+            dir.x = -1.f; m_spr.setScale({-m_scale.x,m_scale.y});
+        }
     }
 
     //speed
@@ -64,10 +72,39 @@ void player::move(float delta, mapa &mapa) {
 
 
 void player::texture(){
-    if(sf::Keyboard::isKeyPressed(wKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(run);
-    if(sf::Keyboard::isKeyPressed(aKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(text3);
-    if(sf::Keyboard::isKeyPressed(sKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(still);
-    if(sf::Keyboard::isKeyPressed(dKey) && !sf::Mouse::isButtonPressed(rClick)) m_spr.setTexture(walk);
+    if (!sf::Mouse::isButtonPressed(rClick) && (sf::Keyboard::isKeyPressed(wKey) || sf::Keyboard::isKeyPressed(aKey) || sf::Keyboard::isKeyPressed(sKey) || sf::Keyboard::isKeyPressed(dKey) )) {
+        m_spr.setTexture(walk); state = 1;
+    }else {
+        m_spr.setTexture(sprite); state = 0;
+    }
+
+
+}
+
+void player::updateTexture() {
+    sf::IntRect rect = m_spr.getTextureRect();
+    switch (state) {
+        case 0:
+            if (rect.position.x >= 192) {
+                rect.position.x = 0;
+            }
+            m_spr.setTextureRect({{rect.position.x + 32, 0},{32,32}});
+            std::cout << rect.position.x << std::endl;
+            break;
+        case 1:
+            if (rect.position.x >= 96) {
+                rect.position.x = 0;
+            }
+            m_spr.setTextureRect({{rect.position.x + 32, 64},{32,32}});
+            std::cout << state << std::endl;
+            break;
+        case 2:
+            if (rect.position.x >= 224) {
+                rect.position.x = 0;
+            }
+            m_spr.setTextureRect({{rect.position.x + 32,96},{32,32}});
+            break;
+    }
 }
 
 void player::speed(){
@@ -77,7 +114,7 @@ void player::speed(){
     }
     
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && this->cond() && !sf::Mouse::isButtonPressed(rClick)){
-        stamina--; m_speed *= 2; 
+        stamina--; m_speed *= 2; state = 2;
     }
     // std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
 }
@@ -100,7 +137,7 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
     if(m_angle < 0 && m_angle > -90) m_spr.setTexture(walk);
     if(m_angle <= -90 && m_angle >= -180) m_spr.setTexture(run);
     if(m_angle > 90 && m_angle < 180) m_spr.setTexture(text3);
-    if(m_angle <= 90 && m_angle >= 0) m_spr.setTexture(still);
+    if(m_angle <= 90 && m_angle >= 0) m_spr.setTexture(sprite);
         
     // std::cout << "ang " << m_angle << " dx " << dx<< " dy " << dy << " posmouse " << mouseCoords.x << " x "<< mouseCoords.y << " y "<<std::endl;
     // std::cout << mouseCoords.x << " " << mouseCoords.y <<std::endl;aW
@@ -186,5 +223,5 @@ void player::drawHitbox(sf::RenderWindow &m_win) {
 }
 
 void player::syncHitbox() {
-    hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+2});
+    hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4});
 }

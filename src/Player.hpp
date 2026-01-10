@@ -42,7 +42,10 @@ public:
 
     void syncHitbox();
 
+    void updateTexture();
 private:
+    int state;
+    sf::Clock time;
     sf::Vector2f prevPos, hitboxPrevPos;
 
     std::vector<tree> hitboxes;
@@ -52,10 +55,10 @@ private:
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;
-    sf::Texture still,walk,run,text3;
+    sf::Texture sprite,walk,run,text3;
     sf::Sprite m_spr;
     float m_speed,dx,dy,m_angle; int stamina;
-    sf::Vector2f pl_pos,dir,mouse_pos;
+    sf::Vector2f pl_pos,dir,mouse_pos,m_scale;
     sf::Keyboard::Key wKey,aKey,sKey,dKey;
     sf::Mouse::Button rClick,lClick;
 

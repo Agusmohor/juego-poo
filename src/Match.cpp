@@ -21,10 +21,11 @@ match::match() : m_mapa(), m_ply(), m_zombie() , m_text("../assets/textures/fond
 
 
 void match::update(float delta,Game &m_gam){
-    if (time.getElapsedTime().asSeconds() >= 0.3f) {
+    if (time.getElapsedTime().asSeconds() >= 0.2f) {
         for (auto &tree : m_trees) {
             tree.update();
         }
+        m_ply.updateTexture();
         time.restart();
     }
     m_ply.getHitboxes(m_trees);
@@ -83,7 +84,6 @@ void match::render(sf::RenderWindow &m_win){
     for (auto &trees : m_trees) {
         m_wordlSprites.push_back(&trees.getSprite());
     }
-    // m_ply.draw(m_win);
 
     std::sort(m_wordlSprites.begin(),m_wordlSprites.end(),[](sf::Sprite* a, sf::Sprite* b){
         return (a->getPosition().y + a->getGlobalBounds().size.y) <
