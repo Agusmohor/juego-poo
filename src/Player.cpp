@@ -5,7 +5,8 @@
 #include "Tree.hpp"
 
 player::player() : sprite("../assets/textures/entity/player/sprite.png"),shadow("../assets/textures/entity/player/plshadow.png"), m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(200){
-    m_spr.setTextureRect({{0,0},{32,32}});
+    scale = sf::Vector2i(32,32);
+    m_spr.setTextureRect({{0,0},{scale}});
     m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3});
     m_spr.setOrigin({16,16}); m_spr.setPosition({80,80});
     dir.x = 0.f; dir.y = 0.f;
@@ -20,10 +21,10 @@ void player::move(float delta, mapa &mapa) {
     //interaccion teclas
     if (!colision) {
         if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) {
-            dir.y = -1.f; m_spr.setScale(m_scale);
+            dir.y = -1.f;
         }
         if(sf::Keyboard::isKeyPressed(sKey) && !sf::Keyboard::isKeyPressed(wKey)) {
-            dir.y = 1.f; m_spr.setScale(m_scale);
+            dir.y = 1.f;
         }
         if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) {
             dir.x = 1.f; m_spr.setScale(m_scale);
@@ -94,21 +95,23 @@ void player::updateTexture() {
             if (rect.position.x >= 192) {
                 rect.position.x = 0;
             }
-            m_spr.setTextureRect({{rect.position.x + 32, 0},{32,32}});
+            m_spr.setTextureRect({{rect.position.x + 32, 0},{scale}});
             break;
         case 1:
             if (rect.position.x >= 96) {
                 rect.position.x = 0;
             }
-            m_spr.setTextureRect({{rect.position.x + 32, 64},{32,32}});
+            m_spr.setTextureRect({{rect.position.x + 32, 64},{scale}});
             break;
         case 2:
             if (rect.position.x >= 224) {
                 rect.position.x = 0;
             }
-            m_spr.setTextureRect({{rect.position.x + 32,96},{32,32}});
+            m_spr.setTextureRect({{rect.position.x + 32,96},{scale}});
             break;
     }
+    if (!this->isAlive()) this->deathDraw();
+
 }
 
 void player::speed(){
@@ -159,8 +162,8 @@ void player::update(float delta,mapa &mapa) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) health--;
     }
     if (health < 0) health = 0;
-    //el jugador se muere si su vida es 0
-    if (health == 0){ vivo = false;} else {vivo = true;}
+    //el jugador se muere si su vida es 0, el state = 4, es para controlar el updateTexture
+    if (health == 0 && state != 4){ vivo = false; state = 3;} else {vivo = true;}
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) health++;
     // std::cout << this->getPosition().x << " " << this->getPosition().y << std::endl;
 
@@ -172,7 +175,8 @@ void player::update(float delta,mapa &mapa) {
 }
 
 void player::draw(sf::RenderWindow& m_win) {
-    m_win.draw(m_shadow);
+    if (state != 4) m_win.draw(m_shadow);
+
 }
 
 void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
@@ -247,5 +251,12 @@ void player::updateHealth() {
     }else {
         vivo = true;
     }
+
+}
+
+void player::deathDraw() {
+    sf::IntRect rect = m_spr.getTextureRect();
+    if (state == 3) rect.position.x = 0; state = 4;
+    m_spr.setTextureRect({{rect.position.x + 32,192},{scale}});
 
 }

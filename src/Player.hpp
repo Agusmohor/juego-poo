@@ -29,6 +29,9 @@ public:
     void texture();
     sf::FloatRect getHitbox() override;
     void updateHealth() override;
+
+    void deathDraw();
+
     bool isAlive() override;
     int getHealth() override;
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
@@ -51,6 +54,7 @@ private:
     int state;
     sf::Clock time;
     sf::Vector2f prevPos, hitboxPrevPos;
+    sf::Vector2i scale;
 
     std::vector<sf::FloatRect> hitboxes;
     sf::RectangleShape hitbox;

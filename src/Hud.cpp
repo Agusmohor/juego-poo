@@ -140,7 +140,6 @@ void hud::caseHealth() {
             p.setPosition({hp_fill.back().getPosition().x+38,hp_fill.back().getPosition().y});
             if (playerHp > 10) p.setTextureRect({{242,242},{size}});
             hp_fill.push_back(p);
-            std::cout << playerHp << std::endl;
         }
 
     }

@@ -33,7 +33,7 @@ void match::update(float delta,Game &m_gam){
         for (auto &tree : m_obtacles) {
             tree->update();
         }
-        if (m_ply) m_ply->updateTexture();
+         m_ply->updateTexture();
         m_zombie.updateTexture();
         time.restart();
     }
@@ -51,7 +51,7 @@ void match::update(float delta,Game &m_gam){
 
 
 
-    m_zombie.getPlyPos(m_ply->getPosition());
+    if (m_ply->isAlive()) m_zombie.getPlyPos(m_ply->getPosition());
     m_zombie.update(delta,m_mapa);
 
     m_hud.update();
