@@ -38,6 +38,7 @@ void match::update(float delta,Game &m_gam){
         time.restart();
     }
     //actualizado de hitbox obstaculos
+    m_hitboxes.clear();
     for (auto &box : m_obtacles) {
         m_hitboxes.push_back(box->getHitbox());
     }
