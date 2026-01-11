@@ -20,7 +20,7 @@ public:
     virtual void coly(sf::FloatRect hitbox) = 0;
 
     virtual void move(float delta,mapa &mapa) = 0;
-    virtual int manyLife() = 0;
+    virtual int getHealth() = 0;
     virtual bool isAlive() = 0;
     virtual bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) = 0;
     virtual void RecieveDamage() = 0;

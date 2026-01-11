@@ -41,12 +41,12 @@ void mapa::load(std::string &texturePath, std::string &groundCSV, std::string &g
 }
 
 void mapa::draw(sf::RenderWindow& m_win) {
-    this->drawCSV(m_win,m_ground);
-    this->drawCSV(m_win,m_grass);
+    this->drawCSV(m_win,m_ground,m_tileTexture,32);
+    this->drawCSV(m_win,m_grass,m_tileTexture,32);
 }
 
-void mapa::drawCSV(sf::RenderWindow& m_win, csv &m_csv) {
-    sf::Sprite sprite(m_tileTexture);
+void mapa::drawCSV(sf::RenderWindow& m_win, csv &m_csv, sf::Texture &texture, int m_tilesize) {
+    sf::Sprite sprite(texture);
 
     int columns = m_tileTexture.getSize().x / m_tilesize;
     for (int y = 0; y < m_csv.h; y++) {

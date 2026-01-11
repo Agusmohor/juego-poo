@@ -5,16 +5,17 @@
 zombie::zombie() : m_tex("../assets/textures/entity/zombie/sprite.png"),shadowText("../assets/textures/entity/zombie/plshadow.png"), m_spr(m_tex),shadow(shadowText) {
     scale = sf::Vector2f(0.6,0.6); m_spr.setScale(scale);
     m_spr.setTextureRect({{0,0},{32,32}}); m_spr.setOrigin({16,16}); shadow.setOrigin({9,3}); shadow.setScale({0.6,0.6});
-    m_spr.setPosition({100.f, 100.f}); m_speed = 20;
+    m_spr.setPosition({100.f, 100.f});
     hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Red);
+    m_speed = 40;
 }
 
 void zombie::update(float delta,mapa &mapa) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     if (this->inRaduis()) {this->move(delta,mapa);}
-    if(corazones!=0){
+    if(health!=0){
         if(rDamage){
-            corazones--;
+            health--;
             rDamage=false;
         }
     }else{
@@ -80,7 +81,7 @@ void zombie::move(float delta,mapa &mapa) {
     dist = sqrt(dif.x * dif.x + dif.y * dif.y);
     if (dist != 0.f) { dif /= dist;}
     if (dist > 21){ismoving = true;} else{ismoving = false;}
-    if (dif.x < 0){m_spr.setScale({-scale.x,scale.y});} else{m_spr.setScale(scale);y}
+    if (dif.x < 0){m_spr.setScale({-scale.x,scale.y});} else{m_spr.setScale(scale);}
     // std::cout << dist << std::endl;
     //{1,-1}
     //dif seria la "direccion"
@@ -115,8 +116,8 @@ bool zombie::attact(sf::RenderWindow &m_win,sf::FloatRect entpos){
     return true;
 }
 
-int zombie::manyLife(){
-    return corazones;
+int zombie::getHealth(){
+    return health;
 } 
 
 bool zombie::isAlive(){

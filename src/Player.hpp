@@ -29,7 +29,7 @@ public:
     void texture();
     sf::FloatRect getHitbox() override;
     bool isAlive() override;
-    int manyLife() override;
+    int getHealth() override;
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
     void RecieveDamage() override;
 
@@ -54,7 +54,8 @@ private:
     std::vector<sf::FloatRect> hitboxes;
     sf::RectangleShape hitbox;
 
-    int corazones = 5;
+    int health = 10;
+
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;

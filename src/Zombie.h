@@ -14,7 +14,7 @@ class zombie : public entity {
     bool vivo=true;
     bool rDamage=false;
     bool ismoving=false;
-    int corazones=5;
+    int health=10;
 public:
     zombie();
 
@@ -29,7 +29,7 @@ public:
     void colx(sf::FloatRect hitbox) override;
 
     void move(float delta,mapa &mapa) override;
-    int manyLife() override;
+    int getHealth() override;
     bool isAlive() override;
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
     void RecieveDamage() override;

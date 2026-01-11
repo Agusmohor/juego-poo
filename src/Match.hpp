@@ -12,7 +12,7 @@
 class match : public scene {
     mapa m_mapa;
 
-    player m_ply;
+    std::unique_ptr<player> m_ply;
 
     zombie m_zombie;
 

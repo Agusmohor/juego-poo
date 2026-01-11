@@ -128,6 +128,7 @@ bool player::cond(){
     if(sf::Keyboard::isKeyPressed(aKey)) return true;
     if(sf::Keyboard::isKeyPressed(sKey)) return true;
     if(sf::Keyboard::isKeyPressed(dKey)) return true;
+
     return false;
 }
 
@@ -153,6 +154,13 @@ void player::update(float delta,mapa &mapa) {
     //actualizar player
     this->texture();
     this->move(delta,mapa);
+    std::cout << health << std::endl;
+    if (health >= 0) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) health--;
+    }
+    if (health < 0) health = 0;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) health++;
+    // std::cout << this->getPosition().x << " " << this->getPosition().y << std::endl;
 
     m_shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     //sf::Vector2f delta1 = dir * m_speed;
@@ -188,8 +196,8 @@ bool player::attact(sf::RenderWindow &m_win,sf::FloatRect entpos){
     return false;
 }
 
-int player::manyLife(){
-    return corazones;
+int player::getHealth(){
+    return health;
 } 
 
 bool player::isAlive(){

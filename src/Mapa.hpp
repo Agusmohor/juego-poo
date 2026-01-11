@@ -30,6 +30,6 @@ public:
 
     void draw(sf::RenderWindow& m_win);
 
-    void drawCSV(sf::RenderWindow &m_win, csv &m_csv);
+    void drawCSV(sf::RenderWindow &m_win, csv &m_csv, sf::Texture &texture, int m_tilesize);
 };
 
