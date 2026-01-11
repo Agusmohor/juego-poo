@@ -28,6 +28,7 @@ public:
 
     void texture();
     sf::FloatRect getHitbox() override;
+    void updateHealth() override;
     bool isAlive() override;
     int getHealth() override;
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;

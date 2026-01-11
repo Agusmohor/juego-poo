@@ -124,6 +124,10 @@ bool zombie::isAlive(){
     return vivo;
 }
 
+void zombie::updateHealth() {
+
+}
+
 void zombie::RecieveDamage() {
     std::cout << "GOLPE RECIBIDO AL ZOMBIE" << std::endl;
     this->rDamage = true; // Esto activará la resta de corazones en el siguiente update

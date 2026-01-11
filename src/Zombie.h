@@ -30,6 +30,7 @@ public:
 
     void move(float delta,mapa &mapa) override;
     int getHealth() override;
+    void updateHealth() override;
     bool isAlive() override;
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
     void RecieveDamage() override;

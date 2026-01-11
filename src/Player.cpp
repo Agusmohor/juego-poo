@@ -154,11 +154,13 @@ void player::update(float delta,mapa &mapa) {
     //actualizar player
     this->texture();
     this->move(delta,mapa);
-    std::cout << health << std::endl;
+    // std::cout << health << std::endl;
     if (health >= 0) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) health--;
     }
     if (health < 0) health = 0;
+    //el jugador se muere si su vida es 0
+    if (health == 0){ vivo = false;} else {vivo = true;}
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) health++;
     // std::cout << this->getPosition().x << " " << this->getPosition().y << std::endl;
 
@@ -236,4 +238,14 @@ void player::drawHitbox(sf::RenderWindow &m_win) {
 
 void player::syncHitbox() {
     hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4});
+}
+
+void player::updateHealth() {
+    if (health < 0) {
+        health = 0;
+        vivo = false;
+    }else {
+        vivo = true;
+    }
+
 }

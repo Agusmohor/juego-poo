@@ -33,7 +33,7 @@ void match::update(float delta,Game &m_gam){
         for (auto &tree : m_obtacles) {
             tree->update();
         }
-        m_ply->updateTexture();
+        if (m_ply) m_ply->updateTexture();
         m_zombie.updateTexture();
         time.restart();
     }
@@ -41,8 +41,14 @@ void match::update(float delta,Game &m_gam){
     for (auto &box : m_obtacles) {
         m_hitboxes.push_back(box->getHitbox());
     }
-    m_ply->getHitboxes(m_hitboxes); m_zombie.getHitboxes(m_hitboxes);
-    m_ply->update(delta,m_mapa);
+
+    //update del player si esta vivo
+    if (m_ply->isAlive()) {m_ply->getHitboxes(m_hitboxes);m_ply->update(delta,m_mapa);} m_zombie.getHitboxes(m_hitboxes);
+    //si no esta vivo, y presiona enter, crea otro personaje :)
+    if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+        m_ply.reset(); m_ply = std::make_unique<player>();
+    }
+
 
 
     m_zombie.getPlyPos(m_ply->getPosition());
