@@ -11,9 +11,10 @@ class zombie : public entity {
     sf::Vector2f pl_pos,dif,m_scale,prevPos,hitboxPrevPos;
     sf::Vector2i scale;
     std::vector<sf::FloatRect> hitboxes;
+    sf::Color color;
     float dist,max_rad,min_rad,dist2,m_speed;
     bool vivo=true;
-    bool rDamage=false;
+    bool damaged = false;
     bool ismoving=false;
     int health=10;
     int state;
@@ -40,7 +41,7 @@ public:
 
     void deathDraw() override;
 
-    void damageColor();
+    void damageColor(bool cond);
 
     void getPlyPos(const sf::Vector2f &pl_pos);
 

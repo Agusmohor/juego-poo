@@ -8,7 +8,7 @@ zombie::zombie() : m_tex("../assets/textures/entity/zombie/sprite.png"),shadowTe
     m_spr.setTextureRect({{0,0},{scale}}); m_spr.setOrigin({16,16}); shadow.setOrigin({9,3}); shadow.setScale({0.6,0.6});
     m_spr.setPosition({100.f, 100.f});
     hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Red);
-    m_speed = 40;
+    m_speed = 40; color = m_spr.getColor();
 }
 
 void zombie::update(float delta,mapa &mapa) {
@@ -36,8 +36,7 @@ void zombie::updateTexture() {
     }
 
     if (!this->isAlive()) this->deathDraw();
-
-
+    damageColor(damaged);
 
 
 }
@@ -136,6 +135,7 @@ void zombie::updateHealth() {
 
 void zombie::RecieveDamage() {
     std::cout << "GOLPE RECIBIDO AL ZOMBIE" << std::endl;
+    damaged = true;
     if (health > 0) {
         health--;
     }
@@ -147,3 +147,11 @@ void zombie::deathDraw() {
     m_spr.setTextureRect({{rect.position.x + 32,192},{scale}});
 }
 
+void zombie::damageColor(bool cond) {
+    if (cond) {
+        m_spr.setColor(sf::Color::Red);
+        damaged = false;
+    }else {
+        m_spr.setColor(color);
+    }
+}
