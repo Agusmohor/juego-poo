@@ -14,7 +14,7 @@ class match : public scene {
 
     std::unique_ptr<player> m_ply;
 
-    zombie m_zombie;
+    std::unique_ptr<zombie> m_zombie;
 
     sf::Texture m_text;
     sf::Sprite Fondo;

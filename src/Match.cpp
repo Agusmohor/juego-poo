@@ -9,13 +9,15 @@
 #include "Mapa.hpp"
 #include <string>
 
-match::match() : m_mapa(),  m_zombie() , m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
+match::match() : m_mapa(),   m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/ground_base.csv"; std::string collision = "../assets/textures/map/ground_collision.csv";
     std::string grass = "../assets/textures/map/ground_grass.csv";
 
     m_mapa.load(pngpath,ground,grass,collision);
 
     m_ply = std::make_unique<player>();
+    m_zombie = std::make_unique<zombie>();
+
     std::srand(std::time({}));
     for (size_t i=0;i<40;i++) {
         m_obtacles.push_back(std::make_unique<tree>());
@@ -34,8 +36,8 @@ void match::update(float delta,Game &m_gam){
         for (auto &tree : m_obtacles) {
             tree->update();
         }
-         m_ply->updateTexture();
-        m_zombie.updateTexture();
+        m_ply->updateTexture();
+        m_zombie->updateTexture();
         time.restart();
     }
     //actualizado de hitbox obstaculos
@@ -45,16 +47,18 @@ void match::update(float delta,Game &m_gam){
     }
 
     //update del player si esta vivo
-    if (m_ply->isAlive()) {m_ply->setHitboxes(m_hitboxes);m_ply->update(delta,m_mapa);} m_zombie.setHitboxes(m_hitboxes);
+    if (m_ply->isAlive()) {m_ply->setHitboxes(m_hitboxes);m_ply->update(delta,m_mapa);}
+    if (m_zombie->isAlive()) m_zombie->setHitboxes(m_hitboxes);
     //si no esta vivo, y presiona enter, crea otro personaje :)
     if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
         m_ply.reset(); m_ply = std::make_unique<player>();
     }
+    // if (!m_zombie->isAlive()){m_zombie.reset(); m_zombie = std::make_unique<zombie>();}
 
 
 
-    if (m_ply->isAlive()) m_zombie.getPlyPos(m_ply->getPosition());
-    m_zombie.update(delta,m_mapa);
+    if (m_ply->isAlive()) m_zombie->getPlyPos(m_ply->getPosition());
+    if (m_zombie->isAlive()) m_zombie->update(delta,m_mapa);
 
     m_hud.update();
     m_hud.checkhp(m_ply->getHealth());
@@ -71,8 +75,8 @@ void match::draw(sf::RenderWindow &m_win){
     this->render(m_win);
 
     if (timer.getElapsedTime().asSeconds() >= 0.2f) {
-        if(attact(m_win,m_zombie.getHitbox())){
-            m_zombie.RecieveDamage();
+        if(attact(m_win,m_zombie->getHitbox())){
+            m_zombie->RecieveDamage();
         }
         timer.restart();
     }
@@ -101,7 +105,7 @@ void match::render(sf::RenderWindow &m_win){
     this->mouseSkin(m_win);
     m_wordlSprites.clear();
     m_wordlSprites.push_back(&m_ply->getSprite());
-    m_wordlSprites.push_back(&m_zombie.getSprite());
+    m_wordlSprites.push_back(&m_zombie->getSprite());
     for (auto &trees : m_obtacles) {
         m_wordlSprites.push_back(&trees->getSprite());
     }
@@ -111,7 +115,7 @@ void match::render(sf::RenderWindow &m_win){
                (b->getPosition().y + b->getGlobalBounds().size.y);
     });
 
-    m_ply->draw(m_win);m_zombie.draw(m_win);
+    m_ply->draw(m_win);m_zombie->draw(m_win);
     for (auto *spr : m_wordlSprites) {
             m_win.draw(*spr);
 

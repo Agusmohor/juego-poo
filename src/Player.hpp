@@ -30,7 +30,7 @@ public:
     sf::FloatRect getHitbox() override;
     void updateHealth() override;
 
-    void deathDraw();
+    void deathDraw() override;
 
     bool isAlive() override;
     int getHealth() override;

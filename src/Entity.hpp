@@ -19,6 +19,8 @@ public:
     virtual void colx(sf::FloatRect hitbox) = 0;
     virtual void coly(sf::FloatRect hitbox) = 0;
 
+    virtual void deathDraw() = 0;
+
     virtual void move(float delta,mapa &mapa) = 0;
     virtual int getHealth() = 0;
     virtual void updateHealth() = 0;

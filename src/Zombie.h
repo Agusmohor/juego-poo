@@ -8,13 +8,15 @@ class zombie : public entity {
     sf::Texture m_tex,shadowText;
     sf::Sprite m_spr,shadow;
     sf::RectangleShape hitbox;
-    sf::Vector2f pl_pos,dif,scale,prevPos,hitboxPrevPos;
+    sf::Vector2f pl_pos,dif,m_scale,prevPos,hitboxPrevPos;
+    sf::Vector2i scale;
     std::vector<sf::FloatRect> hitboxes;
     float dist,max_rad,min_rad,dist2,m_speed;
     bool vivo=true;
     bool rDamage=false;
     bool ismoving=false;
     int health=10;
+    int state;
 public:
     zombie();
 
@@ -35,6 +37,10 @@ public:
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
     void RecieveDamage() override;
     sf::FloatRect getHitbox() override;
+
+    void deathDraw() override;
+
+    void damageColor();
 
     void getPlyPos(const sf::Vector2f &pl_pos);
 
