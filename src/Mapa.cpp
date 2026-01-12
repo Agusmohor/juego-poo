@@ -82,6 +82,6 @@ bool mapa::isSolidTile(int tx, int ty) const {
     int id = m_collision.tiles[ty * m_collision.w + tx];
     
     // Si el ID es 0 o más, es un obstáculo (como el agua ID: 9)
-    return id  > 0;
+    return id  == 20;
 }
 

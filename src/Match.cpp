@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <random>
 
 #include "Game.hpp"
 #include "Mapa.hpp"
@@ -15,15 +16,15 @@ match::match() : m_mapa(),  m_zombie() , m_text("../assets/textures/fondo.jpg"),
     m_mapa.load(pngpath,ground,grass,collision);
 
     m_ply = std::make_unique<player>();
-
-    for (size_t i=0;i<100;i++) {
+    std::srand(std::time({}));
+    for (size_t i=0;i<40;i++) {
         m_obtacles.push_back(std::make_unique<tree>());
     }
     for (auto &trees : m_obtacles) {
-        float random = (1 + rand()%300);
-        float random2 = (1 + rand()%300);
+        float random = std::rand()%300;
+        float random2 = rand()%300;
         trees->random();
-        trees->setPos({random*2 + 380,random2+100});
+        trees->setPos({random*2 + 400,random2+110});
     }
 }
 
