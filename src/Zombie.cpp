@@ -35,9 +35,8 @@ void zombie::updateTexture() {
         }
     }
 
-    if (!this->isAlive()) this->deathDraw();
     damageColor(damaged);
-
+    if (!this->isAlive()) deathDraw();
 
 }
 
@@ -128,8 +127,8 @@ bool zombie::isAlive(){
 
 void zombie::updateHealth() {
     if (health < 0) health = 0;
-    if (health == 0) vivo = false; state = 1;
-    if (health > 0) vivo = true; state = 0;
+    if (health == 0) {vivo = false; state = 1;}
+    if (health > 0) {vivo = true; state = 0;}
 }
 
 void zombie::RecieveDamage() {
@@ -142,8 +141,9 @@ void zombie::RecieveDamage() {
 
 void zombie::deathDraw() {
     sf::IntRect rect = m_spr.getTextureRect();
-    if (state == 1) rect.position.x = 0; state = 2;
-    m_spr.setTextureRect({{rect.position.x + 32,192},{scale}});
+    if (state == 1) {rect.position.x = 0; state = 2; count = 0;}
+    if (count < 4) {m_spr.setTextureRect({{rect.position.x + 32,192},{scale}}); count++;}
+
 }
 
 void zombie::damageColor(bool cond) {

@@ -16,8 +16,8 @@ class zombie : public entity {
     bool vivo=true;
     bool damaged = false;
     bool ismoving=false;
-    int health=10;
-    int state;
+    int health=2;
+    int state,count;
 public:
     zombie();
 
