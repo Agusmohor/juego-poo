@@ -101,13 +101,13 @@ void player::updateTexture() {
             if (rect.position.x >= 96) {
                 rect.position.x = 0;
             }
-            m_spr.setTextureRect({{rect.position.x + 32, 64},{scale}});
+            m_spr.setTextureRect({{rect.position.x + 32, 65},{scale}});
             break;
         case 2:
             if (rect.position.x >= 224) {
                 rect.position.x = 0;
             }
-            m_spr.setTextureRect({{rect.position.x + 32,96},{scale}});
+            m_spr.setTextureRect({{rect.position.x + 32,97},{scale}});
             break;
     }
     if (!this->isAlive()) this->deathDraw();
