@@ -66,7 +66,7 @@ void zombie::coly(sf::FloatRect hitbox) {
     }
 }
 
-void zombie::getHitboxes(std::vector<sf::FloatRect> &hitboxes) {
+void zombie::setHitboxes(std::vector<sf::FloatRect> &hitboxes) {
     this->hitboxes = hitboxes;
 }
 

@@ -12,6 +12,7 @@ public:
     void update();
     void updateView();
     void draw(sf::RenderWindow &m_win);
+
     void keyBoard();
     void moveHotbar(const sf::Vector2f &winview);
 
@@ -30,6 +31,8 @@ private:
     sf::Vector2f m_winSize,hselpos,scale,hpos,pos;
     std::vector<sf::Sprite> hotbars,overHb,hp_empty,hp_fill;
     sf::Vector2i size;
+
+    sf::Clock timer;
     int newpos, playerHp;
 };
 

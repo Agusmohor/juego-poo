@@ -232,7 +232,7 @@ void player::coly(sf::FloatRect hitbox) {
     }
 }
 
-void player::getHitboxes(std::vector<sf::FloatRect> &hitboxes) {
+void player::setHitboxes(std::vector<sf::FloatRect> &hitboxes) {
     this->hitboxes = hitboxes;
 }
 

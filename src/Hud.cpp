@@ -150,4 +150,5 @@ void hud::caseHealth() {
         hp_fill.push_back(p);
     }
     if (playerHp == 0) hp_fill.clear();
+
 }

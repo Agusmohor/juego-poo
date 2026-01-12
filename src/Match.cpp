@@ -44,7 +44,7 @@ void match::update(float delta,Game &m_gam){
     }
 
     //update del player si esta vivo
-    if (m_ply->isAlive()) {m_ply->getHitboxes(m_hitboxes);m_ply->update(delta,m_mapa);} m_zombie.getHitboxes(m_hitboxes);
+    if (m_ply->isAlive()) {m_ply->setHitboxes(m_hitboxes);m_ply->update(delta,m_mapa);} m_zombie.setHitboxes(m_hitboxes);
     //si no esta vivo, y presiona enter, crea otro personaje :)
     if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
         m_ply.reset(); m_ply = std::make_unique<player>();

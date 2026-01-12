@@ -24,7 +24,7 @@ public:
 
     void drawHitbox(sf::RenderWindow &m_win) override;
     void syncHitbox() override;
-    void getHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
+    void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
     void coly(sf::FloatRect hitbox) override;
     void colx(sf::FloatRect hitbox) override;
 
