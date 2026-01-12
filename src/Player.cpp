@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Tree.hpp"
 
-player::player() : sprite("../assets/textures/entity/player/sprite.png"),shadow("../assets/textures/entity/player/plshadow.png"), m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(200){
+player::player(const sf::Texture &sprite,const sf::Texture &shadow) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(200){
     scale = sf::Vector2i(32,32);
     m_spr.setTextureRect({{0,0},{scale}});
     m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3});
@@ -57,7 +57,7 @@ void player::move(float delta, mapa &mapa) {
     }
 
     this->syncHitbox();
-    for (auto& box : hitboxes) colx(box);
+    for (auto& box : *hitboxes) colx(box);
 
     hb = hitbox.getGlobalBounds();
     float dy = velocity.y;
@@ -72,7 +72,7 @@ void player::move(float delta, mapa &mapa) {
     }
 
     this->syncHitbox();
-    for (auto& box : hitboxes) coly(box);
+    for (auto& box : *hitboxes) coly(box);
 
 }
 
@@ -142,10 +142,10 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
     dx = mouseCoords.x - pl_pos.x; dy = mouseCoords.y - pl_pos.y;
     //angulo entre el player y el cursor (0-180)
     m_angle = atan2(dy,dx); m_angle *= 180 / 3.14;
-    if(m_angle < 0 && m_angle > -90) m_spr.setTexture(sprite);
-    if(m_angle <= -90 && m_angle >= -180) m_spr.setTexture(sprite);
-    if(m_angle > 90 && m_angle < 180) m_spr.setTexture(sprite);
-    if(m_angle <= 90 && m_angle >= 0) m_spr.setTexture(sprite);
+    // if(m_angle < 0 && m_angle > -90) m_spr.setTexture(sprite);
+    // if(m_angle <= -90 && m_angle >= -180) m_spr.setTexture(sprite);
+    // if(m_angle > 90 && m_angle < 180) m_spr.setTexture(sprite);
+    // if(m_angle <= 90 && m_angle >= 0) m_spr.setTexture(sprite);
         
     // std::cout << "ang " << m_angle << " dx " << dx<< " dy " << dy << " posmouse " << mouseCoords.x << " x "<< mouseCoords.y << " y "<<std::endl;
     // std::cout << mouseCoords.x << " " << mouseCoords.y <<std::endl;aW
@@ -233,7 +233,7 @@ void player::coly(sf::FloatRect hitbox) {
 }
 
 void player::setHitboxes(std::vector<sf::FloatRect> &hitboxes) {
-    this->hitboxes = hitboxes;
+    this->hitboxes = &hitboxes;
 }
 
 void player::drawHitbox(sf::RenderWindow &m_win) {

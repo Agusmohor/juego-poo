@@ -12,7 +12,7 @@ class obstacle {
 
     virtual sf::FloatRect getHitbox() = 0;
 
-    virtual void random() = 0;
+    virtual void random(const sf::Texture &arbol, const sf::Texture &arbol2, const sf::Texture &arbol3) = 0;
 
     virtual sf::Sprite& getSprite() = 0;
 

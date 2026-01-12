@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-tree::tree() : arbol("../assets/textures/trees/tree1.png"),arbol2("../assets/textures/trees/tree2.png"),arbol3("../assets/textures/trees/tree3.png"),m_spr(arbol) {
+tree::tree() : m_spr(t) {
     m_spr.setScale({2,2}); m_spr.setOrigin({4,4});
     m_hitbox.setSize({9,6});
     // m_spr.setTexture(arbol);
@@ -23,7 +23,7 @@ void tree::update() {
     m_spr.setTextureRect(rect);
 }
 
-void tree::random() {
+void tree::random(const sf::Texture &arbol, const sf::Texture &arbol2, const sf::Texture &arbol3) {
     m_rand = rand()%100;
     // m_rand = 32;
     if (m_rand <= 33) {

@@ -9,6 +9,12 @@
 #include "obstacle.h"
 #include "Tree.hpp"
 
+struct Resources {
+    sf::Texture tree1,tree2,tree3;
+    sf::Texture Player, shadow;
+    sf::Texture Zombie;
+};
+
 class match : public scene {
     mapa m_mapa;
 
@@ -30,6 +36,7 @@ class match : public scene {
     sf::Clock timer,time;
     hud m_hud;
 
+    Resources m_res;
 
 public:
     match();

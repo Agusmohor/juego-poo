@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-zombie::zombie() : m_tex("../assets/textures/entity/zombie/sprite.png"),shadowText("../assets/textures/entity/zombie/plshadow.png"), m_spr(m_tex),shadow(shadowText) {
+zombie::zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow) :  m_spr(m_tex),shadow(m_shadow) {
     m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale);
     scale = sf::Vector2i(32,32);
     m_spr.setTextureRect({{0,0},{scale}}); m_spr.setOrigin({16,16}); shadow.setOrigin({9,3}); shadow.setScale({0.6,0.6});
@@ -68,7 +68,7 @@ void zombie::coly(sf::FloatRect hitbox) {
 }
 
 void zombie::setHitboxes(std::vector<sf::FloatRect> &hitboxes) {
-    this->hitboxes = hitboxes;
+    this->hitboxes = &hitboxes;
 }
 
 sf::Sprite &zombie::getSprite() { return m_spr;}
@@ -88,11 +88,11 @@ void zombie::move(float delta,mapa &mapa) {
     //dif seria la "direccion"
     m_spr.move(dif*m_speed*delta);
     this->syncHitbox();
-    for (auto &box : hitboxes) {
+    for (auto &box : *hitboxes) {
         colx(box);
     }
     this->syncHitbox();
-    for (auto &box : hitboxes) {
+    for (auto &box : *hitboxes) {
         coly(box);
     }
     this->syncHitbox();

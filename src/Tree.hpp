@@ -18,13 +18,13 @@ public:
 
     sf::FloatRect getHitbox() override;
 
-    void random() override;
+    void random(const sf::Texture &arbol, const sf::Texture &arbol2, const sf::Texture &arbol3) override;
 
     sf::Sprite& getSprite() override;
 
 private:
     int m_rand;
-    sf::Texture arbol,arbol2,arbol3;
+    sf::Texture t;
     sf::Sprite m_spr;
     sf::RectangleShape m_hitbox;
 

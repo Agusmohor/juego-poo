@@ -13,10 +13,13 @@ match::match() : m_mapa(),   m_text("../assets/textures/fondo.jpg"), Fondo(m_tex
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/ground_base.csv"; std::string collision = "../assets/textures/map/ground_collision.csv";
     std::string grass = "../assets/textures/map/ground_grass.csv";
 
+    m_res.tree1.loadFromFile("../assets/textures/trees/tree1.png"); m_res.tree2.loadFromFile("../assets/textures/trees/tree2.png"); m_res.tree3.loadFromFile("../assets/textures/trees/tree3.png");
+    m_res.Player.loadFromFile("../assets/textures/entity/player/sprite.png"); m_res.shadow.loadFromFile("../assets/textures/entity/player/plshadow.png") ;m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png");
+
     m_mapa.load(pngpath,ground,grass,collision);
 
-    m_ply = std::make_unique<player>();
-    m_zombie = std::make_unique<zombie>();
+    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
+    m_zombie = std::make_unique<zombie>(m_res.Zombie,m_res.shadow);
 
     std::srand(std::time({}));
     for (size_t i=0;i<40;i++) {
@@ -25,7 +28,7 @@ match::match() : m_mapa(),   m_text("../assets/textures/fondo.jpg"), Fondo(m_tex
     for (auto &trees : m_obtacles) {
         float random = std::rand()%300;
         float random2 = rand()%300;
-        trees->random();
+        trees->random(m_res.tree1,m_res.tree2,m_res.tree3);
         trees->setPos({random*2 + 400,random2+110});
     }
 }
@@ -51,7 +54,7 @@ void match::update(float delta,Game &m_gam){
     if (m_zombie->isAlive()) m_zombie->setHitboxes(m_hitboxes);
     //si no esta vivo, y presiona enter, crea otro personaje :)
     if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
-        m_ply.reset(); m_ply = std::make_unique<player>();
+        m_ply.reset(); m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
     }
     // if (!m_zombie->isAlive()){m_zombie.reset(); m_zombie = std::make_unique<zombie>();}
 

@@ -11,7 +11,7 @@
 
 class player : public entity{
 public:
-    player();
+    player(const sf::Texture &sprite, const sf::Texture &shadow);
 
     void update(float delta,mapa &mapa);
     void draw(sf::RenderWindow &m_win) override;
@@ -56,7 +56,7 @@ private:
     sf::Vector2f prevPos, hitboxPrevPos;
     sf::Vector2i scale;
 
-    std::vector<sf::FloatRect> hitboxes;
+    std::vector<sf::FloatRect>* hitboxes = nullptr;
     sf::RectangleShape hitbox;
 
     int health = 10;
@@ -64,7 +64,6 @@ private:
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;
-    sf::Texture sprite,shadow;
     sf::Sprite m_spr,m_shadow;
     float m_speed,dx,dy,m_angle; int stamina;
     sf::Vector2f pl_pos,dir,mouse_pos,m_scale;

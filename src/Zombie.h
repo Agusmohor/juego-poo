@@ -5,12 +5,11 @@
 #include <SFML/Graphics.hpp>
 
 class zombie : public entity {
-    sf::Texture m_tex,shadowText;
     sf::Sprite m_spr,shadow;
     sf::RectangleShape hitbox;
     sf::Vector2f pl_pos,dif,m_scale,prevPos,hitboxPrevPos;
     sf::Vector2i scale;
-    std::vector<sf::FloatRect> hitboxes;
+    std::vector<sf::FloatRect>* hitboxes;
     sf::Color color;
     float dist,max_rad,min_rad,dist2,m_speed;
     bool vivo=true;
@@ -19,7 +18,7 @@ class zombie : public entity {
     int health=2;
     int state,count;
 public:
-    zombie();
+    zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow);
 
     void update(float delta,mapa &mapa) override;
     void draw(sf::RenderWindow& m_win) override;
