@@ -130,7 +130,6 @@ void zombie::updateHealth() {
     if (health < 0) health = 0;
     if (health == 0) vivo = false; state = 1;
     if (health > 0) vivo = true; state = 0;
-    std::cout << health << " " << vivo << std::endl;
 }
 
 void zombie::RecieveDamage() {

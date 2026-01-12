@@ -1,7 +1,7 @@
 #include "Hud.hpp"
 #include <iostream>
 
-hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture){
+hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture), text(font,""){
     if(!hselTe.loadFromFile("../assets/textures/entity/player/gui/selected.png")) throw std::runtime_error("error al cargar hud");
 
     k_1 = sf::Keyboard::Key::Num1;k_2 = sf::Keyboard::Key::Num2;k_3 = sf::Keyboard::Key::Num3;
@@ -19,6 +19,12 @@ hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(
     hsel.setPosition(hselpos);
 
     this->create();
+
+    if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("error opening font");
+    text.setFont(font); text.setString("Press enter to revive");
+    text.setCharacterSize(20);
+    text.setFillColor(sf::Color(150,150,150));
+    text.setPosition(sf::Vector2f(250,650));
 
 }
 
@@ -82,6 +88,7 @@ void hud::draw(sf::RenderWindow &m_win){
     for (auto &p : hp_empty) m_win.draw(p);
     for (auto &p : hp_fill) m_win.draw(p);
     m_win.draw(hsel);
+    if (isDead) deathMessege(m_win);
     // m_win.draw(life);
 }
 
@@ -130,16 +137,20 @@ void hud::checkhp(int health) {
 void hud::caseHealth() {
 
     if (playerHp != 0) {
+        isDead = false;
         if (playerHp%2 == 0) {
             hp_fill.clear();
             this->createLife(playerHp/2);
         }else {
-            hp_fill.clear();
-            this->createLife(playerHp/2);
-            sf::Sprite p = life; p.setTextureRect({{224,242},{size}});
-            p.setPosition({hp_fill.back().getPosition().x+38,hp_fill.back().getPosition().y});
-            if (playerHp > 10) p.setTextureRect({{242,242},{size}});
-            hp_fill.push_back(p);
+            if (playerHp > 2) {
+                hp_fill.clear();
+                this->createLife(playerHp/2);
+                sf::Sprite p = life; p.setTextureRect({{224,242},{size}});
+                p.setPosition({hp_fill.back().getPosition().x+38,hp_fill.back().getPosition().y});
+                if (playerHp > 10) p.setTextureRect({{242,242},{size}});
+                hp_fill.push_back(p);
+            }
+
         }
 
     }
@@ -149,6 +160,9 @@ void hud::caseHealth() {
         p.setPosition(life.getPosition());
         hp_fill.push_back(p);
     }
-    if (playerHp == 0) hp_fill.clear();
+    if (playerHp == 0 && isDead == false) {hp_fill.clear(); isDead = true;}
+}
 
+void hud::deathMessege(sf::RenderWindow &m_win) {
+    m_win.draw(text);
 }

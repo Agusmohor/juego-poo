@@ -20,6 +20,8 @@ public:
 
     void caseHealth();
 
+    void deathMessege(sf::RenderWindow &m_win);
+
 private:
     void create();
 
@@ -32,7 +34,11 @@ private:
     std::vector<sf::Sprite> hotbars,overHb,hp_empty,hp_fill;
     sf::Vector2i size;
 
+    sf::Text text;
+    sf::Font font;
+
     sf::Clock timer;
+    bool isDead = false;
     int newpos, playerHp;
 };
 
