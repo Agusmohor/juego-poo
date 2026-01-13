@@ -2,7 +2,7 @@
 #include <iostream>
 
 hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture), text(font,""){
-    if(!hselTe.loadFromFile("../assets/textures/entity/player/gui/selected.png")) throw std::runtime_error("error al cargar hud");
+    if(!hselTe.loadFromFile("../assets/textures/entity/player/gui/selected.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_HUD_TEXTURE_FROM_FILE");
 
     k_1 = sf::Keyboard::Key::Num1;k_2 = sf::Keyboard::Key::Num2;k_3 = sf::Keyboard::Key::Num3;
     k_4 = sf::Keyboard::Key::Num4;k_5 = sf::Keyboard::Key::Num5;k_6 = sf::Keyboard::Key::Num6;
@@ -20,7 +20,7 @@ hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(
 
     this->create();
 
-    if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("error opening font");
+    if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     text.setFont(font); text.setString("Press enter to revive");
     text.setCharacterSize(20);
     text.setFillColor(sf::Color(150,150,150));

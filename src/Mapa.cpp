@@ -7,7 +7,7 @@
 mapa::mapa(){}
 
 csv mapa::loadCsv(const std::string &path) {
-    std::ifstream file(path); if (!file.is_open()) throw std::runtime_error("error al cargar el csv");
+    std::ifstream file(path); if (!file.is_open()) throw std::runtime_error("ERROR:COULD_NOT_OPEN_CSV_FILE");
     
     csv layer;
     std::string line;
@@ -33,7 +33,7 @@ csv mapa::loadCsv(const std::string &path) {
 }
 
 void mapa::load(std::string &texturePath, std::string &groundCSV, std::string &grassCSV,std::string &collisionCSV) {
-    if (!m_tileTexture.loadFromFile(texturePath)) throw std::runtime_error("error al cargar el texture");
+    if (!m_tileTexture.loadFromFile(texturePath)) throw std::runtime_error("ERROR:COULD_NOT_LOAD_TEXTURE_FROM_FILE");
     m_tileTexture.setSmooth(false);
     m_ground = loadCsv(groundCSV);
     m_grass = loadCsv(grassCSV);

@@ -13,8 +13,13 @@ match::match() : m_mapa(),   m_text("../assets/textures/fondo.jpg"), Fondo(m_tex
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/ground_base.csv"; std::string collision = "../assets/textures/map/ground_collision.csv";
     std::string grass = "../assets/textures/map/ground_grass.csv";
 
-    m_res.tree1.loadFromFile("../assets/textures/trees/tree1.png"); m_res.tree2.loadFromFile("../assets/textures/trees/tree2.png"); m_res.tree3.loadFromFile("../assets/textures/trees/tree3.png");
-    m_res.Player.loadFromFile("../assets/textures/entity/player/sprite.png"); m_res.shadow.loadFromFile("../assets/textures/entity/player/plshadow.png") ;m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png");
+    if (!m_res.tree1.loadFromFile("../assets/textures/trees/tree1.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
+    if (!m_res.tree2.loadFromFile("../assets/textures/trees/tree2.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
+    if (!m_res.tree3.loadFromFile("../assets/textures/trees/tree3.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
+    if (!m_res.Player.loadFromFile("../assets/textures/entity/player/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_PLAYER_TEXTURE_FROM_FILE");}
+    if (!m_res.shadow.loadFromFile("../assets/textures/entity/player/plshadow.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHADOW_TEXTURE_FROM_FILE");}
+    if (!m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_ZOMBIE_TEXTURE_FROM_FILE");}
+
 
     m_mapa.load(pngpath,ground,grass,collision);
 

@@ -1,6 +1,8 @@
 #include "Pause.hpp"
 
-PauseScene::PauseScene():m_font("../assets/fonts/fuente.ttf"),m_text(m_font,"Pause"){
+PauseScene::PauseScene():m_text(m_font,"Pause"){
+    if (!m_font.openFromFile("../assets/fonts/fuente.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
+    m_text.setFont(m_font);
     m_text.setCharacterSize(100);
     m_text.setPosition(sf::Vector2f(300,150));
     overlay.setSize({6000.f,6000.f});

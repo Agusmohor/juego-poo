@@ -36,8 +36,8 @@ void menu::titleColor(){
 }
 //crea todos los botones del menu
 void menu::buttons(){
-    if(!m_font1.openFromFile("../assets/fonts/fuente.ttf")) throw std::runtime_error("error");
-    if(!m_font2.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("error"); 
+    if(!m_font1.openFromFile("../assets/fonts/fuente.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
+    if(!m_font2.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
     m_text1.setFont(m_font1); m_text1.setString("Jueguito"); 
     m_text2.setFont(m_font1); m_text2.setString("press Enter to start"); 
     m_text3.setFont(m_font2); m_text3.setString("Settings");
@@ -56,8 +56,8 @@ void menu::buttons(){
 
     shape.setSize({220.f,30.f});
     shape.setPosition({sf::Vector2f(290,520)});
-    if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("no se pudo abrir el archivo");
-    if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("no se pudo abrir el archivo");
+    if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
 
 }
 
