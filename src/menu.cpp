@@ -7,7 +7,7 @@ menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), m_text3(m_font2,"") {
 }
 
 void menu::update(float delta,Game &m_gam){
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) m_gam.setScene(new match);
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && !ispressed) {m_gam.setScene(new match); ispressed = true;}
     menu::titleColor();
 }
 

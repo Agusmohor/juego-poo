@@ -150,6 +150,7 @@ void match::mouseSkin(const sf::RenderWindow &m_win){
 }
 
 void match::normalView(sf::RenderWindow& m_win) {
+    m_view = m_win.getDefaultView();
     m_view.setSize(sf::Vector2f(m_winSize));
     m_view.setCenter(m_ply->getPosition());
     m_view.zoom(0.2);

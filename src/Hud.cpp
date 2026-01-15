@@ -1,6 +1,8 @@
 #include "Hud.hpp"
 #include <iostream>
 
+#include "Player.hpp"
+
 hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture), text(font,""){
     if(!hselTe.loadFromFile("../assets/textures/entity/player/gui/selected.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_HUD_TEXTURE_FROM_FILE");
 
@@ -75,11 +77,9 @@ void hud::createLife(int num) {
         hp_fill.push_back(p);
     }
     if (num > 5) {
-        int c = 0;
         for (size_t i=5;i<hp_fill.size();i++) {
             hp_fill[i].setTextureRect({{243,224},{size}});
-            // hp_fill[i].setPosition({hp_fill[i-5].getPosition().x + 38*c,life.getPosition().y + 50});
-            c++;
+            hp_fill[i].setPosition({life.getPosition().x + 38*i,30});
         }
     }
 }
@@ -149,7 +149,7 @@ void hud::caseHealth() {
                 hp_fill.clear();
                 this->createLife(playerHp/2);
                 sf::Sprite p = life; p.setTextureRect({{224,242},{size}});
-                p.setPosition({hp_fill.back().getPosition().x+38,hp_fill.back().getPosition().y});
+                if (playerHp <= 10) p.setPosition({hp_fill.back().getPosition().x+38,hp_fill.back().getPosition().y});
                 if (playerHp > 10) p.setTextureRect({{242,242},{size}});
                 hp_fill.push_back(p);
             }
