@@ -75,8 +75,11 @@ void hud::createLife(int num) {
         hp_fill.push_back(p);
     }
     if (num > 5) {
+        int c = 0;
         for (size_t i=5;i<hp_fill.size();i++) {
             hp_fill[i].setTextureRect({{243,224},{size}});
+            // hp_fill[i].setPosition({hp_fill[i-5].getPosition().x + 38*c,life.getPosition().y + 50});
+            c++;
         }
     }
 }

@@ -27,9 +27,9 @@ public:
     const sf::View& getUIWinView() const;
 private:
     sf::RenderWindow m_win;  
-    scene *curr_scene; 
-    scene *next_scene = nullptr;
-    scene *m_pause = nullptr;
+    scene* curr_scene = nullptr;
+    scene* next_scene = nullptr;
+    scene* m_pause = nullptr;
     sf::View m_view,m_uiview;
     bool ispaused;
     sf::Clock timer,time;

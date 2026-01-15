@@ -49,9 +49,9 @@ void match::update(float delta,Game &m_gam){
         time.restart();
     }
     //actualizado de hitbox obstaculos
-    m_hitboxes.clear();
-    for (auto &box : m_obtacles) {
-        m_hitboxes.push_back(box->getHitbox());
+    m_hitboxes.resize(m_obtacles.size());
+    for (size_t i=0;i<m_obtacles.size();i++) {
+        m_hitboxes[i] = m_obtacles[i]->getHitbox();
     }
 
     //update del player si esta vivo

@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include <iostream>
 
-Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false){
+Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false), next_scene(nullptr),m_pause(nullptr){
     m_win.setFramerateLimit(60);
     this->loadConfig(m_win);
 }
@@ -29,13 +29,13 @@ void Game::run(){
 
         if(!ispaused) curr_scene->update(delta,*this);
         curr_scene->updateView(*this);
-        if(ispaused) m_pause->update(delta,*this); 
+        if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
 
         curr_scene->draw(m_win);
-        if(ispaused && m_pause) m_pause->draw(m_win);
+        if(ispaused && m_pause != nullptr) m_pause->draw(m_win);
 
         m_win.display();
-        if(next_scene){
+        if(next_scene != nullptr){
             delete curr_scene;
             curr_scene = next_scene;
             next_scene = nullptr;
@@ -45,27 +45,27 @@ void Game::run(){
 }
 
 void Game::setScene(scene *newScene){
+    delete next_scene;
     next_scene = newScene;
 }
 
 Game::~Game(){
-    delete curr_scene;
-    delete next_scene;
-    delete m_pause;
+    delete curr_scene; curr_scene = nullptr;
+    delete next_scene; next_scene = nullptr;
+    delete m_pause; m_pause = nullptr;
 }
 
 void Game::isPaused(bool condition){
     if (timer.getElapsedTime().asSeconds() >= 0.2f) {
         if(condition && !ispaused){ m_pause = new PauseScene; } 
-        else{ this->delPause(); }
+        else{ if (!condition && ispaused) this->delPause(); }
         ispaused = condition;
+        timer.restart();
     }
-    timer.restart();
 }
 
 void Game::delPause(){
-    delete m_pause;
-    m_pause = nullptr;
+    delete m_pause; m_pause = nullptr;
 }
 
 void Game::loadConfig(sf::RenderWindow &m_win){
