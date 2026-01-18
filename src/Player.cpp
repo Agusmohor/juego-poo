@@ -40,9 +40,9 @@ void player::move(float delta, mapa &mapa) {
         dir /= length;
     }
     //speed
-    this->speed();
+    speed();
     sf::Vector2f velocity = dir * m_speed *delta;
-    prevPos = m_spr.getPosition(); this->syncHitbox();
+    prevPos = m_spr.getPosition(); syncHitbox();
     sf::FloatRect hb = hitbox.getGlobalBounds();
 
     float dx = velocity.x;
@@ -56,7 +56,7 @@ void player::move(float delta, mapa &mapa) {
             m_spr.move({dx, 0.f});
     }
 
-    this->syncHitbox();
+    syncHitbox();
     for (auto& box : *hitboxes) colx(box);
 
     hb = hitbox.getGlobalBounds();
@@ -71,7 +71,7 @@ void player::move(float delta, mapa &mapa) {
             m_spr.move({0.f, dy});
     }
 
-    this->syncHitbox();
+    syncHitbox();
     for (auto& box : *hitboxes) coly(box);
 
 }
@@ -110,7 +110,7 @@ void player::updateTexture() {
             m_spr.setTextureRect({{rect.position.x + 32,97},{scale}});
             break;
     }
-    if (!this->isAlive()) this->deathDraw();
+    if (!isAlive()) deathDraw();
 
 }
 
@@ -155,8 +155,8 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 void player::update(float delta,mapa &mapa) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
-    this->texture();
-    this->move(delta,mapa);
+    texture();
+    move(delta,mapa);
     // std::cout << health << std::endl;
     if (health >= 0) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) health--;
@@ -180,7 +180,7 @@ void player::draw(sf::RenderWindow& m_win) {
 }
 
 void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
-    this->m_mouse(mouseCoords);
+    m_mouse(mouseCoords);
 }
 
 //posicion del player
@@ -211,7 +211,7 @@ bool player::isAlive(){
 }
 
 void player::RecieveDamage() {
-    this->rDamage = true; // Esto activará la resta de corazones en el siguiente update
+    rDamage = true; // Esto activará la resta de corazones en el siguiente update
 }
 
 sf::Sprite &player::getSprite(){ return m_spr; }

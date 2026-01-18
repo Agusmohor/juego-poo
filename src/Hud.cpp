@@ -3,7 +3,7 @@
 
 #include "Player.hpp"
 
-hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture), text(font,""){
+hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture), text(font,""), playerHp(5){
     if(!hselTe.loadFromFile("../assets/textures/entity/player/gui/selected.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_HUD_TEXTURE_FROM_FILE");
 
     k_1 = sf::Keyboard::Key::Num1;k_2 = sf::Keyboard::Key::Num2;k_3 = sf::Keyboard::Key::Num3;
@@ -20,7 +20,7 @@ hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(
     hselpos = hpos; pos = sf::Vector2f(302,70);
     hsel.setPosition(hselpos);
 
-    this->create();
+    create();
 
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     text.setFont(font); text.setString("Press enter to revive");
@@ -44,6 +44,7 @@ void hud::create() {
         // s = overS;
         // overHb.push_back(s);
     }
+
     for (size_t i=1;i<5;i++) {
         sf::Sprite s = overS;
         s.setTextureRect({{74,4},{size}});
@@ -57,6 +58,7 @@ void hud::create() {
     overHb.push_back(overS);
     overS.setTextureRect({{92,36},{size}}); overHb.push_back(overS);
 
+    //crear void_health_bar
     life.setOrigin({48,16});
     life.setTextureRect({{224,260},{size}}); life.setScale({scale.x/2,scale.y/2});
     life.setPosition({pos});
@@ -66,22 +68,25 @@ void hud::create() {
         hp_empty.push_back(p);
     }
 
-    this->createLife(5);
+    createLife(playerHp);
 }
 
 void hud::createLife(int num) {
+    hp_fill.clear();
+    if (num < 0) num = 0;
+    if (num > 20) num = 20;
+    //rellena la healthbar con corazones rojos si num < 5, sino, con corazones amarillos
     life.setTextureRect({{224,224},{size}});
+    sf::Sprite p = life;
+    int c = 1;
     for (size_t i=0;i<num;i++) {
-        sf::Sprite p = life;
-        p.setPosition({life.getPosition().x + 38*i,life.getPosition().y});
+        if (i > 4) p.setTextureRect({{243,224},{size}});
+        if (i%5 == 0) c++;
+        p.setPosition({life.getPosition().x + 38*i,0});
         hp_fill.push_back(p);
+        std::cout << num << " " << i << " " << playerHp << " " << c << std::endl;
     }
-    if (num > 5) {
-        for (size_t i=5;i<hp_fill.size();i++) {
-            hp_fill[i].setTextureRect({{243,224},{size}});
-            hp_fill[i].setPosition({life.getPosition().x + 38*i,30});
-        }
-    }
+
 }
 
 
@@ -96,8 +101,8 @@ void hud::draw(sf::RenderWindow &m_win){
 }
 
 void hud::update(){
-    this->keyBoard();
-    this->caseHealth();
+    keyBoard();
+    caseHealth();
 }
 
 void hud::updateView() {
@@ -129,28 +134,33 @@ void hud::keyBoard(){
 
 
 void hud::moveHotbar(const sf::Vector2f &winview){
+    //mantener la hotbar centrada, independientemente del resize
         m_winSize = winview;
         newpos = m_winSize.y-2;
 }
 
 void hud::checkhp(int health) {
+    //carga de hp
     playerHp = health;
 }
 
 void hud::caseHealth() {
 
+    //casos dependiendo la vida del player, dibujo del hud
     if (playerHp != 0) {
         isDead = false;
+        //si es par
         if (playerHp%2 == 0) {
-            hp_fill.clear();
-            this->createLife(playerHp/2);
+            createLife(playerHp/2);
         }else {
+            //si no es par, y es mayor a 2
             if (playerHp > 2) {
-                hp_fill.clear();
-                this->createLife(playerHp/2);
-                sf::Sprite p = life; p.setTextureRect({{224,242},{size}});
-                if (playerHp <= 10) p.setPosition({hp_fill.back().getPosition().x+38,hp_fill.back().getPosition().y});
-                if (playerHp > 10) p.setTextureRect({{242,242},{size}});
+                createLife(playerHp/2);
+                sf::Sprite p = life;
+                if (playerHp < 10) {p.setTextureRect({{224,242},{size}});} // medio corazon rojo
+                if (playerHp > 10) {p.setTextureRect({{243,242},{size}});} //medio corazon amarillo
+                p.setPosition({hp_fill.back().getPosition().x + 38,hp_fill.back().getPosition().y});
+                //al ser impar se le agrega medio corazon
                 hp_fill.push_back(p);
             }
 
@@ -158,14 +168,17 @@ void hud::caseHealth() {
 
     }
     if (playerHp == 1) {
+        //medio corazon
         hp_fill.clear();
         sf::Sprite p = life; p.setTextureRect({{224,242},{size}});
         p.setPosition(life.getPosition());
         hp_fill.push_back(p);
     }
+    //si esta muerto
     if (playerHp == 0 && isDead == false) {hp_fill.clear(); isDead = true;}
 }
 
 void hud::deathMessege(sf::RenderWindow &m_win) {
+    //mensaje "press enter to revive"
     m_win.draw(text);
 }
