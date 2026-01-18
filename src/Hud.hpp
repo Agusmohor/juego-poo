@@ -34,8 +34,8 @@ private:
     std::vector<sf::Sprite> hotbars,overHb,hp_empty,hp_fill;
     sf::Vector2i size;
 
-    sf::Text text;
     sf::Font font;
+    sf::Text text;
 
     sf::Clock timer;
     bool isDead = false;

@@ -3,7 +3,8 @@
 
 #include "Player.hpp"
 
-hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture), text(font,""), playerHp(5){
+hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture),font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
+
     if(!hselTe.loadFromFile("../assets/textures/entity/player/gui/selected.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_HUD_TEXTURE_FROM_FILE");
 
     k_1 = sf::Keyboard::Key::Num1;k_2 = sf::Keyboard::Key::Num2;k_3 = sf::Keyboard::Key::Num3;
@@ -45,7 +46,7 @@ void hud::create() {
         // overHb.push_back(s);
     }
 
-    for (size_t i=1;i<5;i++) {
+    for (int i=1;i<5;i++) {
         sf::Sprite s = overS;
         s.setTextureRect({{74,4},{size}});
         s.setPosition({overS.getPosition().x + 64*i,s.getPosition().y});
@@ -62,7 +63,7 @@ void hud::create() {
     life.setOrigin({48,16});
     life.setTextureRect({{224,260},{size}}); life.setScale({scale.x/2,scale.y/2});
     life.setPosition({pos});
-    for (size_t i=0;i<5;i++) {
+    for (int i=0;i<5;i++) {
         sf::Sprite p = life;
         p.setPosition({life.getPosition().x + 38*i,life.getPosition().y});
         hp_empty.push_back(p);
@@ -79,10 +80,10 @@ void hud::createLife(int num) {
     life.setTextureRect({{224,224},{size}});
     sf::Sprite p = life;
     int c = 1;
-    for (size_t i=0;i<num;i++) {
+    for (int i=0;i<num;i++) {
         if (i > 4) p.setTextureRect({{243,224},{size}});
         if (i%5 == 0) c++;
-        p.setPosition({life.getPosition().x + 38*i,0});
+        p.setPosition({life.getPosition().x + 38*i,life.getPosition().y});
         hp_fill.push_back(p);
         std::cout << num << " " << i << " " << playerHp << " " << c << std::endl;
     }
