@@ -229,7 +229,7 @@ void hud::caseStamina() {
         }
 
 
-    if (playerStam <= 15) {
+    if (playerStam >= 15 && playerStam <= 30) {
         stamina_bar.clear();
         sf::Sprite p = life;
         p.setTextureRect({{243,278},{size}});

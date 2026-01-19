@@ -172,8 +172,7 @@ void player::update(float delta,mapa &mapa) {
     //sf::Vector2f delta1 = dir * m_speed;
     //pl_pos=m_spr.getPosition();
     //m_spr.move(delta1);
-    std::cout << stamina << std::endl;
-    
+
 }
 
 void player::draw(sf::RenderWindow& m_win) {
