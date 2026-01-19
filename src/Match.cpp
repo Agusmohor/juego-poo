@@ -69,7 +69,7 @@ void match::update(float delta,Game &m_gam){
     if (m_zombie->isAlive()) m_zombie->update(delta,m_mapa);
 
     m_hud.update();
-    m_hud.checkhp(m_ply->getHealth());
+    m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina());
     this->doPause(m_gam);
 }
 

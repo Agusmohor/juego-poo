@@ -34,6 +34,7 @@ public:
 
     bool isAlive() override;
     int getHealth() override;
+    int getStamina();
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
     void RecieveDamage() override;
 
@@ -60,12 +61,13 @@ private:
     sf::RectangleShape hitbox;
 
     int health = 10;
+    int stamina;
 
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;
     sf::Sprite m_spr,m_shadow;
-    float m_speed,dx,dy,m_angle; int stamina;
+    float m_speed,dx,dy,m_angle;
     sf::Vector2f pl_pos,dir,mouse_pos,m_scale;
     sf::Keyboard::Key wKey,aKey,sKey,dKey;
     sf::Mouse::Button rClick,lClick;

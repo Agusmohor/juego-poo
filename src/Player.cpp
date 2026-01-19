@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Tree.hpp"
 
-player::player(const sf::Texture &sprite,const sf::Texture &shadow) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(200){
+player::player(const sf::Texture &sprite,const sf::Texture &shadow) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180){
     scale = sf::Vector2i(32,32);
     m_spr.setTextureRect({{0,0},{scale}});
     m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3});
@@ -116,7 +116,7 @@ void player::updateTexture() {
 
 void player::speed(){
     m_speed = 50;
-    if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 200){
+    if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 180){
         stamina++; 
     }
     
@@ -172,6 +172,7 @@ void player::update(float delta,mapa &mapa) {
     //sf::Vector2f delta1 = dir * m_speed;
     //pl_pos=m_spr.getPosition();
     //m_spr.move(delta1);
+    std::cout << stamina << std::endl;
     
 }
 
@@ -205,7 +206,11 @@ bool player::attact(sf::RenderWindow &m_win,sf::FloatRect entpos){
 
 int player::getHealth(){
     return health;
-} 
+}
+
+int player::getStamina() {
+    return stamina;
+}
 
 bool player::isAlive(){
     return vivo;

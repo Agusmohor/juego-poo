@@ -16,9 +16,11 @@ public:
     void keyBoard();
     void moveHotbar(const sf::Vector2f &winview);
 
-    void checkhp(int health);
+    void checkPlayer(int health,int stamina);
 
     void caseHealth();
+
+    void caseStamina();
 
     void deathMessege(sf::RenderWindow &m_win);
 
@@ -26,12 +28,13 @@ private:
     void create();
 
     void createLife(int num);
+    void createStamina(int num);
 
     sf::Texture hobTexture,hselTe;
     sf::Sprite hotbar, hsel, overS, life;
     sf::Keyboard::Key k_1,k_2,k_3,k_4,k_5,k_6;
-    sf::Vector2f m_winSize,hselpos,scale,hpos,pos;
-    std::vector<sf::Sprite> hotbars,overHb,hp_empty,hp_fill;
+    sf::Vector2f m_winSize,hselpos,scale,hpos,pos,spos;
+    std::vector<sf::Sprite> hotbars,overHb,hp_empty,hp_fill,stamina_bar,stamina_empty;
     sf::Vector2i size;
 
     sf::Font font;
@@ -39,7 +42,8 @@ private:
 
     sf::Clock timer;
     bool isDead = false;
-    int newpos, playerHp;
+    bool state;
+    int newpos, playerHp,playerStam;
 };
 
 #endif

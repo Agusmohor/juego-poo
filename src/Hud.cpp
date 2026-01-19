@@ -65,11 +65,18 @@ void hud::create() {
     life.setPosition({pos});
     for (int i=0;i<5;i++) {
         sf::Sprite p = life;
-        p.setPosition({life.getPosition().x + 38*i,life.getPosition().y});
+        p.setPosition({life.getPosition().x+38*i,life.getPosition().y});
         hp_empty.push_back(p);
     }
-
+    spos = sf::Vector2f((pos.x+38*5 ) + 10,pos.y);
+    for (int i=0;i<6;i++) {
+        sf::Sprite p=life;
+        p.setTextureRect({{224,278},{size}});
+        p.setPosition({spos.x+30*i,pos.y});
+        stamina_empty.push_back(p);
+    }
     createLife(playerHp);
+    createStamina(6);
 }
 
 void hud::createLife(int num) {
@@ -88,15 +95,28 @@ void hud::createLife(int num) {
             c++;
         }
         hp_fill.push_back(p);
-        std::cout << num << " " << i << " " << playerHp << " " << c << std::endl;
+        // std::cout << num << " " << i << " " << playerHp << " " << c << std::endl;
     }
 
 }
 
+void hud::createStamina(int num) {
+    if (num < 0) num = 0;
+    if (num > 10) num = 10;
+    stamina_bar.clear();
+    sf::Sprite p = life;
+    p.setTextureRect({{243,260},{size}});
+    for (int i=0;i<num;i++) {
+        p.setPosition({spos.x+30*i,life.getPosition().y});
+        stamina_bar.push_back(p);
+    }
+}
 
 void hud::draw(sf::RenderWindow &m_win){
     for (auto &h : hotbars) m_win.draw(h);
     for (auto &o : overHb) m_win.draw(o);
+    for (auto &p : stamina_empty) m_win.draw(p);
+    for (auto &p : stamina_bar) m_win.draw(p);
     for (auto &p : hp_empty) m_win.draw(p);
     for (auto &p : hp_fill) m_win.draw(p);
     m_win.draw(hsel);
@@ -106,7 +126,7 @@ void hud::draw(sf::RenderWindow &m_win){
 
 void hud::update(){
     keyBoard();
-    caseHealth();
+    caseHealth(); caseStamina();
 }
 
 void hud::updateView() {
@@ -123,6 +143,12 @@ void hud::updateView() {
     for (auto &p : hp_fill) {
         int prev_posy = p.getPosition().y;
         p.setPosition(sf::Vector2f(p.getPosition().x,newpos-prev_posy));
+    }
+    for (auto &p : stamina_empty) {
+        p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
+    }
+    for (auto &p : stamina_bar) {
+        p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
     }
     hselpos = sf::Vector2f(hselpos.x,newpos);
     hsel.setPosition(hselpos);
@@ -141,12 +167,13 @@ void hud::keyBoard(){
 void hud::moveHotbar(const sf::Vector2f &winview){
     //mantener la hotbar centrada, independientemente del resize
         m_winSize = winview;
-        newpos = m_winSize.y-2;
+        newpos = m_winSize.y - 2;
 }
 
-void hud::checkhp(int health) {
+void hud::checkPlayer(int health,int stamina) {
     //carga de hp
     playerHp = health;
+    playerStam = stamina;
 }
 
 void hud::caseHealth() {
@@ -184,7 +211,37 @@ void hud::caseHealth() {
     if (playerHp == 0 && isDead == false) {hp_fill.clear(); isDead = true;}
 }
 
+void hud::caseStamina() {
+    if (playerStam <= 0) {stamina_bar.clear(); return;}
+
+    int bars = playerStam / 30;
+    if (bars > 6) bars = 6;
+
+    if (playerStam % 30 == 0) {
+        createStamina(bars);
+        state = true;
+    }else {
+            if (playerStam / 30 > 0) {
+                createStamina(bars);
+                sf::Sprite p = life;
+                p.setTextureRect({{243,278},{size}});
+                p.setPosition({stamina_bar.back().getPosition().x + 30,life.getPosition().y});
+                stamina_bar.push_back(p);
+                state = false;
+            }
+    }
+
+    if (playerStam <= 30) {
+        stamina_bar.clear();
+        sf::Sprite p = life;
+        p.setTextureRect({{243,278},{size}});
+        p.setPosition({ spos.x,life.getPosition().y});
+        stamina_bar.push_back(p);
+    }
+}
+
 void hud::deathMessege(sf::RenderWindow &m_win) {
     //mensaje "press enter to revive"
     m_win.draw(text);
 }
+
