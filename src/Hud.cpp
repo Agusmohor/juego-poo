@@ -217,21 +217,19 @@ void hud::caseStamina() {
     int bars = playerStam / 30;
     if (bars > 6) bars = 6;
 
-    if (playerStam % 30 == 0) {
-        createStamina(bars);
-        state = true;
-    }else {
-            if (playerStam / 30 > 0) {
-                createStamina(bars);
-                sf::Sprite p = life;
-                p.setTextureRect({{243,278},{size}});
-                p.setPosition({stamina_bar.back().getPosition().x + 30,life.getPosition().y});
-                stamina_bar.push_back(p);
-                state = false;
-            }
-    }
+    int full = playerStam / 30;
+    int rem = playerStam % 30;
 
-    if (playerStam <= 30) {
+    createStamina(bars);
+        if (rem >= 15 && full < 6) {
+            sf::Sprite p = life;
+            p.setTextureRect({{243,278},{size}});
+            p.setPosition({spos.x + 30 * full,life.getPosition().y});
+            stamina_bar.push_back(p);
+        }
+
+
+    if (playerStam <= 15) {
         stamina_bar.clear();
         sf::Sprite p = life;
         p.setTextureRect({{243,278},{size}});
