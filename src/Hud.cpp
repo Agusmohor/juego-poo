@@ -177,6 +177,9 @@ void hud::checkPlayer(int health,int stamina) {
 }
 
 void hud::caseHealth() {
+    //si esta muerto
+    if (playerHp == 0 && isDead == false) {hp_fill.clear(); isDead = true; return;}
+
     //casos dependiendo la vida del player, dibujo del hud
     if (playerHp != 0) {
         isDead = false;
@@ -207,8 +210,6 @@ void hud::caseHealth() {
         p.setPosition(life.getPosition());
         hp_fill.push_back(p);
     }
-    //si esta muerto
-    if (playerHp == 0 && isDead == false) {hp_fill.clear(); isDead = true;}
 }
 
 void hud::caseStamina() {
