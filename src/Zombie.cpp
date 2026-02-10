@@ -46,6 +46,7 @@ void zombie::draw(sf::RenderWindow &m_win) {
 }
 
 void zombie::drawHitbox(sf::RenderWindow &m_win) {
+    hitbox.setFillColor(sf::Color::Red);
     m_win.draw(hitbox);
 }
 
@@ -54,17 +55,29 @@ void zombie::syncHitbox() {
 }
 
 void zombie::colx(sf::FloatRect hitbox) {
+    if (timer1.getElapsedTime().asSeconds() >= 0.28f) {
+        iscolx=false;
+        timer1.restart();
+    }
     if (this->hitbox.getGlobalBounds().findIntersection(hitbox).has_value()) {
         m_spr.setPosition({prevPos.x,m_spr.getPosition().y});
         this->hitbox.setPosition({hitboxPrevPos.x,this->hitbox.getPosition().y});
+        iscolx=true;
     }
+
 }
 
 void zombie::coly(sf::FloatRect hitbox) {
+    if (timer2.getElapsedTime().asSeconds() >= 0.28f) {
+        iscoly=false;
+        timer2.restart();
+    }
     if (this->hitbox.getGlobalBounds().findIntersection(hitbox).has_value()) {
         m_spr.setPosition({m_spr.getPosition().x,prevPos.y});
         this->hitbox.setPosition({this->hitbox.getPosition().x,hitboxPrevPos.y});
+        iscoly=true;
     }
+
 }
 
 void zombie::setHitboxes(std::vector<sf::FloatRect> &hitboxes) {
@@ -86,6 +99,22 @@ void zombie::move(float delta,mapa &mapa) {
     // std::cout << dist << std::endl;
     //{1,-1}
     //dif seria la "direccion"
+    if (timer3.getElapsedTime().asSeconds() >= 0.1f) {
+        if(iscolx){
+            if(dif.x<0){
+            dif={1,0};
+            }else{
+            dif={-1,0};
+            }
+        }else if(iscoly){
+            if(dif.y<0){
+            dif={0,1};
+            }else{
+            dif={0,-1};
+            }
+        }
+        timer3.restart();
+    }
     m_spr.move(dif*m_speed*delta);
     this->syncHitbox();
     for (auto &box : *hitboxes) {

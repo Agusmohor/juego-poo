@@ -11,6 +11,9 @@ class zombie : public entity {
     sf::Vector2i scale;
     std::vector<sf::FloatRect>* hitboxes;
     sf::Color color;
+    sf::Clock timer1,timer2,timer3;
+    bool iscolx=false;
+    bool iscoly=false;
     float dist,max_rad,min_rad,dist2,m_speed;
     bool vivo=true;
     bool damaged = false;

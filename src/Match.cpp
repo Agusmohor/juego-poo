@@ -129,7 +129,7 @@ void match::render(sf::RenderWindow &m_win){
 
     }
     // m_ply.drawHitbox(m_win);
-    // m_zombie.drawHitbox(m_win);
+    m_zombie->drawHitbox(m_win);
 
     //view de UI
     m_win.setView(m_uiview);
