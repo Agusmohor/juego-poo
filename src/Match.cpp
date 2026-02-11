@@ -63,7 +63,7 @@ void match::update(float delta,Game &m_gam){
     }
     // if (!m_zombie->isAlive()){m_zombie.reset(); m_zombie = std::make_unique<zombie>();}
 
-
+    hits();
 
     if (m_ply->isAlive()) m_zombie->getPlyPos(m_ply->getPosition());
     if (m_zombie->isAlive()) m_zombie->update(delta,m_mapa);
@@ -153,7 +153,19 @@ void match::normalView(sf::RenderWindow& m_win) {
 }
 
 void match::hits() {
-
+    sf::Vector2f dist = m_ply->getPosition() -  m_zombie->getPosition();
+    if (m_ply->attack().x < 0 && m_ply->getHitStatus() ) {
+        m_ply->setHitStatus(false);
+        if (dist.x > 0 && dist.x < 15) {
+            m_zombie->RecieveDamage();
+        }
+    }
+    if (m_ply->attack().x > 0 && m_ply->getHitStatus() ) {
+        m_ply->setHitStatus(false);
+        if (dist.x < 0 && dist.x > -15) {
+            m_zombie->RecieveDamage();
+        }
+    }
 }
 
 

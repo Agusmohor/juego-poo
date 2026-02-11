@@ -37,13 +37,15 @@ public:
     int getHealth() override;
     void updateHealth() override;
     bool isAlive() override;
-    void attact() override;
+    const sf::Vector2f attack() override;
     void RecieveDamage() override;
     sf::FloatRect getHitbox() override;
 
     void deathDraw() override;
 
     void damageColor(bool cond);
+
+    sf::Vector2f getPosition();
 
     void getPlyPos(const sf::Vector2f &pl_pos);
 

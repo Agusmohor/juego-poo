@@ -35,9 +35,11 @@ public:
     bool isAlive() override;
     int getHealth() override;
     int getStamina();
-    void attact() override;
 
-    void critic();
+    const sf::Vector2f attack() override;
+
+    void attackSkin();
+    void criticSkin();
 
     void RecieveDamage() override;
 
@@ -46,6 +48,9 @@ public:
     void speed();
     bool cond();
 
+    const bool getHitStatus() const;
+
+    void setHitStatus(bool status);
 
     void updateSkinByMouse(const sf::Vector2f &mouseCoords);
     sf::Vector2f getPosition() const ;
@@ -67,6 +72,7 @@ private:
     int stamina;
 
     bool isAttacking = false; bool iscritic = false;
+    bool isHitting = false;
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;

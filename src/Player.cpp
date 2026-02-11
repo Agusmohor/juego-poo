@@ -195,8 +195,8 @@ void player::update(float delta,mapa &mapa) {
     //pl_pos=m_spr.getPosition();
     //m_spr.move(delta1);
     if (cooldown.getElapsedTime().asSeconds() >= 0.1f) {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attact();}
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) { critic();}
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attackSkin(); attack();}
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) { criticSkin();}
         cooldown.restart();
     }
 
@@ -220,15 +220,14 @@ sf::FloatRect player::getHitbox(){
     return m_spr.getGlobalBounds();
 }
 
-void player::attact(){
+void player::attackSkin(){
     if (!isAttacking) {
-        state = 5; isAttacking = true;
+        state = 5; isAttacking = true; isHitting = true;
         m_spr.setTextureRect({{0,289},{scale}});
     }
 }
 
-
-void player::critic(){
+void player::criticSkin(){
     if (!iscritic) {
         state = 6; iscritic = true;
         m_spr.setTextureRect({{0,256},{scale}});
@@ -297,3 +296,11 @@ void player::deathDraw() {
     m_spr.setTextureRect({{rect.position.x + 32,192},{scale}});
 
 }
+
+const sf::Vector2f player::attack() {
+    return m_spr.getScale();
+}
+
+const bool player::getHitStatus() const {return isHitting;}
+void player::setHitStatus(bool status) {isHitting = status;}
+

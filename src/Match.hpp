@@ -38,6 +38,7 @@ class match : public scene {
 
     Resources m_res;
 
+
 public:
     match();
     void doPause(Game &m_gam);

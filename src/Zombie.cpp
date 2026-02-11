@@ -142,8 +142,8 @@ sf::FloatRect zombie::getHitbox(){
     return m_spr.getGlobalBounds();
 }
 
-void zombie::attact(){
-    return;
+const sf::Vector2f zombie::attack(){
+    return sf::Vector2f();
 }
 
 int zombie::getHealth(){
@@ -183,3 +183,8 @@ void zombie::damageColor(bool cond) {
         m_spr.setColor(color);
     }
 }
+
+sf::Vector2f zombie::getPosition() {
+    return m_spr.getPosition();
+}
+

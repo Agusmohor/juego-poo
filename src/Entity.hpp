@@ -25,7 +25,7 @@ public:
     virtual int getHealth() = 0;
     virtual void updateHealth() = 0;
     virtual bool isAlive() = 0;
-    virtual void attact() = 0;
+    virtual const sf::Vector2f attack() = 0;
     virtual void RecieveDamage() = 0;
     virtual sf::FloatRect getHitbox() = 0;
     virtual ~entity() = default;
