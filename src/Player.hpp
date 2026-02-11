@@ -35,7 +35,7 @@ public:
     bool isAlive() override;
     int getHealth() override;
     int getStamina();
-    bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
+    void attact() override;
     void RecieveDamage() override;
 
     void m_mouse(const sf::Vector2f &mouseCoords);
@@ -53,7 +53,7 @@ public:
 
 private:
     int state;
-    sf::Clock time;
+    sf::Clock time, cooldown;
     sf::Vector2f prevPos, hitboxPrevPos;
     sf::Vector2i scale;
 
@@ -63,6 +63,7 @@ private:
     int health = 10;
     int stamina;
 
+    bool isAttacking = false;
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;

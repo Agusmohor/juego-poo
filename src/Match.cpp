@@ -82,12 +82,7 @@ void match::updateView(Game &m_gam){
 void match::draw(sf::RenderWindow &m_win){
     this->render(m_win);
 
-    if (timer.getElapsedTime().asSeconds() >= 0.2f) {
-        if(attact(m_win,m_zombie->getHitbox())){
-            m_zombie->RecieveDamage();
-        }
-        timer.restart();
-    }
+
     // if(m_zombie.isAlive()){
     //     m_zombie.draw(m_win);
     // }
@@ -129,7 +124,7 @@ void match::render(sf::RenderWindow &m_win){
 
     }
     // m_ply.drawHitbox(m_win);
-    m_zombie->drawHitbox(m_win);
+    // m_zombie->drawHitbox(m_win);
 
     //view de UI
     m_win.setView(m_uiview);
@@ -157,6 +152,4 @@ void match::normalView(sf::RenderWindow& m_win) {
     m_win.setView(m_view);
 }
 
-bool match::attact(sf::RenderWindow &m_win,sf::FloatRect entpos){
-    return m_ply->attact(m_win,entpos);
-}
+

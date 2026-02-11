@@ -1,4 +1,4 @@
-#include "Zombie.h"
+#include "Zombie.hpp"
 #include <cmath>
 #include <iostream>
 
@@ -142,8 +142,8 @@ sf::FloatRect zombie::getHitbox(){
     return m_spr.getGlobalBounds();
 }
 
-bool zombie::attact(sf::RenderWindow &m_win,sf::FloatRect entpos){
-    return true;
+void zombie::attact(){
+    return;
 }
 
 int zombie::getHealth(){

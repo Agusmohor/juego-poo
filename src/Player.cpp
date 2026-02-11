@@ -90,6 +90,7 @@ void player::texture(){
 
 void player::updateTexture() {
     sf::IntRect rect = m_spr.getTextureRect();
+    if (isAttacking) state = 5;
     switch (state) {
         case 0:
             if (rect.position.x >= 192) {
@@ -108,6 +109,15 @@ void player::updateTexture() {
                 rect.position.x = 0;
             }
             m_spr.setTextureRect({{rect.position.x + 32,97},{scale}});
+            break;
+        case 5:
+            if (rect.position.x >= 224) {
+                isAttacking = false;
+                rect.position.x = 0;
+            }
+            if (isAttacking) {
+                m_spr.setTextureRect({{rect.position.x + 32,256},{scale}});
+            }
             break;
     }
     if (!isAlive()) deathDraw();
@@ -172,7 +182,11 @@ void player::update(float delta,mapa &mapa) {
     //sf::Vector2f delta1 = dir * m_speed;
     //pl_pos=m_spr.getPosition();
     //m_spr.move(delta1);
-
+    if (cooldown.getElapsedTime().asSeconds() >= 0.1f) {
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attact();}
+        cooldown.restart();
+    }
+    std::cout << state << " " << isAttacking <<  std::endl;
 }
 
 void player::draw(sf::RenderWindow& m_win) {
@@ -193,14 +207,11 @@ sf::FloatRect player::getHitbox(){
     return m_spr.getGlobalBounds();
 }
 
-bool player::attact(sf::RenderWindow &m_win,sf::FloatRect entpos){
-    mouse_pos=m_win.mapPixelToCoords(sf::Mouse::getPosition(m_win));
-    if(entpos.contains(mouse_pos)){
-        if(sf::Mouse::isButtonPressed(lClick)){
-            return true;
-        }
+void player::attact(){
+    if (!isAttacking) {
+        state = 5; isAttacking = true;
+        m_spr.setTextureRect({{0,256},{scale}});
     }
-    return false;
 }
 
 int player::getHealth(){

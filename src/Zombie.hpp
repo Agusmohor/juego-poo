@@ -37,7 +37,7 @@ public:
     int getHealth() override;
     void updateHealth() override;
     bool isAlive() override;
-    bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos) override;
+    void attact() override;
     void RecieveDamage() override;
     sf::FloatRect getHitbox() override;
 

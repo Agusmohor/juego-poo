@@ -5,7 +5,7 @@
 #include "Entity.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
 
-#include "obstacle.h"
+#include "obstacle.hpp"
 
 class tree : public obstacle{
 public:

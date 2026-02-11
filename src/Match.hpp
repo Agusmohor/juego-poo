@@ -4,9 +4,9 @@
 #include "Player.hpp"
 #include "Hud.hpp"
 #include <SFML/System/Clock.hpp>
-#include "Zombie.h"
+#include "Zombie.hpp"
 #include "Mapa.hpp"
-#include "obstacle.h"
+#include "obstacle.hpp"
 #include "Tree.hpp"
 
 struct Resources {
