@@ -36,6 +36,9 @@ public:
     int getHealth() override;
     int getStamina();
     void attact() override;
+
+    void critic();
+
     void RecieveDamage() override;
 
     void m_mouse(const sf::Vector2f &mouseCoords);
@@ -63,7 +66,7 @@ private:
     int health = 10;
     int stamina;
 
-    bool isAttacking = false;
+    bool isAttacking = false; bool iscritic = false;
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;

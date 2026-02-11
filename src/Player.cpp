@@ -91,6 +91,7 @@ void player::texture(){
 void player::updateTexture() {
     sf::IntRect rect = m_spr.getTextureRect();
     if (isAttacking) state = 5;
+    if (iscritic) state = 6;
     switch (state) {
         case 0:
             if (rect.position.x >= 192) {
@@ -111,14 +112,24 @@ void player::updateTexture() {
             m_spr.setTextureRect({{rect.position.x + 32,97},{scale}});
             break;
         case 5:
-            if (rect.position.x >= 224) {
+            if (rect.position.x >= 160) {
                 isAttacking = false;
                 rect.position.x = 0;
             }
             if (isAttacking) {
-                m_spr.setTextureRect({{rect.position.x + 32,256},{scale}});
+                m_spr.setTextureRect({{rect.position.x + 32,289},{scale}});
             }
             break;
+        case 6:
+            if (rect.position.x >= 224) {
+                iscritic = false;
+                rect.position.x = 0;
+            }
+            if (iscritic) {
+                m_spr.setTextureRect({{rect.position.x + 32, 256},{scale}});
+            }
+            break;
+
     }
     if (!isAlive()) deathDraw();
 
@@ -127,7 +138,7 @@ void player::updateTexture() {
 void player::speed(){
     m_speed = 50;
     if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 180){
-        stamina++; 
+        stamina++;
     }
     
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && this->cond() && !sf::Mouse::isButtonPressed(rClick)){
@@ -166,7 +177,7 @@ void player::update(float delta,mapa &mapa) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
-    if (!isAttacking) move(delta,mapa);
+    if (!isAttacking && !iscritic) { move(delta,mapa);}
 
     // std::cout << health << std::endl;
     if (health >= 0) {
@@ -185,9 +196,10 @@ void player::update(float delta,mapa &mapa) {
     //m_spr.move(delta1);
     if (cooldown.getElapsedTime().asSeconds() >= 0.1f) {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attact();}
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) { critic();}
         cooldown.restart();
     }
-    std::cout << state << " " << isAttacking <<  std::endl;
+
 }
 
 void player::draw(sf::RenderWindow& m_win) {
@@ -211,6 +223,14 @@ sf::FloatRect player::getHitbox(){
 void player::attact(){
     if (!isAttacking) {
         state = 5; isAttacking = true;
+        m_spr.setTextureRect({{0,289},{scale}});
+    }
+}
+
+
+void player::critic(){
+    if (!iscritic) {
+        state = 6; iscritic = true;
         m_spr.setTextureRect({{0,256},{scale}});
     }
 }
