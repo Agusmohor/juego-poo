@@ -50,5 +50,5 @@ public:
 
     void normalView(sf::RenderWindow& m_win);
 
-
+    void hits();
 };

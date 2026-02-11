@@ -152,4 +152,8 @@ void match::normalView(sf::RenderWindow& m_win) {
     m_win.setView(m_view);
 }
 
+void match::hits() {
+
+}
+
 

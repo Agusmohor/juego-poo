@@ -141,8 +141,7 @@ void hud::updateView() {
         p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
     }
     for (auto &p : hp_fill) {
-        int prev_posy = p.getPosition().y;
-        p.setPosition(sf::Vector2f(p.getPosition().x,newpos-prev_posy));
+        p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
     }
     for (auto &p : stamina_empty) {
         p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
