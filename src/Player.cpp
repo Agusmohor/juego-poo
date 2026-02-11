@@ -166,7 +166,8 @@ void player::update(float delta,mapa &mapa) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
-    move(delta,mapa);
+    if (!isAttacking) move(delta,mapa);
+
     // std::cout << health << std::endl;
     if (health >= 0) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) health--;
