@@ -102,20 +102,44 @@ void zombie::move(float delta,mapa &mapa) {
     if (timer3.getElapsedTime().asSeconds() >= 0.1f) {
         if(iscolx){
             if(dif.x<0){
-            dif={1,0};
+            dif={-2,0};
             }else{
-            dif={-1,0};
+            dif={2,0};
             }
         }else if(iscoly){
             if(dif.y<0){
-            dif={0,1};
+            dif={0,-2};
             }else{
-            dif={0,-1};
+            dif={0,2};
             }
         }
         timer3.restart();
     }
-    m_spr.move(dif*m_speed*delta);
+
+    sf::Vector2f velocity = dif * m_speed *delta;
+    sf::FloatRect hb = hitbox.getGlobalBounds();
+
+    float dx = velocity.x;
+
+    if (dx != 0.f){
+        float probeX = (dx > 0.f) ? (hb.position.x + hb.size.x + dx + 10.f) : (hb.position.x + dx - 10.f);
+        bool top    = mapa.isSolidAtPixel(probeX, hb.position.y + 10.f);
+        bool midx    = mapa.isSolidAtPixel(probeX,hb.position.y + hb.size.y * 0.5f);
+        bool bottom = mapa.isSolidAtPixel(probeX, hb.position.y + hb.size.y - 8.f);
+        if (!top && !bottom && !midx) m_spr.move({dx, 0.f});
+    }
+
+    float dy = velocity.y;
+
+    if (dy != 0.f){
+        float probeY = (dy > 0.f) ? (hb.position.y + hb.size.y + dy + 24.f) : (hb.position.y + dy - 5.f);
+        bool left  = mapa.isSolidAtPixel(hb.position.x + 10.f, probeY);
+        bool midy = mapa.isSolidAtPixel(hb.position.x + hb.size.x * 0.8f, probeY);
+        bool right = mapa.isSolidAtPixel(hb.position.x + hb.size.x - 10.f, probeY);
+        if (!left && !right && !midy) m_spr.move({0.f, dy});
+    }
+
+    //m_spr.move(dif*m_speed*delta);
     this->syncHitbox();
     for (auto &box : *hitboxes) {
         colx(box);
@@ -132,9 +156,9 @@ void zombie::getPlyPos(const sf::Vector2f &pl_pos) {
 }
 
 bool zombie::inRaduis() {
-    dist2 = (m_spr.getPosition().x - pl_pos.x) * (m_spr.getPosition().x - pl_pos.x) + (m_spr.getPosition().y - pl_pos.y) * (m_spr.getPosition().y - pl_pos.y);
+    dist2 = (-m_spr.getPosition().x + pl_pos.x) * (-m_spr.getPosition().x + pl_pos.x) + (-m_spr.getPosition().y + pl_pos.y) * (-m_spr.getPosition().y + pl_pos.y);
 
-    if (dist2 < 600*600 && dist2 > 20*20) {return true;}
+    if (dist2 < 780*780 && dist2 > 10*10) {return true;}
     return false;
 }
 
