@@ -133,13 +133,20 @@ void player::updateTexture() {
 
 void player::speed(){
     m_speed = 50;
-    if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 180){
-        stamina++;
+    if (staminaCooldown.getElapsedTime().asMilliseconds() >= 50) {
+        if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 180){
+            stamina++;
+        }
+        staminaCooldown.restart();
     }
+    std::cout << staminaCooldown.getElapsedTime().asSeconds() << std::endl;
     
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && this->cond() && !sf::Mouse::isButtonPressed(rClick)){
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && this->cond() && !empty_stamina){
         stamina--; m_speed *= 1.2; state = 2;
     }
+
+    if (stamina == 0) empty_stamina = true;
+    if (stamina == 180) empty_stamina = false;
     // std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
 }
 

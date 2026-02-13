@@ -150,7 +150,6 @@ void zombie::move(float delta,mapa &mapa) {
     }
     this->syncHitbox();
 
-    std::cout << dist << std::endl;
     if (dist < 10.6f) ismoving = false;
 }
 

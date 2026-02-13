@@ -61,7 +61,7 @@ public:
 
 private:
     int state;
-    sf::Clock time, cooldown;
+    sf::Clock time, cooldown, staminaCooldown;
     sf::Vector2f prevPos, hitboxPrevPos;
     sf::Vector2i scale;
 
@@ -76,6 +76,7 @@ private:
     bool vivo = true;
     bool rDamage = false;
     bool colision = false;
+    bool empty_stamina = false;
     sf::Sprite m_spr,m_shadow;
     float m_speed,dx,dy,m_angle;
     sf::Vector2f pl_pos,dir,mouse_pos,m_scale;
