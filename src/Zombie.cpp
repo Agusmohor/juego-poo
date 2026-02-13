@@ -126,7 +126,7 @@ void zombie::move(float delta,mapa &mapa) {
         bool top    = mapa.isSolidAtPixel(probeX, hb.position.y + 10.f);
         bool midx    = mapa.isSolidAtPixel(probeX,hb.position.y + hb.size.y * 0.5f);
         bool bottom = mapa.isSolidAtPixel(probeX, hb.position.y + hb.size.y - 8.f);
-        if (!top && !bottom && !midx) m_spr.move({dx, 0.f});
+        if (!top && !bottom && !midx) {m_spr.move({dx, 0.f}); ismoving = true;}
     }
 
     float dy = velocity.y;
@@ -136,7 +136,7 @@ void zombie::move(float delta,mapa &mapa) {
         bool left  = mapa.isSolidAtPixel(hb.position.x + 10.f, probeY);
         bool midy = mapa.isSolidAtPixel(hb.position.x + hb.size.x * 0.8f, probeY);
         bool right = mapa.isSolidAtPixel(hb.position.x + hb.size.x - 10.f, probeY);
-        if (!left && !right && !midy) m_spr.move({0.f, dy});
+        if (!left && !right && !midy) {m_spr.move({0.f, dy}); ismoving = true;}
     }
 
     //m_spr.move(dif*m_speed*delta);
@@ -149,6 +149,9 @@ void zombie::move(float delta,mapa &mapa) {
         coly(box);
     }
     this->syncHitbox();
+
+    std::cout << dist << std::endl;
+    if (dist < 10.6f) ismoving = false;
 }
 
 void zombie::getPlyPos(const sf::Vector2f &pl_pos) {
