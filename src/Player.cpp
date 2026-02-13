@@ -134,13 +134,12 @@ void player::updateTexture() {
 void player::speed(){
     m_speed = 50;
     if (staminaCooldown.getElapsedTime().asMilliseconds() >= 50) {
-        if(!(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && this->cond()) && stamina < 180){
+        if(stamina < 180){
             stamina++;
         }
         staminaCooldown.restart();
     }
-    std::cout << staminaCooldown.getElapsedTime().asSeconds() << std::endl;
-    
+
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && this->cond() && !empty_stamina){
         stamina--; m_speed *= 1.2; state = 2;
     }
@@ -247,6 +246,10 @@ int player::getStamina() {
 
 bool player::isAlive(){
     return vivo;
+}
+
+bool player::isStaminaEmpty() {
+    return empty_stamina;
 }
 
 void player::RecieveDamage() {

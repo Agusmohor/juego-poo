@@ -35,6 +35,7 @@ public:
     bool isAlive() override;
     int getHealth() override;
     int getStamina();
+    bool isStaminaEmpty();
 
     const sf::Vector2f attack() override;
 

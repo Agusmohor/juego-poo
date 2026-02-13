@@ -16,7 +16,7 @@ public:
     void keyBoard();
     void moveHotbar(const sf::Vector2f &winview);
 
-    void checkPlayer(int health,int stamina);
+    void checkPlayer(int health,int stamina, bool isStaminaEmpty);
 
     void caseHealth();
 
@@ -41,8 +41,11 @@ private:
     sf::Text text;
 
     sf::Clock timer;
+
+    sf::Color stamColor;
+
     bool isDead = false;
-    bool state;
+    bool state, isStaminaEmpty;
     int newpos, playerHp,playerStam;
 };
 

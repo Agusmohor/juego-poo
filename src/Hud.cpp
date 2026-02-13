@@ -29,6 +29,7 @@ hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(
     text.setFillColor(sf::Color(150,150,150));
     text.setPosition(sf::Vector2f(250,650));
 
+    stamColor = life.getColor();
 }
 
 void hud::create() {
@@ -105,7 +106,8 @@ void hud::createStamina(int num) {
     if (num > 10) num = 10;
     stamina_bar.clear();
     sf::Sprite p = life;
-    p.setTextureRect({{243,260},{size}});
+    if (!isStaminaEmpty) p.setTextureRect({{243,260},{size}});
+    if (isStaminaEmpty) p.setTextureRect({{224,206},{size}});
     for (int i=0;i<num;i++) {
         p.setPosition({spos.x+30*i,life.getPosition().y});
         stamina_bar.push_back(p);
@@ -169,10 +171,11 @@ void hud::moveHotbar(const sf::Vector2f &winview){
         newpos = m_winSize.y - 2;
 }
 
-void hud::checkPlayer(int health,int stamina) {
+void hud::checkPlayer(int health,int stamina, bool isStaminaEmpty) {
     //carga de hp
     playerHp = health;
     playerStam = stamina;
+    this->isStaminaEmpty = isStaminaEmpty;
 }
 
 void hud::caseHealth() {
@@ -223,7 +226,8 @@ void hud::caseStamina() {
     createStamina(bars);
         if (rem >= 15 && full < 6) {
             sf::Sprite p = life;
-            p.setTextureRect({{243,278},{size}});
+            if (!isStaminaEmpty) p.setTextureRect({{243,278},{size}});
+            if (isStaminaEmpty) p.setTextureRect({{243,206},{size}});
             p.setPosition({spos.x + 30 * full,life.getPosition().y});
             stamina_bar.push_back(p);
         }
@@ -232,10 +236,13 @@ void hud::caseStamina() {
     if (playerStam >= 15 && playerStam <= 30) {
         stamina_bar.clear();
         sf::Sprite p = life;
-        p.setTextureRect({{243,278},{size}});
+        if (!isStaminaEmpty) p.setTextureRect({{243,278},{size}});
+        if (isStaminaEmpty) p.setTextureRect({{243,206},{size}});
         p.setPosition({ spos.x,life.getPosition().y});
         stamina_bar.push_back(p);
     }
+
+
 }
 
 void hud::deathMessege(sf::RenderWindow &m_win) {
