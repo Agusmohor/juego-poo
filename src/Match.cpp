@@ -154,15 +154,16 @@ void match::normalView(sf::RenderWindow& m_win) {
 
 void match::hits() {
     sf::Vector2f dist = m_ply->getPosition() -  m_zombie->getPosition();
+    float distance = sqrt((dist.x * dist.x + dist.y * dist.y));
     if (m_ply->attack().x < 0 && m_ply->getHitStatus() ) {
         m_ply->setHitStatus(false);
-        if (dist.x > 0 && dist.x < 15) {
+        if (dist.x > 0 && dist.x < 15 && distance < 15) {
             m_zombie->RecieveDamage();
         }
     }
     if (m_ply->attack().x > 0 && m_ply->getHitStatus() ) {
         m_ply->setHitStatus(false);
-        if (dist.x < 0 && dist.x > -15) {
+        if (dist.x < 0 && dist.x > -15 && distance > -15) {
             m_zombie->RecieveDamage();
         }
     }
