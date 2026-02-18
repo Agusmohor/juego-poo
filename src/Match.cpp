@@ -157,13 +157,13 @@ void match::hits() {
     float distance = sqrt((dist.x * dist.x + dist.y * dist.y));
     if (m_ply->attack().x < 0 && m_ply->getHitStatus() ) {
         m_ply->setHitStatus(false);
-        if (dist.x > 0 && dist.x < 15 && distance < 15) {
+        if (dist.x > 0 && dist.x < 15 && distance < 15 && m_zombie->isAlive()) {
             m_zombie->RecieveDamage();
         }
     }
     if (m_ply->attack().x > 0 && m_ply->getHitStatus() ) {
         m_ply->setHitStatus(false);
-        if (dist.x < 0 && dist.x > -15 && distance > -15) {
+        if (dist.x < 0 && dist.x > -15 && distance > -15 && m_zombie->isAlive()) {
             m_zombie->RecieveDamage();
         }
     }
