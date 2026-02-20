@@ -15,7 +15,7 @@ class zombie : public entity {
     bool iscolx=false;
     bool iscoly=false;
     float dist,max_rad,min_rad,dist2,m_speed;
-    bool vivo=true;
+    bool vivo=true; bool deathOver = false;
     bool damaged = false; bool isHitting=false; bool doDamage = false;
     bool ismoving=false;
     int health=2;
@@ -37,6 +37,7 @@ public:
     int getHealth() override;
     void updateHealth() override;
     bool isAlive() override;
+    bool isDeathOver();
     const sf::Vector2f getScale() override;
     void recieveDamage() override;
     sf::FloatRect getHitbox() override;
