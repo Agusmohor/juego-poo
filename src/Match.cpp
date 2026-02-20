@@ -62,7 +62,7 @@ void match::update(float delta,Game &m_gam){
     //update del player si esta vivo
     if (m_ply->isAlive()) {m_ply->setHitboxes(m_hitboxes);m_ply->update(delta,m_mapa);}
     for (auto &z : m_zombies) {
-        if (z->isAlive()) {z->setHitboxes(m_hitboxes);}
+        if (z->isAlive()) {z->setHitboxes(m_hitboxes); z->update(delta,m_mapa);}
     }
 
     //elimina todos los z, q cumplan con la condicion q no vivo, funcion inline
@@ -84,9 +84,7 @@ void match::update(float delta,Game &m_gam){
            z->getPlyPos(m_ply->getPosition());
         }
     }
-    for (auto &z : m_zombies) {
-        if (z->isAlive()) z->update(delta,m_mapa);
-    }
+
 
     m_hud.update();
     m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
