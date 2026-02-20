@@ -197,7 +197,7 @@ void player::update(float delta,mapa &mapa) {
     //pl_pos=m_spr.getPosition();
     //m_spr.move(delta1);
     if (cooldown.getElapsedTime().asSeconds() >= 0.1f) {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attackSkin(); attack();}
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attackSkin(); getScale();}
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) { criticSkin();}
         cooldown.restart();
     }
@@ -252,8 +252,9 @@ bool player::isStaminaEmpty() {
     return empty_stamina;
 }
 
-void player::RecieveDamage() {
-    rDamage = true; // Esto activará la resta de corazones en el siguiente update
+void player::recieveDamage() {
+    damaged = true;
+    health--;
 }
 
 sf::Sprite &player::getSprite(){ return m_spr; }
@@ -287,12 +288,8 @@ void player::syncHitbox() {
 }
 
 void player::updateHealth() {
-    if (health < 0) {
-        health = 0;
-        vivo = false;
-    }else {
-        vivo = true;
-    }
+    if (health <= 0) {health = 0;vivo = false;}
+    else {vivo = true;}
 
 }
 
@@ -303,7 +300,7 @@ void player::deathDraw() {
 
 }
 
-const sf::Vector2f player::attack() {
+const sf::Vector2f player::getScale() {
     return m_spr.getScale();
 }
 

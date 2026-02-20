@@ -11,7 +11,7 @@ class zombie : public entity {
     sf::Vector2i scale;
     std::vector<sf::FloatRect>* hitboxes;
     sf::Color color;
-    sf::Clock timer1,timer2,timer3;
+    sf::Clock timer1,timer2,timer3,hitsCooldown;
     bool iscolx=false;
     bool iscoly=false;
     float dist,max_rad,min_rad,dist2,m_speed;
@@ -37,11 +37,14 @@ public:
     int getHealth() override;
     void updateHealth() override;
     bool isAlive() override;
-    const sf::Vector2f attack() override;
-    void RecieveDamage() override;
+    const sf::Vector2f getScale() override;
+    void recieveDamage() override;
     sf::FloatRect getHitbox() override;
 
     void deathDraw() override;
+
+    sf::Clock getHitsCooldown();
+    void restartHitsCooldown();
 
     void damageColor(bool cond);
 

@@ -37,12 +37,12 @@ public:
     int getStamina();
     bool isStaminaEmpty();
 
-    const sf::Vector2f attack() override;
+    const sf::Vector2f getScale() override;
 
     void attackSkin();
     void criticSkin();
 
-    void RecieveDamage() override;
+    void recieveDamage() override;
 
     void m_mouse(const sf::Vector2f &mouseCoords);
     void move(float delta,mapa &mapa) override;
@@ -75,7 +75,7 @@ private:
     bool isAttacking = false; bool iscritic = false;
     bool isHitting = false;
     bool vivo = true;
-    bool rDamage = false;
+    bool damaged = false;
     bool colision = false;
     bool empty_stamina = false;
     sf::Sprite m_spr,m_shadow;

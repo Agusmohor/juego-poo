@@ -168,8 +168,8 @@ sf::FloatRect zombie::getHitbox(){
     return m_spr.getGlobalBounds();
 }
 
-const sf::Vector2f zombie::attack(){
-    return sf::Vector2f();
+const sf::Vector2f zombie::getScale(){
+    return m_spr.getScale();
 }
 
 int zombie::getHealth(){
@@ -186,12 +186,20 @@ void zombie::updateHealth() {
     if (health > 0) {vivo = true; state = 0;}
 }
 
-void zombie::RecieveDamage() {
+void zombie::recieveDamage() {
     std::cout << "GOLPE RECIBIDO AL ZOMBIE" << std::endl;
     damaged = true;
     if (health > 0) {
         health--;
     }
+}
+
+sf::Clock zombie::getHitsCooldown() {
+    return hitsCooldown;
+}
+
+void zombie::restartHitsCooldown() {
+    hitsCooldown.restart();
 }
 
 void zombie::deathDraw() {

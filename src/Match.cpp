@@ -155,18 +155,36 @@ void match::normalView(sf::RenderWindow& m_win) {
 void match::hits() {
     sf::Vector2f dist = m_ply->getPosition() -  m_zombie->getPosition();
     float distance = sqrt((dist.x * dist.x + dist.y * dist.y));
-    if (m_ply->attack().x < 0 && m_ply->getHitStatus() ) {
-        m_ply->setHitStatus(false);
+    sf::Vector2f plyDir = m_ply->getScale();
+
+    //golpes juagdor a enemigo
+    if (plyDir.x < 0 && m_ply->getHitStatus() ) {
         if (dist.x > 0 && dist.x < 15 && distance < 15 && m_zombie->isAlive()) {
-            m_zombie->RecieveDamage();
+            m_zombie->recieveDamage();
+            m_ply->setHitStatus(false);
         }
     }
-    if (m_ply->attack().x > 0 && m_ply->getHitStatus() ) {
-        m_ply->setHitStatus(false);
-        if (dist.x < 0 && dist.x > -15 && distance > -15 && m_zombie->isAlive()) {
-            m_zombie->RecieveDamage();
+    if (plyDir.x > 0 && m_ply->getHitStatus() ) {
+        if (dist.x < 0 && dist.x > -15 && distance < 15 && m_zombie->isAlive()) {
+            m_zombie->recieveDamage();
+            m_ply->setHitStatus(false);
         }
     }
+
+    //golpes enemigo a jugador
+    if (m_zombie->getScale().x < 0 && distance < 10 && distance > 0) {
+        if (m_zombie->getHitsCooldown().getElapsedTime().asMilliseconds() > 300 ) {
+            m_ply->recieveDamage();
+            m_zombie->restartHitsCooldown();
+        }
+    }
+    if (m_zombie->getScale().x > 0 && distance < 10 && distance > 0) {
+        if (m_zombie->getHitsCooldown().getElapsedTime().asMilliseconds() > 300 ) {
+            m_ply->recieveDamage();
+            m_zombie->restartHitsCooldown();
+        }
+    }
+            std::cout << m_zombie->getScale().x << " " << distance << std::endl;
 }
 
 
