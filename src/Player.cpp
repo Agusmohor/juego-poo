@@ -308,5 +308,12 @@ const sf::Vector2f player::getScale() {
     return m_spr.getScale();
 }
 
+void DashAbility::update(float dt) {
+
+}
+
+void DashAbility::tryActive() {
+
+}
 
 

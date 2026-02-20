@@ -9,6 +9,26 @@
 #include "Tree.hpp"
 
 
+
+struct DashAbility {
+    void update(float dt);
+    void tryActive();
+};
+
+struct CriticAbility {
+
+};
+
+struct FireAbility {
+
+};
+
+struct Ablitities {
+    DashAbility dash;
+    CriticAbility crit;
+    FireAbility fire;
+};
+
 class player : public entity{
 public:
     player(const sf::Texture &sprite, const sf::Texture &shadow);
@@ -85,6 +105,8 @@ private:
 
     float m_width = 30.0f;  // ancho player
     float m_height = 40.0f; //altura player
+
+    Ablitities abilities;
 };
 
 #endif
