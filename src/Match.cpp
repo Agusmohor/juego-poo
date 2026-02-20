@@ -64,8 +64,13 @@ void match::update(float delta,Game &m_gam){
     for (auto &z : m_zombies) {
         if (z->isAlive()) {z->setHitboxes(m_hitboxes);}
     }
+
     //elimina todos los z, q cumplan con la condicion q no vivo, funcion inline
     m_zombies.erase(std::remove_if(m_zombies.begin(),m_zombies.end(),[](const std::unique_ptr<zombie>& z){return z->isDeathOver();}),m_zombies.end());
+    if (m_zombies.size() < zombies.getMinEnemies() && !(m_zombies.size() > zombies.getMaxEnemies())) {
+        spawnEnemies();
+    }
+
     //si no esta vivo, y presiona enter, crea otro personaje :)
     if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
         m_ply.reset(); m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
@@ -204,4 +209,12 @@ void match::hits() {
 
 }
 
+void match::spawnEnemies() {
+    m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow));
+}
 
+void match::spawnEnemies(int cant) {
+    for (int i = 0; i<cant; i++) {
+        m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie, m_res.shadow));
+    }
+}

@@ -15,6 +15,13 @@ struct Resources {
     sf::Texture Zombie;
 };
 
+struct enemies {
+    int max_enemies = 3;
+    int min_enemies = 1;
+    int const getMaxEnemies() {return max_enemies;}
+    int const getMinEnemies() {return min_enemies;}
+};
+
 class match : public scene {
     mapa m_mapa;
 
@@ -25,15 +32,19 @@ class match : public scene {
 
     //vector de obstaculos para agregar arboles,rocas,etc
     std::vector<std::unique_ptr<obstacle>> m_obtacles;
-    std::vector<std::unique_ptr<zombie>> m_zombies;
     std::vector<sf::FloatRect> m_hitboxes;
     std::vector<sf::Sprite*> m_worldSprites;
 
+    std::vector<std::unique_ptr<zombie>> m_zombies;
+    void spawnEnemies();
+    void spawnEnemies(int cant);
 
     sf::View m_view,m_uiview;
     sf::Vector2u m_winSize;
     sf::Clock timer,time;
     hud m_hud;
+
+    enemies zombies;
 
     Resources m_res;
 
