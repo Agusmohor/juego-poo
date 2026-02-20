@@ -21,32 +21,36 @@ void zombie::update(float delta,mapa &mapa) {
 
 void zombie::updateTexture() {
     sf::IntRect rect = m_spr.getTextureRect();
-    if (ismoving) state = 1;
-    if (isHitting) state = 2;
-    switch (state) {
-        case 0:
-            if (rect.position.x >= 160) {
-                rect.position.x = 0;
-            }
-            m_spr.setTextureRect({{rect.position.x + 32, 0},{scale}});
-            break;
-        case 1:
-            if (rect.position.x >= 96) {
-                rect.position.x = 0;
-            }
-            m_spr.setTextureRect({{rect.position.x + 32, 64},{scale}});
-            break;
-        case 2:
-            if (rect.position.x >= 224) {
-                isHitting = false;
-                rect.position.x = 0;
-            }
-            if (isHitting) {
-                m_spr.setTextureRect({{rect.position.x + 32, 256},{scale}});
-                if (m_spr.getTextureRect().position.x >= 128 && m_spr.getTextureRect().position.x <= 160) {doDamage = true;} else {doDamage = false;}
-            }
-            break;
+
+    if (isAlive()) {
+        if (ismoving) state = 1;
+        if (isHitting) state = 2;
+        switch (state) {
+            case 0:
+                if (rect.position.x >= 160) {
+                    rect.position.x = 0;
+                }
+                m_spr.setTextureRect({{rect.position.x + 32, 0},{scale}});
+                break;
+            case 1:
+                if (rect.position.x >= 96) {
+                    rect.position.x = 0;
+                }
+                m_spr.setTextureRect({{rect.position.x + 32, 64},{scale}});
+                break;
+            case 2:
+                if (rect.position.x >= 224) {
+                    isHitting = false;
+                    rect.position.x = 0;
+                }
+                if (isHitting) {
+                    m_spr.setTextureRect({{rect.position.x + 32, 256},{scale}});
+                    if (m_spr.getTextureRect().position.x >= 128 && m_spr.getTextureRect().position.x <= 160) {doDamage = true;} else {doDamage = false;}
+                }
+                break;
+        }
     }
+
 
 
 
