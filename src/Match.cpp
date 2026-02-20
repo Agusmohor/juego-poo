@@ -67,7 +67,7 @@ void match::update(float delta,Game &m_gam){
 
     //elimina todos los z, q cumplan con la condicion q no vivo, funcion inline
     m_zombies.erase(std::remove_if(m_zombies.begin(),m_zombies.end(),[](const std::unique_ptr<zombie>& z){return z->isDeathOver();}),m_zombies.end());
-    if (m_zombies.size() < zombies.getMinEnemies() && !(m_zombies.size() > zombies.getMaxEnemies())) {
+    if (m_zombies.size() < zombies.getMinEnemies() ) {
         spawnEnemies();
     }
 
