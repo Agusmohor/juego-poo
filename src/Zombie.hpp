@@ -16,7 +16,7 @@ class zombie : public entity {
     bool iscoly=false;
     float dist,max_rad,min_rad,dist2,m_speed;
     bool vivo=true;
-    bool damaged = false;
+    bool damaged = false; bool isHitting=false; bool doDamage = false;
     bool ismoving=false;
     int health=2;
     int state,count;
@@ -43,8 +43,13 @@ public:
 
     void deathDraw() override;
 
-    sf::Clock getHitsCooldown();
+    const sf::Clock& getHitsCooldown();
     void restartHitsCooldown();
+    bool const getDamageStatus();
+    void setDamageSatus(bool status);
+
+    const bool getHitStatus() const override;
+    void setHitStatus(bool status) override;
 
     void damageColor(bool cond);
 

@@ -26,7 +26,12 @@ public:
     virtual void updateHealth() = 0;
     virtual bool isAlive() = 0;
     virtual const sf::Vector2f getScale() = 0;
+
+    virtual const bool getHitStatus() const = 0;
+    virtual void setHitStatus(bool status) = 0;
+
     virtual void recieveDamage() = 0;
+
     virtual sf::FloatRect getHitbox() = 0;
     virtual ~entity() = default;
 };

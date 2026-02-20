@@ -172,19 +172,13 @@ void match::hits() {
     }
 
     //golpes enemigo a jugador
-    if (m_zombie->getScale().x < 0 && distance < 10 && distance > 0) {
-        if (m_zombie->getHitsCooldown().getElapsedTime().asMilliseconds() > 300 ) {
-            m_ply->recieveDamage();
-            m_zombie->restartHitsCooldown();
+    if ((m_zombie->getScale().x < 0 && distance < 10 && distance > 0) || (m_zombie->getScale().x > 0 && distance < 10 && distance > 0))  {
+        if (m_zombie->getHitStatus() == false) {
+            m_zombie->setHitStatus(true);
         }
+        if (m_zombie->getDamageStatus()){m_ply->recieveDamage(); m_zombie->setDamageSatus(false);}
     }
-    if (m_zombie->getScale().x > 0 && distance < 10 && distance > 0) {
-        if (m_zombie->getHitsCooldown().getElapsedTime().asMilliseconds() > 300 ) {
-            m_ply->recieveDamage();
-            m_zombie->restartHitsCooldown();
-        }
-    }
-            std::cout << m_zombie->getScale().x << " " << distance << std::endl;
+
 }
 
 

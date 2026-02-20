@@ -13,7 +13,7 @@ zombie::zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow) :  m_spr(m
 
 void zombie::update(float delta,mapa &mapa) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
-    if (this->inRaduis()) {this->move(delta,mapa);}
+    if (this->inRaduis() && !isHitting) {this->move(delta,mapa);}
     shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     this->updateHealth();
     // std::cout<<corazones<<std::endl;
@@ -21,19 +21,34 @@ void zombie::update(float delta,mapa &mapa) {
 
 void zombie::updateTexture() {
     sf::IntRect rect = m_spr.getTextureRect();
-    if (state == 0) {
-        if (ismoving) {
-            if (rect.position.x >= 96) {
-                rect.position.x = 0;
-            }
-            m_spr.setTextureRect({{rect.position.x + 32, 64},{scale}});
-        }else {
+    if (ismoving) state = 1;
+    if (isHitting) state = 2;
+    switch (state) {
+        case 0:
             if (rect.position.x >= 160) {
                 rect.position.x = 0;
             }
             m_spr.setTextureRect({{rect.position.x + 32, 0},{scale}});
-        }
+            break;
+        case 1:
+            if (rect.position.x >= 96) {
+                rect.position.x = 0;
+            }
+            m_spr.setTextureRect({{rect.position.x + 32, 64},{scale}});
+            break;
+        case 2:
+            if (rect.position.x >= 224) {
+                isHitting = false;
+                rect.position.x = 0;
+            }
+            if (isHitting) {
+                m_spr.setTextureRect({{rect.position.x + 32, 256},{scale}});
+                if (m_spr.getTextureRect().position.x >= 128 && m_spr.getTextureRect().position.x <= 160) {doDamage = true;} else {doDamage = false;}
+            }
+            break;
     }
+
+
 
     damageColor(damaged);
     if (!this->isAlive()) deathDraw();
@@ -194,13 +209,24 @@ void zombie::recieveDamage() {
     }
 }
 
-sf::Clock zombie::getHitsCooldown() {
+bool const zombie::getDamageStatus() {
+    return doDamage;
+}
+
+void zombie::setDamageSatus(bool status) {
+    doDamage = status;
+}
+const sf::Clock& zombie::getHitsCooldown() {
     return hitsCooldown;
 }
 
 void zombie::restartHitsCooldown() {
     hitsCooldown.restart();
 }
+
+const bool zombie::getHitStatus() const {return isHitting;}
+void zombie::setHitStatus(bool status) {isHitting = status; m_spr.setTextureRect({{0,256},{scale}});};
+
 
 void zombie::deathDraw() {
     sf::IntRect rect = m_spr.getTextureRect();

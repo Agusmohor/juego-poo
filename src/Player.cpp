@@ -214,13 +214,16 @@ void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
 }
 
 //posicion del player
-sf::Vector2f player::getPosition() const {
+const sf::Vector2f player::getPosition() const {
     return m_spr.getPosition();
 }
 
 sf::FloatRect player::getHitbox(){
     return m_spr.getGlobalBounds();
 }
+
+const bool player::getHitStatus() const {return isHitting;}
+void player::setHitStatus(bool status) {isHitting = status;}
 
 void player::attackSkin(){
     if (!isAttacking) {
@@ -256,6 +259,7 @@ void player::recieveDamage() {
     damaged = true;
     health--;
 }
+
 
 sf::Sprite &player::getSprite(){ return m_spr; }
 
@@ -304,6 +308,5 @@ const sf::Vector2f player::getScale() {
     return m_spr.getScale();
 }
 
-const bool player::getHitStatus() const {return isHitting;}
-void player::setHitStatus(bool status) {isHitting = status;}
+
 

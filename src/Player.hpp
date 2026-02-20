@@ -49,12 +49,11 @@ public:
     void speed();
     bool cond();
 
-    const bool getHitStatus() const;
-
-    void setHitStatus(bool status);
+    const bool getHitStatus() const override;
+    void setHitStatus(bool status) override;
 
     void updateSkinByMouse(const sf::Vector2f &mouseCoords);
-    sf::Vector2f getPosition() const ;
+    const sf::Vector2f getPosition() const ;
 
 
 
