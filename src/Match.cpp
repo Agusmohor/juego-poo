@@ -24,7 +24,7 @@ match::match() : m_mapa(),   m_text("../assets/textures/fondo.jpg"), Fondo(m_tex
     m_mapa.load(pngpath,ground,grass,collision);
 
     m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
-    m_zombie = std::make_unique<zombie>(m_res.Zombie,m_res.shadow);
+    m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow));
 
     std::srand(std::time({}));
     for (size_t i=0;i<40;i++) {
@@ -45,7 +45,9 @@ void match::update(float delta,Game &m_gam){
             tree->update();
         }
         m_ply->updateTexture();
-        m_zombie->updateTexture();
+        for (auto &z : m_zombies) {
+            z->updateTexture();
+        }
         time.restart();
     }
     //actualizado de hitbox obstaculos
@@ -56,7 +58,9 @@ void match::update(float delta,Game &m_gam){
 
     //update del player si esta vivo
     if (m_ply->isAlive()) {m_ply->setHitboxes(m_hitboxes);m_ply->update(delta,m_mapa);}
-    if (m_zombie->isAlive()) m_zombie->setHitboxes(m_hitboxes);
+    for (auto &z : m_zombies) {
+        if (z->isAlive()) {z->setHitboxes(m_hitboxes);}
+    }
     //si no esta vivo, y presiona enter, crea otro personaje :)
     if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
         m_ply.reset(); m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
@@ -65,8 +69,14 @@ void match::update(float delta,Game &m_gam){
 
     hits();
 
-    if (m_ply->isAlive()) m_zombie->getPlyPos(m_ply->getPosition());
-    if (m_zombie->isAlive()) m_zombie->update(delta,m_mapa);
+    if (m_ply->isAlive()) {
+        for (auto &z : m_zombies) {
+           z->getPlyPos(m_ply->getPosition());
+        }
+    }
+    for (auto &z : m_zombies) {
+        if (z->isAlive()) z->update(delta,m_mapa);
+    }
 
     m_hud.update();
     m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
@@ -106,20 +116,25 @@ void match::render(sf::RenderWindow &m_win){
     // m_win.draw(Fondo);
 
     this->mouseSkin(m_win);
-    m_wordlSprites.clear();
-    m_wordlSprites.push_back(&m_ply->getSprite());
-    m_wordlSprites.push_back(&m_zombie->getSprite());
+    m_worldSprites.clear();
+    m_worldSprites.push_back(&m_ply->getSprite());
+    for (auto &z : m_zombies) {
+        m_worldSprites.push_back(&z->getSprite());
+    }
     for (auto &trees : m_obtacles) {
-        m_wordlSprites.push_back(&trees->getSprite());
+        m_worldSprites.push_back(&trees->getSprite());
     }
 
-    std::sort(m_wordlSprites.begin(),m_wordlSprites.end(),[](sf::Sprite* a, sf::Sprite* b){
+    std::sort(m_worldSprites.begin(),m_worldSprites.end(),[](sf::Sprite* a, sf::Sprite* b){
         return (a->getPosition().y + a->getGlobalBounds().size.y) <
                (b->getPosition().y + b->getGlobalBounds().size.y);
     });
 
-    m_ply->draw(m_win);m_zombie->draw(m_win);
-    for (auto *spr : m_wordlSprites) {
+    m_ply->draw(m_win);
+    for (auto &z : m_zombies) {
+        z->draw(m_win);
+    }
+    for (auto *spr : m_worldSprites) {
             m_win.draw(*spr);
 
     }
@@ -153,31 +168,34 @@ void match::normalView(sf::RenderWindow& m_win) {
 }
 
 void match::hits() {
-    sf::Vector2f dist = m_ply->getPosition() -  m_zombie->getPosition();
-    float distance = sqrt((dist.x * dist.x + dist.y * dist.y));
-    sf::Vector2f plyDir = m_ply->getScale();
+    for (auto &z : m_zombies) {
+        sf::Vector2f dist = m_ply->getPosition() -  z->getPosition();
+        float distance = sqrt((dist.x * dist.x + dist.y * dist.y));
+        sf::Vector2f plyDir = m_ply->getScale();
 
-    //golpes juagdor a enemigo
-    if (plyDir.x < 0 && m_ply->getHitStatus() ) {
-        if (dist.x > 0 && dist.x < 15 && distance < 15 && m_zombie->isAlive()) {
-            m_zombie->recieveDamage();
-            m_ply->setHitStatus(false);
+        //golpes juagdor a enemigo
+        if (plyDir.x < 0 && m_ply->getHitStatus() ) {
+            if (dist.x > 0 && dist.x < 15 && distance < 15 && z->isAlive()) {
+                z->recieveDamage();
+                m_ply->setHitStatus(false);
+            }
         }
-    }
-    if (plyDir.x > 0 && m_ply->getHitStatus() ) {
-        if (dist.x < 0 && dist.x > -15 && distance < 15 && m_zombie->isAlive()) {
-            m_zombie->recieveDamage();
-            m_ply->setHitStatus(false);
+        if (plyDir.x > 0 && m_ply->getHitStatus() ) {
+            if (dist.x < 0 && dist.x > -15 && distance < 15 && z->isAlive()) {
+                z->recieveDamage();
+                m_ply->setHitStatus(false);
+            }
+        }
+
+        //golpes enemigo a jugador
+        if ((z->getScale().x < 0 && distance < 10 && distance > 0) || (z->getScale().x > 0 && distance < 10 && distance > 0))  {
+            if (z->getHitStatus() == false) {
+                z->setHitStatus(true);
+            }
+            if (z->getDamageStatus()){m_ply->recieveDamage(); z->setDamageSatus(false);}
         }
     }
 
-    //golpes enemigo a jugador
-    if ((m_zombie->getScale().x < 0 && distance < 10 && distance > 0) || (m_zombie->getScale().x > 0 && distance < 10 && distance > 0))  {
-        if (m_zombie->getHitStatus() == false) {
-            m_zombie->setHitStatus(true);
-        }
-        if (m_zombie->getDamageStatus()){m_ply->recieveDamage(); m_zombie->setDamageSatus(false);}
-    }
 
 }
 

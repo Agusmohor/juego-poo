@@ -20,15 +20,14 @@ class match : public scene {
 
     std::unique_ptr<player> m_ply;
 
-    std::unique_ptr<zombie> m_zombie;
-
     sf::Texture m_text;
     sf::Sprite Fondo;
 
     //vector de obstaculos para agregar arboles,rocas,etc
     std::vector<std::unique_ptr<obstacle>> m_obtacles;
+    std::vector<std::unique_ptr<zombie>> m_zombies;
     std::vector<sf::FloatRect> m_hitboxes;
-    std::vector<sf::Sprite*> m_wordlSprites;
+    std::vector<sf::Sprite*> m_worldSprites;
 
 
     sf::View m_view,m_uiview;
