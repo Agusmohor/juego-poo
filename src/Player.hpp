@@ -8,26 +8,9 @@
 #include "Mapa.hpp"
 #include "Tree.hpp"
 
+#include "Abilities.hpp"
 
 
-struct DashAbility {
-    void update(float dt);
-    void tryActive();
-};
-
-struct CriticAbility {
-
-};
-
-struct FireAbility {
-
-};
-
-struct Ablitities {
-    DashAbility dash;
-    CriticAbility crit;
-    FireAbility fire;
-};
 
 class player : public entity{
 public:
@@ -58,6 +41,8 @@ public:
     bool isStaminaEmpty();
 
     const sf::Vector2f getScale() override;
+
+    void dashMovement();
 
     void attackSkin();
     void criticSkin();
@@ -106,7 +91,8 @@ private:
     float m_width = 30.0f;  // ancho player
     float m_height = 40.0f; //altura player
 
-    Ablitities abilities;
+    Abilities abil;
+    float m_delta;
 };
 
 #endif

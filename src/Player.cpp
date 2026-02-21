@@ -176,6 +176,7 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 
 
 void player::update(float delta,mapa &mapa) {
+    m_delta = delta;
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
@@ -201,6 +202,8 @@ void player::update(float delta,mapa &mapa) {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) { criticSkin();}
         cooldown.restart();
     }
+
+    abil.update(delta,*this);
 
 }
 
@@ -308,12 +311,7 @@ const sf::Vector2f player::getScale() {
     return m_spr.getScale();
 }
 
-void DashAbility::update(float dt) {
-
+void player::dashMovement() {
+    sf::Vector2f velocity = dir * 100.f * m_delta;
+    m_spr.move(velocity);
 }
-
-void DashAbility::tryActive() {
-
-}
-
-
