@@ -24,7 +24,7 @@ match::match() : m_mapa(),   m_text("../assets/textures/fondo.jpg"), Fondo(m_tex
     m_mapa.load(pngpath,ground,grass,collision);
 
     m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
-    int cantZombies = 2;
+    int cantZombies = 1;
     for (int i=0;i<cantZombies;i++) {
         m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow));
     }

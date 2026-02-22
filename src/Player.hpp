@@ -93,6 +93,12 @@ private:
 
     Abilities abil;
     float m_delta;
+
+    bool isDashing = false;
+    float dashDuration = 0.15f;
+    float dashTimer = 0.f;
+    sf::Vector2f dashDir;
+
 };
 
 #endif

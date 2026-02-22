@@ -180,7 +180,7 @@ void player::update(float delta,mapa &mapa) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
-    if (!isAttacking && !iscritic) { move(delta,mapa);}
+    if (!isAttacking && !iscritic && !isDashing) { move(delta,mapa);}
 
     // std::cout << health << std::endl;
     if (health >= 0) {
@@ -204,6 +204,14 @@ void player::update(float delta,mapa &mapa) {
     }
 
     abil.update(delta,*this);
+    if (isDashing) {
+        dashTimer -= delta;
+
+        float dashSpeed = 400.f;
+        m_spr.move(dashDir * dashSpeed * delta);
+
+        if (dashTimer <= 0) isDashing = false;
+    }
 
 }
 
@@ -312,6 +320,17 @@ const sf::Vector2f player::getScale() {
 }
 
 void player::dashMovement() {
-    sf::Vector2f velocity = dir * 100.f * m_delta;
-    m_spr.move(velocity);
+    isDashing = true;
+    dashTimer = dashDuration;
+    if (dir != sf::Vector2f(0,0)) {
+        float length = sqrt(dir.x*dir.x + dir.y*dir.y);
+        dir /= length;
+        dashDir = dir;
+    }else {
+        if (getScale().x < 0) {
+            dashDir = sf::Vector2f(-1,0);
+        }else {
+            dashDir = sf::Vector2f(1,0);
+        }
+    }
 }
