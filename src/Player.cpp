@@ -109,7 +109,7 @@ void player::updateTexture() {
             break;
         case 5:
             if (rect.position.x >= 160) {
-                isAttacking = false;
+                isAttacking = false; isHitting = false;
                 rect.position.x = 0;
             }
             if (isAttacking) {
