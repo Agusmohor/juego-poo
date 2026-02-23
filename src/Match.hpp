@@ -22,11 +22,6 @@ struct enemies {
     int const getMinEnemies() {return min_enemies;}
 };
 
-struct stats {
-    float timeAlive = 0.f;
-    int kills = 0;
-};
-
 class match : public scene {
     float m_timeAlive = 0.f;
     float m_kills = 0.f;
@@ -73,4 +68,6 @@ public:
     void normalView(sf::RenderWindow& m_win);
 
     void hits();
+
+    const stats& getStats();
 };

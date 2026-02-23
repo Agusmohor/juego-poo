@@ -6,6 +6,11 @@
 
 class Game;
 
+struct stats {
+    float timeAlive = 0.f;
+    int kills = 0;
+};
+
 class scene{
 public:
     virtual ~scene() = default;

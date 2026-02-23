@@ -221,3 +221,7 @@ void match::isOver() {
     m_stats.kills = m_kills;
 }
 
+const stats &match::getStats() {
+    return m_stats;
+}
+

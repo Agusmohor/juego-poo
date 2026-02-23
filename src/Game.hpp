@@ -36,7 +36,7 @@ private:
     sf::Vector2u resolution;
     std::string name;
     sf::Vector2u m_winSize;
-
+    stats m_lastStats;
     
 };
 
