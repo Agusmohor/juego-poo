@@ -1,6 +1,5 @@
 #include "Hud.hpp"
 #include <iostream>
-
 #include "Player.hpp"
 
 hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture),font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
@@ -181,7 +180,6 @@ void hud::checkPlayer(int health,int stamina, bool isStaminaEmpty) {
 void hud::caseHealth() {
     //si esta muerto
     if (playerHp <= 0 && isDead == false) {hp_fill.clear(); isDead = true; return;}
-    std::cout << playerHp << std::endl;
 
     //casos dependiendo la vida del player, dibujo del hud
     if (playerHp > 0) {

@@ -21,7 +21,6 @@ class mapa {
     std::vector<sf::FloatRect> m_colliders;
 
 public:
-    mapa();
 
     void load(std::string& texturePath, std::string& groundCSV, std::string &grassCSV, std::string& collisionCSV);
 

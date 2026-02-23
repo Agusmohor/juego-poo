@@ -9,7 +9,7 @@
 #include "Mapa.hpp"
 #include <string>
 
-match::match() : m_mapa(),   m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
+match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/ground_base.csv"; std::string collision = "../assets/textures/map/ground_collision.csv";
     std::string grass = "../assets/textures/map/ground_grass.csv";
 
@@ -43,7 +43,8 @@ match::match() : m_mapa(),   m_text("../assets/textures/fondo.jpg"), Fondo(m_tex
 
 
 void match::update(float delta,Game &m_gam){
-    if (time.getElapsedTime().asSeconds() >= 0.1f) {
+    spriteTimer += delta;
+    if (spriteTimer >= spriteDur) {
         for (auto &tree : m_obtacles) {
             tree->update();
         }
@@ -51,7 +52,7 @@ void match::update(float delta,Game &m_gam){
         for (auto &z : m_zombies) {
             z->updateTexture();
         }
-        time.restart();
+        spriteTimer = 0.f;
     }
     //actualizado de hitbox obstaculos
     m_hitboxes.resize(m_obtacles.size());

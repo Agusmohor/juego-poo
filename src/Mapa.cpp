@@ -4,7 +4,6 @@
 #include<iostream>
 
 
-mapa::mapa(){}
 
 csv mapa::loadCsv(const std::string &path) {
     std::ifstream file(path); if (!file.is_open()) throw std::runtime_error("ERROR:COULD_NOT_OPEN_CSV_FILE");

@@ -10,7 +10,6 @@ void DashAbility::update(float dt, player &p) {
         p.startDash();
         if (dashTimer <= 0) p.setDashActive(false);
     }
-
 }
 
 bool DashAbility::tryActive() {

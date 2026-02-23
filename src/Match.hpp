@@ -41,7 +41,8 @@ class match : public scene {
 
     sf::View m_view,m_uiview;
     sf::Vector2u m_winSize;
-    sf::Clock timer,time;
+    float spriteTimer = 0.f;
+    float spriteDur = 0.1f;
     hud m_hud;
 
     enemies zombies;
