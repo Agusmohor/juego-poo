@@ -6,7 +6,7 @@
 
 class DashAbility : public Ability {
     float cooldownDuration = 5.f;
-    float cooldownTimer;
+    float cooldownTimer = 0.f;
     bool active = false;
 public:
     void update(float dt, player& p) override;

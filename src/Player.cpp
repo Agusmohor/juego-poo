@@ -176,7 +176,6 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 
 
 void player::update(float delta,mapa &mapa) {
-    m_delta = delta;
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
@@ -205,6 +204,7 @@ void player::update(float delta,mapa &mapa) {
 
     abil.update(delta,*this);
     if (isDashing) {
+        std::cout << "on" << std::endl;
         dashTimer -= delta;
 
         float dashSpeed = 400.f;
@@ -212,6 +212,7 @@ void player::update(float delta,mapa &mapa) {
 
         if (dashTimer <= 0) isDashing = false;
     }
+
 
 }
 

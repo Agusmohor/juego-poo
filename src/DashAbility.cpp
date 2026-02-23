@@ -10,6 +10,9 @@ void DashAbility::update(float dt, player &p) {
 }
 
 bool DashAbility::tryActive() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E) && cooldownTimer <= 0.f) {return true;}
-    return false;
+    static bool prev = false;
+    bool now = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E);
+    bool isPressed = now && !prev;
+    prev = now;
+    return isPressed && cooldownTimer <= 0.f;
 }

@@ -75,6 +75,8 @@ private:
 
     int health = 10;
     int stamina;
+    float staminaRegenTimer = 0.f;
+    float staminaRegenDur = 0.05f;
 
     bool isAttacking = false; bool iscritic = false;
     bool isHitting = false;
@@ -92,7 +94,6 @@ private:
     float m_height = 40.0f; //altura player
 
     Abilities abil;
-    float m_delta;
 
     bool isDashing = false;
     float dashDuration = 0.15f;
