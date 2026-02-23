@@ -22,7 +22,16 @@ struct enemies {
     int const getMinEnemies() {return min_enemies;}
 };
 
+struct stats {
+    float timeAlive = 0.f;
+    int kills = 0;
+};
+
 class match : public scene {
+    float m_timeAlive = 0.f;
+    float m_kills = 0.f;
+
+    stats m_stats;
     mapa m_mapa;
 
     std::unique_ptr<player> m_ply;
@@ -39,6 +48,8 @@ class match : public scene {
     void spawnEnemies();
     void spawnEnemies(int cant);
 
+    void isOver();
+
     sf::View m_view,m_uiview;
     sf::Vector2u m_winSize;
     float spriteTimer = 0.f;
@@ -48,7 +59,6 @@ class match : public scene {
     enemies zombies;
 
     Resources m_res;
-
 
 public:
     match();

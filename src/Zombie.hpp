@@ -20,6 +20,7 @@ class zombie : public entity {
     bool ismoving=false;
     int health=2;
     int state,count;
+    bool killcount = false;
 public:
     zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow);
 
@@ -61,6 +62,9 @@ public:
     void updateTexture() override;
 
     bool inRaduis();
+
+    bool killCounted();
+    void markKillCounted();
 };
 
 #endif

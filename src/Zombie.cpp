@@ -256,3 +256,10 @@ bool zombie::isDeathOver() {
     return deathOver;
 }
 
+bool zombie::killCounted() {
+    return killcount;
+}
+
+void zombie::markKillCounted() {
+    killcount = true;
+}

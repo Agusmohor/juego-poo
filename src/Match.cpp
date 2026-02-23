@@ -43,6 +43,7 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 
 
 void match::update(float delta,Game &m_gam){
+    m_timeAlive += delta;
     spriteTimer += delta;
     if (spriteTimer >= spriteDur) {
         for (auto &tree : m_obtacles) {
@@ -65,10 +66,12 @@ void match::update(float delta,Game &m_gam){
     for (auto &z : m_zombies) {
         z->setHitboxes(m_hitboxes);
         if (z->isAlive()) {z->update(delta,m_mapa);}
+        if (z->getHealth() <= 0 && !z->killCounted()){m_kills++; z->markKillCounted();}
     }
 
+
     //elimina todos los z, q cumplan con la condicion q no vivo, funcion inline
-    m_zombies.erase(std::remove_if(m_zombies.begin(),m_zombies.end(),[](const std::unique_ptr<zombie>& z){return z->isDeathOver();}),m_zombies.end());
+    m_zombies.erase(std::remove_if(m_zombies.begin(),m_zombies.end(),[this](const std::unique_ptr<zombie>& z){return z->isDeathOver();}),m_zombies.end());
     if (m_zombies.size() < zombies.getMinEnemies() ) {
         spawnEnemies();
     }
@@ -101,12 +104,6 @@ void match::updateView(Game &m_gam){
 
 void match::draw(sf::RenderWindow &m_win){
     this->render(m_win);
-
-
-    // if(m_zombie.isAlive()){
-    //     m_zombie.draw(m_win);
-    // }
-
     m_win.setView(m_uiview);
 }
 
@@ -218,3 +215,9 @@ void match::spawnEnemies(int cant) {
         m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie, m_res.shadow));
     }
 }
+
+void match::isOver() {
+    m_stats.timeAlive = m_timeAlive;
+    m_stats.kills = m_kills;
+}
+
