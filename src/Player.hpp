@@ -66,7 +66,7 @@ public:
 
 private:
     int state;
-    sf::Clock time, cooldown, staminaCooldown;
+    sf::Clock time, cooldown;
     sf::Vector2f prevPos, hitboxPrevPos;
     sf::Vector2i scale;
 

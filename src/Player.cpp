@@ -133,11 +133,11 @@ void player::updateTexture() {
 
 void player::speed(){
     m_speed = 50;
-    if (staminaCooldown.getElapsedTime().asMilliseconds() >= 50) {
+    if (staminaRegenTimer >= staminaRegenDur) {
         if(stamina < 180){
             stamina++;
         }
-        staminaCooldown.restart();
+        staminaRegenTimer = 0.f;
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift) && stamina > 0 && this->cond() && !empty_stamina){
@@ -179,6 +179,7 @@ void player::update(float delta,mapa &mapa) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
+    staminaRegenTimer += delta;
     if (!isAttacking && !iscritic && !isDashing) { move(delta,mapa);}
 
     // std::cout << health << std::endl;
