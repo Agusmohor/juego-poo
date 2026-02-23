@@ -67,9 +67,10 @@ public:
     void updateSkinByMouse(const sf::Vector2f &mouseCoords);
     const sf::Vector2f getPosition() const ;
 
-
-
-
+    void doShoot();
+    void shootState();
+    bool getShootActive();
+    void setShootActive(bool active);
 
 private:
     float m_delta;
@@ -110,6 +111,12 @@ private:
     bool isDashing = false;
     sf::Vector2f dashDir;
 
+    sf::Vector2f distfire;
+    sf::CircleShape fireball;
+    bool isShot = false;
+    ShootAbility shot;
+    sf::Vector2f shootdir;
+    bool isShootActive = false;
 };
 
 #endif
