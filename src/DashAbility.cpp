@@ -3,13 +3,13 @@
 #include <iostream>
 
 void DashAbility::update(float dt, player &p) {
-    if (tryActive()) {p.dashMovement();}
+    if (cooldownTimer > 0.f) cooldownTimer -= dt;
+
+    if (tryActive()) {p.dashMovement(); cooldownTimer = cooldownDuration;}
 
 }
 
 bool DashAbility::tryActive() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E) && cooldown.getElapsedTime().asSeconds() > 5) {
-        cooldown.restart();return true;
-    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::E) && cooldownTimer <= 0.f) {return true;}
     return false;
 }
