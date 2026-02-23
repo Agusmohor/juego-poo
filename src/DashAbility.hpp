@@ -3,10 +3,11 @@
 
 #include "Ability.hpp"
 
-
 class DashAbility : public Ability {
     float cooldownDuration = 5.f;
     float cooldownTimer = 0.f;
+    float dashTimer = 0.f;
+    float dashDuration = 0.15f;
     bool active = false;
 public:
     void update(float dt, player& p) override;

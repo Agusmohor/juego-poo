@@ -43,6 +43,13 @@ public:
     const sf::Vector2f getScale() override;
 
     void dashMovement();
+    void startDash();
+    bool getDashActive();
+    void setDashActive(bool active);
+
+    void shield();
+    bool getShieldActive();
+    void setShieldActive(bool active);
 
     void attackSkin();
     void criticSkin();
@@ -65,6 +72,7 @@ public:
 
 
 private:
+    float m_delta;
     int state;
     sf::Vector2f prevPos, hitboxPrevPos;
     sf::Vector2i scale;
@@ -97,9 +105,9 @@ private:
 
     Abilities abil;
 
+    bool isShieldActive = false;
+
     bool isDashing = false;
-    float dashDuration = 0.15f;
-    float dashTimer = 0.f;
     sf::Vector2f dashDir;
 
 };

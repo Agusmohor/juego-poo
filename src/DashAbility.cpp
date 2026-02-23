@@ -1,11 +1,15 @@
 #include "DashAbility.hpp"
 #include "Player.hpp"
-#include <iostream>
 
 void DashAbility::update(float dt, player &p) {
     if (cooldownTimer > 0.f) cooldownTimer -= dt;
 
-    if (tryActive()) {p.dashMovement(); cooldownTimer = cooldownDuration;}
+    if (tryActive()) {p.dashMovement(); cooldownTimer = cooldownDuration; dashTimer = dashDuration;}
+    if (p.getDashActive()) {
+        dashTimer -= dt;
+        p.startDash();
+        if (dashTimer <= 0) p.setDashActive(false);
+    }
 
 }
 

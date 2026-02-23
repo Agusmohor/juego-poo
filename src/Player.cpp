@@ -176,6 +176,7 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 
 
 void player::update(float delta,mapa &mapa) {
+    m_delta = delta;
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
@@ -205,16 +206,6 @@ void player::update(float delta,mapa &mapa) {
     }
 
     abil.update(delta,*this);
-    if (isDashing) {
-        std::cout << "on" << std::endl;
-        dashTimer -= delta;
-
-        float dashSpeed = 400.f;
-        m_spr.move(dashDir * dashSpeed * delta);
-
-        if (dashTimer <= 0) isDashing = false;
-    }
-
 
 }
 
@@ -270,8 +261,7 @@ bool player::isStaminaEmpty() {
 }
 
 void player::recieveDamage() {
-    damaged = true;
-    health--;
+    if (!isShieldActive) health--;
 }
 
 
@@ -324,7 +314,6 @@ const sf::Vector2f player::getScale() {
 
 void player::dashMovement() {
     isDashing = true;
-    dashTimer = dashDuration;
     if (dir != sf::Vector2f(0,0)) {
         float length = sqrt(dir.x*dir.x + dir.y*dir.y);
         dir /= length;
@@ -336,4 +325,32 @@ void player::dashMovement() {
             dashDir = sf::Vector2f(1,0);
         }
     }
+
+    float dashSpeed = 400.f;
+    m_spr.move(dashDir * dashSpeed * m_delta);
+}
+
+void player::startDash() {
+    float dashSpeed = 400.f;
+    m_spr.move(dashDir * dashSpeed * m_delta);
+}
+
+bool player::getDashActive() {
+    return isDashing;
+}
+
+void player::setDashActive(bool active) {
+    isDashing = active;
+}
+
+void player::shield() {
+    isShieldActive = true;
+}
+
+bool player::getShieldActive() {
+    return isShieldActive;
+}
+
+void player::setShieldActive(bool active) {
+    isShieldActive = active;
 }
