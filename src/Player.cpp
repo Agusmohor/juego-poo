@@ -197,10 +197,11 @@ void player::update(float delta,mapa &mapa) {
     //sf::Vector2f delta1 = dir * m_speed;
     //pl_pos=m_spr.getPosition();
     //m_spr.move(delta1);
-    if (cooldown.getElapsedTime().asSeconds() >= 0.1f) {
+    attackTimer += delta;
+    if (attackTimer >= attackDur) {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attackSkin(); getScale();}
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) { criticSkin();}
-        cooldown.restart();
+        attackTimer = 0.f;
     }
 
     abil.update(delta,*this);

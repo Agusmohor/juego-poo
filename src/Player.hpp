@@ -66,7 +66,6 @@ public:
 
 private:
     int state;
-    sf::Clock time, cooldown;
     sf::Vector2f prevPos, hitboxPrevPos;
     sf::Vector2i scale;
 
@@ -80,6 +79,9 @@ private:
 
     bool isAttacking = false; bool iscritic = false;
     bool isHitting = false;
+    float attackTimer = 0.f;
+    float attackDur = 0.1f;
+
     bool vivo = true;
     bool damaged = false;
     bool colision = false;
