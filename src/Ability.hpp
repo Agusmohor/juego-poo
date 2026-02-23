@@ -1,6 +1,5 @@
 #ifndef JUEGO_POO_ABILITY_H
 #define JUEGO_POO_ABILITY_H
-#include <SFML/Window/Keyboard.hpp>
 
 class player;
 

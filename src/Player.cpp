@@ -184,15 +184,9 @@ void player::update(float delta,mapa &mapa) {
     if (!isAttacking && !iscritic && !isDashing) { move(delta,mapa);}
 
     // std::cout << health << std::endl;
-    if (health >= 0) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) health--;
-    }
-    if (health <= 0) health = 0;
-    //el jugador se muere si su vida es 0, el state = 4, es para controlar el updateTexture
-    if (health == 0 && state != 4){ vivo = false; state = 3;} else {vivo = true;}
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) health--;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) health++;
-    if (health >= 14) health = 14;
-    // std::cout << this->getPosition().x << " " << this->getPosition().y << std::endl;
+    updateHealth();
 
     m_shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     //sf::Vector2f delta1 = dir * m_speed;
@@ -296,8 +290,13 @@ void player::syncHitbox() {
 }
 
 void player::updateHealth() {
-    if (health <= 0) {health = 0;vivo = false;}
+    if (health <= 0) {
+        health = 0;vivo = false;
+        if (state != 4){state = 3;}
+    }
     else {vivo = true;}
+
+    if (health >= 14) health = 14;
 
 }
 

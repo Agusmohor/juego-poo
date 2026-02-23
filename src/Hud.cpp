@@ -180,10 +180,11 @@ void hud::checkPlayer(int health,int stamina, bool isStaminaEmpty) {
 
 void hud::caseHealth() {
     //si esta muerto
-    if (playerHp == 0 && isDead == false) {hp_fill.clear(); isDead = true; return;}
+    if (playerHp <= 0 && isDead == false) {hp_fill.clear(); isDead = true; return;}
+    std::cout << playerHp << std::endl;
 
     //casos dependiendo la vida del player, dibujo del hud
-    if (playerHp != 0) {
+    if (playerHp > 0) {
         isDead = false;
         //si es par
         if (playerHp%2 == 0) {
