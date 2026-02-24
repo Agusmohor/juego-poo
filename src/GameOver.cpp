@@ -1,11 +1,11 @@
 #include "GameOver.hpp"
+#include <iomanip>
 
 #include "Game.hpp"
 #include <iostream>
 
-sStats::sStats(const sf::Font& t) : kills(t), time(t){}
 
-gameover::gameover() : font("../assets/fonts/fuente.ttf"), text(font), m_stats2(font) {
+gameover::gameover() : font("../assets/fonts/fuente.ttf"), text(font), text2(font) {
     if (!font.openFromFile("../assets/fonts/fuente.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     shape.setFillColor(sf::Color::Red);
     text.setString("GAME OVER");
@@ -20,8 +20,7 @@ void gameover::update(float delta, Game &m_gam) {
 void gameover::draw(sf::RenderWindow &m_win) {
     m_win.draw(shape);
     m_win.draw(text);
-    m_win.draw(m_stats2.kills);
-    m_win.draw(m_stats2.time);
+    m_win.draw(text2);
 }
 
 void gameover::updateView(Game &m_gam) {
@@ -29,9 +28,11 @@ void gameover::updateView(Game &m_gam) {
 }
 
 void gameover::toText() {
-    m_stats2.kills.setString(std::to_string(m_stats.kills)) ;
-    m_stats2.time.setString(std::to_string(m_stats.timeAlive)) ;
-
-    m_stats2.kills.setPosition({160,100});
-    m_stats2.time.setPosition({200,100});
+    int totalseg = m_stats.timeAlive;
+    int min = totalseg / 60;
+    int seg = totalseg % 60;
+    std::ostringstream s;
+    s << "Kills " << std::to_string(m_stats.kills) << " " << "tiempo vivo " << std::setw(2) << std::setfill('0') << std::to_string(min) << ":" << std::setw(2) << std::setfill('0') << std::to_string(seg);
+    text2.setString(s.str());
+    text.setPosition({160,100});
 }

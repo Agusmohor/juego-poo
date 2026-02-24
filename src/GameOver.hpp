@@ -2,19 +2,13 @@
 #define JUEGO_POO_GAMEOVER_H
 #include "Scene.hpp"
 
-struct sStats {
-    sStats(const sf::Font& t);
-    sf::Text time;
-    sf::Text kills;
-};
-
 class gameover : public scene{
     sf::RectangleShape shape;
     sf::Font font;
-    sf::Text text;
+    sf::Text text,text2;
     bool isgameover = false;
     stats m_stats;
-    sStats m_stats2;
+
 public:
     gameover();
     void update(float delta, Game &m_gam) override;

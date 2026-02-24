@@ -6,7 +6,7 @@
 #include <SFML/Graphics/CircleShape.hpp>
 
 class ShootAbility:public Ability{
-    float cooldownDur = 8.f;
+    float cooldownDur = 3.f;
     float cooldownTimer = 0.f;
     float shootTimer = 0.f;
     float shootDur = 0.2;
