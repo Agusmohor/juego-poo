@@ -208,7 +208,7 @@ void match::hits() {
         }
 
         //fireball damage
-        if (m_ply->getFireball().getGlobalBounds().findIntersection(z->getGlobalBounds()) && m_ply->getShootActive()){
+        if (m_ply->getFireball().getGlobalBounds().findIntersection(z->getGlobalBounds()) && m_ply->getisShot()){
             z->recieveDamage();
         }
    }

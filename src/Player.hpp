@@ -73,6 +73,7 @@ public:
     bool getShootActive();
     void setShootActive(bool active);
     void doShoot();
+    bool getisShot() const;
     const sf::RectangleShape &getFireball();
 
 

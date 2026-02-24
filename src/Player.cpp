@@ -207,7 +207,7 @@ void player::update(float delta,mapa &mapa) {
 void player::draw(sf::RenderWindow& m_win) {
     if(isShot){m_win.draw(m_fireball);}
     if (isShieldActive){m_win.draw(m_shield);}
-    // m_win.draw(fhitbox);
+    m_win.draw(fhitbox);
 }
 
 void player::drawShadow(sf::RenderWindow &m_win) {
@@ -397,6 +397,8 @@ void player::doShoot(){
     shootdir = dir;
     shotSkin = true;
 }
+
+bool player::getisShot() const {return isShot;}
 
 const sf::RectangleShape& player::getFireball() {
     return fhitbox;
