@@ -14,10 +14,11 @@
 
 class player : public entity{
 public:
-    player(const sf::Texture &sprite, const sf::Texture &shadow);
+    player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield);
 
     void update(float delta,mapa &mapa);
     void draw(sf::RenderWindow &m_win) override;
+    void drawShadow(sf::RenderWindow &m_win);
     sf::Sprite& getSprite() override;
 
     void updateTexture() override;
@@ -109,6 +110,7 @@ private:
     Abilities abil;
 
     bool isShieldActive = false;
+    sf::Sprite m_shield;
 
     bool isDashing = false;
     sf::Vector2f dashDir;

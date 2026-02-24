@@ -4,10 +4,10 @@
 #include <iostream>
 #include "Tree.hpp"
 
-player::player(const sf::Texture &sprite,const sf::Texture &shadow) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180){
+player::player(const sf::Texture &sprite,const sf::Texture &shadow,const sf::Texture& shield) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180), m_shield(shield){
     scale = sf::Vector2i(32,32);
     m_spr.setTextureRect({{0,0},{scale}});
-    m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3});
+    m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3}); m_shield.setOrigin({16,16});
     m_spr.setOrigin({16,16}); m_spr.setPosition({1120,1184});
     dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
@@ -182,7 +182,6 @@ void player::update(float delta,mapa &mapa) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::O)) health++;
     updateHealth();
 
-    m_shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     //sf::Vector2f delta1 = dir * m_speed;
     //pl_pos=m_spr.getPosition();
     //m_spr.move(delta1);
@@ -194,13 +193,17 @@ void player::update(float delta,mapa &mapa) {
     }
 
     abil.update(delta,*this);
+    m_shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
+    m_shield.setPosition({m_spr.getPosition().x, m_spr.getPosition().y});
 }
 
 void player::draw(sf::RenderWindow& m_win) {
+    if(isShot){m_win.draw(fireball);}
+    if (isShieldActive){m_win.draw(m_shield);}
+}
+
+void player::drawShadow(sf::RenderWindow &m_win) {
     if (state != 4) m_win.draw(m_shadow);
-     if(isShot){
-        m_win.draw(fireball);
-    }
 }
 
 void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){

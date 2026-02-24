@@ -18,12 +18,13 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
     if (!m_res.tree3.loadFromFile("../assets/textures/trees/tree3.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
     if (!m_res.Player.loadFromFile("../assets/textures/entity/player/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_PLAYER_TEXTURE_FROM_FILE");}
     if (!m_res.shadow.loadFromFile("../assets/textures/entity/player/plshadow.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHADOW_TEXTURE_FROM_FILE");}
+    if (!m_res.shield.loadFromFile("../assets/textures/entity/player/shield.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHIELD_TEXTURE_FROM_FILE");}
     if (!m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_ZOMBIE_TEXTURE_FROM_FILE");}
 
 
     m_mapa.load(pngpath,ground);
 
-    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
+    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield);
     int cantZombies = 1;
     for (int i=0;i<cantZombies;i++) {
         m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow));
@@ -140,15 +141,14 @@ void match::render(sf::RenderWindow &m_win){
         return (a->getPosition().y + a->getGlobalBounds().size.y) <
                (b->getPosition().y + b->getGlobalBounds().size.y);
     });
-
-    m_ply->draw(m_win);
+    m_ply->drawShadow(m_win);
     for (auto &z : m_zombies) {
         z->draw(m_win);
     }
     for (auto *spr : m_worldSprites) {
             m_win.draw(*spr);
-
     }
+    m_ply->draw(m_win);
     // m_ply.drawHitbox(m_win);
     // m_zombie->drawHitbox(m_win);
 
