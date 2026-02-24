@@ -205,6 +205,11 @@ void match::hits() {
             }
             if (z->getDamageStatus()){m_ply->recieveDamage(); z->setDamageSatus(false);}
         }
+
+        //fireball damage
+        if (m_ply->getFireball().getGlobalBounds().findIntersection(z->getGlobalBounds()) && m_ply->getShootActive()){
+            z->recieveDamage();
+        }
    }
 
 

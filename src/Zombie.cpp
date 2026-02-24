@@ -183,7 +183,7 @@ bool zombie::inRaduis() {
     return false;
 }
 
-sf::FloatRect zombie::getHitbox(){
+sf::FloatRect zombie::getGlobalBounds(){
     return m_spr.getGlobalBounds();
 }
 

@@ -32,7 +32,7 @@ public:
 
     virtual void recieveDamage() = 0;
 
-    virtual sf::FloatRect getHitbox() = 0;
+    virtual sf::FloatRect getGlobalBounds() = 0;
     virtual ~entity() = default;
 };
 

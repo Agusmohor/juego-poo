@@ -41,7 +41,7 @@ public:
     bool isDeathOver();
     const sf::Vector2f getScale() override;
     void recieveDamage() override;
-    sf::FloatRect getHitbox() override;
+    sf::FloatRect getGlobalBounds() override;
 
     void deathDraw() override;
 

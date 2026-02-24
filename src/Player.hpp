@@ -30,7 +30,7 @@ public:
     void coly(sf::FloatRect hitbox) override;
 
     void texture();
-    sf::FloatRect getHitbox() override;
+    sf::FloatRect getGlobalBounds() override;
     void updateHealth() override;
 
     void deathDraw() override;
@@ -41,15 +41,6 @@ public:
     bool isStaminaEmpty();
 
     const sf::Vector2f getScale() override;
-
-    void dashMovement();
-    void startDash();
-    bool getDashActive();
-    void setDashActive(bool active);
-
-    void shield();
-    bool getShieldActive();
-    void setShieldActive(bool active);
 
     void attackSkin();
     void criticSkin();
@@ -67,10 +58,22 @@ public:
     void updateSkinByMouse(const sf::Vector2f &mouseCoords);
     const sf::Vector2f getPosition() const ;
 
-    void doShoot();
+    //abilities
+    void dashMovement();
+    void startDash();
+    bool getDashActive();
+    void setDashActive(bool active);
+
+    void shield();
+    bool getShieldActive();
+    void setShieldActive(bool active);
+
     void shootState();
     bool getShootActive();
     void setShootActive(bool active);
+    void doShoot();
+    const sf::CircleShape &getFireball();
+
 
 private:
     float m_delta;
@@ -111,10 +114,8 @@ private:
     bool isDashing = false;
     sf::Vector2f dashDir;
 
-    sf::Vector2f distfire;
     sf::CircleShape fireball;
     bool isShot = false;
-    ShootAbility shot;
     sf::Vector2f shootdir;
     bool isShootActive = false;
 };

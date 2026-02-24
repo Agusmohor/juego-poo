@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Tree.hpp"
 
-player::player(const sf::Texture &sprite,const sf::Texture &shadow) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180),shot(){
+player::player(const sf::Texture &sprite,const sf::Texture &shadow) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180){
     scale = sf::Vector2i(32,32);
     m_spr.setTextureRect({{0,0},{scale}});
     m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3});
@@ -14,12 +14,9 @@ player::player(const sf::Texture &sprite,const sf::Texture &shadow) :  m_spr(spr
     rClick = sf::Mouse::Button::Right;
     lClick = sf::Mouse::Button::Left;
     hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Blue);
-    fireball.setPosition({80,80});
     fireball.setFillColor(sf::Color::Red);
     fireball.setRadius(2);
     fireball.setOrigin({2,2});
-    std::size_t points=15;
-    fireball.setPointCount(points);
 }
 
 void player::move(float delta, mapa &mapa) {
@@ -224,7 +221,7 @@ const sf::Vector2f player::getPosition() const {
     return m_spr.getPosition();
 }
 
-sf::FloatRect player::getHitbox(){
+sf::FloatRect player::getGlobalBounds(){
     return m_spr.getGlobalBounds();
 }
 
@@ -370,28 +367,35 @@ bool player::getShootActive(){
 }
 
 void player::shootState(){
-    if (!isShot && isShootActive) { 
+    if (!isShot && isShootActive) {
         fireball.setPosition(getPosition());
         isShot = true;
     }
     if (isShot) {
         if (shootdir != sf::Vector2f(0,0)) {
-            fireball.move({shootdir.x*2, shootdir.y*2});
     }else {
             if (getScale().x < 0) {
-                fireball.move({-2, 0});
+                shootdir = sf::Vector2f(-1,0);
             }else {
-                fireball.move({2, 0});
+                shootdir = sf::Vector2f(1,0);
             }
         }
+        float fspeed = 100;
+        fireball.move(shootdir * m_delta * fspeed);
+
         sf::Vector2f distfire = getPosition() - fireball.getPosition();
         if (std::abs(distfire.x) > 40 || std::abs(distfire.y) > 40) { 
-            isShot = false; 
+            isShot = false; fireball.setPosition({-10000,-10000});
         }
     }
 }
 
 void player::doShoot(){
     isShootActive = true;
-    shootdir=dir;
+    shootdir = dir;
 }
+
+const sf::CircleShape& player::getFireball() {
+    return fireball;
+}
+

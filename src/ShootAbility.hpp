@@ -2,11 +2,9 @@
 #ifndef SHOOTABILITY_H
 #define SHOOTABILITY_H
 #include "Ability.hpp"
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
 
 class ShootAbility:public Ability{
-    float cooldownDur = 3.f;
+    float cooldownDur = 2.f;
     float cooldownTimer = 0.f;
     float shootTimer = 0.f;
     float shootDur = 0.2;
