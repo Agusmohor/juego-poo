@@ -6,7 +6,7 @@ zombie::zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow) :  m_spr(m
     m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale);
     scale = sf::Vector2i(32,32);
     m_spr.setTextureRect({{0,0},{scale}}); m_spr.setOrigin({16,16}); shadow.setOrigin({9,3}); shadow.setScale({0.6,0.6});
-    m_spr.setPosition({100.f, 100.f});
+    m_spr.setPosition({750.f, 750.f});
     hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Red);
     m_speed = 40; color = m_spr.getColor();
 }

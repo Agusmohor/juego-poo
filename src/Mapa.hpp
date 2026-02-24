@@ -24,9 +24,6 @@ public:
 
     void load(std::string& texturePath, std::string& groundCSV);
 
-    bool isSolidTile(int tx, int ty) const;
-    bool isSolidAtPixel(float px, float py) const;
-
     void draw(sf::RenderWindow& m_win);
 
     void drawCSV(sf::RenderWindow &m_win, csv &m_csv, sf::Texture &texture, int m_tilesize);

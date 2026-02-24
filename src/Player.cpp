@@ -8,7 +8,7 @@ player::player(const sf::Texture &sprite,const sf::Texture &shadow) :  m_spr(spr
     scale = sf::Vector2i(32,32);
     m_spr.setTextureRect({{0,0},{scale}});
     m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3});
-    m_spr.setOrigin({16,16}); m_spr.setPosition({80,80});
+    m_spr.setOrigin({16,16}); m_spr.setPosition({1120,1184});
     dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     rClick = sf::Mouse::Button::Right;
@@ -74,6 +74,7 @@ void player::updateTexture() {
     sf::IntRect rect = m_spr.getTextureRect();
     if (isAttacking) state = 5;
     if (iscritic) state = 6;
+    if (isDashing) state = 7;
     switch (state) {
         case 0:
             if (rect.position.x >= 192) {
@@ -109,6 +110,14 @@ void player::updateTexture() {
             }
             if (iscritic) {
                 m_spr.setTextureRect({{rect.position.x + 32, 256},{scale}});
+            }
+            break;
+        case 7:
+            if (rect.position.x >= 64) {
+                rect.position.x = 0;
+            }
+            if (isDashing) {
+                m_spr.setTextureRect({{rect.position.x + 32, 321},{scale}});
             }
             break;
 
@@ -298,6 +307,7 @@ const sf::Vector2f player::getScale() {
 }
 
 void player::dashMovement() {
+    m_spr.setTextureRect({{0,321},{scale}});
     isDashing = true;
     if (dir != sf::Vector2f(0,0)) {
         float length = sqrt(dir.x*dir.x + dir.y*dir.y);
