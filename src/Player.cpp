@@ -123,12 +123,9 @@ void player::updateTexture() {
 
     }
     if (!isAlive()) deathDraw();
-        if (shootdir.x < 0){m_fireball.setScale({-fscale.x,m_fireball.getScale().y});} else {m_fireball.setScale({fscale.x,m_fireball.getScale().y});}
-        if (shootdir.y < 0) {
-            m_fireball.setRotation(sf::degrees(-90));
-        } else { if (shootdir.y > 0) {
-            m_fireball.setRotation(sf::degrees(90));
-        }else {m_fireball.setRotation(sf::degrees(0));}}
+    sf::Vector2f fdir = shootdir;
+    float len = std::sqrt(fdir.x*fdir.x + fdir.y*fdir.y); if (len != 0.f) fdir/len;
+    float ang = std::atan2(fdir.y,fdir.x); m_fireball.setRotation(sf::radians(ang));
     if (m_fireball.getTextureRect().position.x >= 80){m_fireball.setTextureRect({{0,0},{fireballScale}});}
     m_fireball.setTextureRect({{m_fireball.getTextureRect().position.x +16,0},{fireballScale}});
 }
