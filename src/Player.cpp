@@ -48,27 +48,10 @@ void player::move(float delta, mapa &mapa) {
     prevPos = m_spr.getPosition(); syncHitbox();
     sf::FloatRect hb = hitbox.getGlobalBounds();
 
-    float dx = velocity.x;
-    if (dx != 0.f){
-        float probeX = (dx > 0.f) ? (hb.position.x + hb.size.x + dx + 10.f) : (hb.position.x + dx - 10.f);
-        bool top    = mapa.isSolidAtPixel(probeX, hb.position.y + 10.f);
-        bool midx    = mapa.isSolidAtPixel(probeX,hb.position.y + hb.size.y * 0.5f);
-        bool bottom = mapa.isSolidAtPixel(probeX, hb.position.y + hb.size.y - 8.f);
-        if (!top && !bottom && !midx) m_spr.move({dx, 0.f});
-    }
+    m_spr.move(velocity);
 
     syncHitbox();
     for (auto& box : *hitboxes) colx(box);
-
-    hb = hitbox.getGlobalBounds();
-    float dy = velocity.y;
-    if (dy != 0.f){
-        float probeY = (dy > 0.f) ? (hb.position.y + hb.size.y + dy + 24.f) : (hb.position.y + dy - 5.f);
-        bool left  = mapa.isSolidAtPixel(hb.position.x + 10.f, probeY);
-        bool midy = mapa.isSolidAtPixel(hb.position.x + hb.size.x * 0.8f, probeY);
-        bool right = mapa.isSolidAtPixel(hb.position.x + hb.size.x - 10.f, probeY);
-        if (!left && !right && !midy) m_spr.move({0.f, dy});
-    }
 
     syncHitbox();
     for (auto& box : *hitboxes) coly(box);

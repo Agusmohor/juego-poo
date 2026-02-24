@@ -31,12 +31,10 @@ csv mapa::loadCsv(const std::string &path) {
     return layer;
 }
 
-void mapa::load(std::string &texturePath, std::string &groundCSV, std::string &grassCSV,std::string &collisionCSV) {
+void mapa::load(std::string &texturePath, std::string &groundCSV) {
     if (!m_tileTexture.loadFromFile(texturePath)) throw std::runtime_error("ERROR:COULD_NOT_LOAD_TEXTURE_FROM_FILE");
     m_tileTexture.setSmooth(false);
     m_ground = loadCsv(groundCSV);
-    m_grass = loadCsv(grassCSV);
-    m_collision = loadCsv(collisionCSV);
 }
 
 void mapa::draw(sf::RenderWindow& m_win) {
