@@ -23,7 +23,7 @@ hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(
     create();
 
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
-    text.setFont(font); text.setString("Press enter to revive");
+    text.setFont(font); text.setString("Press enter to exit");
     text.setCharacterSize(24);
     text.setFillColor(sf::Color(150,150,150));
     text.setPosition(sf::Vector2f(250,650));

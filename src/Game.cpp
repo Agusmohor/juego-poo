@@ -101,3 +101,10 @@ const sf::View& Game::getUIWinView() const {
     return m_uiview;
 }
 
+void Game::setStats(const stats &m_stats) {
+    m_lastStats = m_stats;
+}
+
+const stats &Game::getStats() {
+    return m_lastStats;
+}

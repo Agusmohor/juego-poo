@@ -7,6 +7,7 @@
 
 #include "Game.hpp"
 #include "Mapa.hpp"
+#include "GameOver.hpp"
 #include <string>
 
 match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
@@ -43,7 +44,7 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 
 
 void match::update(float delta,Game &m_gam){
-    m_timeAlive += delta;
+    if (m_ply->isAlive()) {m_timeAlive += delta;}
     spriteTimer += delta;
     if (spriteTimer >= spriteDur) {
         for (auto &tree : m_obtacles) {
@@ -71,14 +72,16 @@ void match::update(float delta,Game &m_gam){
 
 
     //elimina todos los z, q cumplan con la condicion q no vivo, funcion inline
-    m_zombies.erase(std::remove_if(m_zombies.begin(),m_zombies.end(),[this](const std::unique_ptr<zombie>& z){return z->isDeathOver();}),m_zombies.end());
+    m_zombies.erase(std::remove_if(m_zombies.begin(),m_zombies.end(),[](const std::unique_ptr<zombie>& z){return z->isDeathOver();}),m_zombies.end());
     if (m_zombies.size() < zombies.getMinEnemies() ) {
         spawnEnemies();
     }
 
     //si no esta vivo, y presiona enter, crea otro personaje :)
-    if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
-        m_ply.reset(); m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
+    if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && !ispressed) {
+        isOver(); m_gam.setStats(m_stats);
+        m_gam.setScene(new gameover); ispressed = true;
+        // m_ply.reset(); m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
     }
     // if (!m_zombie->isAlive()){m_zombie.reset(); m_zombie = std::make_unique<zombie>();}
 
@@ -94,6 +97,7 @@ void match::update(float delta,Game &m_gam){
     m_hud.update();
     m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
     this->doPause(m_gam);
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
 }
 
 void match::updateView(Game &m_gam){
@@ -201,7 +205,7 @@ void match::hits() {
             }
             if (z->getDamageStatus()){m_ply->recieveDamage(); z->setDamageSatus(false);}
         }
-    }
+   }
 
 
 }
@@ -220,8 +224,3 @@ void match::isOver() {
     m_stats.timeAlive = m_timeAlive;
     m_stats.kills = m_kills;
 }
-
-const stats &match::getStats() {
-    return m_stats;
-}
-

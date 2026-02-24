@@ -371,7 +371,6 @@ bool player::getShootActive(){
 
 void player::shootState(){
     if (!isShot && isShootActive) { 
-        shootdir=dir;
         fireball.setPosition(getPosition());
         isShot = true;
     }
@@ -394,4 +393,5 @@ void player::shootState(){
 
 void player::doShoot(){
     isShootActive = true;
+    shootdir=dir;
 }

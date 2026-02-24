@@ -23,6 +23,9 @@ struct enemies {
 };
 
 class match : public scene {
+    bool ispressed = false;
+    bool isgameover = false;
+
     float m_timeAlive = 0.f;
     float m_kills = 0.f;
 
@@ -68,6 +71,4 @@ public:
     void normalView(sf::RenderWindow& m_win);
 
     void hits();
-
-    const stats& getStats();
 };

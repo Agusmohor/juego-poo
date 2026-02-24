@@ -25,8 +25,11 @@ public:
 
     const sf::Vector2u &getWinSize() const;
     const sf::View& getUIWinView() const;
+
+    void setStats(const stats &m_stats);
+    const stats &getStats();
 private:
-    sf::RenderWindow m_win;  
+    sf::RenderWindow m_win;
     scene* curr_scene = nullptr;
     scene* next_scene = nullptr;
     scene* m_pause = nullptr;
@@ -37,7 +40,6 @@ private:
     std::string name;
     sf::Vector2u m_winSize;
     stats m_lastStats;
-    
 };
 
 #endif
