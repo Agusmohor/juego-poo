@@ -10,7 +10,7 @@ gameover::gameover() : font("../assets/fonts/fuente.ttf"), text(font), text2(fon
     shape.setFillColor(sf::Color::Red);
     text.setString("GAME OVER");
     text.setCharacterSize(100);
-    text.setPosition({160,150});
+    text.setPosition({150,150});
 }
 
 void gameover::update(float delta, Game &m_gam) {
@@ -34,5 +34,5 @@ void gameover::toText() {
     std::ostringstream s;
     s << "Kills " << std::to_string(m_stats.kills) << " " << "tiempo vivo " << std::setw(2) << std::setfill('0') << std::to_string(min) << ":" << std::setw(2) << std::setfill('0') << std::to_string(seg);
     text2.setString(s.str());
-    text.setPosition({160,100});
+    text2.setPosition({200,300});
 }
