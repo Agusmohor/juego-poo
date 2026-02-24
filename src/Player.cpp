@@ -124,8 +124,9 @@ void player::updateTexture() {
     }
     if (!isAlive()) deathDraw();
     sf::Vector2f fdir = shootdir;
-    float len = std::sqrt(fdir.x*fdir.x + fdir.y*fdir.y); if (len != 0.f) fdir/len;
+    float len = std::sqrt(fdir.x*fdir.x + fdir.y*fdir.y); if (len != 0.f) fdir /= len;
     float ang = std::atan2(fdir.y,fdir.x); m_fireball.setRotation(sf::radians(ang));
+
     if (m_fireball.getTextureRect().position.x >= 80){m_fireball.setTextureRect({{0,0},{fireballScale}});}
     m_fireball.setTextureRect({{m_fireball.getTextureRect().position.x +16,0},{fireballScale}});
 }
@@ -395,7 +396,7 @@ void player::doShoot(){
     shotSkin = true;
 }
 
-bool player::getisShot() const {return isShot;}
+bool player::getIsShot() const {return isShot;}
 
 const sf::RectangleShape& player::getFireball() {
     return fhitbox;
