@@ -97,6 +97,7 @@ void match::update(float delta,Game &m_gam){
     spawn = false;
 
     m_hud.update();
+    m_hud.abilities(m_ply->getShieldReady(),m_ply->getDashReady(),m_ply->getFireReady());
     m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
     this->doPause(m_gam);
     // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
@@ -156,7 +157,7 @@ void match::render(sf::RenderWindow &m_win){
     //view de UI
     m_win.setView(m_uiview);
 
-    m_hud.moveHotbar(m_win.mapPixelToCoords(sf::Vector2i(m_uiview.getSize().x,m_uiview.getSize().y )));
+    m_hud.moveGui(m_win.mapPixelToCoords(sf::Vector2i(m_uiview.getSize().x,m_uiview.getSize().y )));
     m_hud.draw(m_win);
 
     //view mapa

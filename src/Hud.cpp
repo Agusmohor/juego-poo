@@ -2,23 +2,14 @@
 #include <iostream>
 #include "Player.hpp"
 
-hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(hobTexture),hsel(hobTexture), overS(hobTexture), life(hobTexture),font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
+hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui),font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
 
-    if(!hselTe.loadFromFile("../assets/textures/entity/player/gui/selected.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_HUD_TEXTURE_FROM_FILE");
-
-    k_1 = sf::Keyboard::Key::Num1;k_2 = sf::Keyboard::Key::Num2;k_3 = sf::Keyboard::Key::Num3;
-    k_4 = sf::Keyboard::Key::Num4;k_5 = sf::Keyboard::Key::Num5;k_6 = sf::Keyboard::Key::Num6;
+    if(!gui.loadFromFile("../assets/textures/entity/player/gui/gui.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_GUI_TEXTURE_FROM_FILE");
 
     size = sf::Vector2i(16,16);
-    hotbar.setTextureRect({{20,20},{size}}); scale = sf::Vector2f(4,4);
-    hotbar.setOrigin(sf::Vector2f(48,16)); hotbar.setScale(sf::Vector2f(scale));
-    hotbar.setPosition(sf::Vector2f(400,798));
-
-    hsel.setTextureRect({{216,74},{size}});
-    hsel.setOrigin(sf::Vector2f(48,16)); hsel.setScale(scale);
-    hpos = sf::Vector2f(400,798);
-    hselpos = hpos; pos = sf::Vector2f(302,70);
-    hsel.setPosition(hselpos);
+    scale = sf::Vector2f(4,4);
+    pos = sf::Vector2f(302,20);
+    abilPos = sf::Vector2f(105,35);
 
     create();
 
@@ -32,33 +23,15 @@ hud::hud() : hobTexture("../assets/textures/entity/player/gui/gui.png"), hotbar(
 }
 
 void hud::create() {
-    //crear hotbar
-
-    overS.setTextureRect({{58,4},{size}}); overS.setScale(scale);
-    overS.setOrigin(sf::Vector2f(48,16)); overS.setPosition(hotbar.getPosition());
-    overHb.push_back(overS); overS.setTextureRect({{58,36},{size}}); overHb.push_back(overS);
-
-    for (size_t i=0;i<6;i++) {
-        sf::Sprite s = hotbar;
-        s.setPosition({hotbar.getPosition().x + 64*i,hotbar.getPosition().y});
-        hotbars.push_back(s);
-        // s = overS;
-        // overHb.push_back(s);
-    }
-
-    for (int i=1;i<5;i++) {
-        sf::Sprite s = overS;
-        s.setTextureRect({{74,4},{size}});
-        s.setPosition({overS.getPosition().x + 64*i,s.getPosition().y});
-        overHb.push_back(s);
-        s.setTextureRect({{74,36},{size}});
-        overHb.push_back(s);
-    }
-    overS.setTextureRect({{92,4},{size}});
-    overS.setPosition({overHb.back().getPosition().x + 71 ,overHb.back().getPosition().y});
-    overHb.push_back(overS);
-    overS.setTextureRect({{92,36},{size}}); overHb.push_back(overS);
-
+    //crear shield
+    m_shield.setTextureRect({{149,188},{size}}); m_shield.setOrigin({8,8});
+    m_shield.setPosition({abilPos}); m_shield.setScale({3,3});
+    //crear dash
+    m_dash = m_shield; m_dash.setTextureRect({{185,188},{size}}); m_dash.setPosition({abilPos.x + 60,1});
+    m_dash.setScale(scale);
+    //crear fire
+    m_fire = m_shield; m_fire.setTextureRect({{218,188},{size}}); m_fire.setPosition({abilPos.x + 520,1});
+    m_fire.setScale(scale);
     //crear void_health_bar
     life.setOrigin({48,16});
     life.setTextureRect({{224,260},{size}}); life.setScale({scale.x/2,scale.y/2});
@@ -114,30 +87,23 @@ void hud::createStamina(int num) {
 }
 
 void hud::draw(sf::RenderWindow &m_win){
-    for (auto &h : hotbars) m_win.draw(h);
-    for (auto &o : overHb) m_win.draw(o);
     for (auto &p : stamina_empty) m_win.draw(p);
     for (auto &p : stamina_bar) m_win.draw(p);
     for (auto &p : hp_empty) m_win.draw(p);
     for (auto &p : hp_fill) m_win.draw(p);
-    m_win.draw(hsel);
     if (isDead) deathMessege(m_win);
+    m_win.draw(m_shield);
+    m_win.draw(m_dash);
+    m_win.draw(m_fire);
     // m_win.draw(life);
 }
 
 void hud::update(){
-    keyBoard();
     caseHealth(); caseStamina();
 }
 
 void hud::updateView() {
     //reposicionamiento del hud con el resize
-    for (auto &h : hotbars) {
-        h.setPosition(sf::Vector2f(h.getPosition().x,newpos));
-    }
-    for (auto &o : overHb) {
-        o.setPosition(sf::Vector2f(o.getPosition().x,newpos));
-    }
     for (auto &p : hp_empty) {
         p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
     }
@@ -150,22 +116,13 @@ void hud::updateView() {
     for (auto &p : stamina_bar) {
         p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
     }
-    hselpos = sf::Vector2f(hselpos.x,newpos);
-    hsel.setPosition(hselpos);
+    m_shield.setPosition({m_shield.getPosition().x,newpos-abilPos.y});
+    m_dash.setPosition({m_dash.getPosition().x,newpos-abilPos.y});
+    m_fire.setPosition({m_fire.getPosition().x,newpos-abilPos.y});
 }
 
-void hud::keyBoard(){
-    if(sf::Keyboard::isKeyPressed(k_1)) hselpos = sf::Vector2f(hpos.x,newpos);
-    if(sf::Keyboard::isKeyPressed(k_2)) hselpos = sf::Vector2f(hpos.x+64,newpos);
-    if(sf::Keyboard::isKeyPressed(k_3)) hselpos = sf::Vector2f(hpos.x+64*2,newpos);
-    if(sf::Keyboard::isKeyPressed(k_4)) hselpos = sf::Vector2f(hpos.x+64*3,newpos);
-    if(sf::Keyboard::isKeyPressed(k_5)) hselpos = sf::Vector2f(hpos.x+64*4,newpos);
-    if(sf::Keyboard::isKeyPressed(k_6)) hselpos = sf::Vector2f(hpos.x+64*5,newpos);
-}
-
-
-void hud::moveHotbar(const sf::Vector2f &winview){
-    //mantener la hotbar centrada, independientemente del resize
+void hud::moveGui(const sf::Vector2f &winview){
+    //mantener la gui centrada, independientemente del resize
         m_winSize = winview;
         newpos = m_winSize.y - 2;
 }
@@ -248,4 +205,11 @@ void hud::deathMessege(sf::RenderWindow &m_win) {
     //mensaje "press enter to revive"
     m_win.draw(text);
 }
+
+void hud::abilities(bool isShieldReady, bool isDashReady, bool isFireReady) {
+    if (isShieldReady) {m_shield.setTextureRect({{149,188},{size}});} else {m_shield.setTextureRect({{167,188},{size}});}
+    if (isDashReady) {m_dash.setTextureRect({{185,188},{size}});} else {m_dash.setTextureRect({{201,188},{size}});}
+    if (isFireReady) {m_fire.setTextureRect({{218,188},{size}});} else {m_fire.setTextureRect({{234,188},{size}});}
+}
+
 

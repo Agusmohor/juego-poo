@@ -6,11 +6,12 @@ void ShootAbility::update(float dt,player& p){
     p.shootState(dt);
     if (cooldownTimer > 0.f) {cooldownTimer -= dt;}
 
-    if(tryActive()){p.doShoot();cooldownTimer = cooldownDur; shootTimer = shootDur;}
+    if(tryActive()){p.doShoot();cooldownTimer = cooldownDur; shootTimer = shootDur;p.setFireReady(false);}
     if(p.getShootActive()) {
         shootTimer -= dt;
         if (shootTimer <= 0 ) p.setShootActive(false);
     }
+    if (cooldownTimer <= 0.f) {p.setFireReady(true);}
 }
 
 bool ShootAbility::tryActive(){
@@ -20,8 +21,6 @@ bool ShootAbility::tryActive(){
     prev = now;
     return isPressed && cooldownTimer <= 0.f;
 }
-
-
 
    
 

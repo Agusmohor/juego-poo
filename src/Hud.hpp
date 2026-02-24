@@ -13,8 +13,7 @@ public:
     void updateView();
     void draw(sf::RenderWindow &m_win);
 
-    void keyBoard();
-    void moveHotbar(const sf::Vector2f &winview);
+    void moveGui(const sf::Vector2f &winview);
 
     void checkPlayer(int health,int stamina, bool isStaminaEmpty);
 
@@ -23,18 +22,17 @@ public:
     void caseStamina();
 
     void deathMessege(sf::RenderWindow &m_win);
-
+    void abilities(bool isShieldReady, bool isDashReady, bool isFireReady);
 private:
     void create();
 
     void createLife(int num);
     void createStamina(int num);
 
-    sf::Texture hobTexture,hselTe;
-    sf::Sprite hotbar, hsel, overS, life;
-    sf::Keyboard::Key k_1,k_2,k_3,k_4,k_5,k_6;
-    sf::Vector2f m_winSize,hselpos,scale,hpos,pos,spos;
-    std::vector<sf::Sprite> hotbars,overHb,hp_empty,hp_fill,stamina_bar,stamina_empty;
+    sf::Texture gui;
+    sf::Sprite life, m_shield, m_dash, m_fire;
+    sf::Vector2f m_winSize,scale,pos,spos,abilPos;
+    std::vector<sf::Sprite> hp_empty,hp_fill,stamina_bar,stamina_empty;
     sf::Vector2i size;
 
     sf::Font font;

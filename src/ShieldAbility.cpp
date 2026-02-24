@@ -6,11 +6,12 @@
 void ShieldAbility::update(float dt, player &p) {
     if (cooldownTimer > 0.f) {cooldownTimer -= dt;}
 
-    if (tryActive()) {p.shield(); cooldownTimer = cooldownDur; shieldTimer = shieldDur;}
+    if (tryActive()) {p.shield(); cooldownTimer = cooldownDur; shieldTimer = shieldDur; p.setShieldReady(false);}
     if(p.getShieldActive()) {
         shieldTimer -= dt;
         if (shieldTimer <= 0 ) p.setShieldActive(false);
     }
+    if (cooldownTimer <= 0.f) {p.setShieldReady(true);}
 }
 
 bool ShieldAbility::tryActive() {
@@ -21,3 +22,4 @@ bool ShieldAbility::tryActive() {
     return isPressed && cooldownTimer <= 0.f;
 
 }
+

@@ -344,6 +344,9 @@ void player::setDashActive(bool active) {
     isDashing = active;
 }
 
+bool player::getDashReady() const {return dashReady;}
+void player::setDashReady(bool ready) {dashReady = ready;}
+
 void player::shield() {
     isShieldActive = true;
 }
@@ -355,6 +358,9 @@ bool player::getShieldActive() {
 void player::setShieldActive(bool active) {
     isShieldActive = active;
 }
+
+bool player::getShieldReady() const {return shieldReady;}
+void player::setShieldReady(bool ready) {shieldReady = ready;}
 
 void player::setShootActive(bool active){
     isShootActive = active;
@@ -401,4 +407,8 @@ bool player::getIsShot() const {return isShot;}
 const sf::RectangleShape& player::getFireball() {
     return fhitbox;
 }
+
+bool player::getFireReady() const {return fireReady;}
+void player::setFireReady(bool ready) {fireReady = ready;}
+
 

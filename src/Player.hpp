@@ -76,6 +76,12 @@ public:
     bool getIsShot() const;
     const sf::RectangleShape &getFireball();
 
+    bool getDashReady() const;
+    void setDashReady(bool ready);
+    bool getShieldReady() const;
+    void setShieldReady(bool ready);
+    bool getFireReady() const;
+    void setFireReady(bool ready);
 
 private:
     int state;
@@ -112,9 +118,11 @@ private:
 
     bool isShieldActive = false;
     sf::Sprite m_shield;
+    bool shieldReady = false;
 
     bool isDashing = false;
     sf::Vector2f dashDir;
+    bool dashReady = false;
 
     sf::Sprite m_fireball;
     sf::RectangleShape fhitbox;
@@ -124,6 +132,7 @@ private:
     bool shotSkin = false;
     sf::Vector2f shootdir;
     bool isShootActive = false;
+    bool fireReady = false;
 };
 
 #endif
