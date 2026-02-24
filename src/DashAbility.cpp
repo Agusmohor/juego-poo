@@ -7,7 +7,7 @@ void DashAbility::update(float dt, player &p) {
     if (tryActive()) {p.dashMovement(); cooldownTimer = cooldownDuration; dashTimer = dashDuration;}
     if (p.getDashActive()) {
         dashTimer -= dt;
-        p.startDash();
+        p.startDash(dt);
         if (dashTimer <= 0) p.setDashActive(false);
     }
 }

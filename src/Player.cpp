@@ -162,7 +162,6 @@ void player::m_mouse(const sf::Vector2f &mouseCoords){
 
 
 void player::update(float delta,mapa &mapa) {
-    m_delta = delta;
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
@@ -302,7 +301,7 @@ void player::dashMovement() {
     isDashing = true;
     if (dir != sf::Vector2f(0,0)) {
         float length = sqrt(dir.x*dir.x + dir.y*dir.y);
-        dir /= length;
+        if (length != 0) dir /= length;
         dashDir = dir;
     }else {
         if (getScale().x < 0) {
@@ -311,14 +310,11 @@ void player::dashMovement() {
             dashDir = sf::Vector2f(1,0);
         }
     }
-
-    float dashSpeed = 400.f;
-    m_spr.move(dashDir * dashSpeed * m_delta);
 }
 
-void player::startDash() {
+void player::startDash(float dt) {
     float dashSpeed = 400.f;
-    m_spr.move(dashDir * dashSpeed * m_delta);
+    m_spr.move(dashDir * dashSpeed * dt);
 }
 
 bool player::getDashActive() {
@@ -349,7 +345,7 @@ bool player::getShootActive(){
     return isShootActive;
 }
 
-void player::shootState(){
+void player::shootState(float dt){
     if (!isShot && isShootActive) {
         fireball.setPosition(getPosition());
         isShot = true;
@@ -364,7 +360,7 @@ void player::shootState(){
             }
         }
         float fspeed = 100;
-        fireball.move(shootdir * m_delta * fspeed);
+        fireball.move(shootdir * dt * fspeed);
 
         sf::Vector2f distfire = getPosition() - fireball.getPosition();
         if (std::abs(distfire.x) > 40 || std::abs(distfire.y) > 40) { 

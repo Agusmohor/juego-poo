@@ -60,7 +60,7 @@ public:
 
     //abilities
     void dashMovement();
-    void startDash();
+    void startDash(float dt);
     bool getDashActive();
     void setDashActive(bool active);
 
@@ -68,7 +68,7 @@ public:
     bool getShieldActive();
     void setShieldActive(bool active);
 
-    void shootState();
+    void shootState(float dt);
     bool getShootActive();
     void setShootActive(bool active);
     void doShoot();
@@ -76,7 +76,6 @@ public:
 
 
 private:
-    float m_delta;
     int state;
     sf::Vector2f prevPos, hitboxPrevPos;
     sf::Vector2i scale;

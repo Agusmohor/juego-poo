@@ -91,7 +91,8 @@ void match::update(float delta,Game &m_gam){
            z->getPlyPos(m_ply->getPosition());
         }
     }
-
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && !spawn){spawnEnemies();}
+    spawn = false;
 
     m_hud.update();
     m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
@@ -215,7 +216,7 @@ void match::hits() {
 }
 
 void match::spawnEnemies() {
-    m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow));
+    if (!(m_zombies.size() >= zombies.getMaxEnemies()) && !spawn) {m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow)); spawn = true;}
 }
 
 void match::spawnEnemies(int cant) {

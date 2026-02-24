@@ -3,7 +3,7 @@
 #include <iostream>
 
 void ShootAbility::update(float dt,player& p){
-    p.shootState();
+    p.shootState(dt);
     if (cooldownTimer > 0.f) {cooldownTimer -= dt;}
 
     if(tryActive()){p.doShoot();cooldownTimer = cooldownDur; shootTimer = shootDur;}

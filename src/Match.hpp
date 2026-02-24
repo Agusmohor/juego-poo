@@ -55,6 +55,7 @@ class match : public scene {
     hud m_hud;
 
     enemies zombies;
+    bool spawn = false;
 
     Resources m_res;
 
