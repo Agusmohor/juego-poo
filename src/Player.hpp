@@ -14,7 +14,7 @@
 
 class player : public entity{
 public:
-    player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield);
+    player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball);
 
     void update(float delta,mapa &mapa);
     void draw(sf::RenderWindow &m_win) override;
@@ -73,7 +73,7 @@ public:
     bool getShootActive();
     void setShootActive(bool active);
     void doShoot();
-    const sf::CircleShape &getFireball();
+    const sf::RectangleShape &getFireball();
 
 
 private:
@@ -115,8 +115,12 @@ private:
     bool isDashing = false;
     sf::Vector2f dashDir;
 
-    sf::CircleShape fireball;
+    sf::Sprite m_fireball;
+    sf::RectangleShape fhitbox;
+    sf::Vector2f fscale;
+    sf::Vector2i fireballScale;
     bool isShot = false;
+    bool shotSkin = false;
     sf::Vector2f shootdir;
     bool isShootActive = false;
 };

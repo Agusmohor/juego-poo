@@ -19,12 +19,13 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
     if (!m_res.Player.loadFromFile("../assets/textures/entity/player/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_PLAYER_TEXTURE_FROM_FILE");}
     if (!m_res.shadow.loadFromFile("../assets/textures/entity/player/plshadow.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHADOW_TEXTURE_FROM_FILE");}
     if (!m_res.shield.loadFromFile("../assets/textures/entity/player/shield.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHIELD_TEXTURE_FROM_FILE");}
+    if (!m_res.fballskin.loadFromFile("../assets/textures/entity/player/fireball.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_FIREBALL_TEXTURE_FROM_FILE");}
     if (!m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_ZOMBIE_TEXTURE_FROM_FILE");}
 
 
     m_mapa.load(pngpath,ground);
 
-    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield);
+    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin);
     int cantZombies = 1;
     for (int i=0;i<cantZombies;i++) {
         m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow));

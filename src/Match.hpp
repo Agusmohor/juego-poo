@@ -11,7 +11,7 @@
 
 struct Resources {
     sf::Texture tree1,tree2,tree3;
-    sf::Texture Player, shadow, shield;
+    sf::Texture Player, shadow, shield, fballskin;
     sf::Texture Zombie;
 };
 

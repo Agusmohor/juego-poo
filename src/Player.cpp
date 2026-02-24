@@ -4,19 +4,19 @@
 #include <iostream>
 #include "Tree.hpp"
 
-player::player(const sf::Texture &sprite,const sf::Texture &shadow,const sf::Texture& shield) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180), m_shield(shield){
-    scale = sf::Vector2i(32,32);
-    m_spr.setTextureRect({{0,0},{scale}});
-    m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3}); m_shield.setOrigin({16,16});
+player::player(const sf::Texture &sprite,const sf::Texture &shadow,const sf::Texture& shield, const sf::Texture& fball) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180), m_shield(shield), m_fireball(fball) {
+    scale = sf::Vector2i(32,32); fireballScale = sf::Vector2i(16,10); m_fireball.setTextureRect({{0,0},{fireballScale}});
+    m_spr.setTextureRect({{0,0},{scale}}); fscale = sf::Vector2f(0.6,0.6); m_fireball.setScale(fscale);
+    m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3}); m_shield.setOrigin({16,16}); m_fireball.setOrigin({8,5});
     m_spr.setOrigin({16,16}); m_spr.setPosition({1120,1184});
     dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     rClick = sf::Mouse::Button::Right;
     lClick = sf::Mouse::Button::Left;
     hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Blue);
-    fireball.setFillColor(sf::Color::Red);
-    fireball.setRadius(2);
-    fireball.setOrigin({2,2});
+    fhitbox.setFillColor(sf::Color::Red);
+    fhitbox.setSize({4,4}); fhitbox.setOrigin({2,2});
+
 }
 
 void player::move(float delta, mapa &mapa) {
@@ -123,7 +123,14 @@ void player::updateTexture() {
 
     }
     if (!isAlive()) deathDraw();
-
+        if (shootdir.x < 0){m_fireball.setScale({-fscale.x,m_fireball.getScale().y});} else {m_fireball.setScale({fscale.x,m_fireball.getScale().y});}
+        if (shootdir.y < 0) {
+            m_fireball.setRotation(sf::degrees(-90));
+        } else { if (shootdir.y > 0) {
+            m_fireball.setRotation(sf::degrees(90));
+        }else {m_fireball.setRotation(sf::degrees(0));}}
+    if (m_fireball.getTextureRect().position.x >= 80){m_fireball.setTextureRect({{0,0},{fireballScale}});}
+    m_fireball.setTextureRect({{m_fireball.getTextureRect().position.x +16,0},{fireballScale}});
 }
 
 void player::speed(){
@@ -198,8 +205,9 @@ void player::update(float delta,mapa &mapa) {
 }
 
 void player::draw(sf::RenderWindow& m_win) {
-    if(isShot){m_win.draw(fireball);}
+    if(isShot){m_win.draw(m_fireball);}
     if (isShieldActive){m_win.draw(m_shield);}
+    // m_win.draw(fhitbox);
 }
 
 void player::drawShadow(sf::RenderWindow &m_win) {
@@ -360,34 +368,37 @@ bool player::getShootActive(){
 
 void player::shootState(float dt){
     if (!isShot && isShootActive) {
-        fireball.setPosition(getPosition());
+        m_fireball.setPosition(getPosition());
         isShot = true;
     }
     if (isShot) {
         if (shootdir != sf::Vector2f(0,0)) {
-    }else {
-            if (getScale().x < 0) {
+            // m_fireball.setScale({shootdir});
+        }else {
+            if (m_spr.getScale().x < 0) {
                 shootdir = sf::Vector2f(-1,0);
             }else {
                 shootdir = sf::Vector2f(1,0);
             }
         }
         float fspeed = 100;
-        fireball.move(shootdir * dt * fspeed);
+        m_fireball.move(shootdir * dt * fspeed);
 
-        sf::Vector2f distfire = getPosition() - fireball.getPosition();
+        sf::Vector2f distfire = getPosition() - m_fireball.getPosition();
         if (std::abs(distfire.x) > 40 || std::abs(distfire.y) > 40) { 
-            isShot = false; fireball.setPosition({-10000,-10000});
+            isShot = false; m_fireball.setPosition({-10000,-10000});
         }
     }
+    fhitbox.setPosition(m_fireball.getPosition());
 }
 
 void player::doShoot(){
     isShootActive = true;
     shootdir = dir;
+    shotSkin = true;
 }
 
-const sf::CircleShape& player::getFireball() {
-    return fireball;
+const sf::RectangleShape& player::getFireball() {
+    return fhitbox;
 }
 
