@@ -193,7 +193,6 @@ void player::update(float delta,mapa &mapa) {
     attackTimer += delta;
     if (attackTimer >= attackDur) {
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attackSkin(); getScale();}
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) { criticSkin();}
         attackTimer = 0.f;
     }
 
@@ -232,13 +231,6 @@ void player::attackSkin(){
     if (!isAttacking) {
         state = 5; isAttacking = true; isHitting = true;
         m_spr.setTextureRect({{0,289},{scale}});
-    }
-}
-
-void player::criticSkin(){
-    if (!iscritic) {
-        state = 6; iscritic = true;
-        m_spr.setTextureRect({{0,256},{scale}});
     }
 }
 

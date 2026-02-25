@@ -16,7 +16,7 @@ void ShootAbility::update(float dt,player& p){
 
 bool ShootAbility::tryActive(){
     static bool prev = false;
-    bool now = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R);
+    bool now = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
     bool isPressed = now && !prev;
     prev = now;
     return isPressed && cooldownTimer <= 0.f;

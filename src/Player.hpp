@@ -44,7 +44,6 @@ public:
     const sf::Vector2f getScale() override;
 
     void attackSkin();
-    void criticSkin();
 
     void recieveDamage() override;
 

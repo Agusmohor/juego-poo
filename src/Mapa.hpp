@@ -22,7 +22,7 @@ class mapa {
 
 public:
 
-    void load(std::string& texturePath, std::string& groundCSV);
+    void load(std::string& texturePath, std::string& groundCSV, std::string& grassCSV);
 
     void draw(sf::RenderWindow& m_win);
 

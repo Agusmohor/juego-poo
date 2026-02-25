@@ -11,7 +11,7 @@
 #include <string>
 
 match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
-    std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/map.csv";
+    std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/mapita.ground.csv"; std::string grass = "../assets/textures/map/mapita.grass.csv";
 
     if (!m_res.tree1.loadFromFile("../assets/textures/trees/tree1.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
     if (!m_res.tree2.loadFromFile("../assets/textures/trees/tree2.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
@@ -23,7 +23,7 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
     if (!m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_ZOMBIE_TEXTURE_FROM_FILE");}
 
 
-    m_mapa.load(pngpath,ground);
+    m_mapa.load(pngpath,ground,grass);
 
     m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin);
     int cantZombies = 1;
