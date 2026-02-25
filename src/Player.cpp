@@ -410,12 +410,12 @@ void player::stateHeal(){
             if(health < 14) {
                 health++;
                 c -= 1;
-                std::cout << "Curado! Vida actual: " << health << std::endl;
+                // std::cout << "Curado! Vida actual: " << health << std::endl;
             }
             healRegenTimer = 0.f; 
         
         }
-        if(c==0 || health >= 14){
+        if(c<=0 || health >= 14){
             isHealing = false;
             c = 4;
         }

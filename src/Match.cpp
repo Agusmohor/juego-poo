@@ -11,7 +11,7 @@
 #include <string>
 
 match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
-    std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/mapita.ground.csv"; std::string grass = "../assets/textures/map/mapita.grass.csv";
+    std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/mapa_ground.csv"; std::string grass = "../assets/textures/map/mapa_grass.csv";
 
     if (!m_res.tree1.loadFromFile("../assets/textures/trees/tree1.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
     if (!m_res.tree2.loadFromFile("../assets/textures/trees/tree2.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
@@ -26,10 +26,7 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
     m_mapa.load(pngpath,ground,grass);
 
     m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin);
-    for (int i=0;i<300;i++) {
-        spawnObstacle();
-    }
-
+    spawnObstacle();
     for (auto &trees : m_obtacles) {
         trees->random(m_res.tree1,m_res.tree2,m_res.tree3);
     }
@@ -37,7 +34,7 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 
 
 void match::update(float delta,Game &m_gam){
-    // std::cout << m_zombies.size() << std::endl;
+    // std::cout << m_obtacles.size() << std::endl;
     if (m_ply->isAlive()) {m_timeAlive += delta;}
     spriteTimer += delta;
     if (spriteTimer >= spriteDur) {
@@ -224,17 +221,20 @@ void match::spawnEnemies() {
 }
 
 void match::spawnObstacle() {
-    int tx = m_obs.minTilex + std::rand()%( m_obs.maxTilex-m_obs.minTilex + 1);
-    int ty = m_obs.minTiley + std::rand()%( m_obs.maxTiley-m_obs.minTiley + 1);
-    if (!(tx >= m_obs.minNTilex && tx <= m_obs.maxNTilex && ty >= m_obs.minNTiley && ty <= m_obs.maxNTiley)) {
-        bool exists = false;
-        sf::Vector2f t_pos(tx*32,ty*32);
-        //si no existe ningun obstaculo en esas coords, entonces se crea
-        for (auto &t : m_obtacles) {
-            if (t->getPosition() == t_pos) {exists = true; break;}
+    for (int i=0;i<m_obs.maxTreeSpawn;i++) {
+        int tx = m_obs.minTilex + std::rand()%( m_obs.maxTilex-m_obs.minTilex + 1);
+        int ty = m_obs.minTiley + std::rand()%( m_obs.maxTiley-m_obs.minTiley + 1);
+        if (!(tx >= m_obs.minNTilex && tx <= m_obs.maxNTilex && ty >= m_obs.minNTiley && ty <= m_obs.maxNTiley)) {
+            bool exists = false;
+            sf::Vector2f t_pos(tx*32,ty*32);
+            //si no existe ningun obstaculo en esas coords, entonces se crea
+            for (auto &t : m_obtacles) {
+                if (t->getPosition() == t_pos) {exists = true; break;}
+            }
+            if (!exists) {m_obtacles.push_back(std::make_unique<tree>(sf::Vector2f(tx*32,ty*32)));}
         }
-        if (!exists) {m_obtacles.push_back(std::make_unique<tree>(sf::Vector2f(tx*32,ty*32)));}
     }
+
 }
 
 void match::isOver() {

@@ -30,10 +30,11 @@ struct enemies {
 };
 
 struct obstacles {
-    int minTilex = 20; int maxTilex = 47;
-    int minTiley = 20; int maxTiley = 47;
-    int minNTilex = 28; int maxNTilex = 41;
-    int minNTiley = 25; int maxNTiley = 43;
+    int minTilex = 15; int maxTilex = 55;
+    int minTiley = 15; int maxTiley = 55;
+    int minNTilex = 34; int maxNTilex = 35;
+    int minNTiley = 34; int maxNTiley = 35;
+    int maxTreeSpawn = 500;
 };
 
 class match : public scene {

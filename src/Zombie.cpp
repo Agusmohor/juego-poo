@@ -8,7 +8,7 @@ zombie::zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow, sf::Vector
     m_spr.setTextureRect({{0,0},{scale}}); m_spr.setOrigin({16,16}); shadow.setOrigin({9,3}); shadow.setScale({0.6,0.6});
     m_spr.setPosition({coords});
     hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Red);
-    m_speed = 40; color = m_spr.getColor();
+    m_speed = 30; color = m_spr.getColor();
 }
 
 void zombie::update(float delta,mapa &mapa) {
