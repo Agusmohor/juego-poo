@@ -44,16 +44,16 @@ void player::move(float delta, mapa &mapa) {
     }
     //speed
     speed();
-    prevPos = m_spr.getPosition(); syncHitbox();
     sf::Vector2f velocity = dir * m_speed *delta;
+    prevPos = m_spr.getPosition();
 
-    m_spr.move(velocity);
-    syncHitbox();
-    for (auto& box : *hitboxes) coly(box);
-
+    m_spr.move({velocity.x,0.f});
     syncHitbox();
     for (auto& box : *hitboxes) colx(box);
 
+    m_spr.move({0.f,velocity.y});
+    syncHitbox();
+    for (auto& box : *hitboxes) coly(box);
 
 
 }
@@ -258,18 +258,17 @@ void player::recieveDamage() {
 sf::Sprite &player::getSprite(){ return m_spr; }
 
 
-void player::colx(sf::FloatRect hitbox) {
-    if (this->hitbox.getGlobalBounds().findIntersection(hitbox).has_value()) {
+void player::colx(const sf::FloatRect hitboxOther) {
+    if (this->hitbox.getGlobalBounds().findIntersection(hitboxOther).has_value()) {
         m_spr.setPosition({prevPos.x,m_spr.getPosition().y});
-        this->hitbox.setPosition({hitboxPrevPos.x,this->hitbox.getPosition().y});
+        syncHitbox();
     }
-
 }
 
-void player::coly(sf::FloatRect hitbox) {
-    if (this->hitbox.getGlobalBounds().findIntersection(hitbox).has_value()) {
+void player::coly(const sf::FloatRect hitboxOther) {
+    if (this->hitbox.getGlobalBounds().findIntersection(hitboxOther).has_value()) {
         m_spr.setPosition({m_spr.getPosition().x,prevPos.y});
-        this->hitbox.setPosition({this->hitbox.getPosition().x,hitboxPrevPos.y});
+        syncHitbox();
     }
 }
 

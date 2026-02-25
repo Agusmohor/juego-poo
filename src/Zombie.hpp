@@ -31,8 +31,8 @@ public:
     void drawHitbox(sf::RenderWindow &m_win) override;
     void syncHitbox() override;
     void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
-    void coly(sf::FloatRect hitbox) override;
-    void colx(sf::FloatRect hitbox) override;
+    void coly(const sf::FloatRect hitbox) override;
+    void colx(const sf::FloatRect hitbox) override;
 
     void move(float delta,mapa &mapa) override;
     int getHealth() override;

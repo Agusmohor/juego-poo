@@ -145,6 +145,7 @@ void match::render(sf::RenderWindow &m_win){
     for (auto *spr : m_worldSprites) {
             m_win.draw(*spr);
     }
+    //hitbox arboles
     // for (auto &p : m_obtacles) {p->draw(m_win);}
     m_ply->draw(m_win);
     // m_ply.drawHitbox(m_win);

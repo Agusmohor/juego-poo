@@ -73,7 +73,7 @@ void zombie::syncHitbox() {
     hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4});
 }
 
-void zombie::colx(sf::FloatRect hitbox) {
+void zombie::colx(const sf::FloatRect hitbox) {
     if (timer1.getElapsedTime().asSeconds() >= 0.28f) {
         iscolx=false;
         timer1.restart();
@@ -86,7 +86,7 @@ void zombie::colx(sf::FloatRect hitbox) {
 
 }
 
-void zombie::coly(sf::FloatRect hitbox) {
+void zombie::coly(const sf::FloatRect hitbox) {
     if (timer2.getElapsedTime().asSeconds() >= 0.28f) {
         iscoly=false;
         timer2.restart();

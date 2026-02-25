@@ -27,8 +27,8 @@ public:
     void syncHitbox() override;
     void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
 
-    void colx(sf::FloatRect hitbox) override;
-    void coly(sf::FloatRect hitbox) override;
+    void colx(const sf::FloatRect hitboxOther) override;
+    void coly(const sf::FloatRect hitboxOther) override;
 
     void texture();
     sf::FloatRect getGlobalBounds() override;

@@ -16,8 +16,8 @@ public:
     virtual void drawHitbox(sf::RenderWindow &m_win)=0;
     virtual void syncHitbox()=0;
     virtual void setHitboxes(std::vector<sf::FloatRect> &hitboxes) = 0;
-    virtual void colx(sf::FloatRect hitbox) = 0;
-    virtual void coly(sf::FloatRect hitbox) = 0;
+    virtual void colx(const sf::FloatRect hitbox) = 0;
+    virtual void coly(const sf::FloatRect hitbox) = 0;
 
     virtual void deathDraw() = 0;
 
