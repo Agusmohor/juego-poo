@@ -53,7 +53,7 @@ void hud::create() {
     }
 
     //crear overlay
-    for (int i=0;i<10;i++) {
+    for (int i=0;i<11;i++) {
         sf::Sprite s = m_shield;
         s.setTextureRect({{148,160},{20,20}});
         s.setPosition({overlayPos.x + 60*i,overlayPos.y});
