@@ -82,6 +82,9 @@ public:
     bool getFireReady() const;
     void setFireReady(bool ready);
 
+    void doHeal();
+    void stateHeal();
+
 private:
     int state;
     sf::Vector2f prevPos, hitboxPrevPos;
@@ -132,6 +135,11 @@ private:
     sf::Vector2f shootdir;
     bool isShootActive = false;
     bool fireReady = false;
+
+    bool isHealing = false;
+    float healRegenTimer = 0.f;
+    float healRegenDur = 1.f;
+    int c = 4;
 };
 
 #endif

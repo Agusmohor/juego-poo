@@ -180,6 +180,7 @@ void player::update(float delta,mapa &mapa) {
     //actualizar player
     texture();
     staminaRegenTimer += delta;
+    healRegenTimer += delta;
     if (!isAttacking && !iscritic && !isDashing) { move(delta,mapa);}
 
     // std::cout << health << std::endl;
@@ -403,3 +404,24 @@ bool player::getFireReady() const {return fireReady;}
 void player::setFireReady(bool ready) {fireReady = ready;}
 
 
+void player::stateHeal(){
+    if(isHealing) {
+        if(healRegenTimer >= healRegenDur) {
+            if(health < 14) {
+                health++;
+                c -= 1;
+                std::cout << "Curado! Vida actual: " << health << std::endl;
+            }
+            healRegenTimer = 0.f; 
+        
+        }
+        if(c==0 || health >= 14){
+            isHealing = false;
+            c = 4;
+        }
+    }
+}
+
+void player::doHeal(){
+    isHealing = true;
+}
