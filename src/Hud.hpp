@@ -30,9 +30,9 @@ private:
     void createStamina(int num);
 
     sf::Texture gui;
-    sf::Sprite life, m_shield, m_dash, m_fire;
-    sf::Vector2f m_winSize,scale,pos,spos,abilPos;
-    std::vector<sf::Sprite> hp_empty,hp_fill,stamina_bar,stamina_empty;
+    sf::Sprite life, m_shield, m_dash, m_fire, overlay;
+    sf::Vector2f m_winSize,scale,pos,spos,abilPos, overlayPos;
+    std::vector<sf::Sprite> hp_empty,hp_fill,stamina_bar,stamina_empty, m_overlay;
     sf::Vector2i size;
 
     sf::Font font;

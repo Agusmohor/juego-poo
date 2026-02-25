@@ -2,14 +2,15 @@
 #include <iostream>
 #include "Player.hpp"
 
-hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui),font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
+hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui), overlay(gui),font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
 
     if(!gui.loadFromFile("../assets/textures/entity/player/gui/gui.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_GUI_TEXTURE_FROM_FILE");
 
     size = sf::Vector2i(16,16);
     scale = sf::Vector2f(4,4);
     pos = sf::Vector2f(302,20);
-    abilPos = sf::Vector2f(105,35);
+    abilPos = sf::Vector2f(100,35);
+    overlayPos = sf::Vector2f(88,41);
 
     create();
 
@@ -27,7 +28,7 @@ void hud::create() {
     m_shield.setTextureRect({{149,188},{size}}); m_shield.setOrigin({8,8});
     m_shield.setPosition({abilPos}); m_shield.setScale({3,3});
     //crear dash
-    m_dash = m_shield; m_dash.setTextureRect({{185,188},{size}}); m_dash.setPosition({abilPos.x + 60,1});
+    m_dash = m_shield; m_dash.setTextureRect({{185,188},{size}}); m_dash.setPosition({abilPos.x + 65,1});
     m_dash.setScale(scale);
     //crear fire
     m_fire = m_shield; m_fire.setTextureRect({{218,188},{size}}); m_fire.setPosition({abilPos.x + 520,1});
@@ -48,6 +49,15 @@ void hud::create() {
         p.setPosition({spos.x+30*i,pos.y});
         stamina_empty.push_back(p);
     }
+
+    //crear overlay
+    for (int i=0;i<10;i++) {
+        sf::Sprite s = m_shield;
+        s.setTextureRect({{148,160},{20,20}});
+        s.setPosition({overlayPos.x + 60*i,overlayPos.y});
+        m_overlay.push_back(s);
+    }
+
     createLife(playerHp);
     createStamina(6);
 }
@@ -71,6 +81,8 @@ void hud::createLife(int num) {
         // std::cout << num << " " << i << " " << playerHp << " " << c << std::endl;
     }
 
+
+
 }
 
 void hud::createStamina(int num) {
@@ -87,6 +99,7 @@ void hud::createStamina(int num) {
 }
 
 void hud::draw(sf::RenderWindow &m_win){
+    for (auto &p : m_overlay) m_win.draw(p);
     for (auto &p : stamina_empty) m_win.draw(p);
     for (auto &p : stamina_bar) m_win.draw(p);
     for (auto &p : hp_empty) m_win.draw(p);
@@ -104,6 +117,7 @@ void hud::update(){
 
 void hud::updateView() {
     //reposicionamiento del hud con el resize
+    for (auto &p : m_overlay){p.setPosition({p.getPosition().x,newpos-overlayPos.y});}
     for (auto &p : hp_empty) {
         p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
     }
@@ -208,7 +222,7 @@ void hud::deathMessege(sf::RenderWindow &m_win) {
 
 void hud::abilities(bool isShieldReady, bool isDashReady, bool isFireReady) {
     if (isShieldReady) {m_shield.setTextureRect({{149,188},{size}});} else {m_shield.setTextureRect({{167,188},{size}});}
-    if (isDashReady) {m_dash.setTextureRect({{185,188},{size}});} else {m_dash.setTextureRect({{201,188},{size}});}
+    if (isDashReady) {m_dash.setTextureRect({{184,188},{size}});} else {m_dash.setTextureRect({{201,188},{size}});}
     if (isFireReady) {m_fire.setTextureRect({{218,188},{size}});} else {m_fire.setTextureRect({{234,188},{size}});}
 }
 
