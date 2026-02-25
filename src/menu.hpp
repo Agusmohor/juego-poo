@@ -12,7 +12,7 @@ public:
     void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &win)override;
     void buttons();
-    void button_overlay(const sf::RenderWindow &m_win);
+    void button_overlay(const sf::RenderWindow &win);
 
     //void newMatch(Game &m_gam);
 
@@ -25,7 +25,6 @@ private:
     sf::Clock timer;
     unsigned char r,g,b;
     sf::RectangleShape shape;
-    sf::Vector2i mouse_pos;
     float posx1,posx2,posy1,posy2;
     bool ispressed = false;
 };

@@ -20,7 +20,6 @@ enum class action {
     dash,
     fire,
     heal,
-    hit
 };
 
 class player : public entity{

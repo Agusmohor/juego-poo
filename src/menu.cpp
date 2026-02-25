@@ -62,12 +62,11 @@ void menu::buttons(){
 }
 
 //cambia el overlay si el cursor esta encima del boton
-void menu::button_overlay(const sf::RenderWindow &m_win){
-    mouse_pos=(sf::Mouse::getPosition(m_win));
-    posx1 =shape.getPosition().x; posy1 = shape.getPosition().y;
-    posx2 = posx1 + shape.getSize().x; posy2 = posy1 + shape.getSize().y;
+void menu::button_overlay(const sf::RenderWindow &win){
+    sf::Vector2i mouse_pos(sf::Mouse::getPosition(win).x,sf::Mouse::getPosition(win).y);
+    sf::Vector2f p = win.mapPixelToCoords(mouse_pos);
 
-    if(mouse_pos.x>=posx1 && mouse_pos.x<=posx2 && mouse_pos.y>=posy1 && mouse_pos.y<=posy2){
+    if(shape.getGlobalBounds().contains(p)){
         shape.setTexture(&botonselec);
     }else{
         shape.setTexture(&boton);
