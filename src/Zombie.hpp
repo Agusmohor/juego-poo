@@ -22,7 +22,7 @@ class zombie : public entity {
     int state,count;
     bool killcount = false;
 public:
-    zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow);
+    zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow, sf::Vector2f coords);
 
     void update(float delta,mapa &mapa) override;
     void draw(sf::RenderWindow& m_win) override;

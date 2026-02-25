@@ -27,24 +27,18 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 
     m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin);
     int cantZombies = 1;
-    for (int i=0;i<cantZombies;i++) {
-        m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow));
+    for (int i=0;i<300;i++) {
+        spawnObstacle();
     }
 
-    std::srand(std::time({}));
-    for (size_t i=0;i<40;i++) {
-        m_obtacles.push_back(std::make_unique<tree>());
-    }
     for (auto &trees : m_obtacles) {
-        float random = std::rand()%300;
-        float random2 = rand()%300;
         trees->random(m_res.tree1,m_res.tree2,m_res.tree3);
-        trees->setPos({random*2 + 400,random2+110});
     }
 }
 
 
 void match::update(float delta,Game &m_gam){
+    std::cout << m_zombies.size() << std::endl;
     if (m_ply->isAlive()) {m_timeAlive += delta;}
     spriteTimer += delta;
     if (spriteTimer >= spriteDur) {
@@ -74,9 +68,11 @@ void match::update(float delta,Game &m_gam){
 
     //elimina todos los z, q cumplan con la condicion q no vivo, funcion inline
     m_zombies.erase(std::remove_if(m_zombies.begin(),m_zombies.end(),[](const std::unique_ptr<zombie>& z){return z->isDeathOver();}),m_zombies.end());
-    if (m_zombies.size() < zombies.getMinEnemies() ) {
-        spawnEnemies();
+
+    if (m_zombies.size() < zombies.getMinEnemies() || m_zombies.size() < zombies.getMaxEnemies() && zombies.spawnCooldownTimer <= 0.f ) {
+        spawnEnemies(); zombies.spawnCooldownTimer = zombies.spawnCooldownDur;
     }
+    zombies.spawnCooldownTimer -= delta;
 
     //si no esta vivo, y presiona enter, crea otro personaje :)
     if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && !ispressed) {
@@ -217,13 +213,26 @@ void match::hits() {
 
 }
 
+
 void match::spawnEnemies() {
-    if (!(m_zombies.size() >= zombies.getMaxEnemies()) && !spawn) {m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow)); spawn = true;}
+    int tx = zombies.minTilex + std::rand()%( zombies.maxTilex-zombies.minTilex + 1);
+    int ty = zombies.minTiley + std::rand()%( zombies.maxTiley-zombies.minTiley + 1);
+    if (!(tx >= zombies.minNTilex && tx <= zombies.maxNTilex && ty >= zombies.minNTiley && ty <= zombies.maxNTiley)) {
+        m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(tx * 32,ty * 32)));
+    }
 }
 
-void match::spawnEnemies(int cant) {
-    for (int i = 0; i<cant; i++) {
-        m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie, m_res.shadow));
+void match::spawnObstacle() {
+    int tx = m_obs.minTilex + std::rand()%( m_obs.maxTilex-m_obs.minTilex + 1);
+    int ty = m_obs.minTiley + std::rand()%( m_obs.maxTiley-m_obs.minTiley + 1);
+    if (!(tx >= m_obs.minNTilex && tx <= m_obs.maxNTilex && ty >= m_obs.minNTiley && ty <= m_obs.maxNTiley)) {
+        bool exists = false;
+        sf::Vector2f t_pos(tx*32,ty*32);
+        //si no existe ningun obstaculo en esas coords, entonces se crea
+        for (auto &t : m_obtacles) {
+            if (t->getPosition() == t_pos) {exists = true; break;}
+        }
+        if (!exists) {m_obtacles.push_back(std::make_unique<tree>(sf::Vector2f(tx*32,ty*32)));}
     }
 }
 

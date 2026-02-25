@@ -16,10 +16,24 @@ struct Resources {
 };
 
 struct enemies {
-    int max_enemies = 3;
+    int max_enemies = 10;
     int min_enemies = 1;
+    int minTilex = 20; int maxTilex = 47;
+    int minTiley = 20; int maxTiley = 47;
+    int minNTilex = 28; int maxNTilex = 41;
+    int minNTiley = 25; int maxNTiley = 43;
+
+    float spawnCooldownTimer = 0.f;
+    float spawnCooldownDur = 0.6f;
     int const getMaxEnemies() {return max_enemies;}
     int const getMinEnemies() {return min_enemies;}
+};
+
+struct obstacles {
+    int minTilex = 20; int maxTilex = 47;
+    int minTiley = 20; int maxTiley = 47;
+    int minNTilex = 28; int maxNTilex = 41;
+    int minNTiley = 25; int maxNTiley = 43;
 };
 
 class match : public scene {
@@ -39,12 +53,14 @@ class match : public scene {
 
     //vector de obstaculos para agregar arboles,rocas,etc
     std::vector<std::unique_ptr<obstacle>> m_obtacles;
+    obstacles m_obs;
+    void spawnObstacle();
+
     std::vector<sf::FloatRect> m_hitboxes;
     std::vector<sf::Sprite*> m_worldSprites;
 
     std::vector<std::unique_ptr<zombie>> m_zombies;
     void spawnEnemies();
-    void spawnEnemies(int cant);
 
     void isOver();
 
@@ -72,4 +88,5 @@ public:
     void normalView(sf::RenderWindow& m_win);
 
     void hits();
+
 };

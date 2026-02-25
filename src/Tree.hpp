@@ -9,12 +9,13 @@
 
 class tree : public obstacle{
 public:
-    tree();
+    tree(sf::Vector2f coords);
 
     void update() override;
     void draw(sf::RenderWindow &m_win) override;
 
     void setPos(sf::Vector2f pos) override;
+    sf::Vector2f getPosition() override;
 
     sf::FloatRect getHitbox() override;
 

@@ -2,12 +2,13 @@
 
 #include <iostream>
 
-tree::tree() : m_spr(t) {
+tree::tree(sf::Vector2f coords) : m_spr(t) {
     m_spr.setScale({2,2}); m_spr.setOrigin({4,4});
     m_hitbox.setSize({9,6});
     // m_spr.setTexture(arbol);
     m_spr.setTextureRect({{0,0},{64,64}}); m_spr.setScale({1,1});
     // m_base.setFillColor(sf::Color::Blue);
+    m_spr.setPosition(coords);
 }
 
 void tree::draw(sf::RenderWindow &m_win) {
@@ -53,3 +54,5 @@ sf::FloatRect tree::getHitbox() {
 sf::Sprite &tree::getSprite() {
     return m_spr;
 }
+
+sf::Vector2f tree::getPosition() {return m_spr.getPosition();}
