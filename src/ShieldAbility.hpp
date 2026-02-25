@@ -2,6 +2,7 @@
 #define JUEGO_POO_SHIELDABILITY_H
 
 #include "Ability.hpp"
+#include <SFML/Window/Keyboard.hpp>
 
 class ShieldAbility : public Ability {
     float cooldownDur = 5.f;
@@ -9,6 +10,7 @@ class ShieldAbility : public Ability {
     float shieldTimer = 0.f;
     float shieldDur = 3.f;
     bool active = false;
+    sf::Keyboard::Key key;
 public:
     void update(float dt, player &p) override;
     bool tryActive() override;

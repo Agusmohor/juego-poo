@@ -428,3 +428,12 @@ void player::startHeal(){
 
 bool player::getHealReady() const {return healReady;}
 void player::setHealReady(bool ready) {healReady = ready;}
+
+//keys
+void player::setKey(sf::Keyboard::Key key, action act) {
+    m_keys[static_cast<int>(act)] = key;
+}
+
+const sf::Keyboard::Key& player::getKey(action act) const {
+    return m_keys[static_cast<int>(act)];
+}

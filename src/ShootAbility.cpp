@@ -5,7 +5,7 @@
 void ShootAbility::update(float dt,player& p){
     p.shootState(dt);
     if (cooldownTimer > 0.f) {cooldownTimer -= dt;}
-
+    key = p.getKey(action::fire);
     if(tryActive()){p.startShoot();cooldownTimer = cooldownDur; shootTimer = shootDur;p.setFireReady(false);}
     if(p.getShootActive()) {
         shootTimer -= dt;

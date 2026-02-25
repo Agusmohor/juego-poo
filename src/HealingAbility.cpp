@@ -5,6 +5,7 @@
 void HealingAbility::update(float dt,player& p){
     if (cooldownTimer > 0.f) {cooldownTimer -= dt;}
 
+    key = p.getKey(action::heal);
     p.stateHeal();
 
     if(tryActive() && !(p.getHealth() >= 14)){p.startHeal();cooldownTimer = cooldownDur;p.setHealReady(false);}
@@ -14,7 +15,7 @@ void HealingAbility::update(float dt,player& p){
 
 bool HealingAbility::tryActive(){
     static bool prev = false;
-    bool now = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F);
+    bool now = sf::Keyboard::isKeyPressed(key);
     bool isPressed = now && !prev;
     prev = now;
     return isPressed && cooldownTimer <= 0.f;

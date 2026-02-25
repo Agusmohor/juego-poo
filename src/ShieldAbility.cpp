@@ -5,7 +5,7 @@
 
 void ShieldAbility::update(float dt, player &p) {
     if (cooldownTimer > 0.f) {cooldownTimer -= dt;}
-
+    key = p.getKey(action::shield);
     if (tryActive()) {p.shield(); cooldownTimer = cooldownDur; shieldTimer = shieldDur; p.setShieldReady(false);}
     if(p.getShieldActive()) {
         shieldTimer -= dt;
@@ -16,7 +16,7 @@ void ShieldAbility::update(float dt, player &p) {
 
 bool ShieldAbility::tryActive() {
     static bool prev = false;
-    bool now = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q);
+    bool now = sf::Keyboard::isKeyPressed(key);
     bool isPressed = now && !prev;
     prev = now;
     return isPressed && cooldownTimer <= 0.f;

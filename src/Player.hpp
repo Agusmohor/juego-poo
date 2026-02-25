@@ -11,6 +11,17 @@
 #include "Abilities.hpp"
 
 
+struct configKeys {
+    sf::Keyboard::Key shieldKey,dashKey,fireKey,healKey;
+};
+
+enum class action {
+    shield,
+    dash,
+    fire,
+    heal,
+    hit
+};
 
 class player : public entity{
 public:
@@ -87,7 +98,9 @@ public:
     bool getHealReady() const;
     void setHealReady(bool ready);
 
+    void setKey(sf::Keyboard::Key key, action act);
 
+    const sf::Keyboard::Key &getKey(action act) const;
 
 private:
     int state;
@@ -114,11 +127,14 @@ private:
     sf::Sprite m_spr,m_shadow;
     float m_speed,dx,dy,m_angle;
     sf::Vector2f pl_pos,dir,mouse_pos,m_scale;
-    sf::Keyboard::Key wKey,aKey,sKey,dKey;
+    sf::Keyboard::Key wKey,aKey,sKey,dKey, shieldKey, dashKey, fireKey, healKey;
     sf::Mouse::Button rClick,lClick;
 
     float m_width = 30.0f;  // ancho player
     float m_height = 40.0f; //altura player
+
+    //controles
+    std::array<sf::Keyboard::Key,5> m_keys;
 
     Abilities abil;
 

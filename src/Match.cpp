@@ -30,6 +30,9 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
     for (auto &trees : m_obtacles) {
         trees->random(m_res.tree1,m_res.tree2,m_res.tree3);
     }
+    m_ply->setKey(sf::Keyboard::Key::E,action::dash);
+    m_ply->setKey(sf::Keyboard::Key::Q,action::shield);
+    m_ply->setKey(sf::Keyboard::Key::R,action::heal);
 }
 
 
