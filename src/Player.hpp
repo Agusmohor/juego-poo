@@ -71,9 +71,12 @@ public:
     void shootState(float dt);
     bool getShootActive();
     void setShootActive(bool active);
-    void doShoot();
+    void startShoot();
     bool getIsShot() const;
     const sf::RectangleShape &getFireball();
+
+    void startHeal();
+    void stateHeal();
 
     bool getDashReady() const;
     void setDashReady(bool ready);
@@ -81,9 +84,10 @@ public:
     void setShieldReady(bool ready);
     bool getFireReady() const;
     void setFireReady(bool ready);
+    bool getHealReady() const;
+    void setHealReady(bool ready);
 
-    void doHeal();
-    void stateHeal();
+
 
 private:
     int state;
@@ -140,6 +144,7 @@ private:
     float healRegenTimer = 0.f;
     float healRegenDur = 1.f;
     int c = 4;
+    bool healReady = false;
 };
 
 #endif

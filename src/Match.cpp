@@ -34,6 +34,7 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 
 
 void match::update(float delta,Game &m_gam){
+    // std::cout << m_zombies.size() << std::endl;
     // std::cout << m_obtacles.size() << std::endl;
     if (m_ply->isAlive()) {m_timeAlive += delta;}
     spriteTimer += delta;
@@ -89,7 +90,7 @@ void match::update(float delta,Game &m_gam){
     spawn = false;
 
     m_hud.update();
-    m_hud.abilities(m_ply->getShieldReady(),m_ply->getDashReady(),m_ply->getFireReady());
+    m_hud.abilities(m_ply->getShieldReady(),m_ply->getDashReady(),m_ply->getFireReady(),m_ply->getHealReady());
     m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
     this->doPause(m_gam);
     // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}

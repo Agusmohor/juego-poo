@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Player.hpp"
 
-hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui), overlay(gui),font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
+hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui),m_heal(gui), overlay(gui),font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
 
     if(!gui.loadFromFile("../assets/textures/entity/player/gui/gui.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_GUI_TEXTURE_FROM_FILE");
 
@@ -28,11 +28,13 @@ void hud::create() {
     m_shield.setTextureRect({{149,188},{size}}); m_shield.setOrigin({8,8});
     m_shield.setPosition({abilPos}); m_shield.setScale({3,3});
     //crear dash
-    m_dash = m_shield; m_dash.setTextureRect({{185,188},{size}}); m_dash.setPosition({abilPos.x + 65,1});
+    m_dash = m_shield; m_dash.setTextureRect({{185,188},{size}}); m_dash.setPosition({m_shield.getPosition().x + 65,1});
     m_dash.setScale(scale);
     //crear fire
     m_fire = m_shield; m_fire.setTextureRect({{218,188},{size}}); m_fire.setPosition({abilPos.x + 520,1});
     m_fire.setScale(scale);
+    //crear heal
+    m_heal = m_shield; m_heal.setTextureRect({{222,170},{size}}); m_heal.setPosition({m_fire.getPosition().x + 65,1});
     //crear void_health_bar
     life.setOrigin({48,16});
     life.setTextureRect({{224,260},{size}}); life.setScale({scale.x/2,scale.y/2});
@@ -108,6 +110,7 @@ void hud::draw(sf::RenderWindow &m_win){
     m_win.draw(m_shield);
     m_win.draw(m_dash);
     m_win.draw(m_fire);
+    m_win.draw(m_heal);
     // m_win.draw(life);
 }
 
@@ -133,6 +136,7 @@ void hud::updateView() {
     m_shield.setPosition({m_shield.getPosition().x,newpos-abilPos.y});
     m_dash.setPosition({m_dash.getPosition().x,newpos-abilPos.y});
     m_fire.setPosition({m_fire.getPosition().x,newpos-abilPos.y});
+    m_heal.setPosition({m_heal.getPosition().x,newpos-abilPos.y});
 }
 
 void hud::moveGui(const sf::Vector2f &winview){
@@ -220,10 +224,11 @@ void hud::deathMessege(sf::RenderWindow &m_win) {
     m_win.draw(text);
 }
 
-void hud::abilities(bool isShieldReady, bool isDashReady, bool isFireReady) {
+void hud::abilities(bool isShieldReady, bool isDashReady, bool isFireReady, bool isHealReady) {
     if (isShieldReady) {m_shield.setTextureRect({{149,188},{size}});} else {m_shield.setTextureRect({{167,188},{size}});}
     if (isDashReady) {m_dash.setTextureRect({{184,188},{size}});} else {m_dash.setTextureRect({{201,188},{size}});}
     if (isFireReady) {m_fire.setTextureRect({{218,188},{size}});} else {m_fire.setTextureRect({{234,188},{size}});}
+    if (isHealReady) {m_heal.setTextureRect({{222,170},{size}});} else {m_heal.setTextureRect({{240,170},{size}});}
 }
 
 

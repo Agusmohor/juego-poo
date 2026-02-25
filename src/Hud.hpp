@@ -22,7 +22,7 @@ public:
     void caseStamina();
 
     void deathMessege(sf::RenderWindow &m_win);
-    void abilities(bool isShieldReady, bool isDashReady, bool isFireReady);
+    void abilities(bool isShieldReady, bool isDashReady, bool isFireReady, bool isHealReady);
 private:
     void create();
 
@@ -30,7 +30,7 @@ private:
     void createStamina(int num);
 
     sf::Texture gui;
-    sf::Sprite life, m_shield, m_dash, m_fire, overlay;
+    sf::Sprite life, m_shield, m_dash, m_fire, m_heal, overlay;
     sf::Vector2f m_winSize,scale,pos,spos,abilPos, overlayPos;
     std::vector<sf::Sprite> hp_empty,hp_fill,stamina_bar,stamina_empty, m_overlay;
     sf::Vector2i size;

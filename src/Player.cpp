@@ -388,7 +388,7 @@ void player::shootState(float dt){
     fhitbox.setPosition(m_fireball.getPosition());
 }
 
-void player::doShoot(){
+void player::startShoot(){
     isShootActive = true;
     shootdir = dir;
     shotSkin = true;
@@ -422,6 +422,9 @@ void player::stateHeal(){
     }
 }
 
-void player::doHeal(){
+void player::startHeal(){
     isHealing = true;
 }
+
+bool player::getHealReady() const {return healReady;}
+void player::setHealReady(bool ready) {healReady = ready;}

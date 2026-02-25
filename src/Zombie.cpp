@@ -215,7 +215,7 @@ void zombie::deathDraw() {
     sf::IntRect rect = m_spr.getTextureRect();
     if (state == 1) {rect.position.x = 0; state = 2; count = 0;}
     if (count < 4) {m_spr.setTextureRect({{rect.position.x + 32,192},{scale}}); count++;}
-    if (m_spr.getTextureRect().position.x > 64){ deathOver = true;}
+    if (count >= 4) {deathOver = true;}
 }
 
 void zombie::damageColor(bool cond) {

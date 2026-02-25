@@ -5,9 +5,11 @@
 void HealingAbility::update(float dt,player& p){
     if (cooldownTimer > 0.f) {cooldownTimer -= dt;}
 
-    if(tryActive()){p.doHeal();cooldownTimer = cooldownDur;}
-    
     p.stateHeal();
+
+    if(tryActive() && !(p.getHealth() >= 14)){p.startHeal();cooldownTimer = cooldownDur;p.setHealReady(false);}
+    
+    if (cooldownTimer <= 0.f) {p.setHealReady(true);}
 }
 
 bool HealingAbility::tryActive(){
