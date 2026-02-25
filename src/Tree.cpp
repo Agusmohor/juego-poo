@@ -8,11 +8,11 @@ tree::tree(sf::Vector2f coords) : m_spr(t) {
     // m_spr.setTexture(arbol);
     m_spr.setTextureRect({{0,0},{64,64}}); m_spr.setScale({1,1});
     // m_base.setFillColor(sf::Color::Blue);
-    m_spr.setPosition(coords);
+    setPos(coords);
 }
 
 void tree::draw(sf::RenderWindow &m_win) {
-    // m_win.draw(m_hitbox);
+    m_win.draw(m_hitbox);
 }
 
 void tree::update() {

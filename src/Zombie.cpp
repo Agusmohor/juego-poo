@@ -115,8 +115,7 @@ void zombie::move(float delta,mapa &mapa) {
     if (dist != 0.f) { dif /= dist;}
     if (dist > 21){ismoving = true;} else{ismoving = false;}
     if (dif.x < 0){m_spr.setScale({-m_scale.x,m_scale.y});} else{m_spr.setScale(m_scale);}
-    // std::cout << dist << std::endl;
-    //{1,-1}
+
     //dif seria la "direccion"
     if (timer3.getElapsedTime().asSeconds() >= 0.1f) {
         if(iscolx){
@@ -136,8 +135,6 @@ void zombie::move(float delta,mapa &mapa) {
     }
 
     sf::Vector2f velocity = dif * m_speed *delta;
-    sf::FloatRect hb = hitbox.getGlobalBounds();
-
     m_spr.move(velocity);
 
     //m_spr.move(dif*m_speed*delta);

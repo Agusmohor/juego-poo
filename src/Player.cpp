@@ -44,17 +44,17 @@ void player::move(float delta, mapa &mapa) {
     }
     //speed
     speed();
-    sf::Vector2f velocity = dir * m_speed *delta;
     prevPos = m_spr.getPosition(); syncHitbox();
-    sf::FloatRect hb = hitbox.getGlobalBounds();
+    sf::Vector2f velocity = dir * m_speed *delta;
 
     m_spr.move(velocity);
+    syncHitbox();
+    for (auto& box : *hitboxes) coly(box);
 
     syncHitbox();
     for (auto& box : *hitboxes) colx(box);
 
-    syncHitbox();
-    for (auto& box : *hitboxes) coly(box);
+
 
 }
 

@@ -26,7 +26,6 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
     m_mapa.load(pngpath,ground,grass);
 
     m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin);
-    int cantZombies = 1;
     for (int i=0;i<300;i++) {
         spawnObstacle();
     }
@@ -38,7 +37,7 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 
 
 void match::update(float delta,Game &m_gam){
-    std::cout << m_zombies.size() << std::endl;
+    // std::cout << m_zombies.size() << std::endl;
     if (m_ply->isAlive()) {m_timeAlive += delta;}
     spriteTimer += delta;
     if (spriteTimer >= spriteDur) {
@@ -146,6 +145,7 @@ void match::render(sf::RenderWindow &m_win){
     for (auto *spr : m_worldSprites) {
             m_win.draw(*spr);
     }
+    // for (auto &p : m_obtacles) {p->draw(m_win);}
     m_ply->draw(m_win);
     // m_ply.drawHitbox(m_win);
     // m_zombie->drawHitbox(m_win);
