@@ -16,10 +16,11 @@ void ShieldAbility::update(float dt, player &p) {
 
 bool ShieldAbility::tryActive() {
     static bool prev = false;
-    bool now = sf::Keyboard::isKeyPressed(key);
+    bool now ;
+    if (key == sf::Keyboard::Scancode::Unknown){now = false;}
+    now = sf::Keyboard::isKeyPressed(key);
     bool isPressed = now && !prev;
     prev = now;
     return isPressed && cooldownTimer <= 0.f;
-
 }
 

@@ -1,6 +1,8 @@
 #include "settingsScene.hpp"
 #include <iostream>
 
+#include "Game.hpp"
+
 settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab4Text(font), exitText(font), k1(font),k2(font),k3(font),k4(font) {
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
@@ -41,10 +43,12 @@ settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab
 }
 
 void settingsScene::update(float delta,Game &m_game) {
+    if (isRecentlyOpen) {m_keys = m_game.getKeyBinds(); isRecentlyOpen = false;}
     k1.setString(keyToString(m_keys[0]));
     k2.setString(keyToString(m_keys[1]));
     k3.setString(keyToString(m_keys[2]));
     k4.setString(keyToString(m_keys[3]));
+    if (isexit) {m_game.setKeyBinds(m_keys);}
 }
 
 void settingsScene::draw(sf::RenderWindow &m_win) {
@@ -114,15 +118,16 @@ void settingsScene::ProcessEvent(Game &game, sf::Event &event) {
     // std::cout<< "si" << waitingForKey<<std::endl;
 }
 
-const std::array<sf::Keyboard::Scancode,4>& settingsScene::getKeys() { return m_keys; }
-
 bool settingsScene::isWaitingForKey() const {return waitingForKey;}
 
 bool settingsScene::getExit() const { return isexit; }
-void settingsScene::setExit(bool exit) { isexit = exit; }
+void settingsScene::setExit(bool exit) {isexit = exit;}
 
 std::string settingsScene::keyToString(sf::Keyboard::Scancode key) {
     if (key == sf::Keyboard::Scancode::Unknown){return "null";}
     std::string keyStr = sf::Keyboard::getDescription(key);
     return keyStr;
 }
+
+bool settingsScene::getIsRecentlyOpen() const {return isRecentlyOpen;}
+void settingsScene::setIsRecentlyOpen(bool active) {isRecentlyOpen = active;}

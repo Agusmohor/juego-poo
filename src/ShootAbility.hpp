@@ -9,7 +9,7 @@ class ShootAbility:public Ability{
     float cooldownTimer = 0.f;
     float shootTimer = 0.f;
     float shootDur = 0.2;
-    sf::Keyboard::Key key;
+    sf::Keyboard::Scancode key;
 public:
     void update(float dt, player& p) override;
     bool tryActive() override;

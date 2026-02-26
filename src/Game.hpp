@@ -32,6 +32,8 @@ public:
 
     void setStats(const stats &m_stats);
     const stats &getStats();
+    void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys);
+    const std::array<sf::Keyboard::Scancode, 4>& getKeyBinds() const;
 private:
     sf::RenderWindow m_win;
     scene* curr_scene = nullptr;
@@ -44,6 +46,7 @@ private:
     std::string name;
     sf::Vector2u m_winSize;
     stats m_lastStats;
+    std::array<sf::Keyboard::Scancode,4> m_keys;
 };
 
 #endif

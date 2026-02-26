@@ -81,7 +81,7 @@ void PauseScene::button_overlay(const sf::RenderWindow &win, sf::RectangleShape 
         if (lbuttonpressed) {
             switch(t) {
                 case type::resume : isResume = true; break;
-                case type::setting : isSettings = true; break;
+                case type::setting : isSettings = true; settingScene.setIsRecentlyOpen(true); break;
                 case type::exit : isExit = true; break;
                     default: lbuttonpressed = false; break;
             }

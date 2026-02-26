@@ -430,10 +430,10 @@ bool player::getHealReady() const {return healReady;}
 void player::setHealReady(bool ready) {healReady = ready;}
 
 //keys
-void player::setKey(sf::Keyboard::Key key, action act) {
-    m_keys[static_cast<int>(act)] = key;
+void player::setKey(const std::array<sf::Keyboard::Scancode,4>& keys) {
+    m_keys = keys;
 }
 
-const sf::Keyboard::Key& player::getKey(action act) const {
+const sf::Keyboard::Scancode& player::getKey(action act) const {
     return m_keys[static_cast<int>(act)];
 }

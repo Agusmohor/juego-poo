@@ -3,6 +3,7 @@
 #include <iostream>
 
 void ShootAbility::update(float dt,player& p){
+    key = p.getKey(action::fire);
     p.shootState(dt);
     if (cooldownTimer > 0.f) {cooldownTimer -= dt;}
     key = p.getKey(action::fire);
@@ -16,7 +17,7 @@ void ShootAbility::update(float dt,player& p){
 
 bool ShootAbility::tryActive(){
     static bool prev = false;
-    bool now = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
+    bool now = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right) || sf::Keyboard::isKeyPressed(key);
     bool isPressed = now && !prev;
     prev = now;
     return isPressed && cooldownTimer <= 0.f;

@@ -20,6 +20,7 @@ class settingsScene : public scene{
     bool waitingForKey = false;
     bool lbuttonpressed = false;
     bool isexit = false;
+    bool isRecentlyOpen;
     action curraction;
 
 
@@ -27,6 +28,9 @@ class settingsScene : public scene{
     void button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t);
 
     std::string keyToString(sf::Keyboard::Scancode key);
+
+
+
 public:
     settingsScene();
     void update(float delta,Game &m_gam) override;
@@ -34,10 +38,12 @@ public:
     void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
     void setKey(sf::Keyboard::Scancode key);
-    const std::array<sf::Keyboard::Scancode,4>& getKeys();
+    const std::array<sf::Keyboard::Scancode,4>& getKeyBinds() const;
     bool isWaitingForKey() const;
     bool getExit() const;
     void setExit(bool exit);
+    bool getIsRecentlyOpen() const;
+    void setIsRecentlyOpen(bool active);
 
 };
 

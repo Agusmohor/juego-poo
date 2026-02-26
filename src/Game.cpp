@@ -4,6 +4,8 @@
 Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false), next_scene(nullptr),m_pause(nullptr){
     m_win.setFramerateLimit(60);
     this->loadConfig(m_win);
+    m_keys[0] = sf::Keyboard::Scancode::Q; m_keys[1] = sf::Keyboard::Scancode::E;
+    m_keys[2] = sf::Keyboard::Scancode::R; m_keys[3] = sf::Keyboard::Scancode::F;
 }
 
 void Game::run(){
@@ -119,4 +121,12 @@ void Game::setStats(const stats &m_stats) {
 
 const stats &Game::getStats() {
     return m_lastStats;
+}
+
+void Game::setKeyBinds(const std::array<sf::Keyboard::Scancode, 4> &keys) {
+    m_keys = keys;
+}
+
+const std::array<sf::Keyboard::Scancode, 4>& Game::getKeyBinds() const {
+    return m_keys;
 }

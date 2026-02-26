@@ -89,9 +89,9 @@ public:
     bool getHealReady() const;
     void setHealReady(bool ready);
 
-    void setKey(sf::Keyboard::Key key, action act);
+    void setKey(const std::array<sf::Keyboard::Scancode,4> &keys);
 
-    const sf::Keyboard::Key &getKey(action act) const;
+    const sf::Keyboard::Scancode &getKey(action act) const;
 
 private:
     int state;
@@ -125,7 +125,7 @@ private:
     float m_height = 40.0f; //altura player
 
     //controles
-    std::array<sf::Keyboard::Key,4> m_keys;
+    std::array<sf::Keyboard::Scancode,4> m_keys;
 
     Abilities abil;
 

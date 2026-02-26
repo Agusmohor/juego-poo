@@ -11,7 +11,7 @@ class DashAbility : public Ability {
     float dashTimer = 0.f;
     float dashDuration = 0.15f;
     bool active = false;
-    sf::Keyboard::Key key;
+    sf::Keyboard::Scancode key = sf::Keyboard::Scancode::Unknown;
 public:
     void update(float dt, player& p) override;
     bool tryActive() override;
