@@ -33,16 +33,20 @@ PauseScene::PauseScene():m_text(m_font,"Pause"), resumeText(m_font,""), settingT
 void PauseScene::update(float delta,Game &m_gam){
     // backMatch(m_gam);
     settingScene.update(delta,m_gam);
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape) && isSettings) {isSettings = false;}
+    if (settingScene.getExit()) {isSettings = false; settingScene.setExit(false);}
 
 }
 
 void PauseScene::updateView(Game &m_gam){}
 
 void PauseScene::ProcessEvent(Game &game, sf::Event &event) {
+    if (isSettings) settingScene.ProcessEvent(game,event);
     if (((event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) || isResume) && !isSettings) {
         game.delPause();
     }
+    if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
+        if (evt->button == sf::Mouse::Button::Left) {lbuttonpressed = true;}
+    }else{lbuttonpressed = false;}
 }
 
 // void PauseScene::backMatch(Game &m_gam){
@@ -74,11 +78,12 @@ void PauseScene::button_overlay(const sf::RenderWindow &win, sf::RectangleShape 
 
     if (button.getGlobalBounds().contains(window_pos)) {
         button.setTexture(&botonselec);
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        if (lbuttonpressed) {
             switch(t) {
                 case type::resume : isResume = true; break;
                 case type::setting : isSettings = true; break;
                 case type::exit : isExit = true; break;
+                    default: lbuttonpressed = false; break;
             }
         }
     }else{

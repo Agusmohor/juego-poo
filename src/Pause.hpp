@@ -27,6 +27,7 @@ void ProcessEvent(Game &game, sf::Event &event) override;
     bool isResume = false;
     bool isSettings = false;
     bool isExit = false;
+    bool lbuttonpressed = false;
 
     settingsScene settingScene;
 };
