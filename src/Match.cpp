@@ -95,7 +95,6 @@ void match::update(float delta,Game &m_gam){
     m_hud.update();
     m_hud.abilities(m_ply->getShieldReady(),m_ply->getDashReady(),m_ply->getFireReady(),m_ply->getHealReady());
     m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
-    this->doPause(m_gam);
     // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
 }
 
@@ -110,9 +109,9 @@ void match::draw(sf::RenderWindow &m_win){
     m_win.setView(m_uiview);
 }
 
-void match::doPause(Game &m_gam){
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) m_gam.isPaused(true);
-}
+// void match::doPause(Game &m_gam){
+//     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) m_gam.isPaused(true);
+// }
 
 // dibujo de camara, centrado del hud
 // view = camara, win = ventana 
@@ -244,4 +243,11 @@ void match::spawnObstacle() {
 void match::isOver() {
     m_stats.timeAlive = m_timeAlive;
     m_stats.kills = m_kills;
+}
+
+void match::ProcessEvent(Game &game, sf::Event &event) {
+    if (event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) {
+        game.Pause();
+    }
+
 }

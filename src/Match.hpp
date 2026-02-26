@@ -16,7 +16,7 @@ struct Resources {
 };
 
 struct enemies {
-    int max_enemies = 10;
+    int max_enemies = 5;
     int min_enemies = 1;
     int minTilex = 20; int maxTilex = 47;
     int minTiley = 20; int maxTiley = 47;
@@ -25,8 +25,8 @@ struct enemies {
 
     float spawnCooldownTimer = 0.f;
     float spawnCooldownDur = 0.6f;
-    int const getMaxEnemies() {return max_enemies;}
-    int const getMinEnemies() {return min_enemies;}
+    int const getMaxEnemies() const {return max_enemies;}
+    int const getMinEnemies() const {return min_enemies;}
 };
 
 struct obstacles {
@@ -76,6 +76,7 @@ class match : public scene {
 
     Resources m_res;
 
+    void ProcessEvent(Game &game, sf::Event &event) override;
 public:
     match();
     void doPause(Game &m_gam);

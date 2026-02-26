@@ -15,7 +15,11 @@ public:
     ~Game();
 
     void run();
+
+    void ProcessEvent();
+
     void setScene(scene *newScene);
+    void Pause();
     void delPause();
     void isPaused(bool condition);
 
@@ -34,7 +38,7 @@ private:
     scene* next_scene = nullptr;
     scene* m_pause = nullptr;
     sf::View m_view,m_uiview;
-    bool ispaused;
+    bool ispaused = false;
     sf::Clock timer,time;
     sf::Vector2u resolution;
     std::string name;
