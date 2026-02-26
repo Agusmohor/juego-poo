@@ -40,7 +40,7 @@ void PauseScene::update(float delta,Game &m_gam){
 void PauseScene::updateView(Game &m_gam){}
 
 void PauseScene::ProcessEvent(Game &game, sf::Event &event) {
-    if (event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) {
+    if (((event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) || isResume) && !isSettings) {
         game.delPause();
     }
 }

@@ -9,18 +9,10 @@
 #include "Tree.hpp"
 
 #include "Abilities.hpp"
+#include "Keys.hpp"
 
 
-struct configKeys {
-    sf::Keyboard::Key shieldKey,dashKey,fireKey,healKey;
-};
 
-enum class action {
-    shield,
-    dash,
-    fire,
-    heal,
-};
 
 class player : public entity{
 public:
@@ -133,7 +125,7 @@ private:
     float m_height = 40.0f; //altura player
 
     //controles
-    std::array<sf::Keyboard::Key,5> m_keys;
+    std::array<sf::Keyboard::Key,4> m_keys;
 
     Abilities abil;
 

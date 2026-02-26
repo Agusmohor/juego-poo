@@ -4,7 +4,6 @@
 
 #include "Scene.hpp"
 #include <SFML/Graphics/Font.hpp>
-#include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include "Game.hpp"
 #include "settingsScene.hpp"
