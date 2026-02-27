@@ -57,7 +57,7 @@ sf::Sprite &tree::getSprite() {
 
 sf::Vector2f tree::getPosition() {return m_spr.getPosition();}
 
-const treeSave &tree::getSaves() {
-    saves.x = m_spr.getPosition().x; saves.y = m_spr.getPosition().y;
-    return saves;
+treeSave tree::getSaves() const {
+    auto p = m_spr.getPosition();
+    return {p.x,p.y};
 }

@@ -242,7 +242,7 @@ void Game::loadProgress() {
 
     int tcount; tsaves.clear();
     file.read(reinterpret_cast<char*>(&tcount),sizeof(tcount));
-    if (tcount < 0 || tcount > 50) return;
+    if (tcount < 0 || tcount > 600) return;
     treeSave ts;
     for (int i=0;i<tcount;i++) {
         file.read(reinterpret_cast<char*>(&ts),sizeof(ts));

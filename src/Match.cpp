@@ -26,19 +26,32 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
     m_mapa.load(pngpath,ground,grass);
 
     m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin);
-    spawnObstacle();
-    for (auto &trees : m_obtacles) {
-        trees->random(m_res.tree1,m_res.tree2,m_res.tree3);
-    }
+
 }
 
 
 void match::update(float delta,Game &m_gam){
     if (isRecentlyOpen) {
+        isRecentlyOpen = false;
         m_ply->setSaves(m_gam.getPlayerSaves());
         m_zombieSave = m_gam.getZombieSaves();
+        for (auto &z : m_zombieSave) {
+            m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(z.x,z.y)));
+        }
+
         m_treeSave = m_gam.getTreeSaves();
-        isRecentlyOpen = false;
+        sf::Vector2f v;
+        for (auto &t : m_treeSave) {
+            v.x = t.x; v.y = t.y;
+            m_obtacles.push_back(std::make_unique<tree>(v));
+        }
+
+        if (m_treeSave.size() <= 0) {
+            spawnObstacle();
+        }
+        for (auto &trees : m_obtacles) {
+            trees->random(m_res.tree1,m_res.tree2,m_res.tree3);
+        }
     }
     if (m_gam.getSaveAndQuit()) {
         m_gam.setPlayerSaves(m_ply->getSaves());
@@ -223,21 +236,16 @@ void match::hits() {
 
 
 void match::spawnEnemies() {
-    if (!m_zombieSave.size()>0) {
         int tx = zombies.minTilex + std::rand()%( zombies.maxTilex-zombies.minTilex + 1);
         int ty = zombies.minTiley + std::rand()%( zombies.maxTiley-zombies.minTiley + 1);
         if (!(tx >= zombies.minNTilex && tx <= zombies.maxNTilex && ty >= zombies.minNTiley && ty <= zombies.maxNTiley)) {
             m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(tx * 32,ty * 32)));
         }
-    }else {
-        for (auto &z : m_zombieSave) {
-            m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(z.x,z.y)));
-        }
-    }
+
+
 }
 
 void match::spawnObstacle() {
-    if (!m_treeSave.size() > 0) {
         for (int i=0;i<m_obs.maxTreeSpawn;i++) {
             int tx = m_obs.minTilex + std::rand()%( m_obs.maxTilex-m_obs.minTilex + 1);
             int ty = m_obs.minTiley + std::rand()%( m_obs.maxTiley-m_obs.minTiley + 1);
@@ -251,11 +259,7 @@ void match::spawnObstacle() {
                 if (!exists) {m_obtacles.push_back(std::make_unique<tree>(sf::Vector2f(tx*32,ty*32)));}
             }
         }
-    }else {
-       for (auto &t : m_treeSave) {
-           m_obtacles.push_back(std::make_unique<tree>(sf::Vector2f(t.x,t.y)));
-       }
-    }
+
 }
 
 void match::isOver() {

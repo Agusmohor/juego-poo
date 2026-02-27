@@ -247,3 +247,5 @@ const zombieSave& zombie::getSaves(){
     saves.x = m_spr.getPosition().x; saves.y = m_spr.getPosition().y;
     return saves;
 }
+
+

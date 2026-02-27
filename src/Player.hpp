@@ -95,7 +95,7 @@ public:
     void zombieKilled();
 
 private:
-    void updateSaves();
+    void updateSaves() ;
     void texture();
     int state;
     sf::Vector2f prevPos, hitboxPrevPos;
