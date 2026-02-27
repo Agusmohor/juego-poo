@@ -3,7 +3,7 @@
 
 #include "Game.hpp"
 
-settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab4Text(font), exitText(font), k1(font),k2(font),k3(font),k4(font) {
+settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab4Text(font), exitText(font), saveText(font),k1(font),k2(font),k3(font),k4(font) {
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
@@ -26,13 +26,16 @@ settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab
 
     Ab4 = Ab3; Ab4.setPosition({Ab3.getPosition().x,Ab3.getPosition().y + 100});
     ab4Text = ab3Text; ab4Text.setPosition({ab3Text.getPosition().x - 20 ,ab3Text.getPosition().y + 100}); ab4Text.setString("Fourth ability");
-    exit.setSize({220.f,35.f});
-    exit.setPosition({sf::Vector2f(290,610)});
+    save.setSize({220.f,35.f});
+    save.setPosition({sf::Vector2f(290,610)});
+    exit = save; exit.setPosition({save.getPosition().x,save.getPosition().y+45});
 
-    exitText.setFont(font); exitText.setString("Exit");
-    exitText.setCharacterSize(20);
-    exitText.setFillColor(sf::Color::White);
-    exitText.setPosition(sf::Vector2f(380,630));
+    saveText.setFont(font); saveText.setString("Save");
+    saveText.setCharacterSize(20);
+    saveText.setFillColor(sf::Color::White);
+    saveText.setPosition(sf::Vector2f(370,630));
+    exitText = saveText; exitText.setPosition({saveText.getPosition().x+10,saveText.getPosition().y+45});
+    exitText.setString("Exit");
 
     k1 = ab1Text; k1.setPosition({260,225}); k1.setString("null");
     k2 = k1; k3 = k1, k4 = k1;
@@ -48,7 +51,7 @@ void settingsScene::update(float delta,Game &m_game) {
     k2.setString(keyToString(m_keys[1]));
     k3.setString(keyToString(m_keys[2]));
     k4.setString(keyToString(m_keys[3]));
-    if (isexit) {m_game.setKeyBinds(m_keys);}
+    if (isexit) {m_game.setKeyBinds(m_keys,isSave); isSave = false;}
 }
 
 void settingsScene::draw(sf::RenderWindow &m_win) {
@@ -57,17 +60,20 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
     button_overlay(m_win,Ab3,type::Ab3);
     button_overlay(m_win,Ab4,type::Ab4);
     button_overlay(m_win,exit,type::exit);
+    button_overlay(m_win,save,type::save);
     m_win.draw(background);
     m_win.draw(Ab1);
     m_win.draw(Ab2);
     m_win.draw(Ab3);
     m_win.draw(Ab4);
     m_win.draw(exit);
+    m_win.draw(save);
     m_win.draw(ab1Text);
     m_win.draw(ab2Text);
     m_win.draw(ab3Text);
     m_win.draw(ab4Text);
     m_win.draw(exitText);
+    m_win.draw(saveText);
     m_win.draw(k1);
     m_win.draw(k2);
     m_win.draw(k3);
@@ -91,6 +97,7 @@ void settingsScene::button_overlay(const sf::RenderWindow &win, sf::RectangleSha
                 case type::Ab2 : curraction = action::dash;waitingForKey = true; break;
                 case type::Ab3 : curraction = action::fire;waitingForKey = true; break;
                 case type::Ab4 : curraction = action::heal;waitingForKey = true; break;
+                case type::save : isSave = true; break;
                 case type::exit : isexit = true; break;
             }
         }

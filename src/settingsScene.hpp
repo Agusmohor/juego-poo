@@ -7,19 +7,20 @@ enum struct type {
     resume,
     setting,
     exit,
+    save,
     Ab1, Ab2, Ab3, Ab4
 };
 
 
 
 class settingsScene : public scene{
-    sf::RectangleShape background, Ab1,Ab2,Ab3,Ab4, exit;
+    sf::RectangleShape background, Ab1,Ab2,Ab3,Ab4, exit, save;
     sf::Texture boton,botonselec;
-    sf::Font font; sf::Text ab1Text,ab2Text,ab3Text,ab4Text, exitText, k1,k2,k3,k4;
+    sf::Font font; sf::Text ab1Text,ab2Text,ab3Text,ab4Text, exitText,saveText, k1,k2,k3,k4;
     std::array<sf::Keyboard::Scancode,4> m_keys;
     bool waitingForKey = false;
     bool lbuttonpressed = false;
-    bool isexit = false;
+    bool isexit = false; bool isSave = false;
     bool isRecentlyOpen;
     action curraction;
 

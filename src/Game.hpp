@@ -8,6 +8,10 @@
 #include "Pause.hpp"
 #include <fstream>
 
+struct keybinds {
+    int shield, dash, fire, heal;
+};
+
 class Game {
 public:
     
@@ -25,6 +29,9 @@ public:
 
     void loadConfig(sf::RenderWindow &m_win);
     void makeConfig();
+
+    void makeKeybinds();
+
     void takeConfig(std::ifstream &file);
 
     const sf::Vector2u &getWinSize() const;
@@ -32,7 +39,7 @@ public:
 
     void setStats(const stats &m_stats);
     const stats &getStats();
-    void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys);
+    void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys, bool save);
     const std::array<sf::Keyboard::Scancode, 4>& getKeyBinds() const;
 private:
     sf::RenderWindow m_win;
@@ -47,6 +54,8 @@ private:
     sf::Vector2u m_winSize;
     stats m_lastStats;
     std::array<sf::Keyboard::Scancode,4> m_keys;
+
+    keybinds kb;
 };
 
 #endif

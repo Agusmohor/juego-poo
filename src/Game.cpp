@@ -4,8 +4,7 @@
 Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false), next_scene(nullptr),m_pause(nullptr){
     m_win.setFramerateLimit(60);
     this->loadConfig(m_win);
-    m_keys[0] = sf::Keyboard::Scancode::Q; m_keys[1] = sf::Keyboard::Scancode::E;
-    m_keys[2] = sf::Keyboard::Scancode::R; m_keys[3] = sf::Keyboard::Scancode::F;
+
 }
 
 void Game::run(){
@@ -83,12 +82,28 @@ void Game::delPause(){
 }
 
 void Game::loadConfig(sf::RenderWindow &m_win){
-    std::ifstream file("../data/config/config.txt");
-    if(!file.is_open()) this->makeConfig();
-    file.close();
-    file.open("../data/config/config.txt");
-    this->takeConfig(file);
+    {
+        std::ifstream file("../data/config/config.txt");
+        if(!file.is_open()) makeConfig();
+        file.close();file.clear();
+        file.open("../data/config/config.txt");
+        takeConfig(file);
+    }
+
     m_win.setSize(resolution);
+
+    {
+        std::ifstream file("../data/config/keybinds.dat", std::ios::binary);
+        if (!file.is_open()) this->makeKeybinds();
+        file.close(); file.clear();
+        file.open("../data/config/keybinds.dat", std::ios::binary);
+        file.read(reinterpret_cast<char*>(&kb),sizeof(kb));
+        m_keys[0] = static_cast<sf::Keyboard::Scancode>(kb.shield);
+        m_keys[1] = static_cast<sf::Keyboard::Scancode>(kb.dash);
+        m_keys[2] = static_cast<sf::Keyboard::Scancode>(kb.fire);
+        m_keys[3] = static_cast<sf::Keyboard::Scancode>(kb.heal);
+    }
+
 }
 
 void Game::makeConfig(){
@@ -96,6 +111,16 @@ void Game::makeConfig(){
     cfile << "Resolution = 800x800" << std::endl;
     cfile << "Name = null" << std::endl;
     cfile.close();
+}
+
+void Game::makeKeybinds() {
+    m_keys[0] = sf::Keyboard::Scancode::Q; m_keys[1] = sf::Keyboard::Scancode::E;
+    m_keys[2] = sf::Keyboard::Scancode::R; m_keys[3] = sf::Keyboard::Scancode::F;
+    kb.shield = static_cast<int>(m_keys[0]); kb.dash = static_cast<int>(m_keys[1]);
+    kb.fire = static_cast<int>(m_keys[2]); kb.heal = static_cast<int>(m_keys[3]);
+
+    std::ofstream cfile("../data/config/keybinds.dat", std::ios::binary | std::ios::trunc);
+    cfile.write(reinterpret_cast<const char*>(&kb),sizeof(kb));
 }
 
 void Game::takeConfig(std::ifstream &file){
@@ -123,8 +148,15 @@ const stats &Game::getStats() {
     return m_lastStats;
 }
 
-void Game::setKeyBinds(const std::array<sf::Keyboard::Scancode, 4> &keys) {
+void Game::setKeyBinds(const std::array<sf::Keyboard::Scancode, 4> &keys, bool save) {
     m_keys = keys;
+    if (save) {
+        kb.shield = static_cast<int>(m_keys[0]); kb.dash = static_cast<int>(m_keys[1]);
+        kb.fire = static_cast<int>(m_keys[2]); kb.heal = static_cast<int>(m_keys[3]);
+
+        std::ofstream file("../data/config/keybinds.dat", std::ios::binary | std::ios::trunc);
+        file.write(reinterpret_cast<const char*>(&kb),sizeof(kb));
+    }
 }
 
 const std::array<sf::Keyboard::Scancode, 4>& Game::getKeyBinds() const {
