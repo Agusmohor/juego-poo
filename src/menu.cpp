@@ -17,7 +17,7 @@ void menu::draw(sf::RenderWindow &m_win){
     dibujado(m_win);
     button_overlay(m_win,newButton,type::newgame,botonselec,boton);
     button_overlay(m_win,loadButton,type::loadgame,botonselec,boton);
-    button_overlay(m_win,exitButton,type::exit,botonselec,boton);
+    button_overlay(m_win,exitButton,type::exitgame,botonselec,boton);
 
 }
 
@@ -81,7 +81,7 @@ void menu::buttonPressed( type t) {
     switch(t) {
         case type::newgame: isNewGame = true; break;
         case type::loadgame: isLoadGame = true; break;
-        case type::exit: isExit = true; break;
+        case type::exitgame: isExit = true; break;
     }
 }
 
@@ -93,7 +93,7 @@ void menu::ProcessEvent(game &game, sf::Event &event) {
             auto &win = game.getWindow();
             if (clickOn(win,newButton)) {buttonPressed(type::newgame);}
             if (clickOn(win,loadButton)) {buttonPressed(type::loadgame);}
-            if (clickOn(win,exitButton)) {buttonPressed(type::exit);}
+            if (clickOn(win,exitButton)) {buttonPressed(type::exitgame);}
         }
     }
 }

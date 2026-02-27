@@ -59,7 +59,7 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
     button_overlay(m_win,Ab2,type::Ab2,botonselec,boton);
     button_overlay(m_win,Ab3,type::Ab3,botonselec,boton);
     button_overlay(m_win,Ab4,type::Ab4,botonselec,boton);
-    button_overlay(m_win,exit,type::exit,botonselec,boton);
+    button_overlay(m_win,exit,type::exitgame,botonselec,boton);
     button_overlay(m_win,save,type::save,botonselec,boton);
     m_win.draw(background);
     m_win.draw(Ab1);
@@ -98,7 +98,7 @@ void settingsScene::ProcessEvent(game &game, sf::Event &event) {
             if (clickOn(win,Ab3)){buttonPressed(type::Ab3);}
             if (clickOn(win,Ab4)){buttonPressed(type::Ab4);}
             if (clickOn(win,save)){buttonPressed(type::save);}
-            if (clickOn(win,exit)){buttonPressed(type::exit);}
+            if (clickOn(win,exit)){buttonPressed(type::exitgame);}
         }
     }
     if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {
@@ -118,7 +118,7 @@ void settingsScene::buttonPressed( type t) {
         case type::Ab3 : curraction = action::fire;waitingForKey = true; break;
         case type::Ab4 : curraction = action::heal;waitingForKey = true; break;
         case type::save : isSave = true; break;
-        case type::exit : isexit = true; break;
+        case type::exitgame : isexit = true; break;
     }
 }
 

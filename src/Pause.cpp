@@ -51,7 +51,7 @@ void PauseScene::ProcessEvent(game &game, sf::Event &event) {
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button == sf::Mouse::Button::Left) {
             if (clickOn(win,resume)){buttonPressed(type::resume);}
-            if (clickOn(win,exit_button)){buttonPressed(type::exit);}
+            if (clickOn(win,exit_button)){buttonPressed(type::mainmenu);}
             if (clickOn(win,setting)){buttonPressed(type::setting);}
         }
     }
@@ -63,7 +63,7 @@ void PauseScene::draw(sf::RenderWindow &m_win){
 
 void PauseScene::drawPause(sf::RenderWindow &m_win) {
     button_overlay(m_win,resume,type::resume,botonselec,boton);
-    button_overlay(m_win,exit_button,type::exit,botonselec,boton);
+    button_overlay(m_win,exit_button,type::mainmenu,botonselec,boton);
     button_overlay(m_win,setting,type::setting,botonselec,boton);
     m_win.draw(overlay);
     m_win.draw(m_text);
@@ -81,7 +81,7 @@ void PauseScene::buttonPressed( type t) {
     switch(t) {
         case type::resume: isResume = true; break;
         case type::setting : isSettings = true; break;
-        case type::exit : isExit = true; break;
+        case type::mainmenu : isExit = true; break;
     }
 }
 

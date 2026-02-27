@@ -13,7 +13,8 @@ enum struct type {
     setting,
     newgame,
     loadgame,
-    exit,
+    exitgame,
+    mainmenu,
     save,
     Ab1, Ab2, Ab3, Ab4
 };
