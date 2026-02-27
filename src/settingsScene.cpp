@@ -37,7 +37,7 @@ settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab
     exitText = saveText; exitText.setPosition({saveText.getPosition().x+50,saveText.getPosition().y+45});
     exitText.setString("Exit");
 
-    k1 = ab1Text; k1.setPosition({260,225}); k1.setString("null");
+    k1 = ab1Text; k1.setPosition({265,225}); k1.setString("null");
     k2 = k1; k3 = k1, k4 = k1;
     k2.setPosition({k1.getPosition().x,k1.getPosition().y + 100});
     k3.setPosition({k1.getPosition().x + 300,k1.getPosition().y});
@@ -133,6 +133,9 @@ void settingsScene::setExit(bool exit) {isexit = exit;}
 std::string settingsScene::keyToString(sf::Keyboard::Scancode key) {
     if (key == sf::Keyboard::Scancode::Unknown){return "null";}
     std::string keyStr = sf::Keyboard::getDescription(key);
+    for (auto &c : keyStr) {
+        c = std::toupper(static_cast<unsigned char>(c));
+    }
     return keyStr;
 }
 
