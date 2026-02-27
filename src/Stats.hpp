@@ -17,7 +17,7 @@ bool operator==(const playerSaves &a, const playerSaves &b);
 
 struct stats {
     std::string name = "null";
-    float timeAlive = 0.f;
+    int timeAlive = 0.f;
     int kills = 0;
 };
 

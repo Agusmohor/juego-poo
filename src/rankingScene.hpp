@@ -11,7 +11,7 @@ class rankingScene : public scene {
     sf::RectangleShape backButton;
     sf::Texture boton,botonselec;
     sf::Font font;
-    sf::Text backText;
+    sf::Text backText, title;
     std::vector<stats> m_list;
     bool backmain = false;
 public:
@@ -24,6 +24,7 @@ public:
     void load();
     void sortList();
     void save(const stats& p);
+    void showVector(sf::RenderWindow &m_win);
     void createSave();
     bool getBackRequest();
     void setBackRequest(bool back);

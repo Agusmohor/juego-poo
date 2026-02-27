@@ -46,7 +46,7 @@ void gameover::toText() {
     int min = totalseg / 60;
     int seg = totalseg % 60;
     std::ostringstream s;
-    s << "Kills " << std::to_string(m_stats.kills) << " " << "tiempo vivo " << std::setw(2) << std::setfill('0') << std::to_string(min) << ":" << std::setw(2) << std::setfill('0') << std::to_string(seg);
+    s << "Kills " << std::to_string(m_stats.kills) << " " << "tiempo vivo " << std::setw(2) << std::setfill('0') << min << ":" << std::setw(2) << std::setfill('0') << seg;
     text2.setString(s.str());
     text2.setPosition({200,300});
 }
