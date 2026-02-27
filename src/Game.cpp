@@ -167,6 +167,7 @@ const sf::View& game::getUIWinView() const {
 
 void game::setStats(const stats &m_stats) {
     m_lastStats = m_stats;
+    m_lastStats.name = this->name;
 }
 
 const stats &game::getStats() {

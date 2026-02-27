@@ -1,6 +1,8 @@
 #ifndef JUEGO_POO_STATS_H
 #define JUEGO_POO_STATS_H
 
+#include <string>
+
 struct playerSaves {
     float x = 1120;
     float y = 1184;
@@ -14,6 +16,7 @@ struct playerSaves {
 bool operator==(const playerSaves &a, const playerSaves &b);
 
 struct stats {
+    std::string name = "null";
     float timeAlive = 0.f;
     int kills = 0;
 };
