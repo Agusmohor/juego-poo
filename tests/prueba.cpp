@@ -1,6 +1,7 @@
 #include <iostream>
 
 int main(){
-    std::cout << "Hola mundo" << std::endl;
-    std::cout<<"chau mundo";
+    std::string aux = "lastname = null";
+    auto name = aux.substr(aux.find_last_of(' ')+1,aux.back());
+    std::cout << name << std::endl;
 }

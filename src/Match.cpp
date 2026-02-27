@@ -37,7 +37,6 @@ void match::update(float delta,Game &m_gam){
     setPlayerKeyBinds(m_gam.getKeyBinds());
     // std::cout << m_zombies.size() << std::endl;
     // std::cout << m_obtacles.size() << std::endl;
-    if (m_ply->isAlive()) {m_timeAlive += delta;}
     spriteTimer += delta;
     if (spriteTimer >= spriteDur) {
         for (auto &tree : m_obtacles) {
@@ -60,7 +59,7 @@ void match::update(float delta,Game &m_gam){
     for (auto &z : m_zombies) {
         z->setHitboxes(m_hitboxes);
         if (z->isAlive()) {z->update(delta,m_mapa);}
-        if (z->getHealth() <= 0 && !z->killCounted()){m_kills++; z->markKillCounted();}
+        if (z->getHealth() <= 0 && !z->killCounted()){m_ply->zombieKilled(); z->markKillCounted();}
     }
 
 
@@ -122,7 +121,6 @@ void match::render(sf::RenderWindow &m_win){
     m_mapa.draw(m_win);
     // m_win.draw(Fondo);
 
-    this->mouseSkin(m_win);
     m_worldSprites.clear();
     m_worldSprites.push_back(&m_ply->getSprite());
     for (auto &z : m_zombies) {
@@ -157,14 +155,6 @@ void match::render(sf::RenderWindow &m_win){
 
     //view mapa
     this->normalView(m_win);
-}
-
-void match::mouseSkin(const sf::RenderWindow &m_win){
-    //si se toca click izq, le manda al player las coords del cursor
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-        //mouse getposition(posicion del mouse), mappixel(cambia la pos del mouse a coordenadas en el mundo, para comparar con las coords del player)
-        m_ply->updateSkinByMouse(m_win.mapPixelToCoords(sf::Mouse::getPosition(m_win)));
-    }
 }
 
 void match::normalView(sf::RenderWindow& m_win) {
@@ -239,8 +229,9 @@ void match::spawnObstacle() {
 }
 
 void match::isOver() {
-    m_stats.timeAlive = m_timeAlive;
-    m_stats.kills = m_kills;
+    entityStats p = m_ply->getStats();
+    m_stats.timeAlive = p.ptime;
+    m_stats.kills = p.pkills;
 }
 
 void match::ProcessEvent(Game &game, sf::Event &event) {

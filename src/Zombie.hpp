@@ -28,6 +28,8 @@ public:
     void draw(sf::RenderWindow& m_win) override;
     sf::Sprite &getSprite() override;
 
+    const entityStats& getStats() const override;
+
     void drawHitbox(sf::RenderWindow &m_win) override;
     void syncHitbox() override;
     void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;

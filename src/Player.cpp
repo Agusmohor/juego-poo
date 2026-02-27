@@ -2,6 +2,8 @@
 #include <cmath>
 #include "Mapa.hpp"
 #include <iostream>
+#include <signal.h>
+
 #include "Tree.hpp"
 
 player::player(const sf::Texture &sprite,const sf::Texture &shadow,const sf::Texture& shield, const sf::Texture& fball) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180), m_shield(shield), m_fireball(fball) {
@@ -158,24 +160,8 @@ bool player::cond(){
     return false;
 }
 
-//movimiento enfoque mouse
-void player::m_mouse(const sf::Vector2f &mouseCoords){
-    //interaccion mouse
-    //dx  //dx y dy, son las distancias entre el personaje, y el cursor en ese momento, (coords cursor - coords player)
-    dx = mouseCoords.x - pl_pos.x; dy = mouseCoords.y - pl_pos.y;
-    //angulo entre el player y el cursor (0-180)
-    m_angle = atan2(dy,dx); m_angle *= 180 / 3.14;
-    // if(m_angle < 0 && m_angle > -90) m_spr.setTexture(sprite);
-    // if(m_angle <= -90 && m_angle >= -180) m_spr.setTexture(sprite);
-    // if(m_angle > 90 && m_angle < 180) m_spr.setTexture(sprite);
-    // if(m_angle <= 90 && m_angle >= 0) m_spr.setTexture(sprite);
-        
-    // std::cout << "ang " << m_angle << " dx " << dx<< " dy " << dy << " posmouse " << mouseCoords.x << " x "<< mouseCoords.y << " y "<<std::endl;
-    // std::cout << mouseCoords.x << " " << mouseCoords.y <<std::endl;aW
-}
-
-
 void player::update(float delta,mapa &mapa) {
+    if (isAlive()) {timeAlive += delta;}
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
@@ -210,10 +196,6 @@ void player::draw(sf::RenderWindow& m_win) {
 
 void player::drawShadow(sf::RenderWindow &m_win) {
     if (state != 4) m_win.draw(m_shadow);
-}
-
-void player::updateSkinByMouse(const sf::Vector2f &mouseCoords){
-    m_mouse(mouseCoords);
 }
 
 //posicion del player
@@ -307,6 +289,11 @@ const sf::Vector2f player::getScale() {
     return m_spr.getScale();
 }
 
+void player::zombieKilled() {
+    kills++;
+}
+
+//abilidades
 void player::dashMovement() {
     m_spr.setTextureRect({{0,321},{scale}});
     isDashing = true;
@@ -436,4 +423,15 @@ void player::setKey(const std::array<sf::Keyboard::Scancode,4>& keys) {
 
 const sf::Keyboard::Scancode& player::getKey(action act) const {
     return m_keys[static_cast<int>(act)];
+}
+
+//obtener stats
+const entityStats& player::getStats() const {
+    return stats;
+}
+
+void player::updateStats() {
+    stats.phealth = health; stats.pstam = stamina;
+    stats.px = m_spr.getPosition().x; stats.py = m_spr.getPosition().y;
+    stats.pkills = kills; stats.ptime = timeAlive;
 }

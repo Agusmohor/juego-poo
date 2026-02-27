@@ -2,15 +2,16 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include <string>
 #include <SFML/Graphics.hpp>
 #include "Scene.hpp"
 #include "Pause.hpp"
+#include "Stats.hpp"
 #include <fstream>
 
 struct keybinds {
     int shield, dash, fire, heal;
 };
+
 
 class Game {
 public:
@@ -28,9 +29,14 @@ public:
     void isPaused(bool condition);
 
     void loadConfig(sf::RenderWindow &m_win);
+
+    void makeProfile();
+
     void makeConfig();
 
     void makeKeybinds();
+
+    void takeProfile(std::ifstream &file);
 
     void takeConfig(std::ifstream &file);
 
@@ -41,6 +47,9 @@ public:
     const stats &getStats();
     void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys, bool save);
     const std::array<sf::Keyboard::Scancode, 4>& getKeyBinds() const;
+
+    void saveProgress();
+
 private:
     sf::RenderWindow m_win;
     scene* curr_scene = nullptr;
@@ -56,6 +65,7 @@ private:
     std::array<sf::Keyboard::Scancode,4> m_keys;
 
     keybinds kb;
+    entityStats pstats;
 };
 
 #endif

@@ -24,6 +24,7 @@ public:
     sf::Sprite& getSprite() override;
 
     void updateTexture() override;
+    const entityStats& getStats() const override;
 
     void drawHitbox(sf::RenderWindow &m_win) override;
     void syncHitbox() override;
@@ -32,7 +33,6 @@ public:
     void colx(const sf::FloatRect hitboxOther) override;
     void coly(const sf::FloatRect hitboxOther) override;
 
-    void texture();
     sf::FloatRect getGlobalBounds() override;
     void updateHealth() override;
 
@@ -49,7 +49,6 @@ public:
 
     void recieveDamage() override;
 
-    void m_mouse(const sf::Vector2f &mouseCoords);
     void move(float delta,mapa &mapa) override;
     void speed();
     bool cond();
@@ -57,7 +56,6 @@ public:
     const bool getHitStatus() const override;
     void setHitStatus(bool status) override;
 
-    void updateSkinByMouse(const sf::Vector2f &mouseCoords);
     const sf::Vector2f getPosition() const ;
 
     //abilities
@@ -93,10 +91,17 @@ public:
 
     const sf::Keyboard::Scancode &getKey(action act) const;
 
+    void zombieKilled();
+
 private:
+    void updateStats();
+    void texture();
     int state;
     sf::Vector2f prevPos, hitboxPrevPos;
     sf::Vector2i scale;
+
+    float kills;
+    float timeAlive;
 
     std::vector<sf::FloatRect>* hitboxes = nullptr;
     sf::RectangleShape hitbox;
@@ -152,6 +157,7 @@ private:
     float healRegenDur = 1.f;
     int c = 4;
     bool healReady = false;
+    entityStats stats;
 };
 
 #endif

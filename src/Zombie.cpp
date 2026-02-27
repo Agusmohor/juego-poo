@@ -242,3 +242,7 @@ bool zombie::killCounted() {
 void zombie::markKillCounted() {
     killcount = true;
 }
+
+const entityStats& zombie::getStats() const {
+
+}

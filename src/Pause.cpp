@@ -25,7 +25,7 @@ PauseScene::PauseScene():m_text(m_font,"Pause"), resumeText(m_font,""), settingT
     setting = resume; setting.setPosition({resume.getPosition().x,resume.getPosition().y+45});
     exit_button = resume; exit_button.setPosition({setting.getPosition().x,setting.getPosition().y+45});
     settingText = resumeText; settingText.setString("Settings"); settingText.setPosition({resumeText.getPosition().x,resumeText.getPosition().y+45});
-    exitText = resumeText; exitText.setString("Exit"); exitText.setPosition({resumeText.getPosition().x+30,settingText.getPosition().y+45});
+    exitText = resumeText; exitText.setString("Save and Quit"); exitText.setPosition({resumeText.getPosition().x-25,settingText.getPosition().y+45});
 
     settingScene;
 }

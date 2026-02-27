@@ -41,9 +41,6 @@ class match : public scene {
     bool ispressed = false;
     bool isgameover = false;
 
-    float m_timeAlive = 0.f;
-    float m_kills = 0.f;
-
     stats m_stats;
     mapa m_mapa;
 
@@ -84,7 +81,6 @@ public:
     void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
     void render(sf::RenderWindow &m_win);
-    void mouseSkin(const sf::RenderWindow &m_win);
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos);
 
     void normalView(sf::RenderWindow& m_win);

@@ -4,6 +4,7 @@
 
 #include "Mapa.hpp"
 #include <SFML/Graphics.hpp>
+#include "Stats.hpp"
 
 class entity{
 public:
@@ -11,10 +12,11 @@ public:
     virtual void update(float delta,mapa &mapa) = 0;
     virtual void draw(sf::RenderWindow& m_win) = 0;
     virtual sf::Sprite& getSprite() = 0;
+    virtual const entityStats& getStats() const = 0;
 
     virtual void updateTexture()=0;
     virtual void drawHitbox(sf::RenderWindow &m_win)=0;
-    virtual void syncHitbox()=0;
+    virtual void syncHitbox() = 0;
     virtual void setHitboxes(std::vector<sf::FloatRect> &hitboxes) = 0;
     virtual void colx(const sf::FloatRect hitbox) = 0;
     virtual void coly(const sf::FloatRect hitbox) = 0;

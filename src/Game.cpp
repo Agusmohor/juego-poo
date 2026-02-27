@@ -84,19 +84,27 @@ void Game::delPause(){
 void Game::loadConfig(sf::RenderWindow &m_win){
     {
         std::ifstream file("../data/config/config.txt");
-        if(!file.is_open()) makeConfig();
-        file.close();file.clear();
-        file.open("../data/config/config.txt");
+        if(!file.is_open()) {
+            makeConfig();
+            file.open("../data/config/config.txt");
+        }
         takeConfig(file);
+        m_win.setSize(resolution);
     }
-
-    m_win.setSize(resolution);
-
+    {
+        std::ifstream file("../data/config/profile.txt") ;
+        if (!file.is_open()) {
+            makeProfile();
+            file.open("../data/config/profile.txt");
+        }
+        takeProfile(file);
+    }
     {
         std::ifstream file("../data/config/keybinds.dat", std::ios::binary);
-        if (!file.is_open()) this->makeKeybinds();
-        file.close(); file.clear();
-        file.open("../data/config/keybinds.dat", std::ios::binary);
+        if (!file.is_open()) {
+            makeKeybinds();
+            file.open("../data/config/keybinds.dat", std::ios::binary);
+        }
         file.read(reinterpret_cast<char*>(&kb),sizeof(kb));
         m_keys[0] = static_cast<sf::Keyboard::Scancode>(kb.shield);
         m_keys[1] = static_cast<sf::Keyboard::Scancode>(kb.dash);
@@ -106,10 +114,15 @@ void Game::loadConfig(sf::RenderWindow &m_win){
 
 }
 
+void Game::makeProfile() {
+    std::ofstream file("../data/config/profile.txt");
+    file << "LastProfile = null" << std::endl;
+    file.close();
+}
+
 void Game::makeConfig(){
     std::ofstream cfile("../data/config/config.txt");
     cfile << "Resolution = 800x800" << std::endl;
-    cfile << "Name = null" << std::endl;
     cfile.close();
 }
 
@@ -123,13 +136,18 @@ void Game::makeKeybinds() {
     cfile.write(reinterpret_cast<const char*>(&kb),sizeof(kb));
 }
 
+void Game::takeProfile(std::ifstream &file) {
+    std::string aux;
+    std::getline(file,aux);
+    name = aux.substr(aux.find_last_of(' ')+1,aux.back());
+    std::cout << "name:" << name << std::endl;
+}
+
 void Game::takeConfig(std::ifstream &file){
     std::string aux;
     std::getline(file,aux); 
     resolution.x = std::stoi(aux.substr(aux.find("=")+1,(aux.find("x")-aux.find("=")+1)));
     resolution.y = std::stoi(aux.substr(aux.find("x")+1));
-    std::getline(file,aux);
-    name = aux.substr(aux.find("=")+1);
 }
 
 const sf::Vector2u& Game::getWinSize() const {
@@ -161,4 +179,10 @@ void Game::setKeyBinds(const std::array<sf::Keyboard::Scancode, 4> &keys, bool s
 
 const std::array<sf::Keyboard::Scancode, 4>& Game::getKeyBinds() const {
     return m_keys;
+}
+
+void Game::saveProgress() {
+    std::string path = "../data/saves/" + name + ".dat";
+    std::ofstream file(path, std::ios::binary | std::ios::trunc);
+    file.write(reinterpret_cast<const char*>(&pstats),sizeof(pstats));
 }
