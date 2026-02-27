@@ -3,7 +3,7 @@
 
 #include "Game.hpp"
 
-settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab4Text(font), exitText(font), saveText(font),k1(font),k2(font),k3(font),k4(font) {
+settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab4Text(font), exitText(font), saveText(font),k1(font),k2(font),k3(font),k4(font), waitkey(font) {
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
@@ -36,6 +36,9 @@ settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab
     saveText.setPosition(sf::Vector2f(330,630));
     exitText = saveText; exitText.setPosition({saveText.getPosition().x+50,saveText.getPosition().y+45});
     exitText.setString("Exit");
+
+    waitkey = saveText; waitkey.setString("Press a key... (Esc to cancel)");
+    waitkey.setPosition({saveText.getPosition().x-110,saveText.getPosition().y-100});
 
     k1 = ab1Text; k1.setPosition({265,225}); k1.setString("null");
     k2 = k1; k3 = k1, k4 = k1;
@@ -78,6 +81,7 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
     m_win.draw(k2);
     m_win.draw(k3);
     m_win.draw(k4);
+    if (waitingForKey){ m_win.draw(waitkey);}
 
 }
 

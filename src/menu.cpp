@@ -85,8 +85,6 @@ void menu::buttonPressed( type t) {
     }
 }
 
-
-
 void menu::ProcessEvent(game &game, sf::Event &event) {
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button==sf::Mouse::Button::Left) {
