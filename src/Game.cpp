@@ -15,10 +15,9 @@ void game::run(){
         ProcessEvent();
 
         m_win.clear();
-
         if(!ispaused) curr_scene->update(delta,*this);
 
-        if (!saveAndQuit && m_isOver){saveProgress(); m_isOver = false;}
+        if (!saveAndQuit && isOver){saveProgress();}
 
         curr_scene->updateView(*this);
         if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
@@ -72,14 +71,13 @@ game::~game(){
 }
 
 void game::Pause(){
-    if(!ispaused){ m_pause = new PauseScene; ispaused = true; std::cout << "hola" << std::endl; }
+    if(!ispaused){ m_pause = new PauseScene; ispaused = true;}
 }
 
 void game::delPause(){
     if (ispaused) {
         ispaused = false;
         delete m_pause; m_pause = nullptr;
-        std::cout << "chau" << std::endl;
     }
 
 }
@@ -208,7 +206,11 @@ bool game::getSaveAndQuit() {
     return saveAndQuit;
 }
 
-void game::setSaveAndQuit(bool saq, bool isOver) {saveAndQuit = saq; m_isOver = isOver;}
+void game::setSaveAndQuit(bool saq) {saveAndQuit = saq;}
+
+void game::setIsOver(bool isover) {isOver = isover;}
+
+bool game::getIsOver() {return isOver;}
 
 void game::saveProgress() {
     std::string path = "../data/saves/" + name + ".dat";

@@ -35,7 +35,7 @@ void PauseScene::update(float delta,game &m_gam){
     settingScene.update(delta,m_gam);
     if (settingScene.getExit()) {isSettings = false; settingScene.setExit(false);}
     if (isExit) {
-        m_gam.setSaveAndQuit(true,false);
+        m_gam.setSaveAndQuit(true);
     }
 
 }

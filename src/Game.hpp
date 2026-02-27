@@ -68,8 +68,10 @@ public:
     void exit();
 
     bool isNewMatch();
-    void setSaveAndQuit(bool saq, bool isOver);
+    void setSaveAndQuit(bool saq);
     bool getSaveAndQuit();
+    void setIsOver(bool isover);
+    bool getIsOver();
 private:
     sf::RenderWindow m_win;
     scene* curr_scene = nullptr;
@@ -87,7 +89,7 @@ private:
     std::array<sf::Keyboard::Scancode,4> m_keys;
 
     bool saveAndQuit = false;
-    bool m_isOver = false;
+    bool isOver = false;
     keybinds kb;
     playerSaves player_saves;
     std::vector<zombieSave> zsaves;

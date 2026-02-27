@@ -1,12 +1,14 @@
 #include "menu.hpp"
 #include "Match.hpp"
 #include "Game.hpp"
+#include <iostream>
 
 menu::menu() : m_text1(m_font1), m_text2(m_font1), loadText(m_font2), newText(m_font2), exitText(m_font2), rankText(m_font1),notsavefound(m_font1) {
     buttons();
 }
 
 void menu::update(float delta,game &m_gam){
+    if (m_gam.getIsOver()){rankScene.save(m_gam.getStats());rankScene.load(); m_gam.setIsOver(false);}
     if(isNewGame) {m_gam.newProgress(); m_gam.loadProgress();m_gam.setScene(new match);}
     if(isLoadGame) {
         if (!m_gam.loadProgress()) {notFound = true;}
@@ -14,8 +16,6 @@ void menu::update(float delta,game &m_gam){
     }
     if(isExit) {m_gam.exit();}
     titleColor();
-    rankScene.save(m_gam.getStats());
-    rankScene.load();
 }
 
 void menu::draw(sf::RenderWindow &m_win){
@@ -114,5 +114,6 @@ void menu::ProcessEvent(game &game, sf::Event &event) {
         }
     }
 }
+
 
 

@@ -279,7 +279,7 @@ void match::callSaveAndQuit(game &gam) {
         for (auto &o : m_obtacles) {
             gam.setTreeSaves(o->getSaves());
         }
-        gam.setSaveAndQuit(false, true);
+        gam.setSaveAndQuit(false); gam.setIsOver(true);
         gam.setScene(new menu);
     }
 }
