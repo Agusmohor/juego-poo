@@ -15,10 +15,11 @@ public:
     void update(float delta,Game &m_gam)override;
     void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &win)override;
+    void button_overlay(const sf::RenderWindow &win,sf::RectangleShape &button, type t) override;
+
     void drawPause(sf::RenderWindow &m_win);
 
     void backMatch(Game &m_gam);
-    void button_overlay(const sf::RenderWindow &win,sf::RectangleShape &button, type t);
 private:
 void ProcessEvent(Game &game, sf::Event &event) override;
     sf::Font m_font;

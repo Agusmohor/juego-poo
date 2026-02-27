@@ -9,8 +9,9 @@ class menu : public scene{
 public:
     menu();
     void update(float delta,Game &m_gam)override;
-    void updateView(Game &m_gam) override;
     void draw(sf::RenderWindow &win)override;
+    void button_overlay(const sf::RenderWindow &win,sf::RectangleShape &button, type t) override;
+
     void buttons();
     void button_overlay(const sf::RenderWindow &win);
 
@@ -20,11 +21,11 @@ public:
     void dibujado(sf::RenderWindow &m_win);
 private:
     sf::Font m_font1,m_font2;
-    sf::Text m_text1,m_text2,m_text3;
+    sf::Text m_text1,m_text2,loadText, exitText, newText;
     sf::Texture boton,botonselec;
     sf::Clock timer;
     unsigned char r,g,b;
-    sf::RectangleShape shape;
+    sf::RectangleShape loadButton,newButton,exitButton;
     float posx1,posx2,posy1,posy2;
     bool ispressed = false;
 };

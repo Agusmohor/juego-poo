@@ -2,7 +2,7 @@
 #include "Match.hpp"
 #include "Game.hpp"
 
-menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), m_text3(m_font2,"") {
+menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), loadText(m_font2,""), newText(m_font2,""), exitText(m_font2,"") {
     buttons();
 }
 
@@ -13,16 +13,22 @@ void menu::update(float delta,Game &m_gam){
 
 void menu::draw(sf::RenderWindow &m_win){
     dibujado(m_win);
-    button_overlay(m_win);
-    
+    button_overlay(m_win,newButton,type::newgame);
+    button_overlay(m_win,loadButton,type::loadgame);
+    button_overlay(m_win,exitButton,type::exit);
+
 }
 
 void menu::dibujado(sf::RenderWindow &m_win){
     m_win.draw(m_text1);
     m_win.draw(m_text2);
 
-    m_win.draw(shape);
-    m_win.draw(m_text3);
+    m_win.draw(newButton);
+    m_win.draw(loadButton);
+    m_win.draw(exitButton);
+    m_win.draw(newText);
+    m_win.draw(loadText);
+    m_win.draw(exitText);
 }
 
 void menu::titleColor(){
@@ -38,9 +44,12 @@ void menu::titleColor(){
 void menu::buttons(){
     if(!m_font1.openFromFile("../assets/fonts/fuente.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
     if(!m_font2.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
+    if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+
     m_text1.setFont(m_font1); m_text1.setString("Jueguito"); 
     m_text2.setFont(m_font1); m_text2.setString("press Enter to start"); 
-    m_text3.setFont(m_font2); m_text3.setString("Settings");
+    newText.setFont(m_font2); newText.setString("New game");
 
     m_text1.setCharacterSize(100);
     m_text1.setPosition(sf::Vector2f(220,150));
@@ -50,30 +59,32 @@ void menu::buttons(){
     m_text2.setPosition(sf::Vector2f(250,450));
 
 
-    m_text3.setCharacterSize(15);
-    m_text3.setFillColor(sf::Color::White);
-    m_text3.setPosition(sf::Vector2f(358,535));
+    newText.setCharacterSize(20);
+    newText.setFillColor(sf::Color::White);
+    newText.setPosition(sf::Vector2f(350,540));
 
-    shape.setSize({220.f,30.f});
-    shape.setPosition({sf::Vector2f(290,520)});
-    if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
-    if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    newButton.setSize({220.f,35.f});
+    newButton.setPosition({sf::Vector2f(290,520)});
 
+
+    loadButton = newButton; loadButton.setPosition({newButton.getPosition().x,newButton.getPosition().y + 45});
+    exitButton = loadButton; exitButton.setPosition({loadButton.getPosition().x,loadButton.getPosition().y + 45});
+    loadText = newText; loadText.setString("Load game"); loadText.setPosition({newText.getPosition().x - 5,newText.getPosition().y + 45});
+    exitText = newText; exitText.setString("Exit"); exitText.setPosition({loadText.getPosition().x + 30,loadText.getPosition().y + 45});
 }
 
 //cambia el overlay si el cursor esta encima del boton
-void menu::button_overlay(const sf::RenderWindow &win){
+void menu::button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t) {
     sf::Vector2i mouse_pos(sf::Mouse::getPosition(win).x,sf::Mouse::getPosition(win).y);
     sf::Vector2f p = win.mapPixelToCoords(mouse_pos);
 
-    if(shape.getGlobalBounds().contains(p)){
-        shape.setTexture(&botonselec);
+    if(button.getGlobalBounds().contains(p)){
+        button.setTexture(&botonselec);
     }else{
-        shape.setTexture(&boton);
+        button.setTexture(&boton);
     }
 }
 
-void menu::updateView(Game &m_gam) {
-    // Aquí va la lógica de la cámara o vista para el menú.
-    // Si no necesitas hacer nada, puedes dejarlo vacío por ahora:
-}
+
+
+
