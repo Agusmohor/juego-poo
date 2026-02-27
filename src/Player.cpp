@@ -426,12 +426,25 @@ const sf::Keyboard::Scancode& player::getKey(action act) const {
 }
 
 //obtener stats
-const playerSaves& player::getSaves() const {
+const playerSaves& player::getSaves() {
+    updateSaves();
     return saves;
 }
 
-void player::updateStats() {
+void player::updateSaves() {
     saves.health = health; saves.stam = stamina;
     saves.x = m_spr.getPosition().x; saves.y = m_spr.getPosition().y;
     saves.kills = kills; saves.time = timeAlive;
+}
+
+void player::setSaves(const playerSaves &old_Save) {
+    playerSaves ps;
+    if (ps == old_Save) {
+        return;
+    }else {
+        health = old_Save.health; stamina = old_Save.stam;
+        m_spr.setPosition({old_Save.x,old_Save.y});
+        kills = old_Save.kills; timeAlive = old_Save.time;
+    }
+
 }

@@ -49,17 +49,22 @@ public:
     const std::array<sf::Keyboard::Scancode, 4>& getKeyBinds() const;
 
     void setPlayerSaves(const playerSaves& psaves);
+    const playerSaves& getPlayerSaves() const;
     void setZombieSaves(const zombieSave& zsaves);
+    const std::vector<zombieSave>& getZombieSaves() const;
 
     void clearZsaves();
 
     void clearTsaves();
 
     void setTreeSaves(const treeSave &tsave);
+    const std::vector<treeSave>& getTreeSaves() const;
 
     void saveProgress();
     void loadProgress();
 
+    void setSaveAndQuit(bool saq, bool isOver);
+    bool getSaveAndQuit();
 private:
     sf::RenderWindow m_win;
     scene* curr_scene = nullptr;
@@ -74,6 +79,8 @@ private:
     stats m_lastStats;
     std::array<sf::Keyboard::Scancode,4> m_keys;
 
+    bool saveAndQuit = false;
+    bool m_isOver = false;
     keybinds kb;
     playerSaves player_saves;
     std::vector<zombieSave> zsaves;

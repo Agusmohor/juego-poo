@@ -34,6 +34,24 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 
 
 void match::update(float delta,Game &m_gam){
+    if (isRecentlyOpen) {
+        m_ply->setSaves(m_gam.getPlayerSaves());
+        m_zombieSave = m_gam.getZombieSaves();
+        m_treeSave = m_gam.getTreeSaves();
+        isRecentlyOpen = false;
+    }
+    if (m_gam.getSaveAndQuit()) {
+        m_gam.setPlayerSaves(m_ply->getSaves());
+        m_gam.clearTsaves(); m_gam.clearZsaves();
+        for (auto &z : m_zombies) {
+            m_gam.setZombieSaves(z->getSaves());
+        }
+        for (auto &o : m_obtacles) {
+            m_gam.setTreeSaves(o->getSaves());
+        }
+        m_gam.setSaveAndQuit(false, true);
+        m_gam.setScene(new menu);
+    }
     setPlayerKeyBinds(m_gam.getKeyBinds());
     // std::cout << m_zombies.size() << std::endl;
     // std::cout << m_obtacles.size() << std::endl;
@@ -74,14 +92,7 @@ void match::update(float delta,Game &m_gam){
     //si no esta vivo, y presiona enter, crea otro personaje :)
     if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && !ispressed) {
         isOver(); m_gam.setStats(m_stats);
-        m_gam.setPlayerSaves(m_ply->getSaves());
-        m_gam.clearTsaves(); m_gam.clearZsaves();
-        for (auto &z : m_zombies) {
-            m_gam.setZombieSaves(z->getSaves());
-        }
-        for (auto &o : m_obtacles) {
-           m_gam.setTreeSaves(o->getSaves());
-        }
+
         m_gam.setScene(new gameover); ispressed = true;
         // m_ply.reset(); m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
     }
@@ -212,28 +223,39 @@ void match::hits() {
 
 
 void match::spawnEnemies() {
-    int tx = zombies.minTilex + std::rand()%( zombies.maxTilex-zombies.minTilex + 1);
-    int ty = zombies.minTiley + std::rand()%( zombies.maxTiley-zombies.minTiley + 1);
-    if (!(tx >= zombies.minNTilex && tx <= zombies.maxNTilex && ty >= zombies.minNTiley && ty <= zombies.maxNTiley)) {
-        m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(tx * 32,ty * 32)));
+    if (!m_zombieSave.size()>0) {
+        int tx = zombies.minTilex + std::rand()%( zombies.maxTilex-zombies.minTilex + 1);
+        int ty = zombies.minTiley + std::rand()%( zombies.maxTiley-zombies.minTiley + 1);
+        if (!(tx >= zombies.minNTilex && tx <= zombies.maxNTilex && ty >= zombies.minNTiley && ty <= zombies.maxNTiley)) {
+            m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(tx * 32,ty * 32)));
+        }
+    }else {
+        for (auto &z : m_zombieSave) {
+            m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(z.x,z.y)));
+        }
     }
 }
 
 void match::spawnObstacle() {
-    for (int i=0;i<m_obs.maxTreeSpawn;i++) {
-        int tx = m_obs.minTilex + std::rand()%( m_obs.maxTilex-m_obs.minTilex + 1);
-        int ty = m_obs.minTiley + std::rand()%( m_obs.maxTiley-m_obs.minTiley + 1);
-        if (!(tx >= m_obs.minNTilex && tx <= m_obs.maxNTilex && ty >= m_obs.minNTiley && ty <= m_obs.maxNTiley)) {
-            bool exists = false;
-            sf::Vector2f t_pos(tx*32,ty*32);
-            //si no existe ningun obstaculo en esas coords, entonces se crea
-            for (auto &t : m_obtacles) {
-                if (t->getPosition() == t_pos) {exists = true; break;}
+    if (!m_treeSave.size() > 0) {
+        for (int i=0;i<m_obs.maxTreeSpawn;i++) {
+            int tx = m_obs.minTilex + std::rand()%( m_obs.maxTilex-m_obs.minTilex + 1);
+            int ty = m_obs.minTiley + std::rand()%( m_obs.maxTiley-m_obs.minTiley + 1);
+            if (!(tx >= m_obs.minNTilex && tx <= m_obs.maxNTilex && ty >= m_obs.minNTiley && ty <= m_obs.maxNTiley)) {
+                bool exists = false;
+                sf::Vector2f t_pos(tx*32,ty*32);
+                //si no existe ningun obstaculo en esas coords, entonces se crea
+                for (auto &t : m_obtacles) {
+                    if (t->getPosition() == t_pos) {exists = true; break;}
+                }
+                if (!exists) {m_obtacles.push_back(std::make_unique<tree>(sf::Vector2f(tx*32,ty*32)));}
             }
-            if (!exists) {m_obtacles.push_back(std::make_unique<tree>(sf::Vector2f(tx*32,ty*32)));}
         }
+    }else {
+       for (auto &t : m_treeSave) {
+           m_obtacles.push_back(std::make_unique<tree>(sf::Vector2f(t.x,t.y)));
+       }
     }
-
 }
 
 void match::isOver() {

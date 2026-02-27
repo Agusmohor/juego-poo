@@ -24,7 +24,8 @@ public:
     sf::Sprite& getSprite() override;
 
     void updateTexture() override;
-    const playerSaves& getSaves() const;
+    const playerSaves& getSaves() ;
+    void setSaves(const playerSaves& old_Save);
 
     void drawHitbox(sf::RenderWindow &m_win) override;
     void syncHitbox() override;
@@ -94,7 +95,7 @@ public:
     void zombieKilled();
 
 private:
-    void updateStats();
+    void updateSaves();
     void texture();
     int state;
     sf::Vector2f prevPos, hitboxPrevPos;

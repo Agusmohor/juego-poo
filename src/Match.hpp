@@ -53,6 +53,7 @@ class match : public scene {
     std::vector<std::unique_ptr<obstacle>> m_obtacles;
     obstacles m_obs;
     void spawnObstacle();
+    // void spawnObstacle();
 
     std::vector<sf::FloatRect> m_hitboxes;
     std::vector<sf::Sprite*> m_worldSprites;
@@ -73,6 +74,9 @@ class match : public scene {
 
     Resources m_res;
 
+    bool isRecentlyOpen = true;
+    std::vector<zombieSave> m_zombieSave;
+    std::vector<treeSave> m_treeSave;
     void ProcessEvent(Game &game, sf::Event &event) override;
 public:
     match();

@@ -18,6 +18,9 @@ void Game::run(){
         m_win.clear();
 
         if(!ispaused) curr_scene->update(delta,*this);
+
+        if (!saveAndQuit && m_isOver){saveProgress(); m_isOver = false;}
+
         curr_scene->updateView(*this);
         if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
 
@@ -197,6 +200,12 @@ void Game::setTreeSaves(const treeSave& tsave) {
     tsaves.push_back(tsave);
 }
 
+bool Game::getSaveAndQuit() {
+    return saveAndQuit;
+}
+
+void Game::setSaveAndQuit(bool saq, bool isOver) {saveAndQuit = saq; m_isOver = isOver;}
+
 void Game::saveProgress() {
     std::string path = "../data/saves/" + name + ".dat";
     std::ofstream file(path, std::ios::binary | std::ios::trunc);
@@ -239,4 +248,16 @@ void Game::loadProgress() {
         file.read(reinterpret_cast<char*>(&ts),sizeof(ts));
         tsaves.push_back(ts);
     }
+}
+
+const playerSaves &Game::getPlayerSaves() const {
+    return player_saves;
+}
+
+const std::vector<zombieSave> &Game::getZombieSaves() const {
+    return zsaves;
+}
+
+const std::vector<treeSave> &Game::getTreeSaves() const {
+    return tsaves;
 }
