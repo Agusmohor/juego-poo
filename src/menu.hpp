@@ -14,6 +14,8 @@ public:
 
     void buttons();
     void button_overlay(const sf::RenderWindow &win);
+    void buttonPressed(type t) override;
+    bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) override;
 
     //void newMatch(Game &m_gam);
 
@@ -29,6 +31,9 @@ private:
     sf::RectangleShape loadButton,newButton,exitButton;
     float posx1,posx2,posy1,posy2;
     bool ispressed = false;
+    bool isNewGame = false;
+    bool isLoadGame = false;
+    bool isExit = false;
 };
 
 #endif

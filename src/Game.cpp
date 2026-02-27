@@ -4,7 +4,6 @@
 game::game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false), next_scene(nullptr),m_pause(nullptr){
     m_win.setFramerateLimit(60);
     loadConfig(m_win);
-    loadProgress();
 
 }
 
@@ -40,7 +39,7 @@ void game::run(){
 void game::ProcessEvent() {
     while(auto evt = m_win.pollEvent()){
         //evento cerrar ventana
-        if(evt->is<sf::Event::Closed>()) {m_win.close();} else {
+        if(evt->is<sf::Event::Closed>() || isExit) {m_win.close();} else {
             sf::Event& event = *evt;
             if (ispaused && m_pause) {m_pause->ProcessEvent(*this,event);}
             else{curr_scene->ProcessEvent(*this,event);}
@@ -252,6 +251,31 @@ void game::loadProgress() {
         file.read(reinterpret_cast<char*>(&ts),sizeof(ts));
         tsaves.push_back(ts);
     }
+}
+
+void game::newProgress() {
+    std::string path = "../data/saves/" + name + ".dat";
+    std::ofstream file(path, std::ios::binary | std::ios::trunc);
+    playerSaves s;
+    file.write(reinterpret_cast<const char*>(&s),sizeof(s));
+    file.close();
+    tsaves.clear(); zsaves.clear(); player_saves = s;
+}
+
+void game::loadMatch() {
+    loadProgress();
+}
+
+void game::setNewMatch(bool b) {
+    newMatch = b;
+}
+
+void game::exit() {
+    isExit = true;
+}
+
+bool game::isNewMatch() {
+    return newMatch;
 }
 
 const playerSaves &game::getPlayerSaves() const {

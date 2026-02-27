@@ -7,7 +7,9 @@ menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), loadText(m_font2,""), n
 }
 
 void menu::update(float delta,game &m_gam){
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && !ispressed) {m_gam.setScene(new match); ispressed = true;}
+    if(isNewGame) {m_gam.newProgress(); m_gam.loadProgress();m_gam.setScene(new match);}
+    if(isLoadGame) {m_gam.loadMatch(); m_gam.setScene(new match);}
+    if(isExit) {m_gam.exit();}
     titleColor();
 }
 
@@ -85,8 +87,31 @@ void menu::button_overlay(const sf::RenderWindow &win, sf::RectangleShape &butto
     }
 }
 
-void menu::ProcessEvent(game &game, sf::Event &event) {
+bool menu::clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {
+    auto mp = sf::Mouse::getPosition(win);
+    auto wp = win.mapPixelToCoords(mp);
+    return btn.getGlobalBounds().contains(wp);
+}
 
+void menu::buttonPressed( type t) {
+    switch(t) {
+        case type::newgame: isNewGame = true; break;
+        case type::loadgame: isLoadGame = true; break;
+        case type::exit: isExit = true; break;
+    }
+}
+
+
+
+void menu::ProcessEvent(game &game, sf::Event &event) {
+    if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
+        if (evt->button==sf::Mouse::Button::Left) {
+            auto &win = game.getWindow();
+            if (clickOn(win,newButton)) {buttonPressed(type::newgame);}
+            if (clickOn(win,loadButton)) {buttonPressed(type::loadgame);}
+            if (clickOn(win,exitButton)) {buttonPressed(type::exit);}
+        }
+    }
 }
 
 

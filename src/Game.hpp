@@ -62,7 +62,13 @@ public:
 
     void saveProgress();
     void loadProgress();
+    void newProgress();
 
+    void setNewMatch(bool b);
+    void loadMatch();
+    void exit();
+
+    bool isNewMatch();
     void setSaveAndQuit(bool saq, bool isOver);
     bool getSaveAndQuit();
 private:
@@ -72,6 +78,8 @@ private:
     scene* m_pause = nullptr;
     sf::View m_view,m_uiview;
     bool ispaused = false;
+    bool isExit = false;
+    bool newMatch = false;
     sf::Clock timer,time;
     sf::Vector2u resolution;
     std::string name;
