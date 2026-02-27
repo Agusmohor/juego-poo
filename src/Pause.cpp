@@ -30,7 +30,7 @@ PauseScene::PauseScene():m_text(m_font,"Pause"), resumeText(m_font,""), settingT
     settingScene;
 }
 
-void PauseScene::update(float delta,Game &m_gam){
+void PauseScene::update(float delta,game &m_gam){
     // backMatch(m_gam);
     settingScene.update(delta,m_gam);
     if (settingScene.getExit()) {isSettings = false; settingScene.setExit(false);}
@@ -40,16 +40,21 @@ void PauseScene::update(float delta,Game &m_gam){
 
 }
 
-void PauseScene::updateView(Game &m_gam){}
+void PauseScene::updateView(game &m_gam){}
 
-void PauseScene::ProcessEvent(Game &game, sf::Event &event) {
-    if (isSettings) settingScene.ProcessEvent(game,event);
+void PauseScene::ProcessEvent(game &game, sf::Event &event) {
+    if (isSettings) {settingScene.ProcessEvent(game,event); return;}
     if (((event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) || isResume || isExit) && !isSettings) {
         game.delPause();
     }
+    auto& win = game.getWindow();
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
-        if (evt->button == sf::Mouse::Button::Left) {lbuttonpressed = true;}
-    }else{lbuttonpressed = false;}
+        if (evt->button == sf::Mouse::Button::Left) {
+            if (clickOn(win,resume)){buttonPressed(type::resume);}
+            if (clickOn(win,exit_button)){buttonPressed(type::exit);}
+            if (clickOn(win,setting)){buttonPressed(type::setting);}
+        }
+    }
 }
 
 void PauseScene::draw(sf::RenderWindow &m_win){
@@ -77,17 +82,22 @@ void PauseScene::button_overlay(const sf::RenderWindow &win, sf::RectangleShape 
 
     if (button.getGlobalBounds().contains(window_pos)) {
         button.setTexture(&botonselec);
-        if (lbuttonpressed) {
-            switch(t) {
-                case type::resume : isResume = true; break;
-                case type::setting : isSettings = true; settingScene.setIsRecentlyOpen(true); break;
-                case type::exit : isExit = true; break;
-                    default: lbuttonpressed = false; break;
-            }
-        }
     }else{
         button.setTexture(&boton);
     }
 }
 
+bool PauseScene::clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {
+    auto mp = sf::Mouse::getPosition(win);
+    auto wp = win.mapPixelToCoords(mp);
+    return btn.getGlobalBounds().contains(wp);
+}
+
+void PauseScene::buttonPressed( type t) {
+    switch(t) {
+        case type::resume: isResume = true; break;
+        case type::setting : isSettings = true; break;
+        case type::exit : isExit = true; break;
+    }
+}
 

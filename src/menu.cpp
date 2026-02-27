@@ -6,7 +6,7 @@ menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), loadText(m_font2,""), n
     buttons();
 }
 
-void menu::update(float delta,Game &m_gam){
+void menu::update(float delta,game &m_gam){
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && !ispressed) {m_gam.setScene(new match); ispressed = true;}
     titleColor();
 }
@@ -85,6 +85,8 @@ void menu::button_overlay(const sf::RenderWindow &win, sf::RectangleShape &butto
     }
 }
 
+void menu::ProcessEvent(game &game, sf::Event &event) {
 
+}
 
 

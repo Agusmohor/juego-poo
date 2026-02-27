@@ -30,7 +30,7 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 }
 
 
-void match::update(float delta,Game &m_gam){
+void match::update(float delta,game &m_gam){
     time += delta;
     if (isRecentlyOpen) {
         isRecentlyOpen = false;
@@ -119,7 +119,7 @@ void match::update(float delta,Game &m_gam){
     // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
 }
 
-void match::updateView(Game &m_gam){
+void match::updateView(game &m_gam){
     m_winSize = m_gam.getWinSize();
     m_uiview = m_gam.getUIWinView();
     m_hud.updateView();
@@ -259,7 +259,7 @@ void match::isOver() {
     m_stats.kills = kills;
 }
 
-void match::ProcessEvent(Game &game, sf::Event &event) {
+void match::ProcessEvent(game &game, sf::Event &event) {
     if (event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) {
         game.Pause();
     }
@@ -269,7 +269,7 @@ void match::setPlayerKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keyBin
     m_ply->setKey(keyBinds);
 }
 
-void match::callSaveAndQuit(Game &gam) {
+void match::callSaveAndQuit(game &gam) {
     if (gam.getSaveAndQuit()) {
         gam.setPlayerSaves(m_ply->getSaves());
         gam.clearTsaves(); gam.clearZsaves();

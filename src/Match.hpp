@@ -80,13 +80,13 @@ class match : public scene {
     bool isRecentlyOpen = true;
     std::vector<zombieSave> m_zombieSave;
     std::vector<treeSave> m_treeSave;
-    void ProcessEvent(Game &game, sf::Event &event) override;
-    void callSaveAndQuit(Game &gam);
+    void ProcessEvent(game &game, sf::Event &event) override;
+    void callSaveAndQuit(game &gam);
 public:
     match();
-    void doPause(Game &m_gam);
-    void update(float delta,Game &m_gam) override;
-    void updateView(Game &m_gam) override;
+    void doPause(game &m_gam);
+    void update(float delta,game &m_gam) override;
+    void updateView(game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
     void render(sf::RenderWindow &m_win);
     bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos);

@@ -8,7 +8,7 @@
 int main() {
     std::srand(std::time(nullptr));
 
-    Game game(new menu);
+    game game(new menu);
     game.run();
     return 0;
 }

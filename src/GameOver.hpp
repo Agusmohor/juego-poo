@@ -11,8 +11,8 @@ class gameover : public scene{
 
 public:
     gameover();
-    void update(float delta, Game &m_gam) override;
-    void updateView(Game &m_gam) override;
+    void update(float delta, game &m_gam) override;
+    void updateView(game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
 
     void toText();

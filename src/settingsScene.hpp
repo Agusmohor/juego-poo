@@ -10,9 +10,8 @@ class settingsScene : public scene{
     sf::Font font; sf::Text ab1Text,ab2Text,ab3Text,ab4Text, exitText,saveText, k1,k2,k3,k4;
     std::array<sf::Keyboard::Scancode,4> m_keys;
     bool waitingForKey = false;
-    bool lbuttonpressed = false;
     bool isexit = false; bool isSave = false;
-    bool isRecentlyOpen;
+    bool isRecentlyOpen = true;
     action curraction;
 
 
@@ -20,14 +19,15 @@ class settingsScene : public scene{
     void button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t) override;
 
     std::string keyToString(sf::Keyboard::Scancode key);
-
+    void buttonPressed( type t) override;
+    bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) override;
 
 
 public:
     settingsScene();
-    void update(float delta,Game &m_gam) override;
-    void ProcessEvent(Game &game, sf::Event &event) override;
-    void updateView(Game &m_gam) override;
+    void update(float delta,game &m_gam) override;
+    void ProcessEvent(game &game, sf::Event &event) override;
+    void updateView(game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
     void setKey(sf::Keyboard::Scancode key);
     const std::array<sf::Keyboard::Scancode,4>& getKeyBinds() const;

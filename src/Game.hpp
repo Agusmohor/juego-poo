@@ -13,12 +13,12 @@ struct keybinds {
 };
 
 
-class Game {
+class game {
 public:
     
-    Game(scene* f_scene);
-    ~Game();
-
+    game(scene* f_scene);
+    ~game();
+    const sf::RenderWindow &getWindow();
     void run();
 
     void ProcessEvent();

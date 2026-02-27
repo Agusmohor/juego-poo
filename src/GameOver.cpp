@@ -13,7 +13,7 @@ gameover::gameover() : font("../assets/fonts/fuente.ttf"), text(font), text2(fon
     text.setPosition({150,150});
 }
 
-void gameover::update(float delta, Game &m_gam) {
+void gameover::update(float delta, game &m_gam) {
     if (!isgameover) { m_stats = m_gam.getStats(); isgameover = true; toText();}
 }
 
@@ -23,7 +23,7 @@ void gameover::draw(sf::RenderWindow &m_win) {
     m_win.draw(text2);
 }
 
-void gameover::updateView(Game &m_gam) {
+void gameover::updateView(game &m_gam) {
 
 }
 

@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Event.hpp>
 
-class Game;
+class game;
 
 struct stats {
     float timeAlive = 0.f;
@@ -25,11 +25,13 @@ enum struct type {
 class scene {
 public:
     virtual ~scene() = default;
-    virtual void ProcessEvent(Game &game, sf::Event &event) {};
-    virtual void update(float delta,Game &m_gam) = 0;
-    virtual void updateView(Game &m_gam) {};
+    virtual void ProcessEvent(game &game, sf::Event &event) {};
+    virtual void update(float delta,game &m_gam) = 0;
+    virtual void updateView(game &m_gam) {};
     virtual void draw(sf::RenderWindow &m_win) = 0;
     virtual void button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t) {};
+    virtual void buttonPressed(type t) {};
+    virtual bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {};
 
 };
 

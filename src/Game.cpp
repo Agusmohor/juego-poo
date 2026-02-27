@@ -1,14 +1,14 @@
 #include "Game.hpp"
 #include <iostream>
 
-Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false), next_scene(nullptr),m_pause(nullptr){
+game::game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false), next_scene(nullptr),m_pause(nullptr){
     m_win.setFramerateLimit(60);
     loadConfig(m_win);
     loadProgress();
 
 }
 
-void Game::run(){
+void game::run(){
     while(m_win.isOpen()){
         float delta = time.restart().asSeconds();
 
@@ -37,7 +37,7 @@ void Game::run(){
 
 }
 
-void Game::ProcessEvent() {
+void game::ProcessEvent() {
     while(auto evt = m_win.pollEvent()){
         //evento cerrar ventana
         if(evt->is<sf::Event::Closed>()) {m_win.close();} else {
@@ -61,22 +61,22 @@ void Game::ProcessEvent() {
     }
 }
 
-void Game::setScene(scene *newScene){
+void game::setScene(scene *newScene){
     delete next_scene;
     next_scene = newScene;
 }
 
-Game::~Game(){
+game::~game(){
     delete curr_scene; curr_scene = nullptr;
     delete next_scene; next_scene = nullptr;
     delete m_pause; m_pause = nullptr;
 }
 
-void Game::Pause(){
+void game::Pause(){
     if(!ispaused){ m_pause = new PauseScene; ispaused = true; std::cout << "hola" << std::endl; }
 }
 
-void Game::delPause(){
+void game::delPause(){
     if (ispaused) {
         ispaused = false;
         delete m_pause; m_pause = nullptr;
@@ -85,7 +85,11 @@ void Game::delPause(){
 
 }
 
-void Game::loadConfig(sf::RenderWindow &m_win){
+const sf::RenderWindow &game::getWindow() {
+    return m_win;
+}
+
+void game::loadConfig(sf::RenderWindow &m_win){
     {
         std::ifstream file("../data/config/config.txt");
         if(!file.is_open()) {
@@ -118,19 +122,19 @@ void Game::loadConfig(sf::RenderWindow &m_win){
 
 }
 
-void Game::makeProfile() {
+void game::makeProfile() {
     std::ofstream file("../data/config/profile.txt");
     file << "LastProfile = null" << std::endl;
     file.close();
 }
 
-void Game::makeConfig(){
+void game::makeConfig(){
     std::ofstream cfile("../data/config/config.txt");
     cfile << "Resolution = 800x800" << std::endl;
     cfile.close();
 }
 
-void Game::makeKeybinds() {
+void game::makeKeybinds() {
     m_keys[0] = sf::Keyboard::Scancode::Q; m_keys[1] = sf::Keyboard::Scancode::E;
     m_keys[2] = sf::Keyboard::Scancode::R; m_keys[3] = sf::Keyboard::Scancode::F;
     kb.shield = static_cast<int>(m_keys[0]); kb.dash = static_cast<int>(m_keys[1]);
@@ -140,37 +144,37 @@ void Game::makeKeybinds() {
     cfile.write(reinterpret_cast<const char*>(&kb),sizeof(kb));
 }
 
-void Game::takeProfile(std::ifstream &file) {
+void game::takeProfile(std::ifstream &file) {
     std::string aux;
     std::getline(file,aux);
     name = aux.substr(aux.find_last_of(' ')+1,aux.back());
     std::cout << "name:" << name << std::endl;
 }
 
-void Game::takeConfig(std::ifstream &file){
+void game::takeConfig(std::ifstream &file){
     std::string aux;
     std::getline(file,aux); 
     resolution.x = std::stoi(aux.substr(aux.find("=")+1,(aux.find("x")-aux.find("=")+1)));
     resolution.y = std::stoi(aux.substr(aux.find("x")+1));
 }
 
-const sf::Vector2u& Game::getWinSize() const {
+const sf::Vector2u& game::getWinSize() const {
     return m_winSize;
 }
 
-const sf::View& Game::getUIWinView() const {
+const sf::View& game::getUIWinView() const {
     return m_uiview;
 }
 
-void Game::setStats(const stats &m_stats) {
+void game::setStats(const stats &m_stats) {
     m_lastStats = m_stats;
 }
 
-const stats &Game::getStats() {
+const stats &game::getStats() {
     return m_lastStats;
 }
 
-void Game::setKeyBinds(const std::array<sf::Keyboard::Scancode, 4> &keys, bool save) {
+void game::setKeyBinds(const std::array<sf::Keyboard::Scancode, 4> &keys, bool save) {
     m_keys = keys;
     if (save) {
         kb.shield = static_cast<int>(m_keys[0]); kb.dash = static_cast<int>(m_keys[1]);
@@ -181,32 +185,32 @@ void Game::setKeyBinds(const std::array<sf::Keyboard::Scancode, 4> &keys, bool s
     }
 }
 
-const std::array<sf::Keyboard::Scancode, 4>& Game::getKeyBinds() const {
+const std::array<sf::Keyboard::Scancode, 4>& game::getKeyBinds() const {
     return m_keys;
 }
 
-void Game::setPlayerSaves(const playerSaves& psaves) {
+void game::setPlayerSaves(const playerSaves& psaves) {
     player_saves = psaves;
 }
 
-void Game::setZombieSaves(const zombieSave &zsave) {
+void game::setZombieSaves(const zombieSave &zsave) {
     zsaves.push_back(zsave);
 }
 
-void Game::clearZsaves(){zsaves.clear();}
-void Game::clearTsaves(){tsaves.clear();}
+void game::clearZsaves(){zsaves.clear();}
+void game::clearTsaves(){tsaves.clear();}
 
-void Game::setTreeSaves(const treeSave& tsave) {
+void game::setTreeSaves(const treeSave& tsave) {
     tsaves.push_back(tsave);
 }
 
-bool Game::getSaveAndQuit() {
+bool game::getSaveAndQuit() {
     return saveAndQuit;
 }
 
-void Game::setSaveAndQuit(bool saq, bool isOver) {saveAndQuit = saq; m_isOver = isOver;}
+void game::setSaveAndQuit(bool saq, bool isOver) {saveAndQuit = saq; m_isOver = isOver;}
 
-void Game::saveProgress() {
+void game::saveProgress() {
     std::string path = "../data/saves/" + name + ".dat";
     std::ofstream file(path, std::ios::binary | std::ios::trunc);
     file.write(reinterpret_cast<const char*>(&player_saves),sizeof(player_saves));
@@ -224,7 +228,7 @@ void Game::saveProgress() {
     file.close();
 }
 
-void Game::loadProgress() {
+void game::loadProgress() {
     std::string path = "../data/saves/" + name + ".dat";
     std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) return;
@@ -250,14 +254,14 @@ void Game::loadProgress() {
     }
 }
 
-const playerSaves &Game::getPlayerSaves() const {
+const playerSaves &game::getPlayerSaves() const {
     return player_saves;
 }
 
-const std::vector<zombieSave> &Game::getZombieSaves() const {
+const std::vector<zombieSave> &game::getZombieSaves() const {
     return zsaves;
 }
 
-const std::vector<treeSave> &Game::getTreeSaves() const {
+const std::vector<treeSave> &game::getTreeSaves() const {
     return tsaves;
 }

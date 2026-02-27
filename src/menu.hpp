@@ -8,7 +8,7 @@
 class menu : public scene{
 public:
     menu();
-    void update(float delta,Game &m_gam)override;
+    void update(float delta,game &m_gam)override;
     void draw(sf::RenderWindow &win)override;
     void button_overlay(const sf::RenderWindow &win,sf::RectangleShape &button, type t) override;
 
@@ -20,6 +20,7 @@ public:
     void titleColor();
     void dibujado(sf::RenderWindow &m_win);
 private:
+    void ProcessEvent(game &game, sf::Event &event) override;
     sf::Font m_font1,m_font2;
     sf::Text m_text1,m_text2,loadText, exitText, newText;
     sf::Texture boton,botonselec;

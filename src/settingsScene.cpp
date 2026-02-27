@@ -45,7 +45,7 @@ settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab
     m_keys.fill(sf::Keyboard::Scancode::Unknown);
 }
 
-void settingsScene::update(float delta,Game &m_game) {
+void settingsScene::update(float delta,game &m_game) {
     if (isRecentlyOpen) {m_keys = m_game.getKeyBinds(); isRecentlyOpen = false;}
     k1.setString(keyToString(m_keys[0]));
     k2.setString(keyToString(m_keys[1]));
@@ -81,7 +81,7 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
 
 }
 
-void settingsScene::updateView(Game &m_gam) {
+void settingsScene::updateView(game &m_gam) {
 
 }
 
@@ -91,16 +91,6 @@ void settingsScene::button_overlay(const sf::RenderWindow &win, sf::RectangleSha
 
     if (button.getGlobalBounds().contains(window_pos)) {
         button.setTexture(&botonselec);
-        if (lbuttonpressed) {
-            switch(t) {
-                case type::Ab1 : curraction = action::shield; waitingForKey = true; break;
-                case type::Ab2 : curraction = action::dash;waitingForKey = true; break;
-                case type::Ab3 : curraction = action::fire;waitingForKey = true; break;
-                case type::Ab4 : curraction = action::heal;waitingForKey = true; break;
-                case type::save : isSave = true; break;
-                case type::exit : isexit = true; break;
-            }
-        }
     }else{
         button.setTexture(&boton);
     }
@@ -110,10 +100,18 @@ void settingsScene::setKey(sf::Keyboard::Scancode key) {
     m_keys[static_cast<int>(curraction)] = key;
 }
 
-void settingsScene::ProcessEvent(Game &game, sf::Event &event) {
+void settingsScene::ProcessEvent(game &game, sf::Event &event) {
+    auto &win = game.getWindow();
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
-        if (evt->button == sf::Mouse::Button::Left) {lbuttonpressed = true;}
-    }else{lbuttonpressed = false;}
+        if (evt->button == sf::Mouse::Button::Left) {
+            if (clickOn(win,Ab1)){buttonPressed(type::Ab1);}
+            if (clickOn(win,Ab2)){buttonPressed(type::Ab2);}
+            if (clickOn(win,Ab3)){buttonPressed(type::Ab3);}
+            if (clickOn(win,Ab4)){buttonPressed(type::Ab4);}
+            if (clickOn(win,save)){buttonPressed(type::save);}
+            if (clickOn(win,exit)){buttonPressed(type::exit);}
+        }
+    }
     if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {
         if (waitingForKey) {
             if (evt->code == sf::Keyboard::Key::Escape) {waitingForKey = false; return;;}
@@ -122,7 +120,23 @@ void settingsScene::ProcessEvent(Game &game, sf::Event &event) {
             std::cout << keyToString(evt->scancode) << std::endl;
         }
     }
-    // std::cout<< "si" << waitingForKey<<std::endl;
+}
+
+bool settingsScene::clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {
+    auto mp = sf::Mouse::getPosition(win);
+    auto wp = win.mapPixelToCoords(mp);
+    return btn.getGlobalBounds().contains(wp);
+}
+
+void settingsScene::buttonPressed( type t) {
+    switch(t) {
+        case type::Ab1 : curraction = action::shield; waitingForKey = true; break;
+        case type::Ab2 : curraction = action::dash;waitingForKey = true; break;
+        case type::Ab3 : curraction = action::fire;waitingForKey = true; break;
+        case type::Ab4 : curraction = action::heal;waitingForKey = true; break;
+        case type::save : isSave = true; break;
+        case type::exit : isexit = true; break;
+    }
 }
 
 bool settingsScene::isWaitingForKey() const {return waitingForKey;}
