@@ -3,7 +3,7 @@
 #include "Game.hpp"
 #include <iostream>
 
-menu::menu() : m_text1(m_font1), m_text2(m_font1), loadText(m_font2), newText(m_font2), exitText(m_font2), rankText(m_font1),notsavefound(m_font1), nameText(m_font1), currname(m_font1), input(m_font2){
+menu::menu() : m_text1(m_font1), m_text2(m_font1), loadText(m_font2), newText(m_font2), exitText(m_font2), rankText(m_font1),notsavefound(m_font1), nameText(m_font1), currname(m_font1), input(m_font2), confirm(m_font2){
     buttons();
 }
 
@@ -19,6 +19,9 @@ void menu::update(float delta,game &m_gam){
     if(isExit) {m_gam.exit();}
     titleColor();
     input.update();
+    if (m_stats.name != "null") {
+        m_gam.setStats(m_stats);
+    }
 }
 
 void menu::draw(sf::RenderWindow &m_win){
@@ -48,6 +51,7 @@ void menu::dibujado(sf::RenderWindow &m_win){
     m_win.draw(nameText);
     m_win.draw(input);
     if (notFound) {m_win.draw(notsavefound);}
+    if (waitingName) {m_win.draw(confirm);}
 }
 
 void menu::titleColor(){
@@ -107,6 +111,10 @@ void menu::buttons() {
 
     input.setPosition({nameText.getPosition().x,nameText.getPosition().y + 40});
     input.setFillColor(sf::Color::White); input.setCharacterSize(20);
+
+    confirm = nameText; confirm.setString("Press enter to confirm...");
+    confirm.setCharacterSize(18);
+    confirm.setPosition({nameText.getPosition().x-30,nameText.getPosition().y + 80});
 }
 
 
@@ -131,6 +139,12 @@ void menu::ProcessEvent(game &game, sf::Event &event) {
             if (clickOn(win,exitButton)) {buttonPressed(type::exitgame);}
             if (clickOn(win,rankingButton)) {buttonPressed(type::ranking);}
             if (clickOn(win,enterName)) {buttonPressed(type::enterName);}else{waitingName = false;}
+        }
+    }
+    if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {
+        if (evt->scancode == sf::Keyboard::Scancode::Enter) {
+            m_stats.name = input.getValue();
+            waitingName = false;
         }
     }
     if (waitingName) input.processEvent(event);

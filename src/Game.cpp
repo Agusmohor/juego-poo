@@ -38,7 +38,10 @@ void game::run(){
 void game::ProcessEvent() {
     while(auto evt = m_win.pollEvent()){
         //evento cerrar ventana
-        if(evt->is<sf::Event::Closed>() || isExit) {m_win.close();} else {
+        if(evt->is<sf::Event::Closed>() || isExit) {
+            saveProgress();
+            m_win.close();
+        } else {
             sf::Event& event = *evt;
             if (ispaused && m_pause) {m_pause->ProcessEvent(*this,event);}
             else{curr_scene->ProcessEvent(*this,event);}
@@ -145,7 +148,7 @@ void game::takeProfile(std::ifstream &file) {
     std::string aux;
     std::getline(file,aux);
     name = aux.substr(aux.find_last_of(' ')+1,aux.back());
-    std::cout << "name:" << name << std::endl;
+    m_lastStats.name = name;
 }
 
 void game::takeConfig(std::ifstream &file){
@@ -164,8 +167,11 @@ const sf::View& game::getUIWinView() const {
 }
 
 void game::setStats(const stats &m_stats) {
-    m_lastStats = m_stats;
-    m_lastStats.name = this->name;
+    if (m_stats.timeAlive > 0) {
+        m_lastStats = m_stats;
+    }else {
+        m_lastStats.name = m_stats.name;
+    }
 }
 
 const stats &game::getStats() {
@@ -227,7 +233,11 @@ void game::saveProgress() {
     for (auto &t : tsaves) {
         file.write(reinterpret_cast<const char*>(&t),sizeof(t));
     }
-    file.close();
+    file.close(); file.clear();
+    std::string profile_path = "../data/config/profile.txt";
+    file.open(profile_path,std::ios::trunc);
+    file << "LastProfile = "<< m_lastStats.name << std::endl;
+    std::cout<<"guarde "<< m_lastStats.name <<std::endl;
 }
 
 bool game::loadProgress() {
