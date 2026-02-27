@@ -11,14 +11,14 @@ rankingScene::rankingScene() : backText(font), title(font){
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
 
     backButton.setSize({220.f,35.f});
-    backButton.setPosition({sf::Vector2f(290,520)});
+    backButton.setPosition({sf::Vector2f(290,580)});
     title.setString("Ranking");
     title.setCharacterSize(50);
     title.setPosition(sf::Vector2f(290,110));
     backText.setFont(font); backText.setString("Back to main");
     backText.setCharacterSize(20);
     backText.setFillColor(sf::Color::White);
-    backText.setPosition(sf::Vector2f(330,538));
+    backText.setPosition(sf::Vector2f(330,600));
     load(); sortList();
 }
 
@@ -30,7 +30,7 @@ void rankingScene::showVector(sf::RenderWindow &m_win) {
     float starty=180.f;
     float space=40.f;
     for (int i=0;i<m_list.size();i++) {
-        if (i>10){break;}
+        if (i>=10){break;}
         const stats& p = m_list[i];
 
         int min = p.timeAlive/60;

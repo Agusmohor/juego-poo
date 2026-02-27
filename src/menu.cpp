@@ -3,7 +3,7 @@
 #include "Game.hpp"
 #include <iostream>
 
-menu::menu() : m_text1(m_font1), m_text2(m_font1), loadText(m_font2), newText(m_font2), exitText(m_font2), rankText(m_font1),notsavefound(m_font1) {
+menu::menu() : m_text1(m_font1), m_text2(m_font1), loadText(m_font2), newText(m_font2), exitText(m_font2), rankText(m_font1),notsavefound(m_font1), nameText(m_font1), currname(m_font1), input(m_font2){
     buttons();
 }
 
@@ -18,6 +18,7 @@ void menu::update(float delta,game &m_gam){
     if (isRanking){rankScene.update(delta,m_gam);}
     if(isExit) {m_gam.exit();}
     titleColor();
+    input.update();
 }
 
 void menu::draw(sf::RenderWindow &m_win){
@@ -27,6 +28,7 @@ void menu::draw(sf::RenderWindow &m_win){
     button_overlay(m_win,loadButton,type::loadgame,botonselec,boton);
     button_overlay(m_win,exitButton,type::exitgame,botonselec,boton);
     button_overlay(m_win,rankingButton,type::ranking,botonselec,boton);
+    button_overlay(m_win,enterName,type::enterName,botonselec,boton);
 
 }
 
@@ -38,10 +40,13 @@ void menu::dibujado(sf::RenderWindow &m_win){
     m_win.draw(loadButton);
     m_win.draw(exitButton);
     m_win.draw(rankingButton);
+    m_win.draw(enterName);
     m_win.draw(newText);
     m_win.draw(loadText);
     m_win.draw(exitText);
     m_win.draw(rankText);
+    m_win.draw(nameText);
+    m_win.draw(input);
     if (notFound) {m_win.draw(notsavefound);}
 }
 
@@ -55,7 +60,7 @@ void menu::titleColor(){
 
 }
 //crea todos los botones del menu
-void menu::buttons(){
+void menu::buttons() {
     if(!m_font1.openFromFile("../assets/fonts/fuente.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
     if(!m_font2.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
@@ -66,11 +71,11 @@ void menu::buttons(){
     newText.setFont(m_font2); newText.setString("New game");
 
     m_text1.setCharacterSize(100);
-    m_text1.setPosition(sf::Vector2f(220,150));
+    m_text1.setPosition(sf::Vector2f(220,50));
 
     m_text2.setCharacterSize(40);
     m_text2.setFillColor(sf::Color(150,150,150));
-    m_text2.setPosition(sf::Vector2f(310,290));
+    m_text2.setPosition(sf::Vector2f(310,m_text1.getPosition().y+140));
 
 
     newText.setCharacterSize(20);
@@ -93,6 +98,15 @@ void menu::buttons(){
 
     exitButton = rankingButton; exitButton.setPosition({rankingButton.getPosition().x,rankingButton.getPosition().y + 45});
     exitText = newText; exitText.setString("Exit"); exitText.setPosition({rankText.getPosition().x +20,rankText.getPosition().y + 45});
+
+    enterName = newButton;
+    enterName.setPosition({newButton.getPosition().x,newButton.getPosition().y-100});
+    nameText = newText; nameText.setString("Enter your name");
+    nameText.setPosition({newText.getPosition().x-48,newText.getPosition().y-140});
+    currname = newText;
+
+    input.setPosition({nameText.getPosition().x,nameText.getPosition().y + 40});
+    input.setFillColor(sf::Color::White); input.setCharacterSize(20);
 }
 
 
@@ -103,6 +117,7 @@ void menu::buttonPressed( type t) {
         case type::loadgame: isLoadGame = true; break;
         case type::exitgame: isExit = true; break;
         case type::ranking : isRanking = true; break;
+        case type::enterName : waitingName = true; break;
     }
 }
 
@@ -115,8 +130,10 @@ void menu::ProcessEvent(game &game, sf::Event &event) {
             if (clickOn(win,loadButton)) {buttonPressed(type::loadgame);}
             if (clickOn(win,exitButton)) {buttonPressed(type::exitgame);}
             if (clickOn(win,rankingButton)) {buttonPressed(type::ranking);}
+            if (clickOn(win,enterName)) {buttonPressed(type::enterName);}else{waitingName = false;}
         }
     }
+    if (waitingName) input.processEvent(event);
 }
 
 

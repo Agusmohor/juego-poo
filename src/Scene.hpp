@@ -18,6 +18,7 @@ enum struct type {
     ranking,
     back,
     save,
+    enterName,
     Ab1, Ab2, Ab3, Ab4
 };
 
@@ -29,6 +30,7 @@ public:
     virtual void updateView(game &m_gam) {};
     virtual void draw(sf::RenderWindow &m_win) = 0;
     virtual void button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t, sf::Texture &botonSel, sf::Texture &buton);
+    virtual void centerTextToButton(sf::Text &t,const sf::RectangleShape &button){}
     virtual void buttonPressed(type t) {};
     virtual bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn);
 

@@ -16,3 +16,4 @@ bool scene::clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) 
     auto wp = win.mapPixelToCoords(mp);
     return btn.getGlobalBounds().contains(wp);
 }
+
