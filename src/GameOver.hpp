@@ -5,7 +5,7 @@
 class gameover : public scene{
     sf::RectangleShape shape;
     sf::Font font;
-    sf::Text text,text2;
+    sf::Text text,text2, mainmenuText, exitText;
     bool isgameover = false;
     bool exitgame = false;
     bool mainmenu = false;

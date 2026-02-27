@@ -5,17 +5,22 @@
 #include <iostream>
 
 
-gameover::gameover() : font("../assets/fonts/fuente.ttf"), text(font), text2(font) {
-    if (!font.openFromFile("../assets/fonts/fuente.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
+gameover::gameover() : font("../assets/fonts/MineFont.ttf"), text(font), text2(font) ,mainmenuText(font), exitText(font) {
+    if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     shape.setFillColor(sf::Color::Red);
     text.setString("GAME OVER");
     text.setCharacterSize(100);
-    text.setPosition({150,150});
+    text.setPosition({130,150});
     returnToMainMenu.setSize({220.f,35.f});
     returnToMainMenu.setPosition({sf::Vector2f(290,610)});
     exit = returnToMainMenu; exit.setPosition({returnToMainMenu.getPosition().x,returnToMainMenu.getPosition().y + 45});
+    mainmenuText.setFont(font); mainmenuText.setString("Main menu");
+    mainmenuText.setCharacterSize(20);
+    mainmenuText.setFillColor(sf::Color::White);
+    mainmenuText.setPosition(sf::Vector2f(330,630));
+    exitText = mainmenuText; exitText.setString("Quit game"); exitText.setPosition({mainmenuText.getPosition().x,mainmenuText.getPosition().y + 45});
 }
 
 void gameover::update(float delta, game &m_gam) {
@@ -32,6 +37,8 @@ void gameover::draw(sf::RenderWindow &m_win) {
     m_win.draw(text2);
     m_win.draw(returnToMainMenu);
     m_win.draw(exit);
+    m_win.draw(mainmenuText);
+    m_win.draw(exitText);
 }
 
 void gameover::toText() {
