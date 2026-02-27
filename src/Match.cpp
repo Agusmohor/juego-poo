@@ -103,7 +103,7 @@ void match::updateView(Game &m_gam){
 }
 
 void match::draw(sf::RenderWindow &m_win){
-    this->render(m_win);
+    render(m_win);
     m_win.setView(m_uiview);
 }
 
@@ -116,7 +116,7 @@ void match::draw(sf::RenderWindow &m_win){
 void match::render(sf::RenderWindow &m_win){
 
     //view mapa centrado en el player
-    this->normalView(m_win);
+    normalView(m_win);
 
     //se dibuja el mapa
     m_mapa.draw(m_win);

@@ -7,6 +7,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include "Game.hpp"
 #include "settingsScene.hpp"
+#include "menu.hpp"
 
 class PauseScene : public scene{
 public:

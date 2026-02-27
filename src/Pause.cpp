@@ -34,6 +34,9 @@ void PauseScene::update(float delta,Game &m_gam){
     // backMatch(m_gam);
     settingScene.update(delta,m_gam);
     if (settingScene.getExit()) {isSettings = false; settingScene.setExit(false);}
+    if (isExit) {
+        m_gam.setScene(new menu);
+    }
 
 }
 
@@ -41,17 +44,13 @@ void PauseScene::updateView(Game &m_gam){}
 
 void PauseScene::ProcessEvent(Game &game, sf::Event &event) {
     if (isSettings) settingScene.ProcessEvent(game,event);
-    if (((event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) || isResume) && !isSettings) {
+    if (((event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) || isResume || isExit) && !isSettings) {
         game.delPause();
     }
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button == sf::Mouse::Button::Left) {lbuttonpressed = true;}
     }else{lbuttonpressed = false;}
 }
-
-// void PauseScene::backMatch(Game &m_gam){
-//     if((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape) || isResume) && !isSettings) m_gam.isPaused(false);
-// }
 
 void PauseScene::draw(sf::RenderWindow &m_win){
     if (!isSettings) {drawPause(m_win);} else {settingScene.draw(m_win);}

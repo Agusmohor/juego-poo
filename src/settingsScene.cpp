@@ -30,11 +30,11 @@ settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab
     save.setPosition({sf::Vector2f(290,610)});
     exit = save; exit.setPosition({save.getPosition().x,save.getPosition().y+45});
 
-    saveText.setFont(font); saveText.setString("Save");
+    saveText.setFont(font); saveText.setString("Save config");
     saveText.setCharacterSize(20);
     saveText.setFillColor(sf::Color::White);
-    saveText.setPosition(sf::Vector2f(370,630));
-    exitText = saveText; exitText.setPosition({saveText.getPosition().x+10,saveText.getPosition().y+45});
+    saveText.setPosition(sf::Vector2f(330,630));
+    exitText = saveText; exitText.setPosition({saveText.getPosition().x+50,saveText.getPosition().y+45});
     exitText.setString("Exit");
 
     k1 = ab1Text; k1.setPosition({260,225}); k1.setString("null");
