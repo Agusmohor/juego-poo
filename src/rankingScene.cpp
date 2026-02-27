@@ -2,7 +2,19 @@
 
 #include <iostream>
 
-rankingScene::rankingScene() {
+#include "Game.hpp"
+
+rankingScene::rankingScene() : backText(font) {
+    if(!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
+    if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+
+    backButton.setSize({220.f,35.f});
+    backButton.setPosition({sf::Vector2f(290,520)});
+    backText.setFont(font); backText.setString("Back to main");
+    backText.setCharacterSize(20);
+    backText.setFillColor(sf::Color::White);
+    backText.setPosition(sf::Vector2f(330,538));
     load();
 }
 
@@ -11,7 +23,9 @@ void rankingScene::update(float delta, game &m_gam) {
 }
 
 void rankingScene::draw(sf::RenderWindow &m_win) {
-
+    button_overlay(m_win,backButton,type::back,botonselec,boton);
+    m_win.draw(backButton);
+    m_win.draw(backText);
 }
 
 void rankingScene::load() {
@@ -27,6 +41,7 @@ void rankingScene::load() {
         aux.name = line.substr(0,line.find('|'));
         aux.kills = std::stoi(line.substr(pos+1,pos2 - pos));
         aux.timeAlive = std::stof(line.substr(pos2-1));
+        file.ignore();
     }
 }
 
@@ -39,7 +54,25 @@ void rankingScene::save(const stats &p) {
 
 void rankingScene::createSave() {
     std::ofstream file("../data/globalstats/stats.txt", std::ios::app);
-    stats p;
-    file << p.name <<'|'<<p.kills<<'|'<<p.timeAlive<<'\n';
 }
 
+void rankingScene::ProcessEvent(game &game, sf::Event &event) {
+    if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
+        if (evt->button == sf::Mouse::Button::Left) {
+            auto &win = game.getWindow();
+            if (clickOn(win,backButton)) {buttonPressed(type::back);}
+        }
+    }
+}
+
+void rankingScene::buttonPressed(type t) {
+    switch (t) {
+        case type::back : backmain = true; break;
+    }
+}
+
+bool rankingScene::getBackRequest() {
+    return backmain;
+}
+
+void rankingScene::setBackRequest(bool back) {backmain = back;}

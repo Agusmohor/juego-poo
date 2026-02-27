@@ -16,6 +16,7 @@ enum struct type {
     exitgame,
     mainmenu,
     ranking,
+    back,
     save,
     Ab1, Ab2, Ab3, Ab4
 };

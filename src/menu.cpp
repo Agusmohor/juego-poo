@@ -14,11 +14,13 @@ void menu::update(float delta,game &m_gam){
         if (!m_gam.loadProgress()) {notFound = true;}
         else{m_gam.setScene(new match);}
     }
+    if (rankScene.getBackRequest()){isRanking = false; rankScene.setBackRequest(false);}
     if(isExit) {m_gam.exit();}
     titleColor();
 }
 
 void menu::draw(sf::RenderWindow &m_win){
+    if (isRanking){rankScene.draw(m_win); return;}
     dibujado(m_win);
     button_overlay(m_win,newButton,type::newgame,botonselec,boton);
     button_overlay(m_win,loadButton,type::loadgame,botonselec,boton);
@@ -72,7 +74,7 @@ void menu::buttons(){
 
     newText.setCharacterSize(20);
     newText.setFillColor(sf::Color::White);
-    newText.setPosition(sf::Vector2f(345,540));
+    newText.setPosition(sf::Vector2f(345,538));
 
     newButton.setSize({220.f,35.f});
     newButton.setPosition({sf::Vector2f(290,520)});
@@ -104,6 +106,7 @@ void menu::buttonPressed( type t) {
 }
 
 void menu::ProcessEvent(game &game, sf::Event &event) {
+    if (isRanking){rankScene.ProcessEvent(game,event);return;}
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button==sf::Mouse::Button::Left) {
             auto &win = game.getWindow();
