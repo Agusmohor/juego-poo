@@ -22,6 +22,7 @@ public:
     void ProcessEvent(game &game, sf::Event &event) override;
 
     void load();
+    void sortList();
     void save(const stats& p);
     void createSave();
     bool getBackRequest();

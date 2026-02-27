@@ -1,5 +1,6 @@
 #include "rankingScene.hpp"
 
+#include <algorithm>
 #include <iostream>
 
 #include "Game.hpp"
@@ -15,7 +16,7 @@ rankingScene::rankingScene() : backText(font) {
     backText.setCharacterSize(20);
     backText.setFillColor(sf::Color::White);
     backText.setPosition(sf::Vector2f(330,538));
-    load();
+    load(); sortList();
 }
 
 void rankingScene::update(float delta, game &m_gam) {
@@ -26,6 +27,14 @@ void rankingScene::draw(sf::RenderWindow &m_win) {
     button_overlay(m_win,backButton,type::back,botonselec,boton);
     m_win.draw(backButton);
     m_win.draw(backText);
+}
+
+void rankingScene::sortList() {
+    if (m_list.empty()) {return;}
+    std::sort(m_list.begin(),m_list.end(),[](const stats& a, const stats& b) {
+        if (a.kills != b.kills) {return a.kills > b.kills;}
+        return a.timeAlive > b.timeAlive;
+    });
 }
 
 void rankingScene::load() {
@@ -42,6 +51,7 @@ void rankingScene::load() {
         aux.kills = std::stoi(line.substr(pos+1,pos2 - pos));
         aux.timeAlive = std::stof(line.substr(pos2-1));
         file.ignore();
+        m_list.push_back(aux);
     }
 }
 
