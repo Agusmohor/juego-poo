@@ -9,7 +9,7 @@ class obstacle {
     virtual void draw(sf::RenderWindow &m_win) = 0;
     virtual sf::Vector2f getPosition() = 0;
     virtual void setPos(sf::Vector2f pos) = 0;
-
+    virtual const treeSave& getSaves() = 0;
     virtual sf::FloatRect getHitbox() = 0;
 
     virtual void random(const sf::Texture &arbol, const sf::Texture &arbol2, const sf::Texture &arbol3) = 0;

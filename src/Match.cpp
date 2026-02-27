@@ -74,6 +74,14 @@ void match::update(float delta,Game &m_gam){
     //si no esta vivo, y presiona enter, crea otro personaje :)
     if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && !ispressed) {
         isOver(); m_gam.setStats(m_stats);
+        m_gam.setPlayerSaves(m_ply->getSaves());
+        m_gam.clearTsaves(); m_gam.clearZsaves();
+        for (auto &z : m_zombies) {
+            m_gam.setZombieSaves(z->getSaves());
+        }
+        for (auto &o : m_obtacles) {
+           m_gam.setTreeSaves(o->getSaves());
+        }
         m_gam.setScene(new gameover); ispressed = true;
         // m_ply.reset(); m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
     }
@@ -229,9 +237,9 @@ void match::spawnObstacle() {
 }
 
 void match::isOver() {
-    entityStats p = m_ply->getStats();
-    m_stats.timeAlive = p.ptime;
-    m_stats.kills = p.pkills;
+    playerSaves p = m_ply->getSaves();
+    m_stats.timeAlive = p.time;
+    m_stats.kills = p.kills;
 }
 
 void match::ProcessEvent(Game &game, sf::Event &event) {
@@ -243,3 +251,7 @@ void match::ProcessEvent(Game &game, sf::Event &event) {
 void match::setPlayerKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keyBinds) {
     m_ply->setKey(keyBinds);
 }
+
+
+
+

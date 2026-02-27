@@ -426,12 +426,12 @@ const sf::Keyboard::Scancode& player::getKey(action act) const {
 }
 
 //obtener stats
-const entityStats& player::getStats() const {
-    return stats;
+const playerSaves& player::getSaves() const {
+    return saves;
 }
 
 void player::updateStats() {
-    stats.phealth = health; stats.pstam = stamina;
-    stats.px = m_spr.getPosition().x; stats.py = m_spr.getPosition().y;
-    stats.pkills = kills; stats.ptime = timeAlive;
+    saves.health = health; saves.stam = stamina;
+    saves.x = m_spr.getPosition().x; saves.y = m_spr.getPosition().y;
+    saves.kills = kills; saves.time = timeAlive;
 }

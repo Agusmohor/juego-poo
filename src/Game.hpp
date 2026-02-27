@@ -48,7 +48,17 @@ public:
     void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys, bool save);
     const std::array<sf::Keyboard::Scancode, 4>& getKeyBinds() const;
 
+    void setPlayerSaves(const playerSaves& psaves);
+    void setZombieSaves(const zombieSave& zsaves);
+
+    void clearZsaves();
+
+    void clearTsaves();
+
+    void setTreeSaves(const treeSave &tsave);
+
     void saveProgress();
+    void loadProgress();
 
 private:
     sf::RenderWindow m_win;
@@ -65,7 +75,9 @@ private:
     std::array<sf::Keyboard::Scancode,4> m_keys;
 
     keybinds kb;
-    entityStats pstats;
+    playerSaves player_saves;
+    std::vector<zombieSave> zsaves;
+    std::vector<treeSave> tsaves;
 };
 
 #endif

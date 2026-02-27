@@ -3,7 +3,8 @@
 
 Game::Game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false), next_scene(nullptr),m_pause(nullptr){
     m_win.setFramerateLimit(60);
-    this->loadConfig(m_win);
+    loadConfig(m_win);
+    loadProgress();
 
 }
 
@@ -181,8 +182,61 @@ const std::array<sf::Keyboard::Scancode, 4>& Game::getKeyBinds() const {
     return m_keys;
 }
 
+void Game::setPlayerSaves(const playerSaves& psaves) {
+    player_saves = psaves;
+}
+
+void Game::setZombieSaves(const zombieSave &zsave) {
+    zsaves.push_back(zsave);
+}
+
+void Game::clearZsaves(){zsaves.clear();}
+void Game::clearTsaves(){tsaves.clear();}
+
+void Game::setTreeSaves(const treeSave& tsave) {
+    tsaves.push_back(tsave);
+}
+
 void Game::saveProgress() {
     std::string path = "../data/saves/" + name + ".dat";
     std::ofstream file(path, std::ios::binary | std::ios::trunc);
-    file.write(reinterpret_cast<const char*>(&pstats),sizeof(pstats));
+    file.write(reinterpret_cast<const char*>(&player_saves),sizeof(player_saves));
+
+    int zcount = zsaves.size();
+    file.write(reinterpret_cast<const char*>(&zcount),sizeof(zcount));
+    for (auto &z : zsaves) {
+        file.write(reinterpret_cast<const char*>(&z),sizeof(z));
+    }
+    int tcount = tsaves.size();
+    file.write(reinterpret_cast<const char*>(&tcount),sizeof(tcount));
+    for (auto &t : tsaves) {
+        file.write(reinterpret_cast<const char*>(&t),sizeof(t));
+    }
+    file.close();
+}
+
+void Game::loadProgress() {
+    std::string path = "../data/saves/" + name + ".dat";
+    std::ifstream file(path, std::ios::binary);
+    if (!file.is_open()) return;
+
+    file.read(reinterpret_cast<char*>(&player_saves),sizeof(player_saves));
+
+    int zcount; zsaves.clear();
+    file.read(reinterpret_cast<char*>(&zcount),sizeof(zcount));
+    if (zcount < 0 || zcount > 50) return;
+    zombieSave z;
+    for (int i=0;i<zcount;i++) {
+        file.read(reinterpret_cast<char*>(&z),sizeof(z));
+        zsaves.push_back(z);
+    }
+
+    int tcount; tsaves.clear();
+    file.read(reinterpret_cast<char*>(&tcount),sizeof(tcount));
+    if (tcount < 0 || tcount > 50) return;
+    treeSave ts;
+    for (int i=0;i<tcount;i++) {
+        file.read(reinterpret_cast<char*>(&ts),sizeof(ts));
+        tsaves.push_back(ts);
+    }
 }

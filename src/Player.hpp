@@ -24,7 +24,7 @@ public:
     sf::Sprite& getSprite() override;
 
     void updateTexture() override;
-    const entityStats& getStats() const override;
+    const playerSaves& getSaves() const;
 
     void drawHitbox(sf::RenderWindow &m_win) override;
     void syncHitbox() override;
@@ -157,7 +157,7 @@ private:
     float healRegenDur = 1.f;
     int c = 4;
     bool healReady = false;
-    entityStats stats;
+    playerSaves saves;
 };
 
 #endif

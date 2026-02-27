@@ -12,7 +12,6 @@ public:
     virtual void update(float delta,mapa &mapa) = 0;
     virtual void draw(sf::RenderWindow& m_win) = 0;
     virtual sf::Sprite& getSprite() = 0;
-    virtual const entityStats& getStats() const = 0;
 
     virtual void updateTexture()=0;
     virtual void drawHitbox(sf::RenderWindow &m_win)=0;

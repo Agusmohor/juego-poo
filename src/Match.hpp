@@ -86,5 +86,9 @@ public:
     void normalView(sf::RenderWindow& m_win);
 
     void hits();
+
     void setPlayerKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keyBinds);
+    const playerSaves& getPlayerSave();
+
+    const zombieSave& getZombieSave();
 };

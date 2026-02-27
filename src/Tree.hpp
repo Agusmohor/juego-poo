@@ -13,7 +13,7 @@ public:
 
     void update() override;
     void draw(sf::RenderWindow &m_win) override;
-
+    const treeSave& getSaves() override;
     void setPos(sf::Vector2f pos) override;
     sf::Vector2f getPosition() override;
 
@@ -29,6 +29,7 @@ private:
     sf::Sprite m_spr;
     sf::RectangleShape m_hitbox;
 
+    treeSave saves;
 
 };
 

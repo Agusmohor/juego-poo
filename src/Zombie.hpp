@@ -21,6 +21,8 @@ class zombie : public entity {
     int health=2;
     int state,count;
     bool killcount = false;
+
+    zombieSave saves;
 public:
     zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow, sf::Vector2f coords);
 
@@ -28,7 +30,7 @@ public:
     void draw(sf::RenderWindow& m_win) override;
     sf::Sprite &getSprite() override;
 
-    const entityStats& getStats() const override;
+    const zombieSave& getSaves();
 
     void drawHitbox(sf::RenderWindow &m_win) override;
     void syncHitbox() override;
