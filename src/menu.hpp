@@ -21,7 +21,7 @@ public:
 private:
     void ProcessEvent(game &game, sf::Event &event) override;
     sf::Font m_font1,m_font2;
-    sf::Text m_text1,m_text2,loadText, exitText, newText;
+    sf::Text m_text1,m_text2,loadText, exitText, newText, notsavefound;
     sf::Texture boton,botonselec;
     sf::Clock timer;
     unsigned char r,g,b;
@@ -31,6 +31,7 @@ private:
     bool isNewGame = false;
     bool isLoadGame = false;
     bool isExit = false;
+    bool notFound = false;
 };
 
 #endif

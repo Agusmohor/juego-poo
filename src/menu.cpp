@@ -2,13 +2,16 @@
 #include "Match.hpp"
 #include "Game.hpp"
 
-menu::menu() : m_text1(m_font1,""), m_text2(m_font1,""), loadText(m_font2,""), newText(m_font2,""), exitText(m_font2,"") {
+menu::menu() : m_text1(m_font1), m_text2(m_font1), loadText(m_font2), newText(m_font2), exitText(m_font2), notsavefound(m_font1) {
     buttons();
 }
 
 void menu::update(float delta,game &m_gam){
     if(isNewGame) {m_gam.newProgress(); m_gam.loadProgress();m_gam.setScene(new match);}
-    if(isLoadGame) {m_gam.loadMatch(); m_gam.setScene(new match);}
+    if(isLoadGame) {
+        if (!m_gam.loadProgress()) {notFound = true;}
+        else{m_gam.setScene(new match);}
+    }
     if(isExit) {m_gam.exit();}
     titleColor();
 }
@@ -31,6 +34,7 @@ void menu::dibujado(sf::RenderWindow &m_win){
     m_win.draw(newText);
     m_win.draw(loadText);
     m_win.draw(exitText);
+    if (notFound) {m_win.draw(notsavefound);}
 }
 
 void menu::titleColor(){
@@ -50,15 +54,15 @@ void menu::buttons(){
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
 
     m_text1.setFont(m_font1); m_text1.setString("Jueguito"); 
-    m_text2.setFont(m_font1); m_text2.setString("press Enter to start"); 
+    m_text2.setFont(m_font1); m_text2.setString("Welcome");
     newText.setFont(m_font2); newText.setString("New game");
 
     m_text1.setCharacterSize(100);
     m_text1.setPosition(sf::Vector2f(220,150));
 
-    m_text2.setCharacterSize(30);
+    m_text2.setCharacterSize(40);
     m_text2.setFillColor(sf::Color(150,150,150));
-    m_text2.setPosition(sf::Vector2f(250,450));
+    m_text2.setPosition(sf::Vector2f(310,290));
 
 
     newText.setCharacterSize(20);
@@ -68,6 +72,9 @@ void menu::buttons(){
     newButton.setSize({220.f,35.f});
     newButton.setPosition({sf::Vector2f(290,520)});
 
+    notsavefound = newText;
+    notsavefound.setFont(m_font2); notsavefound.setPosition({newText.getPosition().x-43,newText.getPosition().y-40});
+    notsavefound.setString("Not save found");
 
     loadButton = newButton; loadButton.setPosition({newButton.getPosition().x,newButton.getPosition().y + 45});
     exitButton = loadButton; exitButton.setPosition({loadButton.getPosition().x,loadButton.getPosition().y + 45});

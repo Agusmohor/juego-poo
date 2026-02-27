@@ -61,11 +61,10 @@ public:
     const std::vector<treeSave>& getTreeSaves() const;
 
     void saveProgress();
-    void loadProgress();
+    bool loadProgress();
     void newProgress();
 
     void setNewMatch(bool b);
-    void loadMatch();
     void exit();
 
     bool isNewMatch();

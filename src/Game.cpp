@@ -227,16 +227,16 @@ void game::saveProgress() {
     file.close();
 }
 
-void game::loadProgress() {
+bool game::loadProgress() {
     std::string path = "../data/saves/" + name + ".dat";
     std::ifstream file(path, std::ios::binary);
-    if (!file.is_open()) return;
+    if (!file.is_open()) return false;
 
     file.read(reinterpret_cast<char*>(&player_saves),sizeof(player_saves));
 
     int zcount; zsaves.clear();
     file.read(reinterpret_cast<char*>(&zcount),sizeof(zcount));
-    if (zcount < 0 || zcount > 50) return;
+    if (zcount < 0 || zcount > 50) return true;
     zombieSave z;
     for (int i=0;i<zcount;i++) {
         file.read(reinterpret_cast<char*>(&z),sizeof(z));
@@ -245,12 +245,13 @@ void game::loadProgress() {
 
     int tcount; tsaves.clear();
     file.read(reinterpret_cast<char*>(&tcount),sizeof(tcount));
-    if (tcount < 0 || tcount > 600) return;
+    if (tcount < 0 || tcount > 600) return true;
     treeSave ts;
     for (int i=0;i<tcount;i++) {
         file.read(reinterpret_cast<char*>(&ts),sizeof(ts));
         tsaves.push_back(ts);
     }
+    return true;
 }
 
 void game::newProgress() {
@@ -260,10 +261,6 @@ void game::newProgress() {
     file.write(reinterpret_cast<const char*>(&s),sizeof(s));
     file.close();
     tsaves.clear(); zsaves.clear(); player_saves = s;
-}
-
-void game::loadMatch() {
-    loadProgress();
 }
 
 void game::setNewMatch(bool b) {
