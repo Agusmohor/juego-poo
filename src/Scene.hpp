@@ -3,14 +3,10 @@
 #define SCENE_HPP
 
 #include <SFML/Graphics.hpp>
+#include "Stats.hpp"
 #include <SFML/Window/Event.hpp>
 
 class game;
-
-struct stats {
-    float timeAlive = 0.f;
-    int kills = 0;
-};
 
 enum struct type {
     resume,
@@ -31,7 +27,7 @@ public:
     virtual void draw(sf::RenderWindow &m_win) = 0;
     virtual void button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t) {};
     virtual void buttonPressed(type t) {};
-    virtual bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {};
+    virtual bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {return false;};
 
 };
 

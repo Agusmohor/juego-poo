@@ -13,6 +13,10 @@ struct playerSaves {
 
 bool operator==(const playerSaves &a, const playerSaves &b);
 
+struct stats {
+    float timeAlive = 0.f;
+    int kills = 0;
+};
 
 struct zombieSave {
     float x = 0;
