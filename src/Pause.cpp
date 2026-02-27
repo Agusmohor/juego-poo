@@ -62,9 +62,9 @@ void PauseScene::draw(sf::RenderWindow &m_win){
 }
 
 void PauseScene::drawPause(sf::RenderWindow &m_win) {
-    button_overlay(m_win,resume,type::resume);
-    button_overlay(m_win,exit_button,type::exit);
-    button_overlay(m_win,setting,type::setting);
+    button_overlay(m_win,resume,type::resume,botonselec,boton);
+    button_overlay(m_win,exit_button,type::exit,botonselec,boton);
+    button_overlay(m_win,setting,type::setting,botonselec,boton);
     m_win.draw(overlay);
     m_win.draw(m_text);
     m_win.draw(resume);
@@ -75,24 +75,6 @@ void PauseScene::drawPause(sf::RenderWindow &m_win) {
     m_win.draw(settingText);
 }
 
-//cambio de color cuando el mouse esta encima
-void PauseScene::button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t){
-    sf::Vector2i mouse_pos(sf::Mouse::getPosition(win).x,sf::Mouse::getPosition(win).y);
-    sf::Vector2f window_pos = win.mapPixelToCoords(mouse_pos);
-
-    if (button.getGlobalBounds().contains(window_pos)) {
-        button.setTexture(&botonselec);
-    }else{
-        button.setTexture(&boton);
-    }
-}
-
-//devuelve si el mouse esta encima del boton
-bool PauseScene::clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {
-    auto mp = sf::Mouse::getPosition(win);
-    auto wp = win.mapPixelToCoords(mp);
-    return btn.getGlobalBounds().contains(wp);
-}
 
 //s
 void PauseScene::buttonPressed( type t) {

@@ -55,12 +55,12 @@ void settingsScene::update(float delta,game &m_game) {
 }
 
 void settingsScene::draw(sf::RenderWindow &m_win) {
-    button_overlay(m_win,Ab1,type::Ab1);
-    button_overlay(m_win,Ab2,type::Ab2);
-    button_overlay(m_win,Ab3,type::Ab3);
-    button_overlay(m_win,Ab4,type::Ab4);
-    button_overlay(m_win,exit,type::exit);
-    button_overlay(m_win,save,type::save);
+    button_overlay(m_win,Ab1,type::Ab1,botonselec,boton);
+    button_overlay(m_win,Ab2,type::Ab2,botonselec,boton);
+    button_overlay(m_win,Ab3,type::Ab3,botonselec,boton);
+    button_overlay(m_win,Ab4,type::Ab4,botonselec,boton);
+    button_overlay(m_win,exit,type::exit,botonselec,boton);
+    button_overlay(m_win,save,type::save,botonselec,boton);
     m_win.draw(background);
     m_win.draw(Ab1);
     m_win.draw(Ab2);
@@ -83,17 +83,6 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
 
 void settingsScene::updateView(game &m_gam) {
 
-}
-
-void settingsScene::button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t){
-    sf::Vector2i mouse_pos(sf::Mouse::getPosition(win).x,sf::Mouse::getPosition(win).y);
-    sf::Vector2f window_pos = win.mapPixelToCoords(mouse_pos);
-
-    if (button.getGlobalBounds().contains(window_pos)) {
-        button.setTexture(&botonselec);
-    }else{
-        button.setTexture(&boton);
-    }
 }
 
 void settingsScene::setKey(sf::Keyboard::Scancode key) {
@@ -120,12 +109,6 @@ void settingsScene::ProcessEvent(game &game, sf::Event &event) {
             std::cout << keyToString(evt->scancode) << std::endl;
         }
     }
-}
-
-bool settingsScene::clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {
-    auto mp = sf::Mouse::getPosition(win);
-    auto wp = win.mapPixelToCoords(mp);
-    return btn.getGlobalBounds().contains(wp);
 }
 
 void settingsScene::buttonPressed( type t) {

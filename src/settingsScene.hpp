@@ -16,11 +16,9 @@ class settingsScene : public scene{
 
 
 
-    void button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t) override;
 
     std::string keyToString(sf::Keyboard::Scancode key);
     void buttonPressed( type t) override;
-    bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) override;
 
 
 public:

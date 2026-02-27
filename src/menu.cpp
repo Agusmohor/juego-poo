@@ -15,9 +15,9 @@ void menu::update(float delta,game &m_gam){
 
 void menu::draw(sf::RenderWindow &m_win){
     dibujado(m_win);
-    button_overlay(m_win,newButton,type::newgame);
-    button_overlay(m_win,loadButton,type::loadgame);
-    button_overlay(m_win,exitButton,type::exit);
+    button_overlay(m_win,newButton,type::newgame,botonselec,boton);
+    button_overlay(m_win,loadButton,type::loadgame,botonselec,boton);
+    button_overlay(m_win,exitButton,type::exit,botonselec,boton);
 
 }
 
@@ -75,23 +75,7 @@ void menu::buttons(){
     exitText = newText; exitText.setString("Exit"); exitText.setPosition({loadText.getPosition().x + 30,loadText.getPosition().y + 45});
 }
 
-//cambia el overlay si el cursor esta encima del boton
-void menu::button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t) {
-    sf::Vector2i mouse_pos(sf::Mouse::getPosition(win).x,sf::Mouse::getPosition(win).y);
-    sf::Vector2f p = win.mapPixelToCoords(mouse_pos);
 
-    if(button.getGlobalBounds().contains(p)){
-        button.setTexture(&botonselec);
-    }else{
-        button.setTexture(&boton);
-    }
-}
-
-bool menu::clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {
-    auto mp = sf::Mouse::getPosition(win);
-    auto wp = win.mapPixelToCoords(mp);
-    return btn.getGlobalBounds().contains(wp);
-}
 
 void menu::buttonPressed( type t) {
     switch(t) {

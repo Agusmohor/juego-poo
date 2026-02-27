@@ -11,6 +11,8 @@ gameover::gameover() : font("../assets/fonts/fuente.ttf"), text(font), text2(fon
     text.setString("GAME OVER");
     text.setCharacterSize(100);
     text.setPosition({150,150});
+    returnToMainMenu.setSize({220.f,35.f});
+    returnToMainMenu.setPosition({sf::Vector2f(290,610)});
 }
 
 void gameover::update(float delta, game &m_gam) {
@@ -21,10 +23,7 @@ void gameover::draw(sf::RenderWindow &m_win) {
     m_win.draw(shape);
     m_win.draw(text);
     m_win.draw(text2);
-}
-
-void gameover::updateView(game &m_gam) {
-
+    m_win.draw(returnToMainMenu);
 }
 
 void gameover::toText() {
@@ -36,3 +35,4 @@ void gameover::toText() {
     text2.setString(s.str());
     text2.setPosition({200,300});
 }
+

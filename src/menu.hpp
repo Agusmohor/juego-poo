@@ -10,12 +10,9 @@ public:
     menu();
     void update(float delta,game &m_gam)override;
     void draw(sf::RenderWindow &win)override;
-    void button_overlay(const sf::RenderWindow &win,sf::RectangleShape &button, type t) override;
 
     void buttons();
-    void button_overlay(const sf::RenderWindow &win);
     void buttonPressed(type t) override;
-    bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) override;
 
     //void newMatch(Game &m_gam);
 

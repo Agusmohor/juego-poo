@@ -8,13 +8,11 @@ class gameover : public scene{
     sf::Text text,text2;
     bool isgameover = false;
     stats m_stats;
-
+    sf::RectangleShape returnToMainMenu, exit;
 public:
     gameover();
     void update(float delta, game &m_gam) override;
-    void updateView(game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
-
     void toText();
 };
 

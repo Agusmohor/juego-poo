@@ -15,10 +15,8 @@ public:
     void update(float delta,game &m_gam)override;
     void updateView(game &m_gam) override;
     void draw(sf::RenderWindow &win)override;
-    void button_overlay(const sf::RenderWindow &win,sf::RectangleShape &button, type t) override;
 
     void buttonPressed( type t) override;
-    bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) override;
 
     void drawPause(sf::RenderWindow &m_win);
 
