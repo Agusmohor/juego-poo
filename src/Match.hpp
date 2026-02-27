@@ -41,6 +41,9 @@ class match : public scene {
     bool ispressed = false;
     bool isgameover = false;
 
+    float time = 0;
+    int kills = 0;
+
     stats m_stats;
     mapa m_mapa;
 
@@ -78,6 +81,7 @@ class match : public scene {
     std::vector<zombieSave> m_zombieSave;
     std::vector<treeSave> m_treeSave;
     void ProcessEvent(Game &game, sf::Event &event) override;
+    void callSaveAndQuit(Game &gam);
 public:
     match();
     void doPause(Game &m_gam);

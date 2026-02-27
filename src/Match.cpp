@@ -25,14 +25,17 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 
     m_mapa.load(pngpath,ground,grass);
 
-    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin);
+    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin, true);
 
 }
 
 
 void match::update(float delta,Game &m_gam){
+    time += delta;
     if (isRecentlyOpen) {
         isRecentlyOpen = false;
+        if (m_gam.getPlayerSaves().time > 0 && m_gam.getPlayerSaves().time < 10000){time = m_gam.getPlayerSaves().time;}
+        if (!(m_gam.getPlayerSaves().kills <= 0)){kills = m_gam.getPlayerSaves().kills;}
         m_ply->setSaves(m_gam.getPlayerSaves());
         m_zombieSave = m_gam.getZombieSaves();
         for (auto &z : m_zombieSave) {
@@ -53,18 +56,7 @@ void match::update(float delta,Game &m_gam){
             trees->random(m_res.tree1,m_res.tree2,m_res.tree3);
         }
     }
-    if (m_gam.getSaveAndQuit()) {
-        m_gam.setPlayerSaves(m_ply->getSaves());
-        m_gam.clearTsaves(); m_gam.clearZsaves();
-        for (auto &z : m_zombies) {
-            m_gam.setZombieSaves(z->getSaves());
-        }
-        for (auto &o : m_obtacles) {
-            m_gam.setTreeSaves(o->getSaves());
-        }
-        m_gam.setSaveAndQuit(false, true);
-        m_gam.setScene(new menu);
-    }
+    callSaveAndQuit(m_gam);
     setPlayerKeyBinds(m_gam.getKeyBinds());
     // std::cout << m_zombies.size() << std::endl;
     // std::cout << m_obtacles.size() << std::endl;
@@ -90,7 +82,7 @@ void match::update(float delta,Game &m_gam){
     for (auto &z : m_zombies) {
         z->setHitboxes(m_hitboxes);
         if (z->isAlive()) {z->update(delta,m_mapa);}
-        if (z->getHealth() <= 0 && !z->killCounted()){m_ply->zombieKilled(); z->markKillCounted();}
+        if (z->getHealth() <= 0 && !z->killCounted()){kills++; z->markKillCounted();}
     }
 
 
@@ -263,9 +255,8 @@ void match::spawnObstacle() {
 }
 
 void match::isOver() {
-    playerSaves p = m_ply->getSaves();
-    m_stats.timeAlive = p.time;
-    m_stats.kills = p.kills;
+    m_stats.timeAlive = time;
+    m_stats.kills = kills;
 }
 
 void match::ProcessEvent(Game &game, sf::Event &event) {
@@ -278,6 +269,19 @@ void match::setPlayerKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keyBin
     m_ply->setKey(keyBinds);
 }
 
-
+void match::callSaveAndQuit(Game &gam) {
+    if (gam.getSaveAndQuit()) {
+        gam.setPlayerSaves(m_ply->getSaves());
+        gam.clearTsaves(); gam.clearZsaves();
+        for (auto &z : m_zombies) {
+            gam.setZombieSaves(z->getSaves());
+        }
+        for (auto &o : m_obtacles) {
+            gam.setTreeSaves(o->getSaves());
+        }
+        gam.setSaveAndQuit(false, true);
+        gam.setScene(new menu);
+    }
+}
 
 

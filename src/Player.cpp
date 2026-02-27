@@ -6,7 +6,7 @@
 
 #include "Tree.hpp"
 
-player::player(const sf::Texture &sprite,const sf::Texture &shadow,const sf::Texture& shield, const sf::Texture& fball) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180), m_shield(shield), m_fireball(fball) {
+player::player(const sf::Texture &sprite,const sf::Texture &shadow,const sf::Texture& shield, const sf::Texture& fball, bool nuevo) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180), m_shield(shield), m_fireball(fball) {
     scale = sf::Vector2i(32,32); fireballScale = sf::Vector2i(16,10); m_fireball.setTextureRect({{0,0},{fireballScale}});
     m_spr.setTextureRect({{0,0},{scale}}); fscale = sf::Vector2f(0.6,0.6); m_fireball.setScale(fscale);
     m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3}); m_shield.setOrigin({16,16}); m_fireball.setOrigin({8,5});
@@ -19,6 +19,10 @@ player::player(const sf::Texture &sprite,const sf::Texture &shadow,const sf::Tex
     fhitbox.setFillColor(sf::Color::Red);
     fhitbox.setSize({4,4}); fhitbox.setOrigin({2,2});
 
+    if (nuevo) {
+        playerSaves s;
+        saves = s;
+    }
 }
 
 void player::move(float delta, mapa &mapa) {
@@ -161,7 +165,6 @@ bool player::cond(){
 }
 
 void player::update(float delta,mapa &mapa) {
-    if (isAlive()) {timeAlive += delta;}
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
@@ -287,10 +290,6 @@ void player::deathDraw() {
 
 const sf::Vector2f player::getScale() {
     return m_spr.getScale();
-}
-
-void player::zombieKilled() {
-    kills++;
 }
 
 //abilidades
@@ -434,7 +433,6 @@ const playerSaves& player::getSaves() {
 void player::updateSaves() {
     saves.health = health; saves.stam = stamina;
     saves.x = m_spr.getPosition().x; saves.y = m_spr.getPosition().y;
-    saves.kills = kills; saves.time = timeAlive;
 }
 
 void player::setSaves(const playerSaves &old_Save) {
@@ -444,7 +442,6 @@ void player::setSaves(const playerSaves &old_Save) {
     }else {
         health = old_Save.health; stamina = old_Save.stam;
         m_spr.setPosition({old_Save.x,old_Save.y});
-        kills = old_Save.kills; timeAlive = old_Save.time;
     }
 
 }

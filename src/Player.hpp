@@ -16,7 +16,7 @@
 
 class player : public entity{
 public:
-    player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball);
+    player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball, bool nuevo);
 
     void update(float delta,mapa &mapa);
     void draw(sf::RenderWindow &m_win) override;
@@ -92,7 +92,6 @@ public:
 
     const sf::Keyboard::Scancode &getKey(action act) const;
 
-    void zombieKilled();
 
 private:
     void updateSaves() ;
@@ -100,9 +99,6 @@ private:
     int state;
     sf::Vector2f prevPos, hitboxPrevPos;
     sf::Vector2i scale;
-
-    float kills;
-    float timeAlive;
 
     std::vector<sf::FloatRect>* hitboxes = nullptr;
     sf::RectangleShape hitbox;
