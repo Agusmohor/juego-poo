@@ -264,7 +264,6 @@ void match::callSaveAndQuit(game &gam) {
             gam.setTreeSaves(o->getSaves());
         }
         gam.setScene(new menu);
-        std::cout << "llegue2" << std::endl;
     }
 }
 

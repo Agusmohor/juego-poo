@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab4Text(font), exitText(font), saveText(font),k1(font),k2(font),k3(font),k4(font), waitkey(font) {
+settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab4Text(font), exitText(font), saveText(font),k1(font),k2(font),k3(font),k4(font), waitkey(font), saved(font) {
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
@@ -48,6 +48,9 @@ settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab
     k3.setPosition({k1.getPosition().x + 300,k1.getPosition().y});
     k4.setPosition({k3.getPosition().x,k3.getPosition().y + 100});
     m_keys.fill(sf::Keyboard::Scancode::Unknown);
+
+    saved = exitText; saved.setString("Keybinds saved"); saved.setCharacterSize(18);
+    saved.setPosition({saveText.getPosition().x - 65,saveText.getPosition().y-50});
 }
 
 void settingsScene::update(float delta,game &m_game) {
@@ -73,6 +76,7 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
     m_win.draw(Ab4);
     m_win.draw(exit);
     m_win.draw(save);
+    if (isSave) {m_win.draw(saved);}
     m_win.draw(ab1Text);
     m_win.draw(ab2Text);
     m_win.draw(ab3Text);

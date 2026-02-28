@@ -217,7 +217,6 @@ void game::setIsOver(bool isover) {isOver = isover;}
 bool game::getIsOver() {return isOver;}
 
 void game::saveProgress() {
-    std::cout << "llegue" << std::endl;
     std::string path = "../data/saves/" + name + ".dat";
     std::ofstream file(path, std::ios::binary | std::ios::trunc);
     file.write(reinterpret_cast<const char*>(&player_saves),sizeof(player_saves));
