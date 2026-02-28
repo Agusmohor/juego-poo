@@ -17,7 +17,7 @@ struct Resources {
 };
 
 struct enemies {
-    int max_enemies = 1;
+    int max_enemies = 5;
     int min_enemies = 1;
     int minTilex = 20; int maxTilex = 47;
     int minTiley = 20; int maxTiley = 47;

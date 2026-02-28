@@ -17,7 +17,7 @@ void zombie::update(float delta,game &game) {
 
 void zombie::playAudios(game &game) {
     if (startDamageAudio && !startDeathAudio) {startDamageAudio = false;game.getAudio().playEntityDamaged(); }
-    if (startDeathAudio){startDeathAudio = false; game.getAudio().playEntityDead();}
+    if (startDeathAudio){startDeathAudio = false; game.getAudio().playEntityDeath();}
 }
 
 void zombie::updateTexture() {

@@ -181,6 +181,7 @@ void player::playAudios(game &game) {
     if (startShieldAudio){ startShieldAudio = false; game.getAudio().playStartShield(); }
     if (finishShieldAudio && !startShieldAudio && !isShieldActive){finishShieldAudio = false; game.getAudio().playFinishShield();}
     if (startDamagedAudio){startDamagedAudio = false; game.getAudio().playPlayedDamaged();}
+    if (startDeathAudio){startDeathAudio = false; game.getAudio().playPlayedDeath();}
 }
 
 void player::draw(sf::RenderWindow& m_win) {
@@ -267,7 +268,7 @@ void player::updateHealth() {
 
 void player::deathDraw() {
     sf::IntRect rect = m_spr.getTextureRect();
-    if (state == 3) rect.position.x = 0; state = 4;
+    if (state == 3) {rect.position.x = 0; state = 4; startDeathAudio = true;}
     m_spr.setTextureRect({{rect.position.x + 32,192},{txScale}});
 
 }
