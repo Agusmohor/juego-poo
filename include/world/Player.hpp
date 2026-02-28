@@ -88,6 +88,7 @@ public:
     const sf::Vector2f getPosition() const override;
     const sf::FloatRect getGlobalBounds() const override;
     void recieveDamage() override;
+    void recieveDamage(int i);
     const bool getHitStatus() const override;
     void setHitStatus(bool status) override;
 

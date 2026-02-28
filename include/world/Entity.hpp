@@ -52,7 +52,8 @@ public:
     virtual const bool getHitStatus() const {return isHitting;};
     virtual void setHitStatus(bool status) {};
 
-    virtual void recieveDamage() = 0;
+    virtual void recieveDamage() {};
+    virtual void recieveDamage(int i) {};
 
     virtual ~entity() = default;
 };

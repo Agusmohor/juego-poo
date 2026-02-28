@@ -48,6 +48,7 @@ public:
     void drawHitbox(sf::RenderWindow &m_win) override;
     void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
     void recieveDamage() override;
+    void recieveDamage(int i) override;
     const sf::FloatRect getGlobalBounds() const override;
     const sf::Vector2f getPosition() const override;
     void updateTexture() override;

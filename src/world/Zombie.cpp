@@ -180,6 +180,14 @@ void zombie::recieveDamage() {
     }
 }
 
+void zombie::recieveDamage(int i) {
+    damaged = true;
+    if (health > 0) {
+        health-=i;
+        startDamageAudio = true;
+    }
+}
+
 void zombie::startAttack() {
     if (isHitting && !damage_consumed && damageTime) {
         can_damage = true;

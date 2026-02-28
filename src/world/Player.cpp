@@ -224,6 +224,9 @@ void player::recieveDamage() {
     if (!isShieldActive) health--; startDamagedAudio = true;
 }
 
+void player::recieveDamage(int i) {
+    if (!isShieldActive) health-=i; startDamagedAudio = true;
+}
 
 void player::colx(const sf::FloatRect& hitboxOther) {
     if (this->hitbox.getGlobalBounds().findIntersection(hitboxOther).has_value()) {

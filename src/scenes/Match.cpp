@@ -200,7 +200,7 @@ void match::hits() {
 
         //golpes enemigo a jugador
         if ((z->getScale().x < 0 && distance < 10 && distance > 0) || (z->getScale().x > 0 && distance < 10 && distance > 0))  {
-            if (z->getHitStatus() == false) {
+            if (z->getHitStatus() == false && m_ply->isAlive()) {
                 z->setHitStatus(true);
             }
             if (z->canDealDamage()) {m_ply->recieveDamage();z->consumeDamage();}
