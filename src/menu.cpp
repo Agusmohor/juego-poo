@@ -51,7 +51,7 @@ void menu::dibujado(sf::RenderWindow &m_win){
     m_win.draw(rankText);
     m_win.draw(nameText);
     m_win.draw(input);
-    m_win.draw(currname);
+    if (!(currname.getString() == "null")){m_win.draw(currname);}
     if (notFound) {m_win.draw(notsavefound);}
     if (waitingName) {m_win.draw(confirm);}
 }
