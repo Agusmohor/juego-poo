@@ -5,13 +5,13 @@
 #include "Mapa.hpp"
 #include <SFML/Graphics.hpp>
 
-#include "core/Drawble.h"
+#include "core/Drawble.hpp"
 #include "gameplay/Stats.hpp"
 
 class entity : public drawble {
 protected:
     sf::Sprite m_spr,shadow;
-    int state,health;
+    int state,health = 10;
     float m_speed;
     sf::Vector2i txScale;
     sf::RectangleShape hitbox;

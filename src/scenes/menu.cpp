@@ -71,8 +71,9 @@ void menu::buttons() {
     if(!m_font2.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    m_font2.setSmooth(false);
 
-    m_text1.setFont(m_font1); m_text1.setString("Jueguito"); 
+    m_text1.setFont(m_font1); m_text1.setString("Jueguito");
     m_text2.setFont(m_font1); m_text2.setString("Welcome");
     newText.setFont(m_font2); newText.setString("New game");
 
@@ -86,7 +87,6 @@ void menu::buttons() {
 
     newText.setCharacterSize(20);
     newText.setFillColor(sf::Color::White);
-    newText.setPosition(sf::Vector2f(345,538));
 
     newButton.setSize({220.f,35.f});
     newButton.setPosition({sf::Vector2f(290,520)});
@@ -98,12 +98,16 @@ void menu::buttons() {
     rankingButton = newButton;
 
     loadButton = newButton; loadButton.setPosition({newButton.getPosition().x,newButton.getPosition().y + 45});
-    loadText = newText; loadText.setString("Load game"); loadText.setPosition({newText.getPosition().x - 8,newText.getPosition().y + 45});
+    loadText = newText; loadText.setString("Load game");
     rankingButton = loadButton; rankingButton.setPosition({loadButton.getPosition().x,loadButton.getPosition().y + 45});
-    rankText = loadText; rankText.setString("Ranking"); rankText.setPosition({loadText.getPosition().x+15 ,loadText.getPosition().y + 45});
+    rankText = loadText; rankText.setString("Ranking");
 
     exitButton = rankingButton; exitButton.setPosition({rankingButton.getPosition().x,rankingButton.getPosition().y + 45});
-    exitText = newText; exitText.setString("Exit"); exitText.setPosition({rankText.getPosition().x +20,rankText.getPosition().y + 45});
+    exitText = newText; exitText.setString("Exit");
+    centerTextToButton(loadText,loadButton);
+    centerTextToButton(newText,newButton);
+    centerTextToButton(exitText,exitButton);
+    centerTextToButton(rankText,rankingButton);
 
     enterName = newButton;
     enterName.setPosition({newButton.getPosition().x,newButton.getPosition().y-100});
@@ -116,9 +120,11 @@ void menu::buttons() {
 
     confirm = nameText; confirm.setString("Press enter to confirm...");
     confirm.setCharacterSize(18);
-    confirm.setPosition({nameText.getPosition().x-30,nameText.getPosition().y + 80});
+    confirm.setPosition({nameText.getPosition().x-30,nameText.getPosition().y + 90});
 
-    currname.setPosition({m_text2.getPosition().x+60,m_text2.getPosition().y + 80});
+    currname.setPosition({m_text2.getPosition().x+115,m_text2.getPosition().y + 80});
+
+
 }
 
 

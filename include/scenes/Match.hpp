@@ -7,7 +7,7 @@
 #include "world/Zombie.hpp"
 #include "world/Mapa.hpp"
 #include "world/obstacle.hpp"
-#include "core/Drawble.h"
+#include "core/Drawble.hpp"
 #include "world/Tree.hpp"
 
 struct Resources {

@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "gameplay/Stats.hpp"
-#include "core/Drawble.h"
+#include "core/Drawble.hpp"
 
 class obstacle : public drawble {
 protected:
