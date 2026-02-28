@@ -6,12 +6,11 @@
 #include <signal.h>
 
 
-player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Texture& shield, const sf::Texture& fball) :  entity(sprite,sha_tex),m_speed(5),stamina(180), m_shield(shield), m_fireball(fball) {
+player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Texture& shield, const sf::Texture& fball) :  entity(sprite,sha_tex),stamina(180), m_shield(shield), m_fireball(fball) {
     fireballScale = sf::Vector2i(16,10); m_fireball.setTextureRect({{0,0},{fireballScale}});
     m_fireball.setScale(sprScale);
     m_shield.setOrigin({16,16}); m_fireball.setOrigin({8,5});
     m_spr.setPosition({1120,1184});
-    dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
     lClick = sf::Mouse::Button::Left;
     fhitbox.setFillColor(sf::Color::Red);
@@ -22,19 +21,17 @@ player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Te
 void player::move(float delta, mapa &mapa) {
     dir.x = 0.f; dir.y = 0.f;
     //interaccion teclas
-    if (!colision) {
-        if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) {
-            dir.y = -1.f;
-        }
-        if(sf::Keyboard::isKeyPressed(sKey) && !sf::Keyboard::isKeyPressed(wKey)) {
-            dir.y = 1.f;
-        }
-        if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) {
-            dir.x = 1.f; m_spr.setScale(sprScale);
-        }
-        if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) {
-            dir.x = -1.f; m_spr.setScale({-sprScale.x,sprScale.y});
-        }
+    if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) {
+        dir.y = -1.f;
+    }
+    if(sf::Keyboard::isKeyPressed(sKey) && !sf::Keyboard::isKeyPressed(wKey)) {
+        dir.y = 1.f;
+    }
+    if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) {
+        dir.x = 1.f; m_spr.setScale(sprScale);
+    }
+    if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) {
+        dir.x = -1.f; m_spr.setScale({-sprScale.x,sprScale.y});
     }
 
     //normalizar direccion
@@ -61,7 +58,7 @@ void player::move(float delta, mapa &mapa) {
 
 
 void player::texture(){
-    if (!sf::Mouse::isButtonPressed(rClick) && (sf::Keyboard::isKeyPressed(wKey) || sf::Keyboard::isKeyPressed(aKey) || sf::Keyboard::isKeyPressed(sKey) || sf::Keyboard::isKeyPressed(dKey) )) {
+    if ((sf::Keyboard::isKeyPressed(wKey) || sf::Keyboard::isKeyPressed(aKey) || sf::Keyboard::isKeyPressed(sKey) || sf::Keyboard::isKeyPressed(dKey) )) {
          state = 1;
     }else {
          state = 0;
@@ -73,7 +70,6 @@ void player::texture(){
 void player::updateTexture() {
     sf::IntRect rect = m_spr.getTextureRect();
     if (isAttacking) state = 5;
-    if (iscritic) state = 6;
     if (isDashing) state = 7;
     switch (state) {
         case 0:
@@ -101,15 +97,6 @@ void player::updateTexture() {
             }
             if (isAttacking) {
                 m_spr.setTextureRect({{rect.position.x + 32,289},{txScale}});
-            }
-            break;
-        case 6:
-            if (rect.position.x >= 224) {
-                iscritic = false;
-                rect.position.x = 0;
-            }
-            if (iscritic) {
-                m_spr.setTextureRect({{rect.position.x + 32, 256},{txScale}});
             }
             break;
         case 7:
@@ -163,7 +150,7 @@ void player::update(float delta,mapa &mapa) {
     texture();
     staminaRegenTimer += delta;
     healRegenTimer += delta;
-    if (!isAttacking && !iscritic && !isDashing) { move(delta,mapa);}
+    if (!isAttacking && !isDashing) { move(delta,mapa);}
 
     // std::cout << health << std::endl;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) health--;
@@ -175,7 +162,7 @@ void player::update(float delta,mapa &mapa) {
     //m_spr.move(delta1);
     attackTimer += delta;
     if (attackTimer >= attackDur) {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attackSkin(); getScale();}
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) ) { attackSkin();}
         attackTimer = 0.f;
     }
 
@@ -211,16 +198,9 @@ void player::attackSkin(){
     }
 }
 
-int player::getHealth(){
-    return health;
-}
 
 int player::getStamina() {
     return stamina;
-}
-
-bool player::isAlive(){
-    return vivo;
 }
 
 bool player::isStaminaEmpty() {
@@ -274,10 +254,6 @@ void player::deathDraw() {
     if (state == 3) rect.position.x = 0; state = 4;
     m_spr.setTextureRect({{rect.position.x + 32,192},{txScale}});
 
-}
-
-const sf::Vector2f player::getScale() {
-    return m_spr.getScale();
 }
 
 //abilidades

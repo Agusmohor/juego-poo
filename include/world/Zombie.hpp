@@ -5,16 +5,14 @@
 #include <SFML/Graphics.hpp>
 
 class zombie : public entity {
-    sf::RectangleShape hitbox;
-    sf::Vector2f pl_pos,dif,prevPos,hitboxPrevPos;
-    std::vector<sf::FloatRect>* hitboxes;
+    sf::Vector2f dif;
     sf::Color color;
     sf::Clock timer1,timer2,timer3,hitsCooldown;
     bool iscolx=false;
     bool iscoly=false;
-    float dist,max_rad,min_rad,dist2,m_speed;
-    bool vivo=true; bool deathOver = false;
-    bool damaged = false; bool isHitting=false; bool doDamage = false;
+    float dist,max_rad,min_rad,dist2;
+    bool deathOver = false;
+    bool damaged = false; bool doDamage = false;
     bool ismoving=false;
     int count;
     bool killcount = false;
@@ -35,11 +33,8 @@ public:
     void colx(const sf::FloatRect hitbox) override;
 
     void move(float delta,mapa &mapa) override;
-    int getHealth() override;
     void updateHealth() override;
-    bool isAlive() override;
     bool isDeathOver();
-    const sf::Vector2f getScale() override;
     void recieveDamage() override;
     const sf::FloatRect getGlobalBounds() const override;
     const sf::Vector2f getPosition() const override;

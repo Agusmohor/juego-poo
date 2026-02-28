@@ -10,10 +10,9 @@ zombie::zombie(const sf::Texture &sprite, const sf::Texture &m_shadow, sf::Vecto
 
 void zombie::update(float delta,mapa &mapa) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
-    if (this->inRaduis() && !isHitting) {this->move(delta,mapa);}
+    if (inRaduis() && !isHitting) {move(delta,mapa);}
     shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
-    this->updateHealth();
-    // std::cout<<corazones<<std::endl;
+    updateHealth();
 }
 
 void zombie::updateTexture() {
@@ -68,7 +67,7 @@ void zombie::drawHitbox(sf::RenderWindow &m_win) {
 }
 
 void zombie::syncHitbox() {
-    hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4});
+     hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4});
 }
 
 void zombie::colx(const sf::FloatRect hitbox) {
@@ -133,15 +132,15 @@ void zombie::move(float delta,mapa &mapa) {
     m_spr.move(velocity);
 
     //m_spr.move(dif*m_speed*delta);
-    this->syncHitbox();
+    syncHitbox();
     for (auto &box : *hitboxes) {
         colx(box);
     }
-    this->syncHitbox();
+    syncHitbox();
     for (auto &box : *hitboxes) {
         coly(box);
     }
-    this->syncHitbox();
+    syncHitbox();
 
     if (dist < 10.6f) ismoving = false;
 }
@@ -159,18 +158,6 @@ bool zombie::inRaduis() {
 
 const sf::FloatRect zombie::getGlobalBounds() const {
     return m_spr.getGlobalBounds();
-}
-
-const sf::Vector2f zombie::getScale(){
-    return m_spr.getScale();
-}
-
-int zombie::getHealth(){
-    return health;
-} 
-
-bool zombie::isAlive(){
-    return vivo;
 }
 
 void zombie::updateHealth() {
@@ -203,7 +190,7 @@ void zombie::restartHitsCooldown() {
 }
 
 const bool zombie::getHitStatus() const {return isHitting;}
-void zombie::setHitStatus(bool status) {isHitting = status; m_spr.setTextureRect({{0,256},{txScale}});};
+void zombie::setHitStatus(bool status) {isHitting = status; if(status) {m_spr.setTextureRect({{0,256},{txScale}});}};
 
 
 void zombie::deathDraw() {

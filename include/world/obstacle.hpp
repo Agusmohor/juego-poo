@@ -5,15 +5,19 @@
 #include "core/Drawble.h"
 
 class obstacle : public drawble {
-    public:
+protected:
+    sf::Texture texture;
+    sf::Sprite m_spr;
+    sf::RectangleShape m_hitbox;
+public:
+    obstacle() : m_spr(texture){}
     virtual ~obstacle() = default;
     virtual void update() = 0;
-    virtual void draw(sf::RenderWindow &m_win) = 0;
-    virtual void setPos(sf::Vector2f pos) = 0;
+    virtual void setPos(sf::Vector2f pos) {};
     virtual treeSave getSaves() const = 0;
     virtual sf::FloatRect getHitbox() = 0;
 
-    virtual void random(const sf::Texture &arbol, const sf::Texture &arbol2, const sf::Texture &arbol3) = 0;
+    virtual void random(const sf::Texture &arbol, const sf::Texture &arbol2, const sf::Texture &arbol3) {};
 
 
 };

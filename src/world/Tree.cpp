@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-tree::tree(sf::Vector2f coords) : m_spr(t) {
+tree::tree(sf::Vector2f coords) : obstacle()  {
     m_spr.setScale({2,2}); m_spr.setOrigin({4,4});
     m_hitbox.setSize({9,6});
     m_spr.setTextureRect({{0,0},{64,64}}); m_spr.setScale({1,1});

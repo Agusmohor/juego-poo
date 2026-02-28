@@ -25,9 +25,7 @@ public:
 
 private:
     int m_rand;
-    sf::Texture t;
-    sf::Sprite m_spr;
-    sf::RectangleShape m_hitbox;
+
 
 };
 

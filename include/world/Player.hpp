@@ -12,34 +12,19 @@
 #include "core/Keys.hpp"
 
 
-
-
-
 class player : public entity {
-    sf::Vector2f prevPos, hitboxPrevPos;
-
-    std::vector<sf::FloatRect>* hitboxes = nullptr;
-
     int stamina;
     float staminaRegenTimer = 0.f;
     float staminaRegenDur = 0.05f;
 
-    bool isAttacking = false; bool iscritic = false;
-    bool isHitting = false;
+    bool isAttacking = false;
     float attackTimer = 0.f;
     float attackDur = 0.1f;
 
-    bool vivo = true;
-    bool damaged = false;
-    bool colision = false;
     bool empty_stamina = false;
-    float m_speed,dx,dy,m_angle;
-    sf::Vector2f pl_pos,dir,mouse_pos;
+    sf::Vector2f dir;
     sf::Keyboard::Key wKey,aKey,sKey,dKey, shieldKey, dashKey, fireKey, healKey;
-    sf::Mouse::Button rClick,lClick;
-
-    float m_width = 30.0f;  // ancho player
-    float m_height = 40.0f; //altura player
+    sf::Mouse::Button lClick;
 
     //controles
     std::array<sf::Keyboard::Scancode,4> m_keys;
@@ -75,7 +60,7 @@ class player : public entity {
 public:
     player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball);
 
-    void update(float delta,mapa &mapa);
+    void update(float delta,mapa &mapa) override;
     void draw(sf::RenderWindow &m_win) override;
 
     void updateTexture() override;
@@ -96,12 +81,8 @@ public:
 
     void deathDraw() override;
 
-    bool isAlive() override;
-    int getHealth() override;
     int getStamina();
     bool isStaminaEmpty();
-
-    const sf::Vector2f getScale() override;
 
     void attackSkin();
 
