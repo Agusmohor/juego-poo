@@ -147,6 +147,7 @@ bool player::cond(){
 void player::update(float delta, game& game) {
     //audios
     if (startDashAudio){startDashAudio = false; game.getAudio().playDash(); }
+    if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword(); }
 
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
@@ -197,6 +198,7 @@ void player::setHitStatus(bool status) {isHitting = status;}
 
 void player::attackSkin(){
     if (!isAttacking) {
+        startSwordAudio = true;
         state = 5; isAttacking = true; isHitting = true;
         m_spr.setTextureRect({{0,289},{txScale}});
     }

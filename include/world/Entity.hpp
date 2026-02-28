@@ -20,6 +20,9 @@ protected:
     bool vivo = true;
     bool isHitting = false;
 
+    //audio
+    bool startSwordAudio = false;
+
 public:
     entity(const sf::Texture& spr_tex,const sf::Texture& sha_tex) : m_spr(spr_tex), shadow(sha_tex) {
         sprScale = sf::Vector2f(0.6,0.6); m_spr.setScale(sprScale); shadow.setScale(sprScale);
