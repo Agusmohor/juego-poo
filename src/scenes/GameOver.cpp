@@ -20,8 +20,9 @@ gameover::gameover() : font("../assets/fonts/MineFont.ttf"), text(font), text2(f
     mainmenuText.setFont(font); mainmenuText.setString("Main menu");
     mainmenuText.setCharacterSize(20);
     mainmenuText.setFillColor(sf::Color::White);
-    mainmenuText.setPosition(sf::Vector2f(330,630));
-    exitText = mainmenuText; exitText.setString("Quit game"); exitText.setPosition({mainmenuText.getPosition().x,mainmenuText.getPosition().y + 45});
+    exitText = mainmenuText; exitText.setString("Quit game");
+    centerTextToButton(mainmenuText,returnToMainMenu);
+    centerTextToButton(exitText,exit);
 }
 
 void gameover::update(float delta, game &m_gam) {

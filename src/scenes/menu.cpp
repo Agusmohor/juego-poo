@@ -124,7 +124,6 @@ void menu::buttons() {
 
     currname.setPosition({m_text2.getPosition().x+115,m_text2.getPosition().y + 80});
 
-
 }
 
 

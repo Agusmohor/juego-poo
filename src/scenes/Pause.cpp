@@ -7,6 +7,8 @@ PauseScene::PauseScene():m_text(m_font,"Pause"), resumeText(m_font,""), settingT
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
 
+    m_font.setSmooth(false);
+
     m_text.setFont(m_font);
     m_text.setCharacterSize(70);
     m_text.setPosition(sf::Vector2f(300,150));
@@ -20,13 +22,14 @@ PauseScene::PauseScene():m_text(m_font,"Pause"), resumeText(m_font,""), settingT
     resumeText.setFont(m_font); resumeText.setString("Resume");
     resumeText.setCharacterSize(20);
     resumeText.setFillColor(sf::Color::White);
-    resumeText.setPosition(sf::Vector2f(350,540));
 
     setting = resume; setting.setPosition({resume.getPosition().x,resume.getPosition().y+45});
     exit_button = resume; exit_button.setPosition({setting.getPosition().x,setting.getPosition().y+45});
     settingText = resumeText; settingText.setString("Settings"); settingText.setPosition({resumeText.getPosition().x,resumeText.getPosition().y+45});
     exitText = resumeText; exitText.setString("Save and Quit"); exitText.setPosition({resumeText.getPosition().x-25,settingText.getPosition().y+45});
-
+    centerTextToButton(resumeText,resume);
+    centerTextToButton(settingText,setting);
+    centerTextToButton(exitText,exit_button);
     settingScene;
 }
 

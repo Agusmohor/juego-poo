@@ -9,6 +9,7 @@ rankingScene::rankingScene() : backText(font), title(font){
     if(!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    font.setSmooth(false);
 
     backButton.setSize({220.f,35.f});
     backButton.setPosition({sf::Vector2f(290,580)});
@@ -18,8 +19,8 @@ rankingScene::rankingScene() : backText(font), title(font){
     backText.setFont(font); backText.setString("Back to main");
     backText.setCharacterSize(20);
     backText.setFillColor(sf::Color::White);
-    backText.setPosition(sf::Vector2f(330,600));
     load(); sortList();
+    centerTextToButton(backText,backButton);
 }
 
 void rankingScene::update(float delta, game &m_gam) {

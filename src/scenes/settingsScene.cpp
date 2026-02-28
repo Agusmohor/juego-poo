@@ -7,7 +7,7 @@ settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
-
+    font.setSmooth(false);
     background.setSize({6000.f,6000.f});
     background.setFillColor(sf::Color(0,0,0,210));
     background.setPosition(sf::Vector2f(-2000,-2000));
@@ -33,9 +33,11 @@ settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab
     saveText.setFont(font); saveText.setString("Save config");
     saveText.setCharacterSize(20);
     saveText.setFillColor(sf::Color::White);
-    saveText.setPosition(sf::Vector2f(330,630));
-    exitText = saveText; exitText.setPosition({saveText.getPosition().x+50,saveText.getPosition().y+45});
+    exitText = saveText;
     exitText.setString("Exit");
+
+    centerTextToButton(saveText,save);
+    centerTextToButton(exitText,exit);
 
     waitkey = saveText; waitkey.setString("Press a key... (Esc to cancel)");
     waitkey.setPosition({saveText.getPosition().x-110,saveText.getPosition().y-100});
