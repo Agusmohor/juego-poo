@@ -12,13 +12,14 @@ class gameover : public scene{
     stats m_stats;
     sf::Texture boton,botonselec;
     sf::RectangleShape returnToMainMenu, exit;
+
+    void toText();
+    void buttonPressed( type t) override;
 public:
     gameover();
     void update(float delta, game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
     void ProcessEvent(game &game, sf::Event &event) override;
-    void buttonPressed( type t) override;
-    void toText();
 };
 
 #endif

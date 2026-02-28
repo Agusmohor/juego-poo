@@ -10,7 +10,7 @@
 #include "scenes/GameOver.hpp"
 #include <string>
 
-match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
+match::match() :  m_hud() {
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/mapa_ground.csv"; std::string grass = "../assets/textures/map/mapa_grass.csv";
 
     if (!m_res.tree1.loadFromFile("../assets/textures/trees/tree1.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}

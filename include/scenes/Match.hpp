@@ -39,65 +39,58 @@ struct obstacles {
 };
 
 class match : public scene {
+
     bool ispressed = false;
     bool isgameover = false;
 
     float time = 0;
     int kills = 0;
 
+    hud m_hud;
+
+    sf::View m_view,m_uiview;
+    sf::Vector2u m_winSize;
+
+    Resources m_res;
+    obstacles m_obs;
+    enemies zombies;
     stats m_stats;
     mapa m_mapa;
 
     std::unique_ptr<player> m_ply;
-
-    sf::Texture m_text;
-    sf::Sprite Fondo;
-
-    //vector de obstaculos para agregar arboles,rocas,etc
+    std::vector<std::unique_ptr<zombie>> m_zombies;
     std::vector<std::unique_ptr<obstacle>> m_obtacles;
-    obstacles m_obs;
-    void spawnObstacle();
-    // void spawnObstacle();
 
-    std::vector<sf::FloatRect> m_hitboxes;
     std::vector<drawble*> m_drawble;
 
-    std::vector<std::unique_ptr<zombie>> m_zombies;
-    void spawnEnemies();
+    std::vector<sf::FloatRect> m_hitboxes;
 
-    void isOver();
-
-    sf::View m_view,m_uiview;
-    sf::Vector2u m_winSize;
     float spriteTimer = 0.f;
     float spriteDur = 0.1f;
-    hud m_hud;
 
-    enemies zombies;
     bool spawn = false;
-
-    Resources m_res;
 
     bool isRecentlyOpen = true;
     std::vector<zombieSave> m_zombieSave;
     std::vector<treeSave> m_treeSave;
+
+    void render(sf::RenderWindow &m_win);
+    void normalView(sf::RenderWindow& m_win);
+    void hits();
     void ProcessEvent(game &game, sf::Event &event) override;
     void callSaveAndQuit(game &gam);
+    void spawnObstacle();
+    void spawnEnemies();
+    void isOver();
+
 public:
     match();
     void doPause(game &m_gam);
     void update(float delta,game &m_gam) override;
     void updateView(game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
-    void render(sf::RenderWindow &m_win);
-    bool attact(sf::RenderWindow &m_win,sf::FloatRect entpos);
-
-    void normalView(sf::RenderWindow& m_win);
-
-    void hits();
+    bool attack(sf::RenderWindow &m_win,sf::FloatRect entpos);
 
     void setPlayerKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keyBinds);
-    const playerSaves& getPlayerSave();
 
-    const zombieSave& getZombieSave();
 };
