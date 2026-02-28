@@ -61,6 +61,7 @@ void zombie::updateTexture() {
 
 void zombie::draw(sf::RenderWindow &m_win) {
     if (isAlive()) m_win.draw(shadow);
+    m_win.draw(m_spr);
 
 }
 
@@ -102,9 +103,6 @@ void zombie::coly(const sf::FloatRect hitbox) {
 void zombie::setHitboxes(std::vector<sf::FloatRect> &hitboxes) {
     this->hitboxes = &hitboxes;
 }
-
-sf::Sprite &zombie::getSprite() { return m_spr;}
-
 
 void zombie::move(float delta,mapa &mapa) {
     //diferencia x,y entre el player y la entidad
@@ -162,7 +160,7 @@ bool zombie::inRaduis() {
     return false;
 }
 
-sf::FloatRect zombie::getGlobalBounds(){
+const sf::FloatRect zombie::getGlobalBounds() const {
     return m_spr.getGlobalBounds();
 }
 
@@ -227,7 +225,7 @@ void zombie::damageColor(bool cond) {
     }
 }
 
-sf::Vector2f zombie::getPosition() {
+const sf::Vector2f zombie::getPosition() const {
     return m_spr.getPosition();
 }
 

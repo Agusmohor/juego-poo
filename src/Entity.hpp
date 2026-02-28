@@ -4,14 +4,15 @@
 
 #include "Mapa.hpp"
 #include <SFML/Graphics.hpp>
+
+#include "Drawble.h"
 #include "Stats.hpp"
 
-class entity{
+class entity : public drawble {
 public:
     entity() = default;
     virtual void update(float delta,mapa &mapa) = 0;
     virtual void draw(sf::RenderWindow& m_win) = 0;
-    virtual sf::Sprite& getSprite() = 0;
 
     virtual void updateTexture()=0;
     virtual void drawHitbox(sf::RenderWindow &m_win)=0;
@@ -33,7 +34,6 @@ public:
 
     virtual void recieveDamage() = 0;
 
-    virtual sf::FloatRect getGlobalBounds() = 0;
     virtual ~entity() = default;
 };
 

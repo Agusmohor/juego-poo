@@ -193,12 +193,10 @@ void player::update(float delta,mapa &mapa) {
 
 void player::draw(sf::RenderWindow& m_win) {
     if(isShot){m_win.draw(m_fireball);}
+    if (state != 4) m_win.draw(m_shadow);
+    m_win.draw(m_spr);
     if (isShieldActive){m_win.draw(m_shield);}
     // m_win.draw(fhitbox);
-}
-
-void player::drawShadow(sf::RenderWindow &m_win) {
-    if (state != 4) m_win.draw(m_shadow);
 }
 
 //posicion del player
@@ -206,7 +204,7 @@ const sf::Vector2f player::getPosition() const {
     return m_spr.getPosition();
 }
 
-sf::FloatRect player::getGlobalBounds(){
+const sf::FloatRect player::getGlobalBounds() const {
     return m_spr.getGlobalBounds();
 }
 
@@ -239,9 +237,6 @@ bool player::isStaminaEmpty() {
 void player::recieveDamage() {
     if (!isShieldActive) health--;
 }
-
-
-sf::Sprite &player::getSprite(){ return m_spr; }
 
 
 void player::colx(const sf::FloatRect hitboxOther) {

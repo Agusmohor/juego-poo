@@ -28,7 +28,6 @@ public:
 
     void update(float delta,mapa &mapa) override;
     void draw(sf::RenderWindow& m_win) override;
-    sf::Sprite &getSprite() override;
 
     const zombieSave& getSaves();
 
@@ -45,7 +44,8 @@ public:
     bool isDeathOver();
     const sf::Vector2f getScale() override;
     void recieveDamage() override;
-    sf::FloatRect getGlobalBounds() override;
+    const sf::FloatRect getGlobalBounds() const override;
+    const sf::Vector2f getPosition() const override;
 
     void deathDraw() override;
 
@@ -59,7 +59,6 @@ public:
 
     void damageColor(bool cond);
 
-    sf::Vector2f getPosition();
 
     void getPlyPos(const sf::Vector2f &pl_pos);
 

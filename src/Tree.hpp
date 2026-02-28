@@ -15,13 +15,14 @@ public:
     void draw(sf::RenderWindow &m_win) override;
     treeSave getSaves() const override;
     void setPos(sf::Vector2f pos) override;
-    sf::Vector2f getPosition() override;
+
+    const sf::Vector2f getPosition() const override;
+    const sf::FloatRect getGlobalBounds() const override;
 
     sf::FloatRect getHitbox() override;
 
     void random(const sf::Texture &arbol, const sf::Texture &arbol2, const sf::Texture &arbol3) override;
 
-    sf::Sprite& getSprite() override;
 private:
     int m_rand;
     sf::Texture t;

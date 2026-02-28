@@ -14,14 +14,12 @@
 
 
 
-class player : public entity{
+class player : public entity {
 public:
     player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball, bool nuevo);
 
     void update(float delta,mapa &mapa);
     void draw(sf::RenderWindow &m_win) override;
-    void drawShadow(sf::RenderWindow &m_win);
-    sf::Sprite& getSprite() override;
 
     void updateTexture() override;
     const playerSaves& getSaves() ;
@@ -34,7 +32,9 @@ public:
     void colx(const sf::FloatRect hitboxOther) override;
     void coly(const sf::FloatRect hitboxOther) override;
 
-    sf::FloatRect getGlobalBounds() override;
+    const sf::Vector2f getPosition() const override;
+    const sf::FloatRect getGlobalBounds() const override;
+
     void updateHealth() override;
 
     void deathDraw() override;
@@ -57,7 +57,6 @@ public:
     const bool getHitStatus() const override;
     void setHitStatus(bool status) override;
 
-    const sf::Vector2f getPosition() const ;
 
     //abilities
     void dashMovement();

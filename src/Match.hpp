@@ -7,6 +7,7 @@
 #include "Zombie.hpp"
 #include "Mapa.hpp"
 #include "obstacle.hpp"
+#include "Drawble.h"
 #include "Tree.hpp"
 
 struct Resources {
@@ -59,7 +60,7 @@ class match : public scene {
     // void spawnObstacle();
 
     std::vector<sf::FloatRect> m_hitboxes;
-    std::vector<sf::Sprite*> m_worldSprites;
+    std::vector<drawble*> m_drawble;
 
     std::vector<std::unique_ptr<zombie>> m_zombies;
     void spawnEnemies();

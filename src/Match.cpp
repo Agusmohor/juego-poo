@@ -145,29 +145,26 @@ void match::render(sf::RenderWindow &m_win){
     m_mapa.draw(m_win);
     // m_win.draw(Fondo);
 
-    m_worldSprites.clear();
-    m_worldSprites.push_back(&m_ply->getSprite());
+    m_drawble.clear();
+    m_drawble.push_back(m_ply.get());
     for (auto &z : m_zombies) {
-        m_worldSprites.push_back(&z->getSprite());
+        m_drawble.push_back(z.get());
     }
     for (auto &trees : m_obtacles) {
-        m_worldSprites.push_back(&trees->getSprite());
+        m_drawble.push_back(trees.get());
     }
 
-    std::sort(m_worldSprites.begin(),m_worldSprites.end(),[](sf::Sprite* a, sf::Sprite* b){
+    std::sort(m_drawble.begin(),m_drawble.end(),[](drawble* a, drawble* b){
         return (a->getPosition().y + a->getGlobalBounds().size.y) <
                (b->getPosition().y + b->getGlobalBounds().size.y);
     });
-    m_ply->drawShadow(m_win);
-    for (auto &z : m_zombies) {
-        z->draw(m_win);
-    }
-    for (auto *spr : m_worldSprites) {
-            m_win.draw(*spr);
+
+
+    for (auto &p : m_drawble) {
+        p->draw(m_win);
     }
     //hitbox arboles
     // for (auto &p : m_obtacles) {p->draw(m_win);}
-    m_ply->draw(m_win);
     // m_ply.drawHitbox(m_win);
     // m_zombie->drawHitbox(m_win);
 
