@@ -14,65 +14,6 @@ struct keybinds {
 
 
 class game {
-public:
-    
-    game(scene* f_scene);
-    ~game();
-    const sf::RenderWindow &getWindow() const;
-    void run();
-
-    void ProcessEvent();
-
-    void setScene(scene *newScene);
-    void Pause();
-    void delPause();
-    void isPaused(bool condition);
-
-    void loadConfig(sf::RenderWindow &m_win);
-
-    void makeProfile();
-
-    void makeConfig();
-
-    void makeKeybinds();
-
-    void takeProfile(std::ifstream &file);
-
-    void takeConfig(std::ifstream &file);
-
-    const sf::Vector2u &getWinSize() const;
-    const sf::View& getView() const;
-
-    void setStats(const stats &m_stats);
-    const stats &getStats();
-    void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys, bool save);
-    const std::array<sf::Keyboard::Scancode, 4>& getKeyBinds() const;
-
-    void setPlayerSaves(const playerSaves& psaves);
-    const playerSaves& getPlayerSaves() const;
-    void setZombieSaves(const zombieSave& zsaves);
-    const std::vector<zombieSave>& getZombieSaves() const;
-
-    void clearZsaves();
-
-    void clearTsaves();
-
-    void setTreeSaves(const treeSave &tsave);
-    const std::vector<treeSave>& getTreeSaves() const;
-
-    void saveProgress();
-    bool loadProgress();
-    void newProgress();
-
-    void setNewMatch(bool b);
-    void exit();
-
-    bool isNewMatch();
-    void setSaveAndQuit(bool saq);
-    bool getSaveAndQuit();
-    void setIsOver(bool isover);
-    bool getIsOver();
-private:
     sf::RenderWindow m_win;
     scene* curr_scene = nullptr;
     scene* next_scene = nullptr;
@@ -94,6 +35,57 @@ private:
     playerSaves player_saves;
     std::vector<zombieSave> zsaves;
     std::vector<treeSave> tsaves;
+
+
+    void ProcessEvent();
+    void loadConfig(sf::RenderWindow &m_win);
+
+    void takeProfile(std::ifstream &file);
+    void takeConfig(std::ifstream &file);
+
+    void makeProfile();
+    void makeConfig();
+    void makeKeybinds();
+
+    void saveProgress();
+
+public:
+    game(scene* f_scene);
+    ~game();
+    const sf::RenderWindow &getWindow() const;
+    void run();
+    void setScene(scene *newScene);
+
+    void Pause();
+    void delPause();
+
+    const sf::Vector2u &getWinSize() const;
+    const sf::View& getView() const;
+
+    void setStats(const stats &m_stats);
+    const stats &getStats() const;
+    void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys, bool save);
+    const std::array<sf::Keyboard::Scancode, 4>& getKeyBinds() const;
+
+    bool loadProgress();
+    void newProgress();
+
+    void setPlayerSaves(const playerSaves& psaves);
+    const playerSaves& getPlayerSaves() const;
+    void clearZsaves();
+    void setZombieSaves(const zombieSave& zsaves);
+    const std::vector<zombieSave>& getZombieSaves() const;
+    void clearTsaves();
+    void setTreeSaves(const treeSave &tsave);
+    const std::vector<treeSave>& getTreeSaves() const;
+
+    void setNewMatch(bool b);
+    void exit();
+    bool isNewMatch();
+    void setSaveAndQuit(bool saq);
+    bool getSaveAndQuit();
+    void setIsOver(bool isover);
+    bool getIsOver();
 };
 
 #endif

@@ -15,12 +15,13 @@ void game::run(){
         ProcessEvent();
 
         m_win.clear();
+        if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
         if(!ispaused) curr_scene->update(delta,*this);
 
-        if (saveAndQuit || isOver){saveProgress();}
-
+        if (saveAndQuit){saveProgress(); saveAndQuit=false;}
+        if (isOver) {newProgress();}
         curr_scene->updateView(*this);
-        if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
+
 
         curr_scene->draw(m_win);
         if(ispaused && m_pause != nullptr) m_pause->draw(m_win);
@@ -171,7 +172,7 @@ void game::setStats(const stats &m_stats) {
     m_lastStats.timeAlive = m_stats.timeAlive;
 }
 
-const stats &game::getStats() {
+const stats &game::getStats() const{
     return m_lastStats;
 }
 
@@ -216,6 +217,7 @@ void game::setIsOver(bool isover) {isOver = isover;}
 bool game::getIsOver() {return isOver;}
 
 void game::saveProgress() {
+    std::cout << "llegue" << std::endl;
     std::string path = "../data/saves/" + name + ".dat";
     std::ofstream file(path, std::ios::binary | std::ios::trunc);
     file.write(reinterpret_cast<const char*>(&player_saves),sizeof(player_saves));
@@ -233,15 +235,13 @@ void game::saveProgress() {
     file.close(); file.clear();
     file.open("../data/config/profile.txt",std::ios::trunc);
     file << "LastProfile = "<< m_lastStats.name << std::endl;
-    std::cout<<"guarde "<< m_lastStats.name <<std::endl;
 }
 
 bool game::loadProgress() {
     std::string path = "../data/saves/" + name + ".dat";
     std::ifstream file(path, std::ios::binary);
 
-    if (!file.is_open()) throw std::runtime_error("Error opening file");
-    // if (!file.is_open()) return false;
+    if (!file.is_open()) return false;
 
     file.read(reinterpret_cast<char*>(&player_saves),sizeof(player_saves));
 
@@ -268,7 +268,6 @@ bool game::loadProgress() {
 void game::newProgress() {
     std::string path = "../data/saves/" + name + ".dat";
     std::ofstream file(path, std::ios::binary | std::ios::trunc);
-    if (!file.is_open()) throw std::runtime_error("Error opening file");
     playerSaves s;
     file.write(reinterpret_cast<const char*>(&s),sizeof(s));
     file.close();

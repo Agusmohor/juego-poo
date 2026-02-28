@@ -39,6 +39,7 @@ void PauseScene::update(float delta,game &m_gam){
     if (settingScene.getExit()) {isSettings = false; settingScene.setExit(false);}
     if (isExit) {
         m_gam.setSaveAndQuit(true);
+        m_gam.delPause();
     }
 
 }
@@ -47,7 +48,7 @@ void PauseScene::updateView(game &m_gam){}
 
 void PauseScene::ProcessEvent(game &game, sf::Event &event) {
     if (isSettings) {settingScene.ProcessEvent(game,event); return;}
-    if (((event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) || isResume || isExit) && !isSettings) {
+    if (((event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) || isResume) && !isSettings) {
         game.delPause();
     }
     auto& win = game.getWindow();

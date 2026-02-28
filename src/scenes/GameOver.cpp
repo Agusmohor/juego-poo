@@ -10,6 +10,7 @@ gameover::gameover() : font("../assets/fonts/MineFont.ttf"), text(font), text2(f
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    font.setSmooth(false);
     shape.setFillColor(sf::Color::Red);
     text.setString("GAME OVER");
     text.setCharacterSize(100);

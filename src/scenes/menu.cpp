@@ -8,7 +8,7 @@ menu::menu() : m_text1(m_font1), m_text2(m_font1), loadText(m_font2), newText(m_
 }
 
 void menu::update(float delta,game &m_gam){
-    if (m_gam.getIsOver()){rankScene.save(m_gam.getStats());rankScene.load(); rankScene.sortList();m_gam.setIsOver(false);}
+    if (m_gam.getIsOver()){rankScene.save(m_gam.getStats());rankScene.load(); rankScene.sortList();m_gam.setIsOver(false); }
     if(isNewGame) {m_gam.newProgress(); m_gam.loadProgress();m_gam.setScene(new match);}
     if(isLoadGame) {
         if (!m_gam.loadProgress()) {notFound = true;}

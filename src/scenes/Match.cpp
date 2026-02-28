@@ -263,8 +263,8 @@ void match::callSaveAndQuit(game &gam) {
         for (auto &o : m_obtacles) {
             gam.setTreeSaves(o->getSaves());
         }
-        gam.setSaveAndQuit(false); gam.setIsOver(true);
         gam.setScene(new menu);
+        std::cout << "llegue2" << std::endl;
     }
 }
 
