@@ -30,6 +30,7 @@ void rankingScene::showVector(sf::RenderWindow &m_win) {
     float starty=180.f;
     float space=40.f;
     for (int i=0;i<m_list.size();i++) {
+        if (i>=10){break;}
         const stats& p = m_list[i];
 
         int min = p.timeAlive/60;
