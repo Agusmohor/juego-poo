@@ -41,7 +41,6 @@ class player : public entity {
 
     sf::Sprite m_fireball;
     sf::RectangleShape fhitbox;
-    sf::Vector2f fscale;
     sf::Vector2i fireballScale;
     bool isShot = false;
     bool shotSkin = false;
@@ -55,63 +54,56 @@ class player : public entity {
     int c = 4;
     bool healReady = false;
     playerSaves saves;
-    void updateSaves() ;
+
+
+    void move(float delta,mapa &mapa) override;
+    void syncHitbox() override;
+    void colx(const sf::FloatRect& hitboxOther) override;
+    void coly(const sf::FloatRect& hitboxOther) override;
+    void updateHealth() override;
+    void deathDraw() override;
+
+    void updateSaves();
     void texture();
+    void attackSkin();
+    void speed();
+    bool cond();
+
 public:
     player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball);
 
     void update(float delta,mapa &mapa) override;
     void draw(sf::RenderWindow &m_win) override;
-
     void updateTexture() override;
-    const playerSaves& getSaves() ;
-    void setSaves(const playerSaves& old_Save);
-
     void drawHitbox(sf::RenderWindow &m_win) override;
-    void syncHitbox() override;
     void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
-
-    void colx(const sf::FloatRect hitboxOther) override;
-    void coly(const sf::FloatRect hitboxOther) override;
-
     const sf::Vector2f getPosition() const override;
     const sf::FloatRect getGlobalBounds() const override;
-
-    void updateHealth() override;
-
-    void deathDraw() override;
-
-    int getStamina();
-    bool isStaminaEmpty();
-
-    void attackSkin();
-
     void recieveDamage() override;
-
-    void move(float delta,mapa &mapa) override;
-    void speed();
-    bool cond();
-
     const bool getHitStatus() const override;
     void setHitStatus(bool status) override;
 
+    const playerSaves& getSaves();
+    void setSaves(const playerSaves& old_Save);
+    int getStamina() const;
+    bool isStaminaEmpty() const;
 
     //abilities
     void dashMovement();
     void startDash(float dt);
-    bool getDashActive();
+    bool getDashActive() const;
     void setDashActive(bool active);
 
     void shield();
-    bool getShieldActive();
+    bool getShieldActive() const;
     void setShieldActive(bool active);
 
     void shootState(float dt);
-    bool getShootActive();
+    bool getShootActive() const;
     void setShootActive(bool active);
     void startShoot();
     bool getIsShot() const;
-    const sf::RectangleShape &getFireball();
+    const sf::RectangleShape &getFireball() const;
 
     void startHeal();
     void stateHeal();

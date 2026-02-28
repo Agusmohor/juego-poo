@@ -18,48 +18,38 @@ class zombie : public entity {
     bool killcount = false;
 
     zombieSave saves;
+
+    void move(float delta,mapa &mapa) override;
+    void syncHitbox() override;
+    void coly(const sf::FloatRect& hitbox) override;
+    void colx(const sf::FloatRect& hitbox) override;
+    void updateHealth() override;
+    void deathDraw() override;
+    void restartHitsCooldown();
+    const sf::Clock& getHitsCooldown() const;
+    void damageColor(bool cond);
+    bool inRaduis();
 public:
     zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow, sf::Vector2f coords);
 
     void update(float delta,mapa &mapa) override;
     void draw(sf::RenderWindow& m_win) override;
-
-    const zombieSave& getSaves();
-
     void drawHitbox(sf::RenderWindow &m_win) override;
-    void syncHitbox() override;
     void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
-    void coly(const sf::FloatRect hitbox) override;
-    void colx(const sf::FloatRect hitbox) override;
-
-    void move(float delta,mapa &mapa) override;
-    void updateHealth() override;
-    bool isDeathOver();
     void recieveDamage() override;
     const sf::FloatRect getGlobalBounds() const override;
     const sf::Vector2f getPosition() const override;
-
-    void deathDraw() override;
-
-    const sf::Clock& getHitsCooldown();
-    void restartHitsCooldown();
-    bool const getDamageStatus();
-    void setDamageSatus(bool status);
-
+    void updateTexture() override;
     const bool getHitStatus() const override;
     void setHitStatus(bool status) override;
 
-    void damageColor(bool cond);
-
-
+    const zombieSave& getSaves();
+    bool isDeathOver() const;
     void getPlyPos(const sf::Vector2f &pl_pos);
-
-    void updateTexture() override;
-
-    bool inRaduis();
-
-    bool killCounted();
+    bool const getDamageStatus() const;
+    void setDamageSatus(bool status);
     void markKillCounted();
+    bool killCounted() const;
 };
 
 #endif

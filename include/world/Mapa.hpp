@@ -10,13 +10,12 @@ struct csv {
 };
 
 class mapa {
-    int m_tilesize = 32;
+    int tilesize = 32;
 
     csv loadCsv(const std::string& path);
 
     sf::Texture m_tileTexture;
     csv m_ground,m_grass;
-    csv m_collision;
 
     std::vector<sf::FloatRect> m_colliders;
 
@@ -26,6 +25,6 @@ public:
 
     void draw(sf::RenderWindow& m_win);
 
-    void drawCSV(sf::RenderWindow &m_win, csv &m_csv, sf::Texture &texture, int m_tilesize);
+    void drawCSV(sf::RenderWindow &m_win, csv &m_csv, sf::Texture &texture, int tsize);
 };
 

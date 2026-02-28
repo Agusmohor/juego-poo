@@ -199,11 +199,11 @@ void player::attackSkin(){
 }
 
 
-int player::getStamina() {
+int player::getStamina() const {
     return stamina;
 }
 
-bool player::isStaminaEmpty() {
+bool player::isStaminaEmpty() const {
     return empty_stamina;
 }
 
@@ -212,14 +212,14 @@ void player::recieveDamage() {
 }
 
 
-void player::colx(const sf::FloatRect hitboxOther) {
+void player::colx(const sf::FloatRect& hitboxOther) {
     if (this->hitbox.getGlobalBounds().findIntersection(hitboxOther).has_value()) {
         m_spr.setPosition({prevPos.x,m_spr.getPosition().y});
         syncHitbox();
     }
 }
 
-void player::coly(const sf::FloatRect hitboxOther) {
+void player::coly(const sf::FloatRect& hitboxOther) {
     if (this->hitbox.getGlobalBounds().findIntersection(hitboxOther).has_value()) {
         m_spr.setPosition({m_spr.getPosition().x,prevPos.y});
         syncHitbox();
@@ -278,7 +278,7 @@ void player::startDash(float dt) {
     m_spr.move(dashDir * dashSpeed * dt);
 }
 
-bool player::getDashActive() {
+bool player::getDashActive() const {
     return isDashing;
 }
 
@@ -293,7 +293,7 @@ void player::shield() {
     isShieldActive = true;
 }
 
-bool player::getShieldActive() {
+bool player::getShieldActive() const {
     return isShieldActive;
 }
 
@@ -308,7 +308,7 @@ void player::setShootActive(bool active){
     isShootActive = active;
 }
 
-bool player::getShootActive(){
+bool player::getShootActive() const {
     return isShootActive;
 }
 
@@ -346,7 +346,7 @@ void player::startShoot(){
 
 bool player::getIsShot() const {return isShot;}
 
-const sf::RectangleShape& player::getFireball() {
+const sf::RectangleShape& player::getFireball() const {
     return fhitbox;
 }
 

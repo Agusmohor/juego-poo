@@ -37,24 +37,24 @@ void mapa::load(std::string &texturePath, std::string &groundCSV, std::string &g
 }
 
 void mapa::draw(sf::RenderWindow& m_win) {
-    this->drawCSV(m_win,m_ground,m_tileTexture,32);
-    this->drawCSV(m_win,m_grass,m_tileTexture,32);
+    drawCSV(m_win,m_ground,m_tileTexture,tilesize);
+    drawCSV(m_win,m_grass,m_tileTexture,tilesize);
 }
 
-void mapa::drawCSV(sf::RenderWindow& m_win, csv &m_csv, sf::Texture &texture, int m_tilesize) {
+void mapa::drawCSV(sf::RenderWindow& m_win, csv &m_csv, sf::Texture &texture, int tsize) {
     sf::Sprite sprite(texture);
 
-    int columns = m_tileTexture.getSize().x / m_tilesize;
+    int columns = m_tileTexture.getSize().x / tsize;
     for (int y = 0; y < m_csv.h; y++) {
         for (int x = 0; x < m_csv.w; x++) {
             int id = m_csv.tiles[y * m_csv.w + x];
             if (id < 0) continue;
 
-            int tx = (id % columns) * m_tilesize;
-            int ty = (id / columns) * m_tilesize;
+            int tx = (id % columns) * tsize;
+            int ty = (id / columns) * tsize;
 
-            sprite.setTextureRect(sf::IntRect({tx,ty},{m_tilesize, m_tilesize}));
-            sprite.setPosition(sf::Vector2f(x*m_tilesize,y*m_tilesize));
+            sprite.setTextureRect(sf::IntRect({tx,ty},{tsize, tsize}));
+            sprite.setPosition(sf::Vector2f(x*tsize,y*tsize));
 
             m_win.draw(sprite);
         }

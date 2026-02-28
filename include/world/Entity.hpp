@@ -34,16 +34,16 @@ public:
     virtual void drawHitbox(sf::RenderWindow &m_win)=0;
     virtual void syncHitbox() = 0;
     virtual void setHitboxes(std::vector<sf::FloatRect> &hitboxes) = 0;
-    virtual void colx(const sf::FloatRect hitbox) = 0;
-    virtual void coly(const sf::FloatRect hitbox) = 0;
+    virtual void colx(const sf::FloatRect& hitbox) = 0;
+    virtual void coly(const sf::FloatRect& hitbox) = 0;
 
     virtual void deathDraw() = 0;
 
     virtual void move(float delta,mapa &mapa) = 0;
-    virtual int getHealth() {return health;};
+    virtual int getHealth() const {return health;};
     virtual void updateHealth() = 0;
-    virtual bool isAlive() {return vivo;};
-    virtual const sf::Vector2f getScale() {return m_spr.getScale();};
+    virtual bool isAlive() const {return vivo;};
+    virtual const sf::Vector2f getScale() const {return m_spr.getScale();};
 
     virtual const bool getHitStatus() const = 0;
     virtual void setHitStatus(bool status) = 0;

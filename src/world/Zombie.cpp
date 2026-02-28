@@ -70,7 +70,7 @@ void zombie::syncHitbox() {
      hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4});
 }
 
-void zombie::colx(const sf::FloatRect hitbox) {
+void zombie::colx(const sf::FloatRect& hitbox) {
     if (timer1.getElapsedTime().asSeconds() >= 0.28f) {
         iscolx=false;
         timer1.restart();
@@ -83,7 +83,7 @@ void zombie::colx(const sf::FloatRect hitbox) {
 
 }
 
-void zombie::coly(const sf::FloatRect hitbox) {
+void zombie::coly(const sf::FloatRect& hitbox) {
     if (timer2.getElapsedTime().asSeconds() >= 0.28f) {
         iscoly=false;
         timer2.restart();
@@ -152,7 +152,7 @@ void zombie::getPlyPos(const sf::Vector2f &pl_pos) {
 bool zombie::inRaduis() {
     dist2 = (-m_spr.getPosition().x + pl_pos.x) * (-m_spr.getPosition().x + pl_pos.x) + (-m_spr.getPosition().y + pl_pos.y) * (-m_spr.getPosition().y + pl_pos.y);
 
-    if (dist2 < 780*780 && dist2 > 10*10) {return true;}
+    if (dist2 > 10*10) {return true;}
     return false;
 }
 
@@ -174,14 +174,14 @@ void zombie::recieveDamage() {
     }
 }
 
-bool const zombie::getDamageStatus() {
+bool const zombie::getDamageStatus() const {
     return doDamage;
 }
 
 void zombie::setDamageSatus(bool status) {
     doDamage = status;
 }
-const sf::Clock& zombie::getHitsCooldown() {
+const sf::Clock& zombie::getHitsCooldown() const {
     return hitsCooldown;
 }
 
@@ -213,11 +213,11 @@ const sf::Vector2f zombie::getPosition() const {
     return m_spr.getPosition();
 }
 
-bool zombie::isDeathOver() {
+bool zombie::isDeathOver() const {
     return deathOver;
 }
 
-bool zombie::killCounted() {
+bool zombie::killCounted() const {
     return killcount;
 }
 
