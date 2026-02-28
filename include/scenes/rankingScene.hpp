@@ -14,19 +14,20 @@ class rankingScene : public scene {
     sf::Text backText, title;
     std::vector<stats> m_list;
     bool backmain = false;
+
+    void showVector(sf::RenderWindow &m_win);
+    void createSave();
+    void buttonPressed(type t) override;
 public:
     rankingScene();
     void update(float delta, game &m_gam) override;
     void draw(sf::RenderWindow &m_win) override;
-    void buttonPressed(type t) override;
     void ProcessEvent(game &game, sf::Event &event) override;
 
     void load();
     void sortList();
     void save(const stats& p);
-    void showVector(sf::RenderWindow &m_win);
-    void createSave();
-    bool getBackRequest();
+    bool getBackRequest() const;
     void setBackRequest(bool back);
 };
 

@@ -8,18 +8,6 @@
 #include "ui/InputText.hpp"
 
 class menu : public scene{
-public:
-    menu();
-    void update(float delta,game &m_gam)override;
-    void draw(sf::RenderWindow &win)override;
-
-    void buttons();
-    void buttonPressed(type t) override;
-
-    void titleColor();
-    void dibujado(sf::RenderWindow &m_win);
-private:
-    void ProcessEvent(game &game, sf::Event &event) override;
     sf::Font m_font1,m_font2;
     sf::Text m_text1,m_text2,loadText, exitText, newText, rankText, notsavefound, nameText, currname, confirm;
     sf::Texture boton,botonselec;
@@ -37,6 +25,16 @@ private:
     stats m_stats;
     InputText input;
     rankingScene rankScene;
+
+    void dibujado(sf::RenderWindow &m_win);
+    void buttons();
+    void titleColor();
+    void ProcessEvent(game &game, sf::Event &event) override;
+    void buttonPressed(type t) override;
+public:
+    menu();
+    void update(float delta,game &m_gam)override;
+    void draw(sf::RenderWindow &win)override;
 };
 
 #endif

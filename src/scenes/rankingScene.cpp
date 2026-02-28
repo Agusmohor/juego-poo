@@ -105,7 +105,7 @@ void rankingScene::buttonPressed(type t) {
     }
 }
 
-bool rankingScene::getBackRequest() {
+bool rankingScene::getBackRequest() const {
     return backmain;
 }
 

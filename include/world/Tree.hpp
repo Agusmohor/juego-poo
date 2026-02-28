@@ -8,6 +8,7 @@
 #include "obstacle.hpp"
 
 class tree : public obstacle{
+    int m_rand;
 public:
     tree(sf::Vector2f coords);
 
@@ -22,10 +23,6 @@ public:
     sf::FloatRect getHitbox() override;
 
     void random(const sf::Texture &arbol, const sf::Texture &arbol2, const sf::Texture &arbol3) override;
-
-private:
-    int m_rand;
-
 
 };
 

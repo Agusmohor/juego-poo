@@ -87,10 +87,6 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
 
 }
 
-void settingsScene::updateView(game &m_gam) {
-
-}
-
 void settingsScene::setKey(sf::Keyboard::Scancode key) {
     m_keys[static_cast<int>(curraction)] = key;
 }

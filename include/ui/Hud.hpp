@@ -7,29 +7,7 @@
 #include <vector>
 
 class hud{
-public:
-    hud();
-    void update();
-    void updateView();
-    void draw(sf::RenderWindow &m_win);
-
-    void moveGui(const sf::Vector2f &winview);
-
-    void checkPlayer(int health,int stamina, bool isStaminaEmpty);
-
-    void caseHealth();
-
-    void caseStamina();
-
-    void deathMessege(sf::RenderWindow &m_win);
-    void abilities(bool isShieldReady, bool isDashReady, bool isFireReady, bool isHealReady);
-private:
-    void create();
-
-    void createLife(int num);
-    void createStamina(int num);
-
-    sf::Texture gui;
+      sf::Texture gui;
     sf::Sprite life, m_shield, m_dash, m_fire, m_heal, overlay;
     sf::Vector2f scale,pos,spos,abilPos, overlayPos;
     std::vector<sf::Sprite> hp_empty,hp_fill,stamina_bar,stamina_empty, m_overlay;
@@ -45,6 +23,25 @@ private:
     bool isDead = false;
     bool state, isStaminaEmpty;
     int newpos, playerHp,playerStam;
+
+    void create();
+    void caseHealth();
+    void caseStamina();
+
+    void deathMessege(sf::RenderWindow &m_win);
+    void createLife(int num);
+    void createStamina(int num);
+
+public:
+    hud();
+    void update();
+    void updateView();
+    void draw(sf::RenderWindow &m_win);
+    void moveGui(const sf::Vector2f &winview);
+
+    void checkPlayer(int health,int stamina, bool isStaminaEmpty);
+    void abilities(bool isShieldReady, bool isDashReady, bool isFireReady, bool isHealReady);
+
 };
 
 #endif
