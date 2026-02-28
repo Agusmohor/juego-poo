@@ -30,7 +30,6 @@ void rankingScene::showVector(sf::RenderWindow &m_win) {
     float starty=180.f;
     float space=40.f;
     for (int i=0;i<m_list.size();i++) {
-        if (i>=10){break;}
         const stats& p = m_list[i];
 
         int min = p.timeAlive/60;
@@ -42,7 +41,6 @@ void rankingScene::showVector(sf::RenderWindow &m_win) {
         sf::Text text(font,ss.str());
         text.setCharacterSize(20);
         text.setPosition({300,starty + i*space});
-
         m_win.draw(text);
     }
 }
@@ -82,7 +80,6 @@ void rankingScene::load() {
 
 void rankingScene::save(const stats &p) {
     std::ofstream file("../data/globalstats/stats.txt", std::ios::app);
-    std::cout << p.name <<'|'<<p.kills<<'|'<<p.timeAlive<<'\n';
     file << p.name <<'|'<<p.kills<<'|'<<p.timeAlive<<'\n';
 
 }
