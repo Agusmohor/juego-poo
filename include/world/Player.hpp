@@ -58,6 +58,7 @@ class player : public entity {
     //audio
     bool startDashAudio = false;
     bool startFireAudio = false;
+    bool startHealAudio = false;
     bool startShieldAudio = false;
     bool finishShieldAudio = false;
 

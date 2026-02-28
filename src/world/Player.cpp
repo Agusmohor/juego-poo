@@ -149,6 +149,7 @@ void player::update(float delta, game& game) {
     if (startDashAudio){startDashAudio = false; game.getAudio().playDash(); }
     if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword(); }
     if (startFireAudio){startFireAudio = false; game.getAudio().playFireBall();}
+    if (startHealAudio){startHealAudio = false; game.getAudio().playHeal(); }
     if (startShieldAudio){ startShieldAudio = false; game.getAudio().playStartShield(); }
     if (finishShieldAudio && !startShieldAudio && !isShieldActive){finishShieldAudio = false; game.getAudio().playFinishShield();std::cout << "llegue" << std::endl;}
 
@@ -385,7 +386,7 @@ void player::stateHeal(){
 }
 
 void player::startHeal(){
-    isHealing = true;
+    isHealing = true; startHealAudio = true;
 }
 
 bool player::getHealReady() const {return healReady;}
