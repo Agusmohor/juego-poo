@@ -18,7 +18,7 @@ player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Te
     health = 10;
 }
 
-void player::move(float delta, mapa &mapa) {
+void player::move(float delta) {
     dir.x = 0.f; dir.y = 0.f;
     //interaccion teclas
     if(sf::Keyboard::isKeyPressed(wKey) && !sf::Keyboard::isKeyPressed(sKey)) {
@@ -144,13 +144,16 @@ bool player::cond(){
     return false;
 }
 
-void player::update(float delta,mapa &mapa) {
+void player::update(float delta, game& game) {
+    //audios
+    if (startDashAudio){startDashAudio = false; game.getAudio().playDash(); }
+
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
     staminaRegenTimer += delta;
     healRegenTimer += delta;
-    if (!isAttacking && !isDashing) { move(delta,mapa);}
+    if (!isAttacking && !isDashing) { move(delta);}
 
     // std::cout << health << std::endl;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::P)) health--;
@@ -169,6 +172,7 @@ void player::update(float delta,mapa &mapa) {
     abil.update(delta,*this);
     shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     m_shield.setPosition({m_spr.getPosition().x, m_spr.getPosition().y});
+
 }
 
 void player::draw(sf::RenderWindow& m_win) {
@@ -258,6 +262,7 @@ void player::deathDraw() {
 
 //abilidades
 void player::dashMovement() {
+    startDashAudio = true;
     m_spr.setTextureRect({{0,321},{txScale}});
     isDashing = true;
     if (dir != sf::Vector2f(0,0)) {

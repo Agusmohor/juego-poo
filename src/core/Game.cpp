@@ -46,7 +46,6 @@ void game::ProcessEvent() {
             sf::Event& event = *evt;
             if (ispaused && m_pause) {m_pause->ProcessEvent(*this,event);}
             else{curr_scene->ProcessEvent(*this,event);}
-
         }
 
         //evento resize ventana
@@ -71,6 +70,10 @@ game::~game(){
     delete curr_scene; curr_scene = nullptr;
     delete next_scene; next_scene = nullptr;
     delete m_pause; m_pause = nullptr;
+}
+
+AudioManager &game::getAudio() {
+    return audio;
 }
 
 void game::Pause(){

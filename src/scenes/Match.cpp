@@ -78,10 +78,10 @@ void match::update(float delta,game &m_gam){
     }
 
     //update del player si esta vivo
-    if (m_ply->isAlive()) {m_ply->setHitboxes(m_hitboxes);m_ply->update(delta,m_mapa);}
+    if (m_ply->isAlive()) {m_ply->setHitboxes(m_hitboxes);m_ply->update(delta,m_gam);}
     for (auto &z : m_zombies) {
         z->setHitboxes(m_hitboxes);
-        if (z->isAlive()) {z->update(delta,m_mapa);}
+        if (z->isAlive()) {z->update(delta,m_gam);}
         if (z->getHealth() <= 0 && !z->killCounted()){kills++; z->markKillCounted();}
     }
 

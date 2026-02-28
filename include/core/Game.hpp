@@ -6,6 +6,7 @@
 #include "Scene.hpp"
 #include "scenes/Pause.hpp"
 #include "gameplay/Stats.hpp"
+#include "core/AudioManager.hpp"
 #include <fstream>
 
 struct keybinds {
@@ -36,6 +37,7 @@ class game {
     std::vector<zombieSave> zsaves;
     std::vector<treeSave> tsaves;
 
+    AudioManager audio;
 
     void ProcessEvent();
     void loadConfig(sf::RenderWindow &m_win);
@@ -58,6 +60,8 @@ public:
 
     void Pause();
     void delPause();
+
+    AudioManager& getAudio();
 
     const sf::Vector2u &getWinSize() const;
     const sf::View& getView() const;

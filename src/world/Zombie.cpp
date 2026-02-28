@@ -8,9 +8,9 @@ zombie::zombie(const sf::Texture &sprite, const sf::Texture &m_shadow, sf::Vecto
     health = 2;
 }
 
-void zombie::update(float delta,mapa &mapa) {
+void zombie::update(float delta,game &game) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
-    if (inRaduis() && !isHitting) {move(delta,mapa);}
+    if (inRaduis() && !isHitting) {move(delta);}
     shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     updateHealth();
 }
@@ -100,7 +100,7 @@ void zombie::setHitboxes(std::vector<sf::FloatRect> &hitboxes) {
     this->hitboxes = &hitboxes;
 }
 
-void zombie::move(float delta,mapa &mapa) {
+void zombie::move(float delta) {
     //diferencia x,y entre el player y la entidad
     dif = pl_pos - m_spr.getPosition();
 

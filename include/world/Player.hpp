@@ -55,8 +55,10 @@ class player : public entity {
     bool healReady = false;
     playerSaves saves;
 
+    //audio
+    bool startDashAudio = false;
 
-    void move(float delta,mapa &mapa) override;
+    void move(float delta) override;
     void syncHitbox() override;
     void colx(const sf::FloatRect& hitboxOther) override;
     void coly(const sf::FloatRect& hitboxOther) override;
@@ -72,7 +74,7 @@ class player : public entity {
 public:
     player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball);
 
-    void update(float delta,mapa &mapa) override;
+    void update(float delta,game& game) override;
     void draw(sf::RenderWindow &m_win) override;
     void updateTexture() override;
     void drawHitbox(sf::RenderWindow &m_win) override;

@@ -2,8 +2,8 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
-#include "Mapa.hpp"
 #include <SFML/Graphics.hpp>
+#include "core/Game.hpp"
 
 #include "core/Drawble.hpp"
 #include "gameplay/Stats.hpp"
@@ -28,7 +28,7 @@ public:
         hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Blue);
     }
 
-    virtual void update(float delta,mapa &mapa) = 0;
+    virtual void update(float delta,game &game) = 0;
 
     virtual void updateTexture()=0;
     virtual void drawHitbox(sf::RenderWindow &m_win)=0;
@@ -39,7 +39,7 @@ public:
 
     virtual void deathDraw() = 0;
 
-    virtual void move(float delta,mapa &mapa) = 0;
+    virtual void move(float delta) = 0;
     virtual int getHealth() const {return health;};
     virtual void updateHealth() = 0;
     virtual bool isAlive() const {return vivo;};
