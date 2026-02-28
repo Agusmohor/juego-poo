@@ -22,6 +22,7 @@ void menu::update(float delta,game &m_gam){
     if (m_stats.name != "null") {
         m_gam.setStats(m_stats);
     }
+    currname.setString(m_gam.getStats().name);
 }
 
 void menu::draw(sf::RenderWindow &m_win){
@@ -50,6 +51,7 @@ void menu::dibujado(sf::RenderWindow &m_win){
     m_win.draw(rankText);
     m_win.draw(nameText);
     m_win.draw(input);
+    m_win.draw(currname);
     if (notFound) {m_win.draw(notsavefound);}
     if (waitingName) {m_win.draw(confirm);}
 }
@@ -115,6 +117,8 @@ void menu::buttons() {
     confirm = nameText; confirm.setString("Press enter to confirm...");
     confirm.setCharacterSize(18);
     confirm.setPosition({nameText.getPosition().x-30,nameText.getPosition().y + 80});
+
+    currname.setPosition({m_text2.getPosition().x+60,m_text2.getPosition().y + 80});
 }
 
 
@@ -142,7 +146,7 @@ void menu::ProcessEvent(game &game, sf::Event &event) {
         }
     }
     if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {
-        if (evt->scancode == sf::Keyboard::Scancode::Enter) {
+        if (evt->scancode == sf::Keyboard::Scancode::Enter && waitingName) {
             m_stats.name = input.getValue();
             waitingName = false;
         }
