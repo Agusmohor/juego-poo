@@ -17,7 +17,7 @@ void game::run(){
         m_win.clear();
         if(!ispaused) curr_scene->update(delta,*this);
 
-        if (!saveAndQuit && isOver){saveProgress();}
+        if (!saveAndQuit && isOver){saveProgress(); isOver = false;}
 
         curr_scene->updateView(*this);
         if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
@@ -167,11 +167,9 @@ const sf::View& game::getUIWinView() const {
 }
 
 void game::setStats(const stats &m_stats) {
-    if (m_stats.timeAlive > 0) {
-        m_lastStats = m_stats;
-    }else {
-        m_lastStats.name = m_stats.name;
-    }
+    if (m_stats.name != "null"){m_lastStats.name = m_stats.name;}
+    m_lastStats.kills = m_stats.kills;
+    m_lastStats.timeAlive = m_stats.timeAlive;
 }
 
 const stats &game::getStats() {
@@ -234,8 +232,7 @@ void game::saveProgress() {
         file.write(reinterpret_cast<const char*>(&t),sizeof(t));
     }
     file.close(); file.clear();
-    std::string profile_path = "../data/config/profile.txt";
-    file.open(profile_path,std::ios::trunc);
+    file.open("../data/config/profile.txt",std::ios::trunc);
     file << "LastProfile = "<< m_lastStats.name << std::endl;
     std::cout<<"guarde "<< m_lastStats.name <<std::endl;
 }

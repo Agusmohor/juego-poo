@@ -1,0 +1,6 @@
+null|7|34
+Agus|0|0
+Agus|0|0
+null|5|16
+Agus|0|3
+Agus|0|2
