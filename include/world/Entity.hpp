@@ -17,18 +17,22 @@ protected:
     sf::RectangleShape hitbox;
     std::vector<sf::FloatRect>* hitboxes;
     sf::Vector2f sprScale, pl_pos, prevPos, hitboxPrevPos;
+    sf::Color color;
     bool vivo = true;
     bool isHitting = false;
+    bool damaged = false;
 
     //audio
     bool startSwordAudio = false;
 
+    virtual void damageColor(bool cond) { if (cond) {m_spr.setColor(sf::Color::Red); damaged = false;}else{m_spr.setColor(color);}}
 public:
     entity(const sf::Texture& spr_tex,const sf::Texture& sha_tex) : m_spr(spr_tex), shadow(sha_tex) {
         sprScale = sf::Vector2f(0.6,0.6); m_spr.setScale(sprScale); shadow.setScale(sprScale);
         txScale = sf::Vector2i(32,32); m_spr.setOrigin({16,16}); shadow.setOrigin({9,3});
         m_spr.setTextureRect({{0,0},{txScale}});
         hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Blue);
+        color = m_spr.getColor();
     }
 
     virtual void update(float delta,game &game) = 0;

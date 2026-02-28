@@ -16,6 +16,7 @@ player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Te
     fhitbox.setFillColor(sf::Color::Red);
     fhitbox.setSize({4,4}); fhitbox.setOrigin({2,2});
     health = 10;
+    color = m_spr.getColor();
 }
 
 void player::move(float delta) {
@@ -116,6 +117,7 @@ void player::updateTexture() {
 
     if (m_fireball.getTextureRect().position.x >= 80){m_fireball.setTextureRect({{0,0},{fireballScale}});}
     m_fireball.setTextureRect({{m_fireball.getTextureRect().position.x +16,0},{fireballScale}});
+    damageColor(damaged);
 }
 
 void player::speed(){
@@ -194,8 +196,9 @@ void player::playAudios(game &game) {
     if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword(); }
     if (startFireAudio){startFireAudio = false; game.getAudio().playFireBall();}
     if (startHealAudio){startHealAudio = false; game.getAudio().playHeal(); }
-    if (startShieldAudio){ startShieldAudio = false; game.getAudio().playStartShield(); }
+    if (startShieldAudio){startShieldAudio = false; game.getAudio().playStartShield();}
     if (finishShieldAudio && !startShieldAudio && !isShieldActive){finishShieldAudio = false; game.getAudio().playFinishShield();}
+    if (shieldDamaged){shieldDamaged = false; game.getAudio().playShieldDamaged();}
     if (startDamagedAudio){startDamagedAudio = false; game.getAudio().playPlayerDamaged();}
     if (startDeathAudio){startDeathAudio = false; game.getAudio().playPlayerDeath();}
 }
@@ -238,11 +241,13 @@ bool player::isStaminaEmpty() const {
 }
 
 void player::recieveDamage() {
-    if (!isShieldActive) health--; startDamagedAudio = true;
+    if (!isShieldActive) {health--; startDamagedAudio = true; damaged = true;}
+    else{shieldDamaged = true;}
 }
 
 void player::recieveDamage(int i) {
-    if (!isShieldActive) health-=i; startDamagedAudio = true;
+    if (!isShieldActive) {health-=i; startDamagedAudio = true; damaged = true;}
+    else{shieldDamaged = true;}
 }
 
 void player::colx(const sf::FloatRect& hitboxOther) {

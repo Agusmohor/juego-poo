@@ -6,13 +6,11 @@
 
 class zombie : public entity {
     sf::Vector2f dif;
-    sf::Color color;
     sf::Clock timer1,timer2,timer3,hitsCooldown;
     bool iscolx=false;
     bool iscoly=false;
     float dist,max_rad,min_rad,dist2;
     bool deathOver = false;
-    bool damaged = false;
 
     bool damageTime = false;
     bool can_damage = false;
@@ -36,7 +34,6 @@ class zombie : public entity {
     void deathDraw() override;
     void restartHitsCooldown();
     const sf::Clock& getHitsCooldown() const;
-    void damageColor(bool cond);
     bool inRaduis();
     void startAttack();
 public:

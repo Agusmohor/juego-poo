@@ -225,15 +225,6 @@ void zombie::deathDraw() {
     if (count >= 4) {deathOver = true;}
 }
 
-void zombie::damageColor(bool cond) {
-    if (cond) {
-        m_spr.setColor(sf::Color::Red);
-        damaged = false;
-    }else {
-        m_spr.setColor(color);
-    }
-}
-
 const sf::Vector2f zombie::getPosition() const {
     return m_spr.getPosition();
 }
