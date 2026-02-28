@@ -22,7 +22,7 @@ class player : public entity {
     float attackDur = 0.1f;
 
     bool empty_stamina = false;
-    sf::Vector2f dir;
+    sf::Vector2f dir, velocity;
     sf::Keyboard::Key wKey,aKey,sKey,dKey, shieldKey, dashKey, fireKey, healKey;
     sf::Mouse::Button lClick;
 
@@ -63,6 +63,8 @@ class player : public entity {
     bool finishShieldAudio = false;
     bool startDamagedAudio = false;
     bool startDeathAudio = false;
+    bool isMoving = false;
+    bool wasMoving = false;
 
     void move(float delta) override;
     void syncHitbox() override;

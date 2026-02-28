@@ -41,7 +41,7 @@ void player::move(float delta) {
     }
     //speed
     speed();
-    sf::Vector2f velocity = dir * m_speed *delta;
+    velocity = dir * m_speed *delta;
     prevPos = m_spr.getPosition();
 
     m_spr.move({velocity.x,0.f});
@@ -173,6 +173,14 @@ void player::update(float delta, game& game) {
 }
 
 void player::playAudios(game &game) {
+    isMoving = (velocity.x != 0 || velocity.y != 0);
+    if (isMoving && !wasMoving) {
+        game.getAudio().playPlayerWalking();
+    }
+    if (!isMoving && wasMoving) {
+        game.getAudio().stopPlayerWalking();
+    }
+    wasMoving = isMoving;
     //audios
     if (startDashAudio){startDashAudio = false; game.getAudio().playDash(); }
     if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword(); }
@@ -180,8 +188,8 @@ void player::playAudios(game &game) {
     if (startHealAudio){startHealAudio = false; game.getAudio().playHeal(); }
     if (startShieldAudio){ startShieldAudio = false; game.getAudio().playStartShield(); }
     if (finishShieldAudio && !startShieldAudio && !isShieldActive){finishShieldAudio = false; game.getAudio().playFinishShield();}
-    if (startDamagedAudio){startDamagedAudio = false; game.getAudio().playPlayedDamaged();}
-    if (startDeathAudio){startDeathAudio = false; game.getAudio().playPlayedDeath();}
+    if (startDamagedAudio){startDamagedAudio = false; game.getAudio().playPlayerDamaged();}
+    if (startDeathAudio){startDeathAudio = false; game.getAudio().playPlayerDeath();}
 }
 
 void player::draw(sf::RenderWindow& m_win) {
