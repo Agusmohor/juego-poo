@@ -58,7 +58,8 @@ class player : public entity {
     //audio
     bool startDashAudio = false;
     bool startFireAudio = false;
-
+    bool startShieldAudio = false;
+    bool finishShieldAudio = false;
 
     void move(float delta) override;
     void syncHitbox() override;

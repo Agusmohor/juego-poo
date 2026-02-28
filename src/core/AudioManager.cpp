@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-AudioManager::AudioManager() : dash(dash_1), sword(dash_1), fire(dash_1){
+AudioManager::AudioManager() : dash(dash_1), sword(sword_1), fire(fire_1),shieldStart(shield_1),shieldFinish(shield_2){
     if (!dash_1.loadFromFile("../assets/sounds/dash1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!dash_2.loadFromFile("../assets/sounds/dash2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!sword_1.loadFromFile("../assets/sounds/sword1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
@@ -10,6 +10,9 @@ AudioManager::AudioManager() : dash(dash_1), sword(dash_1), fire(dash_1){
     if (!sword_3.loadFromFile("../assets/sounds/sword3.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!fire_1.loadFromFile("../assets/sounds/fire1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!fire_2.loadFromFile("../assets/sounds/fire2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
+    if (!shield_1.loadFromFile("../assets/sounds/startShield.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
+    if (!shield_2.loadFromFile("../assets/sounds/finishShield.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
+    shieldStart.setBuffer(shield_1); shieldFinish.setBuffer(shield_2);
 }
 
 void AudioManager::randomAudio(sf::Sound &sound, const sf::SoundBuffer &buffer1, const sf::SoundBuffer &buffer2) {
@@ -42,4 +45,12 @@ void AudioManager::playSword() {
 void AudioManager::playFireBall() {
     randomAudio(fire,fire_1,fire_2);
     fire.play();
+}
+
+void AudioManager::playStartShield() {
+    shieldStart.play();
+}
+
+void AudioManager::playFinishShield() {
+    shieldFinish.play();
 }

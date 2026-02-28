@@ -149,6 +149,8 @@ void player::update(float delta, game& game) {
     if (startDashAudio){startDashAudio = false; game.getAudio().playDash(); }
     if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword(); }
     if (startFireAudio){startFireAudio = false; game.getAudio().playFireBall();}
+    if (startShieldAudio){ startShieldAudio = false; game.getAudio().playStartShield(); }
+    if (finishShieldAudio && !startShieldAudio && !isShieldActive){finishShieldAudio = false; game.getAudio().playFinishShield();std::cout << "llegue" << std::endl;}
 
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
@@ -299,6 +301,7 @@ void player::setDashReady(bool ready) {dashReady = ready;}
 
 void player::shield() {
     isShieldActive = true;
+    startShieldAudio = true; finishShieldAudio = true;
 }
 
 bool player::getShieldActive() const {
