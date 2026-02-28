@@ -14,9 +14,66 @@
 
 
 
+
 class player : public entity {
+    sf::Vector2f prevPos, hitboxPrevPos;
+
+    std::vector<sf::FloatRect>* hitboxes = nullptr;
+
+    int stamina;
+    float staminaRegenTimer = 0.f;
+    float staminaRegenDur = 0.05f;
+
+    bool isAttacking = false; bool iscritic = false;
+    bool isHitting = false;
+    float attackTimer = 0.f;
+    float attackDur = 0.1f;
+
+    bool vivo = true;
+    bool damaged = false;
+    bool colision = false;
+    bool empty_stamina = false;
+    float m_speed,dx,dy,m_angle;
+    sf::Vector2f pl_pos,dir,mouse_pos;
+    sf::Keyboard::Key wKey,aKey,sKey,dKey, shieldKey, dashKey, fireKey, healKey;
+    sf::Mouse::Button rClick,lClick;
+
+    float m_width = 30.0f;  // ancho player
+    float m_height = 40.0f; //altura player
+
+    //controles
+    std::array<sf::Keyboard::Scancode,4> m_keys;
+
+    Abilities abil;
+
+    bool isShieldActive = false;
+    sf::Sprite m_shield;
+    bool shieldReady = false;
+
+    bool isDashing = false;
+    sf::Vector2f dashDir;
+    bool dashReady = false;
+
+    sf::Sprite m_fireball;
+    sf::RectangleShape fhitbox;
+    sf::Vector2f fscale;
+    sf::Vector2i fireballScale;
+    bool isShot = false;
+    bool shotSkin = false;
+    sf::Vector2f shootdir;
+    bool isShootActive = false;
+    bool fireReady = false;
+
+    bool isHealing = false;
+    float healRegenTimer = 0.f;
+    float healRegenDur = 1.f;
+    int c = 4;
+    bool healReady = false;
+    playerSaves saves;
+    void updateSaves() ;
+    void texture();
 public:
-    player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball, bool nuevo);
+    player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball);
 
     void update(float delta,mapa &mapa);
     void draw(sf::RenderWindow &m_win) override;
@@ -91,69 +148,6 @@ public:
 
     const sf::Keyboard::Scancode &getKey(action act) const;
 
-
-private:
-    void updateSaves() ;
-    void texture();
-    int state;
-    sf::Vector2f prevPos, hitboxPrevPos;
-    sf::Vector2i scale;
-
-    std::vector<sf::FloatRect>* hitboxes = nullptr;
-    sf::RectangleShape hitbox;
-
-    int health = 10;
-    int stamina;
-    float staminaRegenTimer = 0.f;
-    float staminaRegenDur = 0.05f;
-
-    bool isAttacking = false; bool iscritic = false;
-    bool isHitting = false;
-    float attackTimer = 0.f;
-    float attackDur = 0.1f;
-
-    bool vivo = true;
-    bool damaged = false;
-    bool colision = false;
-    bool empty_stamina = false;
-    sf::Sprite m_spr,m_shadow;
-    float m_speed,dx,dy,m_angle;
-    sf::Vector2f pl_pos,dir,mouse_pos,m_scale;
-    sf::Keyboard::Key wKey,aKey,sKey,dKey, shieldKey, dashKey, fireKey, healKey;
-    sf::Mouse::Button rClick,lClick;
-
-    float m_width = 30.0f;  // ancho player
-    float m_height = 40.0f; //altura player
-
-    //controles
-    std::array<sf::Keyboard::Scancode,4> m_keys;
-
-    Abilities abil;
-
-    bool isShieldActive = false;
-    sf::Sprite m_shield;
-    bool shieldReady = false;
-
-    bool isDashing = false;
-    sf::Vector2f dashDir;
-    bool dashReady = false;
-
-    sf::Sprite m_fireball;
-    sf::RectangleShape fhitbox;
-    sf::Vector2f fscale;
-    sf::Vector2i fireballScale;
-    bool isShot = false;
-    bool shotSkin = false;
-    sf::Vector2f shootdir;
-    bool isShootActive = false;
-    bool fireReady = false;
-
-    bool isHealing = false;
-    float healRegenTimer = 0.f;
-    float healRegenDur = 1.f;
-    int c = 4;
-    bool healReady = false;
-    playerSaves saves;
 };
 
 #endif

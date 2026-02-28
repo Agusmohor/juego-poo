@@ -25,7 +25,7 @@ match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() 
 
     m_mapa.load(pngpath,ground,grass);
 
-    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin, true);
+    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin);
 
 }
 

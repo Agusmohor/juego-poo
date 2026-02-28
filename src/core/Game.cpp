@@ -239,7 +239,9 @@ void game::saveProgress() {
 bool game::loadProgress() {
     std::string path = "../data/saves/" + name + ".dat";
     std::ifstream file(path, std::ios::binary);
-    if (!file.is_open()) return false;
+
+    if (!file.is_open()) throw std::runtime_error("Error opening file");
+    // if (!file.is_open()) return false;
 
     file.read(reinterpret_cast<char*>(&player_saves),sizeof(player_saves));
 
@@ -266,6 +268,7 @@ bool game::loadProgress() {
 void game::newProgress() {
     std::string path = "../data/saves/" + name + ".dat";
     std::ofstream file(path, std::ios::binary | std::ios::trunc);
+    if (!file.is_open()) throw std::runtime_error("Error opening file");
     playerSaves s;
     file.write(reinterpret_cast<const char*>(&s),sizeof(s));
     file.close();

@@ -5,10 +5,8 @@
 #include <SFML/Graphics.hpp>
 
 class zombie : public entity {
-    sf::Sprite m_spr,shadow;
     sf::RectangleShape hitbox;
-    sf::Vector2f pl_pos,dif,m_scale,prevPos,hitboxPrevPos;
-    sf::Vector2i scale;
+    sf::Vector2f pl_pos,dif,prevPos,hitboxPrevPos;
     std::vector<sf::FloatRect>* hitboxes;
     sf::Color color;
     sf::Clock timer1,timer2,timer3,hitsCooldown;
@@ -18,8 +16,7 @@ class zombie : public entity {
     bool vivo=true; bool deathOver = false;
     bool damaged = false; bool isHitting=false; bool doDamage = false;
     bool ismoving=false;
-    int health=2;
-    int state,count;
+    int count;
     bool killcount = false;
 
     zombieSave saves;

@@ -2,13 +2,10 @@
 #include <cmath>
 #include <iostream>
 
-zombie::zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow, sf::Vector2f coords) :  m_spr(m_tex),shadow(m_shadow) {
-    m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale);
-    scale = sf::Vector2i(32,32);
-    m_spr.setTextureRect({{0,0},{scale}}); m_spr.setOrigin({16,16}); shadow.setOrigin({9,3}); shadow.setScale({0.6,0.6});
+zombie::zombie(const sf::Texture &sprite, const sf::Texture &m_shadow, sf::Vector2f coords) :  entity(sprite,m_shadow) {
     m_spr.setPosition({coords});
-    hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Red);
     m_speed = 30; color = m_spr.getColor();
+    health = 2;
 }
 
 void zombie::update(float delta,mapa &mapa) {
@@ -30,13 +27,13 @@ void zombie::updateTexture() {
                 if (rect.position.x >= 160) {
                     rect.position.x = 0;
                 }
-                m_spr.setTextureRect({{rect.position.x + 32, 0},{scale}});
+                m_spr.setTextureRect({{rect.position.x + 32, 0},{txScale}});
                 break;
             case 1:
                 if (rect.position.x >= 96) {
                     rect.position.x = 0;
                 }
-                m_spr.setTextureRect({{rect.position.x + 32, 64},{scale}});
+                m_spr.setTextureRect({{rect.position.x + 32, 64},{txScale}});
                 break;
             case 2:
                 if (rect.position.x >= 224) {
@@ -44,7 +41,7 @@ void zombie::updateTexture() {
                     rect.position.x = 0;
                 }
                 if (isHitting) {
-                    m_spr.setTextureRect({{rect.position.x + 32, 256},{scale}});
+                    m_spr.setTextureRect({{rect.position.x + 32, 256},{txScale}});
                     if (m_spr.getTextureRect().position.x >= 128 && m_spr.getTextureRect().position.x <= 160) {doDamage = true;} else {doDamage = false;}
                 }
                 break;
@@ -112,7 +109,7 @@ void zombie::move(float delta,mapa &mapa) {
     dist = sqrt(dif.x * dif.x + dif.y * dif.y);
     if (dist != 0.f) { dif /= dist;}
     if (dist > 21){ismoving = true;} else{ismoving = false;}
-    if (dif.x < 0){m_spr.setScale({-m_scale.x,m_scale.y});} else{m_spr.setScale(m_scale);}
+    if (dif.x < 0){m_spr.setScale({-sprScale.x,sprScale.y});} else{m_spr.setScale(sprScale);}
 
     //dif seria la "direccion"
     if (timer3.getElapsedTime().asSeconds() >= 0.1f) {
@@ -206,13 +203,13 @@ void zombie::restartHitsCooldown() {
 }
 
 const bool zombie::getHitStatus() const {return isHitting;}
-void zombie::setHitStatus(bool status) {isHitting = status; m_spr.setTextureRect({{0,256},{scale}});};
+void zombie::setHitStatus(bool status) {isHitting = status; m_spr.setTextureRect({{0,256},{txScale}});};
 
 
 void zombie::deathDraw() {
     sf::IntRect rect = m_spr.getTextureRect();
     if (state == 1) {rect.position.x = 0; state = 2; count = 0;}
-    if (count < 4) {m_spr.setTextureRect({{rect.position.x + 32,192},{scale}}); count++;}
+    if (count < 4) {m_spr.setTextureRect({{rect.position.x + 32,192},{txScale}}); count++;}
     if (count >= 4) {deathOver = true;}
 }
 

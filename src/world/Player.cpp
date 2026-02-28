@@ -6,23 +6,17 @@
 #include <signal.h>
 
 
-player::player(const sf::Texture &sprite,const sf::Texture &shadow,const sf::Texture& shield, const sf::Texture& fball, bool nuevo) :  m_spr(sprite),m_shadow(shadow),m_speed(5),stamina(180), m_shield(shield), m_fireball(fball) {
-    scale = sf::Vector2i(32,32); fireballScale = sf::Vector2i(16,10); m_fireball.setTextureRect({{0,0},{fireballScale}});
-    m_spr.setTextureRect({{0,0},{scale}}); fscale = sf::Vector2f(0.6,0.6); m_fireball.setScale(fscale);
-    m_scale = sf::Vector2f(0.6,0.6); m_spr.setScale(m_scale); m_shadow.setScale(m_scale); m_shadow.setOrigin({9,3}); m_shield.setOrigin({16,16}); m_fireball.setOrigin({8,5});
-    m_spr.setOrigin({16,16}); m_spr.setPosition({1120,1184});
+player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Texture& shield, const sf::Texture& fball) :  entity(sprite,sha_tex),m_speed(5),stamina(180), m_shield(shield), m_fireball(fball) {
+    fireballScale = sf::Vector2i(16,10); m_fireball.setTextureRect({{0,0},{fireballScale}});
+    m_fireball.setScale(sprScale);
+    m_shield.setOrigin({16,16}); m_fireball.setOrigin({8,5});
+    m_spr.setPosition({1120,1184});
     dir.x = 0.f; dir.y = 0.f;
     wKey = sf::Keyboard::Key::W;aKey = sf::Keyboard::Key::A;sKey = sf::Keyboard::Key::S;dKey = sf::Keyboard::Key::D;
-    rClick = sf::Mouse::Button::Right;
     lClick = sf::Mouse::Button::Left;
-    hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Blue);
     fhitbox.setFillColor(sf::Color::Red);
     fhitbox.setSize({4,4}); fhitbox.setOrigin({2,2});
-
-    if (nuevo) {
-        playerSaves s;
-        saves = s;
-    }
+    health = 10;
 }
 
 void player::move(float delta, mapa &mapa) {
@@ -36,10 +30,10 @@ void player::move(float delta, mapa &mapa) {
             dir.y = 1.f;
         }
         if(sf::Keyboard::isKeyPressed(dKey) && !sf::Keyboard::isKeyPressed(aKey)) {
-            dir.x = 1.f; m_spr.setScale(m_scale);
+            dir.x = 1.f; m_spr.setScale(sprScale);
         }
         if(sf::Keyboard::isKeyPressed(aKey) && !sf::Keyboard::isKeyPressed(dKey)) {
-            dir.x = -1.f; m_spr.setScale({-m_scale.x,m_scale.y});
+            dir.x = -1.f; m_spr.setScale({-sprScale.x,sprScale.y});
         }
     }
 
@@ -86,19 +80,19 @@ void player::updateTexture() {
             if (rect.position.x >= 192) {
                 rect.position.x = 0;
             }
-            m_spr.setTextureRect({{rect.position.x + 32, 0},{scale}});
+            m_spr.setTextureRect({{rect.position.x + 32, 0},{txScale}});
             break;
         case 1:
             if (rect.position.x >= 96) {
                 rect.position.x = 0;
             }
-            m_spr.setTextureRect({{rect.position.x + 32, 65},{scale}});
+            m_spr.setTextureRect({{rect.position.x + 32, 65},{txScale}});
             break;
         case 2:
             if (rect.position.x >= 224) {
                 rect.position.x = 0;
             }
-            m_spr.setTextureRect({{rect.position.x + 32,97},{scale}});
+            m_spr.setTextureRect({{rect.position.x + 32,97},{txScale}});
             break;
         case 5:
             if (rect.position.x >= 160) {
@@ -106,7 +100,7 @@ void player::updateTexture() {
                 rect.position.x = 0;
             }
             if (isAttacking) {
-                m_spr.setTextureRect({{rect.position.x + 32,289},{scale}});
+                m_spr.setTextureRect({{rect.position.x + 32,289},{txScale}});
             }
             break;
         case 6:
@@ -115,7 +109,7 @@ void player::updateTexture() {
                 rect.position.x = 0;
             }
             if (iscritic) {
-                m_spr.setTextureRect({{rect.position.x + 32, 256},{scale}});
+                m_spr.setTextureRect({{rect.position.x + 32, 256},{txScale}});
             }
             break;
         case 7:
@@ -123,7 +117,7 @@ void player::updateTexture() {
                 rect.position.x = 0;
             }
             if (isDashing) {
-                m_spr.setTextureRect({{rect.position.x + 32, 321},{scale}});
+                m_spr.setTextureRect({{rect.position.x + 32, 321},{txScale}});
             }
             break;
 
@@ -186,13 +180,13 @@ void player::update(float delta,mapa &mapa) {
     }
 
     abil.update(delta,*this);
-    m_shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
+    shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     m_shield.setPosition({m_spr.getPosition().x, m_spr.getPosition().y});
 }
 
 void player::draw(sf::RenderWindow& m_win) {
     if(isShot){m_win.draw(m_fireball);}
-    if (state != 4) m_win.draw(m_shadow);
+    if (state != 4) m_win.draw(shadow);
     m_win.draw(m_spr);
     if (isShieldActive){m_win.draw(m_shield);}
     // m_win.draw(fhitbox);
@@ -213,7 +207,7 @@ void player::setHitStatus(bool status) {isHitting = status;}
 void player::attackSkin(){
     if (!isAttacking) {
         state = 5; isAttacking = true; isHitting = true;
-        m_spr.setTextureRect({{0,289},{scale}});
+        m_spr.setTextureRect({{0,289},{txScale}});
     }
 }
 
@@ -278,7 +272,7 @@ void player::updateHealth() {
 void player::deathDraw() {
     sf::IntRect rect = m_spr.getTextureRect();
     if (state == 3) rect.position.x = 0; state = 4;
-    m_spr.setTextureRect({{rect.position.x + 32,192},{scale}});
+    m_spr.setTextureRect({{rect.position.x + 32,192},{txScale}});
 
 }
 
@@ -288,7 +282,7 @@ const sf::Vector2f player::getScale() {
 
 //abilidades
 void player::dashMovement() {
-    m_spr.setTextureRect({{0,321},{scale}});
+    m_spr.setTextureRect({{0,321},{txScale}});
     isDashing = true;
     if (dir != sf::Vector2f(0,0)) {
         float length = sqrt(dir.x*dir.x + dir.y*dir.y);
