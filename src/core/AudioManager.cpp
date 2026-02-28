@@ -2,12 +2,14 @@
 
 #include <iostream>
 
-AudioManager::AudioManager() : dash(dash_1), sword(dash_1){
+AudioManager::AudioManager() : dash(dash_1), sword(dash_1), fire(dash_1){
     if (!dash_1.loadFromFile("../assets/sounds/dash1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!dash_2.loadFromFile("../assets/sounds/dash2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!sword_1.loadFromFile("../assets/sounds/sword1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!sword_2.loadFromFile("../assets/sounds/sword2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!sword_3.loadFromFile("../assets/sounds/sword3.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
+    if (!fire_1.loadFromFile("../assets/sounds/fire1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
+    if (!fire_2.loadFromFile("../assets/sounds/fire2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
 }
 
 void AudioManager::randomAudio(sf::Sound &sound, const sf::SoundBuffer &buffer1, const sf::SoundBuffer &buffer2) {
@@ -35,4 +37,9 @@ void AudioManager::playDash() {
 void AudioManager::playSword() {
     randomAudio(sword,sword_1,sword_2,sword_3);
     sword.play();
+}
+
+void AudioManager::playFireBall() {
+    randomAudio(fire,fire_1,fire_2);
+    fire.play();
 }

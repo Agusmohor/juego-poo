@@ -148,6 +148,7 @@ void player::update(float delta, game& game) {
     //audios
     if (startDashAudio){startDashAudio = false; game.getAudio().playDash(); }
     if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword(); }
+    if (startFireAudio){startFireAudio = false; game.getAudio().playFireBall();}
 
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
@@ -321,6 +322,7 @@ bool player::getShootActive() const {
 
 void player::shootState(float dt){
     if (!isShot && isShootActive) {
+        startFireAudio = true;
         m_fireball.setPosition(getPosition());
         isShot = true;
     }
