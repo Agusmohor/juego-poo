@@ -1,6 +1,6 @@
-#include "Game.hpp"
-#include "Scene.hpp"
-#include "menu.hpp"
+#include "core/Game.hpp"
+#include "core/Scene.hpp"
+#include "scenes/menu.hpp"
 #include <ctime>
 #include <cstdlib>
 

@@ -1,0 +1,40 @@
+#pragma once
+#ifndef ENTITY_HPP
+#define ENTITY_HPP
+
+#include "Mapa.hpp"
+#include <SFML/Graphics.hpp>
+
+#include "core/Drawble.h"
+#include "gameplay/Stats.hpp"
+
+class entity : public drawble {
+public:
+    entity() = default;
+    virtual void update(float delta,mapa &mapa) = 0;
+    virtual void draw(sf::RenderWindow& m_win) = 0;
+
+    virtual void updateTexture()=0;
+    virtual void drawHitbox(sf::RenderWindow &m_win)=0;
+    virtual void syncHitbox() = 0;
+    virtual void setHitboxes(std::vector<sf::FloatRect> &hitboxes) = 0;
+    virtual void colx(const sf::FloatRect hitbox) = 0;
+    virtual void coly(const sf::FloatRect hitbox) = 0;
+
+    virtual void deathDraw() = 0;
+
+    virtual void move(float delta,mapa &mapa) = 0;
+    virtual int getHealth() = 0;
+    virtual void updateHealth() = 0;
+    virtual bool isAlive() = 0;
+    virtual const sf::Vector2f getScale() = 0;
+
+    virtual const bool getHitStatus() const = 0;
+    virtual void setHitStatus(bool status) = 0;
+
+    virtual void recieveDamage() = 0;
+
+    virtual ~entity() = default;
+};
+
+#endif

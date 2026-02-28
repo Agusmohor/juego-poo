@@ -1,0 +1,271 @@
+#include "scenes/Pause.hpp"
+#include "scenes/Match.hpp"
+
+#include <algorithm>
+#include <iostream>
+#include <random>
+
+#include "core/Game.hpp"
+#include "world/Mapa.hpp"
+#include "scenes/GameOver.hpp"
+#include <string>
+
+match::match() : m_text("../assets/textures/fondo.jpg"), Fondo(m_text), m_hud() {
+    std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/mapa_ground.csv"; std::string grass = "../assets/textures/map/mapa_grass.csv";
+
+    if (!m_res.tree1.loadFromFile("../assets/textures/trees/tree1.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
+    if (!m_res.tree2.loadFromFile("../assets/textures/trees/tree2.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
+    if (!m_res.tree3.loadFromFile("../assets/textures/trees/tree3.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
+    if (!m_res.Player.loadFromFile("../assets/textures/entity/player/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_PLAYER_TEXTURE_FROM_FILE");}
+    if (!m_res.shadow.loadFromFile("../assets/textures/entity/player/plshadow.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHADOW_TEXTURE_FROM_FILE");}
+    if (!m_res.shield.loadFromFile("../assets/textures/entity/player/shield.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHIELD_TEXTURE_FROM_FILE");}
+    if (!m_res.fballskin.loadFromFile("../assets/textures/entity/player/fireball.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_FIREBALL_TEXTURE_FROM_FILE");}
+    if (!m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_ZOMBIE_TEXTURE_FROM_FILE");}
+
+
+    m_mapa.load(pngpath,ground,grass);
+
+    m_ply = std::make_unique<player>(m_res.Player,m_res.shadow,m_res.shield,m_res.fballskin, true);
+
+}
+
+
+void match::update(float delta,game &m_gam){
+    time += delta;
+    if (isRecentlyOpen) {
+        isRecentlyOpen = false;
+        if (m_gam.getPlayerSaves().time > 0 && m_gam.getPlayerSaves().time < 10000){time = m_gam.getPlayerSaves().time;}
+        if (!(m_gam.getPlayerSaves().kills <= 0)){kills = m_gam.getPlayerSaves().kills;}
+        m_ply->setSaves(m_gam.getPlayerSaves());
+        m_zombieSave = m_gam.getZombieSaves();
+        for (auto &z : m_zombieSave) {
+            m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(z.x,z.y)));
+        }
+
+        m_treeSave = m_gam.getTreeSaves();
+        sf::Vector2f v;
+        for (auto &t : m_treeSave) {
+            v.x = t.x; v.y = t.y;
+            m_obtacles.push_back(std::make_unique<tree>(v));
+        }
+
+        if (m_treeSave.size() <= 0) {
+            spawnObstacle();
+        }
+        for (auto &trees : m_obtacles) {
+            trees->random(m_res.tree1,m_res.tree2,m_res.tree3);
+        }
+    }
+    callSaveAndQuit(m_gam);
+    setPlayerKeyBinds(m_gam.getKeyBinds());
+    // std::cout << m_zombies.size() << std::endl;
+    // std::cout << m_obtacles.size() << std::endl;
+    spriteTimer += delta;
+    if (spriteTimer >= spriteDur) {
+        for (auto &tree : m_obtacles) {
+            tree->update();
+        }
+        m_ply->updateTexture();
+        for (auto &z : m_zombies) {
+            z->updateTexture();
+        }
+        spriteTimer = 0.f;
+    }
+    //actualizado de hitbox obstaculos
+    m_hitboxes.resize(m_obtacles.size());
+    for (size_t i=0;i<m_obtacles.size();i++) {
+        m_hitboxes[i] = m_obtacles[i]->getHitbox();
+    }
+
+    //update del player si esta vivo
+    if (m_ply->isAlive()) {m_ply->setHitboxes(m_hitboxes);m_ply->update(delta,m_mapa);}
+    for (auto &z : m_zombies) {
+        z->setHitboxes(m_hitboxes);
+        if (z->isAlive()) {z->update(delta,m_mapa);}
+        if (z->getHealth() <= 0 && !z->killCounted()){kills++; z->markKillCounted();}
+    }
+
+
+    //elimina todos los z, q cumplan con la condicion q no vivo, funcion inline
+    m_zombies.erase(std::remove_if(m_zombies.begin(),m_zombies.end(),[](const std::unique_ptr<zombie>& z){return z->isDeathOver();}),m_zombies.end());
+
+    if (m_zombies.size() < zombies.getMinEnemies() || m_zombies.size() < zombies.getMaxEnemies() && zombies.spawnCooldownTimer <= 0.f ) {
+        spawnEnemies(); zombies.spawnCooldownTimer = zombies.spawnCooldownDur;
+    }
+    zombies.spawnCooldownTimer -= delta;
+
+    //si no esta vivo, y presiona enter, crea otro personaje :)
+    if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && !ispressed) {
+        isOver(); m_gam.setStats(m_stats);
+
+        m_gam.setScene(new gameover); ispressed = true;
+        // m_ply.reset(); m_ply = std::make_unique<player>(m_res.Player,m_res.shadow);
+    }
+    // if (!m_zombie->isAlive()){m_zombie.reset(); m_zombie = std::make_unique<zombie>();}
+
+    hits();
+
+    if (m_ply->isAlive()) {
+        for (auto &z : m_zombies) {
+           z->getPlyPos(m_ply->getPosition());
+        }
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && !spawn){spawnEnemies();}
+    spawn = false;
+
+    m_hud.update();
+    m_hud.abilities(m_ply->getShieldReady(),m_ply->getDashReady(),m_ply->getFireReady(),m_ply->getHealReady());
+    m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
+    // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
+}
+
+void match::updateView(game &m_gam){
+    m_winSize = m_gam.getWinSize();
+    m_uiview = m_gam.getView();
+    m_hud.updateView();
+}
+
+void match::draw(sf::RenderWindow &m_win){
+    render(m_win);
+    m_win.setView(m_uiview);
+}
+
+
+void match::render(sf::RenderWindow &m_win){
+
+    //view mapa centrado en el player
+    normalView(m_win);
+
+    //se dibuja el mapa
+    m_mapa.draw(m_win);
+
+    m_drawble.clear();
+    m_drawble.push_back(m_ply.get());
+    for (auto &z : m_zombies) {
+        m_drawble.push_back(z.get());
+    }
+    for (auto &trees : m_obtacles) {
+        m_drawble.push_back(trees.get());
+    }
+
+    std::sort(m_drawble.begin(),m_drawble.end(),[](drawble* a, drawble* b){
+        return (a->getPosition().y + a->getGlobalBounds().size.y) <
+               (b->getPosition().y + b->getGlobalBounds().size.y);
+    });
+
+    for (auto &p : m_drawble) {
+        p->draw(m_win);
+    }
+
+    //view de UI
+    m_win.setView(m_uiview);
+
+    m_hud.moveGui(m_win.mapPixelToCoords(sf::Vector2i(m_uiview.getSize().x,m_uiview.getSize().y )));
+    m_hud.draw(m_win);
+
+}
+
+void match::normalView(sf::RenderWindow& m_win) {
+    m_view = m_win.getDefaultView();
+    m_view.setSize(sf::Vector2f(m_winSize));
+    m_view.setCenter(m_ply->getPosition());
+    m_view.zoom(0.2);
+    m_win.setView(m_view);
+}
+
+void match::hits() {
+    for (auto &z : m_zombies) {
+        sf::Vector2f dist = m_ply->getPosition() -  z->getPosition();
+        float distance = sqrt((dist.x * dist.x + dist.y * dist.y));
+        sf::Vector2f plyDir = m_ply->getScale();
+
+        //golpes juagdor a enemigo
+        if (plyDir.x < 0 && m_ply->getHitStatus() ) {
+            if (dist.x > 0 && dist.x < 15 && distance < 15 && z->isAlive()) {
+                z->recieveDamage();
+                m_ply->setHitStatus(false);
+            }
+        }
+        if (plyDir.x > 0 && m_ply->getHitStatus() ) {
+            if (dist.x < 0 && dist.x > -15 && distance < 15 && z->isAlive()) {
+                z->recieveDamage();
+                m_ply->setHitStatus(false);
+            }
+        }
+
+        //golpes enemigo a jugador
+        if ((z->getScale().x < 0 && distance < 10 && distance > 0) || (z->getScale().x > 0 && distance < 10 && distance > 0))  {
+            if (z->getHitStatus() == false) {
+                z->setHitStatus(true);
+            }
+            if (z->getDamageStatus()){m_ply->recieveDamage(); z->setDamageSatus(false);}
+        }
+
+        //fireball damage
+        if (m_ply->getFireball().getGlobalBounds().findIntersection(z->getGlobalBounds()) && m_ply->getIsShot()){
+            z->recieveDamage();
+        }
+   }
+
+
+}
+
+
+void match::spawnEnemies() {
+        int tx = zombies.minTilex + std::rand()%( zombies.maxTilex-zombies.minTilex + 1);
+        int ty = zombies.minTiley + std::rand()%( zombies.maxTiley-zombies.minTiley + 1);
+        if (!(tx >= zombies.minNTilex && tx <= zombies.maxNTilex && ty >= zombies.minNTiley && ty <= zombies.maxNTiley)) {
+            m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(tx * 32,ty * 32)));
+        }
+
+
+}
+
+void match::spawnObstacle() {
+        for (int i=0;i<m_obs.maxTreeSpawn;i++) {
+            int tx = m_obs.minTilex + std::rand()%( m_obs.maxTilex-m_obs.minTilex + 1);
+            int ty = m_obs.minTiley + std::rand()%( m_obs.maxTiley-m_obs.minTiley + 1);
+            if (!(tx >= m_obs.minNTilex && tx <= m_obs.maxNTilex && ty >= m_obs.minNTiley && ty <= m_obs.maxNTiley)) {
+                bool exists = false;
+                sf::Vector2f t_pos(tx*32,ty*32);
+                //si no existe ningun obstaculo en esas coords, entonces se crea
+                for (auto &t : m_obtacles) {
+                    if (t->getPosition() == t_pos) {exists = true; break;}
+                }
+                if (!exists) {m_obtacles.push_back(std::make_unique<tree>(sf::Vector2f(tx*32,ty*32)));}
+            }
+        }
+
+}
+
+void match::isOver() {
+    m_stats.timeAlive = time;
+    m_stats.kills = kills;
+}
+
+void match::ProcessEvent(game &game, sf::Event &event) {
+    if (event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) {
+        game.Pause();
+    }
+}
+
+void match::setPlayerKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keyBinds) {
+    m_ply->setKey(keyBinds);
+}
+
+void match::callSaveAndQuit(game &gam) {
+    if (gam.getSaveAndQuit()) {
+        gam.setPlayerSaves(m_ply->getSaves());
+        gam.clearTsaves(); gam.clearZsaves();
+        for (auto &z : m_zombies) {
+            gam.setZombieSaves(z->getSaves());
+        }
+        for (auto &o : m_obtacles) {
+            gam.setTreeSaves(o->getSaves());
+        }
+        gam.setSaveAndQuit(false); gam.setIsOver(true);
+        gam.setScene(new menu);
+    }
+}
+
+
