@@ -8,6 +8,12 @@
 #include "core/Drawble.hpp"
 #include "gameplay/Stats.hpp"
 
+enum struct changeColor {
+    none,
+    damaged,
+    heal
+};
+
 class entity : public drawble {
 protected:
     sf::Sprite m_spr,shadow;
@@ -20,12 +26,19 @@ protected:
     sf::Color color;
     bool vivo = true;
     bool isHitting = false;
-    bool damaged = false;
 
+    float colorDur = 0.18f;
+    float colorTimer = 0.f;
     //audio
     bool startSwordAudio = false;
 
-    virtual void damageColor(bool cond) { if (cond) {m_spr.setColor(sf::Color::Red); damaged = false;}else{m_spr.setColor(color);}}
+    virtual void changeColor(changeColor col) {
+        switch (col) {
+            case changeColor::none: m_spr.setColor(color); break;
+            case changeColor::damaged: m_spr.setColor(sf::Color::Red); break;
+            case changeColor::heal: m_spr.setColor(sf::Color::Green); break;
+        }
+    }
 public:
     entity(const sf::Texture& spr_tex,const sf::Texture& sha_tex) : m_spr(spr_tex), shadow(sha_tex) {
         sprScale = sf::Vector2f(0.6,0.6); m_spr.setScale(sprScale); shadow.setScale(sprScale);

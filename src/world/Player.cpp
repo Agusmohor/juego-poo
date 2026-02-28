@@ -117,7 +117,9 @@ void player::updateTexture() {
 
     if (m_fireball.getTextureRect().position.x >= 80){m_fireball.setTextureRect({{0,0},{fireballScale}});}
     m_fireball.setTextureRect({{m_fireball.getTextureRect().position.x +16,0},{fireballScale}});
-    damageColor(damaged);
+
+
+    if (colorTimer <= 0.f){changeColor(changeColor::none); colorTimer = colorDur;}
 }
 
 void player::speed(){
@@ -147,6 +149,7 @@ bool player::cond(){
 }
 
 void player::update(float delta, game& game) {
+    colorTimer -= delta;
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
@@ -211,6 +214,7 @@ void player::draw(sf::RenderWindow& m_win) {
     // m_win.draw(fhitbox);
 }
 
+
 //posicion del player
 const sf::Vector2f player::getPosition() const {
     return m_spr.getPosition();
@@ -241,12 +245,12 @@ bool player::isStaminaEmpty() const {
 }
 
 void player::recieveDamage() {
-    if (!isShieldActive) {health--; startDamagedAudio = true; damaged = true;}
+    if (!isShieldActive) {health--; startDamagedAudio = true; changeColor(changeColor::damaged);}
     else{shieldDamaged = true;}
 }
 
 void player::recieveDamage(int i) {
-    if (!isShieldActive) {health-=i; startDamagedAudio = true; damaged = true;}
+    if (!isShieldActive) {health-=i; startDamagedAudio = true;changeColor(changeColor::damaged);}
     else{shieldDamaged = true;}
 }
 
@@ -401,6 +405,7 @@ void player::stateHeal(){
             if(health < 14) {
                 health++;
                 c -= 1;
+                changeColor(changeColor::heal);
                 // std::cout << "Curado! Vida actual: " << health << std::endl;
             }
             healRegenTimer = 0.f; 

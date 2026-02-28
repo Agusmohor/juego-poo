@@ -55,7 +55,7 @@ void zombie::updateTexture() {
 
 
 
-    damageColor(damaged);
+    changeColor(changeColor::none);
     if (!this->isAlive()) deathDraw();
 
 }
@@ -172,20 +172,19 @@ void zombie::updateHealth() {
 }
 
 void zombie::recieveDamage() {
-    // std::cout << "GOLPE RECIBIDO AL ZOMBIE" << std::endl;
-    damaged = true;
     if (health > 0) {
         health--;
         startDamageAudio = true;
     }
+    changeColor(changeColor::damaged);
 }
 
 void zombie::recieveDamage(int i) {
-    damaged = true;
     if (health > 0) {
         health-=i;
         startDamageAudio = true;
     }
+    changeColor(changeColor::damaged);
 }
 
 void zombie::startAttack() {
