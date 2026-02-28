@@ -6,12 +6,22 @@ Juego desarrollado en C++ utilizando SFML para interfaz grafica
 #estructura del juego
 
 juego-poo/
-|-src/
-|  |-core/        # logica del juego (sin SFML)
-|  |-gui/         # interfaz grafica (SFML)
+|-src/             #source
 |  |-main.cpp
+|  |-core/         # logica del juego 
+|  |-gameplay/     # jugabilidad(abilities)
+|  |-scenes/       # escenas del juego
+|  |-ui/           # interfaz grafica in-game
+|  |-wordl/        # objetos/entidades
+|-includes/        # todos los includes
 |-tests/           # carpeta separada para pruebas
 |-assets/          # texturas, sonidos, fuentes
+|  |-fonts/        # fuentes
+|  |-sounds/       # sonidos
+|  |-textures/     # texturas
 |-data/            # saves y configuraciones
-|-build/           # archivos compilados (ignorado por git)
+|  |-config/       # configs(keybinds/name/resolution)
+|  |-globalstats/  # ranking
+|  |-saves/        # partidas guardadas
+|-build/           # archivos compilados 
 |-README.md
