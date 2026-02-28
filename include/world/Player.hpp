@@ -11,6 +11,11 @@
 #include "gameplay/Abilities.hpp"
 #include "core/Keys.hpp"
 
+enum struct moveState {
+    idle,
+    walking,
+    running
+};
 
 class player : public entity {
     int stamina;
@@ -64,7 +69,9 @@ class player : public entity {
     bool startDamagedAudio = false;
     bool startDeathAudio = false;
     bool isMoving = false;
-    bool wasMoving = false;
+    bool isRunning = false;
+    moveState currState;
+    moveState prevState;
 
     void move(float delta) override;
     void syncHitbox() override;

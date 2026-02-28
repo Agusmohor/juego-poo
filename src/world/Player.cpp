@@ -173,14 +173,22 @@ void player::update(float delta, game& game) {
 }
 
 void player::playAudios(game &game) {
-    isMoving = (velocity.x != 0 || velocity.y != 0);
-    if (isMoving && !wasMoving) {
-        game.getAudio().playPlayerWalking();
-    }
-    if (!isMoving && wasMoving) {
+    isMoving = (velocity.x != 0 || velocity.y != 0); isRunning = (state == 2);
+    if (!isMoving || isAttacking) {currState = moveState::idle;}
+    else if (isRunning) currState = moveState::running;
+    else currState = moveState::walking;
+
+    if (currState != prevState) {
+        game.getAudio().stopPlayerRunning();
         game.getAudio().stopPlayerWalking();
+
+        switch (currState) {
+            case moveState::walking: game.getAudio().playPlayerWalking(); break;
+            case moveState::running: game.getAudio().playPlayerRunning(); break;
+            case moveState::idle: break;
+        }
     }
-    wasMoving = isMoving;
+    prevState = currState;
     //audios
     if (startDashAudio){startDashAudio = false; game.getAudio().playDash(); }
     if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword(); }

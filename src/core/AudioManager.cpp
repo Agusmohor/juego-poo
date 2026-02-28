@@ -3,7 +3,7 @@
 #include <iostream>
 
 AudioManager::AudioManager() : dash(dash_1), sword(sword_1), fire(fire_1),heal(heal_1),shieldStart(shield_1),shieldFinish(shield_2),
-e_damaged(damaged_1), e_dead(dead_1), p_damaged(pdamaged_1), p_dead(pdamaged_1), p_walk(pwalk_1)
+e_damaged(damaged_1), e_dead(dead_1), p_damaged(pdamaged_1), p_dead(pdamaged_1), p_walk(pwalk_1),p_run(pwalk_1)
 {
     if (!dash_1.loadFromFile("../assets/sounds/dash1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!dash_2.loadFromFile("../assets/sounds/dash2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
@@ -31,7 +31,8 @@ e_damaged(damaged_1), e_dead(dead_1), p_damaged(pdamaged_1), p_dead(pdamaged_1),
     if (!pwalk_1.loadFromFile("../assets/sounds/walking1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!pwalk_2.loadFromFile("../assets/sounds/walking2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!pwalk_3.loadFromFile("../assets/sounds/walking3.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
-    p_walk.setLooping(true);
+    p_walk.setLooping(true); p_walk.setPitch(1.3); p_run.setLooping(true); p_run.setPitch(1.5);
+
 }
 
 void AudioManager::randomAudio(sf::Sound &sound, const sf::SoundBuffer &buffer1, const sf::SoundBuffer &buffer2) {
@@ -106,4 +107,13 @@ void AudioManager::playPlayerWalking() {
 
 void AudioManager::stopPlayerWalking() {
     p_walk.stop();
+}
+
+void AudioManager::playPlayerRunning() {
+    randomAudio(p_walk,pwalk_1,pwalk_2,pwalk_3);
+    p_run.play();
+}
+
+void AudioManager::stopPlayerRunning() {
+    p_run.stop();
 }
