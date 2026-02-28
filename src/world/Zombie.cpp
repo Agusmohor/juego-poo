@@ -12,7 +12,12 @@ void zombie::update(float delta,game &game) {
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     if (inRaduis() && !isHitting) {move(delta);}
     shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
-    updateHealth();
+    updateHealth(); startAttack();
+}
+
+void zombie::playAudios(game &game) {
+    if (startDamageAudio && !startDeathAudio) {startDamageAudio = false;game.getAudio().playEntityDamaged(); }
+    if (startDeathAudio){startDeathAudio = false; game.getAudio().playEntityDead();}
 }
 
 void zombie::updateTexture() {
@@ -41,7 +46,7 @@ void zombie::updateTexture() {
                 }
                 if (isHitting) {
                     m_spr.setTextureRect({{rect.position.x + 32, 256},{txScale}});
-                    if (m_spr.getTextureRect().position.x >= 128 && m_spr.getTextureRect().position.x <= 160) {doDamage = true;} else {doDamage = false;}
+                    if (m_spr.getTextureRect().position.x >= 128 && m_spr.getTextureRect().position.x <= 160) {damageTime = true;} else {damageTime = false;}
                 }
                 break;
         }
@@ -167,20 +172,36 @@ void zombie::updateHealth() {
 }
 
 void zombie::recieveDamage() {
-    std::cout << "GOLPE RECIBIDO AL ZOMBIE" << std::endl;
+    // std::cout << "GOLPE RECIBIDO AL ZOMBIE" << std::endl;
     damaged = true;
     if (health > 0) {
         health--;
+        startDamageAudio = true;
     }
 }
 
-bool const zombie::getDamageStatus() const {
-    return doDamage;
+void zombie::startAttack() {
+    if (isHitting && !damage_consumed && damageTime) {
+        can_damage = true;
+    }else{can_damage = false;}
 }
 
-void zombie::setDamageSatus(bool status) {
-    doDamage = status;
+const bool zombie::getHitStatus() const {
+    return isHitting;
 }
+
+void zombie::setHitStatus(bool status) {
+    isHitting = status; if(status) {m_spr.setTextureRect({{0,256},{txScale}}); damage_consumed = false;}
+}
+
+bool zombie::canDealDamage() const {
+    return can_damage;
+}
+
+void zombie::consumeDamage() {
+    damage_consumed = true;
+}
+
 const sf::Clock& zombie::getHitsCooldown() const {
     return hitsCooldown;
 }
@@ -189,13 +210,9 @@ void zombie::restartHitsCooldown() {
     hitsCooldown.restart();
 }
 
-const bool zombie::getHitStatus() const {return isHitting;}
-void zombie::setHitStatus(bool status) {isHitting = status; if(status) {m_spr.setTextureRect({{0,256},{txScale}});}};
-
-
 void zombie::deathDraw() {
     sf::IntRect rect = m_spr.getTextureRect();
-    if (state == 1) {rect.position.x = 0; state = 2; count = 0;}
+    if (state == 1) {startDeathAudio = true; rect.position.x = 0; state = 2; count = 0;}
     if (count < 4) {m_spr.setTextureRect({{rect.position.x + 32,192},{txScale}}); count++;}
     if (count >= 4) {deathOver = true;}
 }

@@ -145,14 +145,6 @@ bool player::cond(){
 }
 
 void player::update(float delta, game& game) {
-    //audios
-    if (startDashAudio){startDashAudio = false; game.getAudio().playDash(); }
-    if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword(); }
-    if (startFireAudio){startFireAudio = false; game.getAudio().playFireBall();}
-    if (startHealAudio){startHealAudio = false; game.getAudio().playHeal(); }
-    if (startShieldAudio){ startShieldAudio = false; game.getAudio().playStartShield(); }
-    if (finishShieldAudio && !startShieldAudio && !isShieldActive){finishShieldAudio = false; game.getAudio().playFinishShield();std::cout << "llegue" << std::endl;}
-
     prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
     //actualizar player
     texture();
@@ -178,6 +170,17 @@ void player::update(float delta, game& game) {
     shadow.setPosition({m_spr.getPosition().x, m_spr.getPosition().y+10});
     m_shield.setPosition({m_spr.getPosition().x, m_spr.getPosition().y});
 
+}
+
+void player::playAudios(game &game) {
+    //audios
+    if (startDashAudio){startDashAudio = false; game.getAudio().playDash(); }
+    if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword(); }
+    if (startFireAudio){startFireAudio = false; game.getAudio().playFireBall();}
+    if (startHealAudio){startHealAudio = false; game.getAudio().playHeal(); }
+    if (startShieldAudio){ startShieldAudio = false; game.getAudio().playStartShield(); }
+    if (finishShieldAudio && !startShieldAudio && !isShieldActive){finishShieldAudio = false; game.getAudio().playFinishShield();}
+    if (startDamagedAudio){startDamagedAudio = false; game.getAudio().playPlayedDamaged();}
 }
 
 void player::draw(sf::RenderWindow& m_win) {
@@ -218,7 +221,7 @@ bool player::isStaminaEmpty() const {
 }
 
 void player::recieveDamage() {
-    if (!isShieldActive) health--;
+    if (!isShieldActive) health--; startDamagedAudio = true;
 }
 
 

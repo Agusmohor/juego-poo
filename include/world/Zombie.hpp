@@ -12,10 +12,19 @@ class zombie : public entity {
     bool iscoly=false;
     float dist,max_rad,min_rad,dist2;
     bool deathOver = false;
-    bool damaged = false; bool doDamage = false;
+    bool damaged = false;
+
+    bool damageTime = false;
+    bool can_damage = false;
+    bool damage_consumed = false;
+    bool m_damageDeal = false;
+
     bool ismoving=false;
     int count;
     bool killcount = false;
+
+    bool startDamageAudio = false;
+    bool startDeathAudio = false;
 
     zombieSave saves;
 
@@ -29,10 +38,12 @@ class zombie : public entity {
     const sf::Clock& getHitsCooldown() const;
     void damageColor(bool cond);
     bool inRaduis();
+    void startAttack();
 public:
     zombie(const sf::Texture &m_tex, const sf::Texture &m_shadow, sf::Vector2f coords);
 
     void update(float delta,game& game) override;
+    void playAudios(game &game) override;
     void draw(sf::RenderWindow& m_win) override;
     void drawHitbox(sf::RenderWindow &m_win) override;
     void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
@@ -42,14 +53,14 @@ public:
     void updateTexture() override;
     const bool getHitStatus() const override;
     void setHitStatus(bool status) override;
-
     const zombieSave& getSaves();
     bool isDeathOver() const;
     void getPlyPos(const sf::Vector2f &pl_pos);
-    bool const getDamageStatus() const;
-    void setDamageSatus(bool status);
     void markKillCounted();
     bool killCounted() const;
+
+    bool canDealDamage() const;
+    void consumeDamage();
 };
 
 #endif

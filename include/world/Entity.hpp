@@ -32,6 +32,7 @@ public:
     }
 
     virtual void update(float delta,game &game) = 0;
+    virtual void playAudios(game& game){};
 
     virtual void updateTexture()=0;
     virtual void drawHitbox(sf::RenderWindow &m_win)=0;
@@ -48,8 +49,8 @@ public:
     virtual bool isAlive() const {return vivo;};
     virtual const sf::Vector2f getScale() const {return m_spr.getScale();};
 
-    virtual const bool getHitStatus() const = 0;
-    virtual void setHitStatus(bool status) = 0;
+    virtual const bool getHitStatus() const {return isHitting;};
+    virtual void setHitStatus(bool status) {};
 
     virtual void recieveDamage() = 0;
 

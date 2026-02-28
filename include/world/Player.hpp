@@ -61,6 +61,7 @@ class player : public entity {
     bool startHealAudio = false;
     bool startShieldAudio = false;
     bool finishShieldAudio = false;
+    bool startDamagedAudio = false;
 
     void move(float delta) override;
     void syncHitbox() override;
@@ -79,6 +80,7 @@ public:
     player(const sf::Texture &sprite, const sf::Texture &shadow, const sf::Texture& shield,const sf::Texture& fball);
 
     void update(float delta,game& game) override;
+    void playAudios(game &game) override;
     void draw(sf::RenderWindow &m_win) override;
     void updateTexture() override;
     void drawHitbox(sf::RenderWindow &m_win) override;

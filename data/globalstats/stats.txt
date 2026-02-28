@@ -106,3 +106,7 @@ agus|0|1
 agus|0|2
 agus|0|1
 agus|0|1
+agus|2|6
+agus|0|15
+agus|0|24
+agus|0|26
