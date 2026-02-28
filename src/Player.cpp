@@ -152,7 +152,6 @@ void player::speed(){
 
     if (stamina == 0) empty_stamina = true;
     if (stamina == 180) empty_stamina = false;
-    // std::cout << "stam " << stamina << " vel " << m_speed<<std::endl;
 }
 
 bool player::cond(){

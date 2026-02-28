@@ -56,7 +56,6 @@ void game::ProcessEvent() {
 
             //centra la view cuando se hace un resize de la window
             m_view = sf::View(visibleArea); m_view.setCenter(m_win.getDefaultView().getCenter());
-            m_uiview = sf::View(visibleArea); m_uiview.setCenter(m_win.getDefaultView().getCenter());
             m_win.setView(m_view);
         }
     }
@@ -85,7 +84,7 @@ void game::delPause(){
 
 }
 
-const sf::RenderWindow &game::getWindow() {
+const sf::RenderWindow &game::getWindow() const {
     return m_win;
 }
 
@@ -162,8 +161,8 @@ const sf::Vector2u& game::getWinSize() const {
     return m_winSize;
 }
 
-const sf::View& game::getUIWinView() const {
-    return m_uiview;
+const sf::View& game::getView() const {
+    return m_view;
 }
 
 void game::setStats(const stats &m_stats) {

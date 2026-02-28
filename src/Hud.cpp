@@ -141,12 +141,11 @@ void hud::updateView() {
 
 void hud::moveGui(const sf::Vector2f &winview){
     //mantener la gui centrada, independientemente del resize
-        m_winSize = winview;
-        newpos = m_winSize.y - 2;
+        newpos = winview.y;
 }
 
 void hud::checkPlayer(int health,int stamina, bool isStaminaEmpty) {
-    //carga de hp
+    //carga de hp y stamina
     playerHp = health;
     playerStam = stamina;
     this->isStaminaEmpty = isStaminaEmpty;

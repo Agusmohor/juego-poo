@@ -121,7 +121,7 @@ void match::update(float delta,game &m_gam){
 
 void match::updateView(game &m_gam){
     m_winSize = m_gam.getWinSize();
-    m_uiview = m_gam.getUIWinView();
+    m_uiview = m_gam.getView();
     m_hud.updateView();
 }
 
@@ -130,12 +130,7 @@ void match::draw(sf::RenderWindow &m_win){
     m_win.setView(m_uiview);
 }
 
-// void match::doPause(Game &m_gam){
-//     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) m_gam.isPaused(true);
-// }
 
-// dibujo de camara, centrado del hud
-// view = camara, win = ventana 
 void match::render(sf::RenderWindow &m_win){
 
     //view mapa centrado en el player
@@ -143,7 +138,6 @@ void match::render(sf::RenderWindow &m_win){
 
     //se dibuja el mapa
     m_mapa.draw(m_win);
-    // m_win.draw(Fondo);
 
     m_drawble.clear();
     m_drawble.push_back(m_ply.get());
@@ -159,14 +153,9 @@ void match::render(sf::RenderWindow &m_win){
                (b->getPosition().y + b->getGlobalBounds().size.y);
     });
 
-
     for (auto &p : m_drawble) {
         p->draw(m_win);
     }
-    //hitbox arboles
-    // for (auto &p : m_obtacles) {p->draw(m_win);}
-    // m_ply.drawHitbox(m_win);
-    // m_zombie->drawHitbox(m_win);
 
     //view de UI
     m_win.setView(m_uiview);
@@ -174,8 +163,6 @@ void match::render(sf::RenderWindow &m_win){
     m_hud.moveGui(m_win.mapPixelToCoords(sf::Vector2i(m_uiview.getSize().x,m_uiview.getSize().y )));
     m_hud.draw(m_win);
 
-    //view mapa
-    this->normalView(m_win);
 }
 
 void match::normalView(sf::RenderWindow& m_win) {

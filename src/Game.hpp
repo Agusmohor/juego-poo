@@ -18,7 +18,7 @@ public:
     
     game(scene* f_scene);
     ~game();
-    const sf::RenderWindow &getWindow();
+    const sf::RenderWindow &getWindow() const;
     void run();
 
     void ProcessEvent();
@@ -41,7 +41,7 @@ public:
     void takeConfig(std::ifstream &file);
 
     const sf::Vector2u &getWinSize() const;
-    const sf::View& getUIWinView() const;
+    const sf::View& getView() const;
 
     void setStats(const stats &m_stats);
     const stats &getStats();
@@ -77,7 +77,7 @@ private:
     scene* curr_scene = nullptr;
     scene* next_scene = nullptr;
     scene* m_pause = nullptr;
-    sf::View m_view,m_uiview;
+    sf::View m_view;
     bool ispaused = false;
     bool isExit = false;
     bool newMatch = false;
