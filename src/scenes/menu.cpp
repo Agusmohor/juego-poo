@@ -12,7 +12,7 @@ void menu::update(float delta,game &m_gam){
     if (m_gam.getIsOver()){rankScene.save(m_gam.getStats());rankScene.load(); rankScene.sortList();m_gam.setIsOver(false); }
     if(isNewGame) {m_gam.newProgress(); m_gam.loadProgress();m_gam.setScene(new match);}
     if(isLoadGame) {
-        if (!m_gam.loadProgress()) {notFound = true;}
+        if (!m_gam.loadProgress()) {notFound = true; isLoadGame = false;}
         else{m_gam.setScene(new match);}
     }
     if (rankScene.getBackRequest()){isRanking = false; rankScene.setBackRequest(false);}
@@ -98,9 +98,7 @@ void menu::buttons() {
     newButton.setSize({220.f,35.f});
     newButton.setPosition({sf::Vector2f(290,520)});
 
-    notsavefound = newText;
-    notsavefound.setFont(m_font2); notsavefound.setPosition({newText.getPosition().x-43,newText.getPosition().y-40});
-    notsavefound.setString("Not save found");
+
 
     rankingButton = newButton;
 
@@ -118,6 +116,10 @@ void menu::buttons() {
     centerTextToButton(newText,newButton);
     centerTextToButton(exitText,exitButton);
     centerTextToButton(rankText,rankingButton);
+
+    notsavefound = newText;
+    notsavefound.setFont(m_font2); notsavefound.setPosition({newText.getPosition().x-43,newText.getPosition().y-40});
+    notsavefound.setString("Not save found");
 
     enterName = newButton;
     enterName.setPosition({newButton.getPosition().x,newButton.getPosition().y-100});

@@ -1,2 +1,1 @@
-Resolution = 800x800
-Volume = 100
+Volume = 58

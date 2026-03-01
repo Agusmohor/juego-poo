@@ -22,7 +22,7 @@ class game {
     bool isExit = false;
     bool newMatch = false;
     sf::Clock timer,time;
-    std::string name;
+    std::string currName;
     sf::Vector2u m_winSize;
     stats p_stats;
     std::array<sf::Keyboard::Scancode,4> m_keys;
@@ -39,7 +39,7 @@ class game {
     ConfigManager config;
 
     void ProcessEvent();
-    void saveProgress();
+
 
 public:
     game(scene* f_scene);
@@ -52,9 +52,16 @@ public:
     void delPause();
 
     AudioManager& getAudio();
+    void newProgress();
+    bool loadProgress();
+    void saveProgress();
+    void saveConfig();
+    void loadConfig();
 
     const sf::Vector2u &getWinSize() const;
     const sf::View& getView() const;
+
+    void setName(const std::string& name);
 
     void setStats(const stats &m_stats);
     const stats &getStats() const;

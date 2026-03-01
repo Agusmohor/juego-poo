@@ -2,6 +2,7 @@
 #define JUEGO_POO_CONFIGMANAGER_H
 
 #include "gameplay/Stats.hpp"
+#include "fstream"
 #include "Keys.hpp"
 
 struct keybinds {
@@ -10,7 +11,7 @@ struct keybinds {
 
 class ConfigManager {
     void makeConfig() {
-        std::ofstream cfile("../data/config/config.txt");
+        std::ofstream cfile("../data/config/config.txt", std::ios::trunc);
         cfile << "Volume = 100" <<std::endl;
         cfile.close();
     }
@@ -32,17 +33,17 @@ class ConfigManager {
         cfile.write(reinterpret_cast<const char*>(&kb),sizeof(kb));
     }
 public:
-    void loadProgess(const stats &p_stats,playerSaves& p_saves,std::vector<zombieSave>& z_saves, std::vector<treeSave>& t_saves) {
+    bool loadProgess(const stats &p_stats,playerSaves& p_saves,std::vector<zombieSave>& z_saves, std::vector<treeSave>& t_saves) {
             std::string path = "../data/saves/" + p_stats.name + ".dat";
             std::ifstream file(path, std::ios::binary);
 
-            if (!file.is_open()) return;
+            if (!file.is_open()) return false;
 
             file.read(reinterpret_cast<char*>(&p_saves),sizeof(p_saves));
 
             int zcount; z_saves.clear();
             file.read(reinterpret_cast<char*>(&zcount),sizeof(zcount));
-            if (zcount < 0 || zcount > 50) return;
+            if (zcount < 0 || zcount > 50) return false;
             zombieSave z;
             for (int i=0;i<zcount;i++) {
                 file.read(reinterpret_cast<char*>(&z),sizeof(z));
@@ -51,12 +52,13 @@ public:
 
             int tcount; t_saves.clear();
             file.read(reinterpret_cast<char*>(&tcount),sizeof(tcount));
-            if (tcount < 0 || tcount > 600) return;
+            if (tcount < 0 || tcount > 600) return false;
             treeSave ts;
             for (int i=0;i<tcount;i++) {
                 file.read(reinterpret_cast<char*>(&ts),sizeof(ts));
                 t_saves.push_back(ts);
             }
+        return true;
     }
 
     void saveProgess(const stats& stats,playerSaves& p_saves,std::vector<zombieSave>& z_saves, std::vector<treeSave>& t_saves) {

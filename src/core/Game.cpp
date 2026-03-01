@@ -3,7 +3,7 @@
 
 game::game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false), next_scene(nullptr),m_pause(nullptr){
     m_win.setFramerateLimit(60);
-    config.loadConfig(p_stats,volume,m_keys);
+    loadConfig();
 }
 
 void game::run(){
@@ -18,8 +18,8 @@ void game::run(){
         if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
         if(!ispaused) curr_scene->update(delta,*this);
 
-        if (saveAndQuit){config.saveProgess(p_stats,p_saves,z_saves,t_saves); saveAndQuit=false;}
-        if (isOver) {config.newProgress(p_stats,p_saves,z_saves,t_saves);}
+        if (saveAndQuit){saveConfig(); saveAndQuit=false;}
+        if (isOver) {newProgress();}
         curr_scene->updateView(*this);
 
 
@@ -40,7 +40,7 @@ void game::ProcessEvent() {
     while(auto evt = m_win.pollEvent()){
         //evento cerrar ventana
         if(evt->is<sf::Event::Closed>() || isExit) {
-            config.saveConfig(p_stats,volume,m_keys);
+            saveConfig();
             m_win.close();
         } else {
             sf::Event& event = *evt;
@@ -105,6 +105,10 @@ void game::setStats(const stats &m_stats) {
     p_stats.timeAlive = m_stats.timeAlive;
 }
 
+void game::setName(const std::string &name) {
+    p_stats.name = name;
+}
+
 const stats &game::getStats() const{
     return p_stats;
 }
@@ -134,6 +138,26 @@ void game::setTreeSaves(const treeSave& tsave) {
 
 bool game::getSaveAndQuit() {
     return saveAndQuit;
+}
+
+bool game::loadProgress() {
+    return config.loadProgess(p_stats,p_saves,z_saves,t_saves);
+}
+
+void game::saveProgress() {
+    config.saveProgess(p_stats,p_saves,z_saves,t_saves);
+}
+
+void game::newProgress() {
+    config.newProgress(p_stats,p_saves,z_saves,t_saves);
+}
+
+void game::saveConfig() {
+    config.saveConfig(p_stats,volume,m_keys);
+}
+
+void game::loadConfig() {
+    config.loadConfig(p_stats,volume,m_keys);
 }
 
 void game::setSaveAndQuit(bool saq) {saveAndQuit = saq;}
