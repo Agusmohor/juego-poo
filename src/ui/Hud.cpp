@@ -3,7 +3,7 @@
 #include <iostream>
 
 hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui),m_heal(gui), overlay(gui)
- ,font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5), p_coords(font){
+ ,font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
 
     if(!gui.loadFromFile("../assets/textures/entity/player/gui/gui.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_GUI_TEXTURE_FROM_FILE");
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
@@ -21,10 +21,6 @@ hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_s
     text.setCharacterSize(24);
     text.setFillColor(sf::Color(150,150,150));
     text.setPosition(sf::Vector2f(250,650));
-    p_coords = text; p_coords.setCharacterSize(20);
-    p_coords.setFillColor(sf::Color::White);
-    debugPos = sf::Vector2f(10,30);
-    p_coords.setPosition({debugPos});
 
     stamColor = life.getColor();
 }
@@ -116,7 +112,6 @@ void hud::draw(sf::RenderWindow &m_win){
     m_win.draw(m_dash);
     m_win.draw(m_fire);
     m_win.draw(m_heal);
-    if (debug){m_win.draw(p_coords);}
     // m_win.draw(life);
 }
 
@@ -143,7 +138,6 @@ void hud::updateView() {
     m_dash.setPosition({m_dash.getPosition().x,newPos.y-abilPos.y});
     m_fire.setPosition({m_fire.getPosition().x,newPos.y-abilPos.y});
     m_heal.setPosition({m_heal.getPosition().x,newPos.y-abilPos.y});
-    p_coords.setPosition({});
 }
 
 void hud::onResize(const sf::Vector2f &newView){
@@ -152,13 +146,7 @@ void hud::onResize(const sf::Vector2f &newView){
 }
 
 void hud::ProcessEvent(game& game, sf::Event &event) {
-    const auto &win = game.getWindow();
-    sf::Vector2f fcoords = win.mapPixelToCoords(sf::Mouse::getPosition(win));
-    std::string x = std::to_string(fcoords.x); std::string y = std::to_string(fcoords.y);
-    std::string scoords = x+","+y;
-    if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {
-        if (evt->code == sf::Keyboard::Key::F3) {debug = !debug;}
-    }
+
 }
 
 void hud::checkPlayer(const player& p) {
@@ -166,6 +154,7 @@ void hud::checkPlayer(const player& p) {
     playerHp = p.getHealth();
     playerStam = p.getStamina();
     isStaminaEmpty = p.isStaminaEmpty();
+    abilities(p.getShieldReady(),p.getDashReady(),p.getFireReady(),p.getHealReady());
 }
 
 void hud::caseHealth() {

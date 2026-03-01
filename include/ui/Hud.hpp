@@ -10,12 +10,12 @@
 class hud{
     sf::Texture gui;
     sf::Sprite life, m_shield, m_dash, m_fire, m_heal, overlay;
-    sf::Vector2f scale,pos,spos,abilPos, overlayPos, debugPos, newPos;
+    sf::Vector2f scale,pos,spos,abilPos, overlayPos, newPos;
     std::vector<sf::Sprite> hp_empty,hp_fill,stamina_bar,stamina_empty, m_overlay;
     sf::Vector2i size;
 
     sf::Font font;
-    sf::Text text, p_coords;
+    sf::Text text;
 
     sf::Clock timer;
 
