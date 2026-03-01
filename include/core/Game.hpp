@@ -5,13 +5,11 @@
 #include <SFML/Graphics.hpp>
 #include "Scene.hpp"
 #include "scenes/Pause.hpp"
-#include "gameplay/Stats.hpp"
-#include "core/AudioManager.hpp"
+#include "AudioManager.hpp"
+#include "ConfigManager.hpp"
 #include <fstream>
 
-struct keybinds {
-    int shield, dash, fire, heal;
-};
+
 
 
 class game {
@@ -24,33 +22,23 @@ class game {
     bool isExit = false;
     bool newMatch = false;
     sf::Clock timer,time;
-    sf::Vector2u resolution;
     std::string name;
     sf::Vector2u m_winSize;
-    stats m_lastStats;
+    stats p_stats;
     std::array<sf::Keyboard::Scancode,4> m_keys;
 
     bool saveAndQuit = false;
     bool isOver = false;
-    keybinds kb;
-    playerSaves player_saves;
-    std::vector<zombieSave> zsaves;
-    std::vector<treeSave> tsaves;
+    playerSaves p_saves;
+    std::vector<zombieSave> z_saves;
+    std::vector<treeSave> t_saves;
 
     int volume;
 
     AudioManager audio;
+    ConfigManager config;
 
     void ProcessEvent();
-    void loadConfig(sf::RenderWindow &m_win);
-
-    void takeProfile(std::ifstream &file);
-    void takeConfig(std::ifstream &file);
-
-    void makeProfile();
-    void makeConfig();
-    void makeKeybinds();
-
     void saveProgress();
 
 public:
@@ -73,8 +61,7 @@ public:
     void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys);
     const std::array<sf::Keyboard::Scancode, 4>& getKeyBinds() const;
 
-    bool loadProgress();
-    void newProgress();
+
 
     void setPlayerSaves(const playerSaves& psaves);
     const playerSaves& getPlayerSaves() const;
