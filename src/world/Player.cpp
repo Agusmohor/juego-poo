@@ -180,11 +180,11 @@ void player::update(float delta, game& game) {
 
 void player::playAudios(game &game) {
     isMoving = (velocity.x != 0 || velocity.y != 0); isRunning = (state == 2);
-    if (!isMoving || isAttacking) {currState = moveState::idle;}
+    if ((!isMoving || isAttacking) || !vivo) {currState = moveState::idle;}
     else if (isRunning) currState = moveState::running;
     else currState = moveState::walking;
 
-    if (currState != prevState) {
+    if ((currState != prevState) || !vivo) {
         game.getAudio().stopPlayerRunning();
         game.getAudio().stopPlayerWalking();
 
