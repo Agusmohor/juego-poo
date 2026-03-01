@@ -1,1 +1,2 @@
 Resolution = 800x800
+Volume = 70

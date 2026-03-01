@@ -33,8 +33,8 @@ void gameover::update(float delta, game &m_gam) {
 }
 
 void gameover::draw(sf::RenderWindow &m_win) {
-    button_overlay(m_win,returnToMainMenu,type::mainmenu,botonselec,boton);
-    button_overlay(m_win,exit,type::exitgame,botonselec,boton);
+    button_overlay(m_win,returnToMainMenu,botonselec,boton);
+    button_overlay(m_win,exit,botonselec,boton);
     m_win.draw(shape);
     m_win.draw(text);
     m_win.draw(text2);

@@ -37,6 +37,8 @@ class game {
     std::vector<zombieSave> zsaves;
     std::vector<treeSave> tsaves;
 
+    int volume;
+
     AudioManager audio;
 
     void ProcessEvent();
@@ -68,7 +70,7 @@ public:
 
     void setStats(const stats &m_stats);
     const stats &getStats() const;
-    void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys, bool save);
+    void setKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keys);
     const std::array<sf::Keyboard::Scancode, 4>& getKeyBinds() const;
 
     bool loadProgress();
@@ -90,6 +92,9 @@ public:
     bool getSaveAndQuit();
     void setIsOver(bool isover);
     bool getIsOver();
+
+    void setVolume(int vol);
+    int getVolume() const;
 };
 
 #endif

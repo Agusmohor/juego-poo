@@ -13,6 +13,7 @@ void game::run(){
 
         // ve todos los eventos q ocurren en la ventana
         ProcessEvent();
+        audio.setVolume(volume);
 
         m_win.clear();
         if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
@@ -134,6 +135,7 @@ void game::makeProfile() {
 void game::makeConfig(){
     std::ofstream cfile("../data/config/config.txt");
     cfile << "Resolution = 800x800" << std::endl;
+    cfile << "Volume = 100" <<std::endl;
     cfile.close();
 }
 
@@ -159,6 +161,8 @@ void game::takeConfig(std::ifstream &file){
     std::getline(file,aux); 
     resolution.x = std::stoi(aux.substr(aux.find("=")+1,(aux.find("x")-aux.find("=")+1)));
     resolution.y = std::stoi(aux.substr(aux.find("x")+1));
+    std::getline(file,aux);
+    volume = std::stoi(aux.substr(aux.find("=")+1));
 }
 
 const sf::Vector2u& game::getWinSize() const {
@@ -179,15 +183,13 @@ const stats &game::getStats() const{
     return m_lastStats;
 }
 
-void game::setKeyBinds(const std::array<sf::Keyboard::Scancode, 4> &keys, bool save) {
+void game::setKeyBinds(const std::array<sf::Keyboard::Scancode, 4> &keys) {
     m_keys = keys;
-    if (save) {
-        kb.shield = static_cast<int>(m_keys[0]); kb.dash = static_cast<int>(m_keys[1]);
-        kb.fire = static_cast<int>(m_keys[2]); kb.heal = static_cast<int>(m_keys[3]);
+    kb.shield = static_cast<int>(m_keys[0]); kb.dash = static_cast<int>(m_keys[1]);
+    kb.fire = static_cast<int>(m_keys[2]); kb.heal = static_cast<int>(m_keys[3]);
 
-        std::ofstream file("../data/config/keybinds.dat", std::ios::binary | std::ios::trunc);
-        file.write(reinterpret_cast<const char*>(&kb),sizeof(kb));
-    }
+    std::ofstream file("../data/config/keybinds.dat", std::ios::binary | std::ios::trunc);
+    file.write(reinterpret_cast<const char*>(&kb),sizeof(kb));
 }
 
 const std::array<sf::Keyboard::Scancode, 4>& game::getKeyBinds() const {
@@ -298,4 +300,27 @@ const std::vector<zombieSave> &game::getZombieSaves() const {
 
 const std::vector<treeSave> &game::getTreeSaves() const {
     return tsaves;
+}
+
+void game::setVolume(int vol) {
+    volume = vol;
+    std::ifstream fin("../data/config/config.txt");
+    if (!fin.is_open()) makeConfig(); fin.close(); fin.clear();
+    fin.open("../data/config/config.txt");
+    std::string aux;
+    std::vector<std::string> lines;
+    while (getline(fin,aux)) {
+        lines.push_back(aux);
+    }
+    if (lines.size() >= 2)lines[1] = "Volume = "+std::to_string(volume);
+    fin.close();
+    std::ofstream fout("../data/config/config.txt",std::ios::trunc);
+    for (auto &l : lines) {
+        fout << l << std::endl;
+        std::cout<<l<<std::endl;
+    }
+}
+
+int game::getVolume() const {
+    return volume;
 }

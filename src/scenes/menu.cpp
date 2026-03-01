@@ -28,11 +28,11 @@ void menu::update(float delta,game &m_gam){
 void menu::draw(sf::RenderWindow &m_win){
     if (isRanking){rankScene.draw(m_win); return;}
     dibujado(m_win);
-    button_overlay(m_win,newButton,type::newgame,botonselec,boton);
-    button_overlay(m_win,loadButton,type::loadgame,botonselec,boton);
-    button_overlay(m_win,exitButton,type::exitgame,botonselec,boton);
-    button_overlay(m_win,rankingButton,type::ranking,botonselec,boton);
-    button_overlay(m_win,enterName,type::enterName,botonselec,boton);
+    button_overlay(m_win,newButton,botonselec,boton);
+    button_overlay(m_win,loadButton,botonselec,boton);
+    button_overlay(m_win,exitButton,botonselec,boton);
+    button_overlay(m_win,rankingButton,botonselec,boton);
+    button_overlay(m_win,enterName,botonselec,boton);
 
 }
 

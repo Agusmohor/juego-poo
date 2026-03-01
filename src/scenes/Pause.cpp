@@ -66,9 +66,9 @@ void PauseScene::draw(sf::RenderWindow &m_win){
 }
 
 void PauseScene::drawPause(sf::RenderWindow &m_win) {
-    button_overlay(m_win,resume,type::resume,botonselec,boton);
-    button_overlay(m_win,exit_button,type::mainmenu,botonselec,boton);
-    button_overlay(m_win,setting,type::setting,botonselec,boton);
+    button_overlay(m_win,resume,botonselec,boton);
+    button_overlay(m_win,exit_button,botonselec,boton);
+    button_overlay(m_win,setting,botonselec,boton);
     m_win.draw(overlay);
     m_win.draw(m_text);
     m_win.draw(resume);

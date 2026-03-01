@@ -11,6 +11,8 @@ class AudioManager {
     void randomAudio(sf::Sound &sound,const sf::SoundBuffer &buffer1, const sf::SoundBuffer &buffer2, const sf::SoundBuffer &buffer3);
 public:
     AudioManager();
+    void setVolume(float volume);
+
     void playDash();
     void playSword();
     void playFireBall();

@@ -37,7 +37,7 @@ public:
         t.setPosition(bbounds.getCenter());
     }
     virtual void buttonPressed(type t) {};
-    virtual void button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, type t, sf::Texture &botonSel, sf::Texture &buton) {
+    virtual void button_overlay(const sf::RenderWindow &win, sf::RectangleShape &button, sf::Texture &botonSel, sf::Texture &buton) {
         //recive un boton junto a 2 texturas, cambia de textura el boton cuando el mouse esta encima
         sf::Vector2i mouse_pos(sf::Mouse::getPosition(win).x,sf::Mouse::getPosition(win).y);
         sf::Vector2f window_pos = win.mapPixelToCoords(mouse_pos);

@@ -151,7 +151,6 @@ bool player::cond(){
 
 void player::update(float delta, game& game) {
     colorTimer -= delta;
-    std::cout << stamina << std::endl;
     //actualizar player
     texture();
     staminaRegenTimer += delta;

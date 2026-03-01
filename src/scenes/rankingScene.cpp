@@ -48,7 +48,7 @@ void rankingScene::showVector(sf::RenderWindow &m_win) {
 }
 
 void rankingScene::draw(sf::RenderWindow &m_win) {
-    button_overlay(m_win,backButton,type::back,botonselec,boton);
+    button_overlay(m_win,backButton,botonselec,boton);
     m_win.draw(backButton);
     m_win.draw(backText);
     m_win.draw(title);

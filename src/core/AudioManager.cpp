@@ -38,6 +38,23 @@ e_damaged(damaged_1), e_dead(dead_1), p_damaged(pdamaged_1), p_dead(pdamaged_1),
 
 }
 
+void AudioManager::setVolume(float volume) {
+    dash.setVolume(volume);
+    sword.setVolume(volume);
+    fire.setVolume(volume);
+    heal.setVolume(volume);
+    shieldStart.setVolume(volume);
+    shieldFinish.setVolume(volume);
+    e_damaged.setVolume(volume);
+    e_dead.setVolume(volume);
+    p_damaged.setVolume(volume);
+    p_dead.setVolume(volume);
+    p_walk.setVolume(volume);
+    p_run.setVolume(volume);
+    s_dam.setVolume(volume);
+    e_walk.setVolume(volume);
+}
+
 void AudioManager::randomAudio(sf::Sound &sound, const sf::SoundBuffer &buffer1, const sf::SoundBuffer &buffer2) {
     int rng = rand()%2;
     switch (rng) {
