@@ -44,6 +44,7 @@ void player::move(float delta) {
     speed();
     velocity = dir * m_speed *delta;
     prevPos = m_spr.getPosition();
+    hitboxPrevPos = hitbox.getPosition();
 
     m_spr.move({velocity.x,0.f});
     syncHitbox();
@@ -150,7 +151,7 @@ bool player::cond(){
 
 void player::update(float delta, game& game) {
     colorTimer -= delta;
-    prevPos = m_spr.getPosition(); hitboxPrevPos = hitbox.getPosition();
+
     //actualizar player
     texture();
     staminaRegenTimer += delta;
