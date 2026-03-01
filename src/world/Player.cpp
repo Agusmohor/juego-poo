@@ -111,7 +111,7 @@ void player::updateTexture() {
             break;
 
     }
-    if (!isAlive()) deathDraw();
+    if (!isAlive()) { deathDraw();}
     sf::Vector2f fdir = shootdir;
     float len = std::sqrt(fdir.x*fdir.x + fdir.y*fdir.y); if (len != 0.f) fdir /= len;
     float ang = std::atan2(fdir.y,fdir.x); m_fireball.setRotation(sf::radians(ang));
@@ -209,7 +209,7 @@ void player::playAudios(game &game) {
 
 void player::draw(sf::RenderWindow& m_win) {
     if(isShot){m_win.draw(m_fireball);}
-    if (state != 4) m_win.draw(shadow);
+    if (vivo) m_win.draw(shadow);
     m_win.draw(m_spr);
     if (isShieldActive){m_win.draw(m_shield);}
     // m_win.draw(fhitbox);
@@ -276,7 +276,7 @@ void player::syncHitbox() {
 void player::updateHealth() {
     if (health <= 0) {
         health = 0;vivo = false;
-        if (state != 4){state = 3;}
+        if (state != 4){state = 3; startDeathAudio = true;}
     }
     else {vivo = true;}
 
@@ -286,9 +286,8 @@ void player::updateHealth() {
 
 void player::deathDraw() {
     sf::IntRect rect = m_spr.getTextureRect();
-    if (state == 3) {rect.position.x = 0; state = 4; startDeathAudio = true;}
+    if (state == 3) {rect.position.x = 0; state = 4; }
     m_spr.setTextureRect({{rect.position.x + 32,192},{txScale}});
-
 }
 
 //abilidades
