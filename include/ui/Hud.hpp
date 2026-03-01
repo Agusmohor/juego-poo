@@ -22,7 +22,8 @@ class hud{
     sf::Color stamColor;
 
     bool isDead = false;
-    bool debug = false;
+    bool stamTaked = false;
+    int stamPart = 1;
     bool state, isStaminaEmpty;
     int  playerHp,playerStam;
 

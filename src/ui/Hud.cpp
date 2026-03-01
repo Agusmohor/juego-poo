@@ -196,31 +196,22 @@ void hud::caseHealth() {
 void hud::caseStamina() {
     if (playerStam <= 0) {stamina_bar.clear(); return;}
 
-    int bars = playerStam / 30;
-    if (bars > 6) bars = 6;
+    if (!stamTaked){stamTaked = true;stamPart = playerStam/6;}
 
-    int full = playerStam / 30;
-    int rem = playerStam % 30;
 
-    createStamina(bars);
-        if (rem >= 15 && full < 6) {
+    int full = playerStam / stamPart;
+    int rem = playerStam % stamPart;
+
+    //crea stamina con una barrita full
+    createStamina(full);
+    //suma una mitad de barra
+        if (rem >= stamPart/2 && full < 6) {
             sf::Sprite p = life;
             if (!isStaminaEmpty) p.setTextureRect({{243,278},{size}});
             if (isStaminaEmpty) p.setTextureRect({{243,206},{size}});
             p.setPosition({spos.x + 30 * full,life.getPosition().y});
             stamina_bar.push_back(p);
         }
-
-
-    if (playerStam >= 15 && playerStam <= 30) {
-        stamina_bar.clear();
-        sf::Sprite p = life;
-        if (!isStaminaEmpty) p.setTextureRect({{243,278},{size}});
-        if (isStaminaEmpty) p.setTextureRect({{243,206},{size}});
-        p.setPosition({ spos.x,life.getPosition().y});
-        stamina_bar.push_back(p);
-    }
-
 
 }
 
