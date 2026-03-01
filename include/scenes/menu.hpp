@@ -4,27 +4,32 @@
 #include "core/Scene.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
-#include "scenes/rankingScene.hpp"
+
+#include "settingsScene.hpp"
+#include "rankingScene.hpp"
 #include "ui/InputText.hpp"
 
 class menu : public scene{
     sf::Font m_font1,m_font2;
-    sf::Text m_text1,m_text2,loadText, exitText, newText, rankText, notsavefound, nameText, currname, confirm;
+    sf::Text m_text1,m_text2,loadText, exitText, newText, rankText, notsavefound, nameText, currname, confirm,t_settings;
     sf::Texture boton,botonselec;
     sf::Clock timer;
     unsigned char r,g,b;
-    sf::RectangleShape loadButton,newButton,exitButton, rankingButton, enterName;
+    sf::RectangleShape loadButton,newButton,exitButton, rankingButton, enterName,settingsBtn;
     float posx1,posx2,posy1,posy2;
     bool ispressed = false;
     bool isNewGame = false;
     bool isLoadGame = false;
     bool isExit = false;
     bool isRanking = false;
+    bool isSetting = false;
     bool notFound = false;
     bool waitingName = false;
+
     stats m_stats;
     InputText input;
     rankingScene rankScene;
+    settingsScene setScene;
 
     void dibujado(sf::RenderWindow &m_win);
     void buttons();

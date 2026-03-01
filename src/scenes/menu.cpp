@@ -3,7 +3,8 @@
 #include "core/Game.hpp"
 #include <iostream>
 
-menu::menu() : m_text1(m_font1), m_text2(m_font1), loadText(m_font2), newText(m_font2), exitText(m_font2), rankText(m_font1),notsavefound(m_font1), nameText(m_font1), currname(m_font1), input(m_font2), confirm(m_font2){
+menu::menu() : m_text1(m_font1), m_text2(m_font1), loadText(m_font2), newText(m_font2), exitText(m_font2),
+rankText(m_font1),notsavefound(m_font1), nameText(m_font1), currname(m_font1), input(m_font2), confirm(m_font2),t_settings(m_font2){
     buttons();
 }
 
@@ -16,6 +17,8 @@ void menu::update(float delta,game &m_gam){
     }
     if (rankScene.getBackRequest()){isRanking = false; rankScene.setBackRequest(false);}
     if (isRanking){rankScene.update(delta,m_gam);}
+    if (isSetting){setScene.update(delta,m_gam);}
+    if (setScene.getExit()){setScene.setExit(false);isSetting = false;}
     if(isExit) {m_gam.exit();}
     titleColor();
     input.update();
@@ -27,12 +30,14 @@ void menu::update(float delta,game &m_gam){
 
 void menu::draw(sf::RenderWindow &m_win){
     if (isRanking){rankScene.draw(m_win); return;}
+    if (isSetting){setScene.draw(m_win); return;}
     dibujado(m_win);
     button_overlay(m_win,newButton,botonselec,boton);
     button_overlay(m_win,loadButton,botonselec,boton);
     button_overlay(m_win,exitButton,botonselec,boton);
     button_overlay(m_win,rankingButton,botonselec,boton);
     button_overlay(m_win,enterName,botonselec,boton);
+    button_overlay(m_win,settingsBtn,botonselec,boton);
 
 }
 
@@ -44,11 +49,13 @@ void menu::dibujado(sf::RenderWindow &m_win){
     m_win.draw(loadButton);
     m_win.draw(exitButton);
     m_win.draw(rankingButton);
+    m_win.draw(settingsBtn);
     m_win.draw(enterName);
     m_win.draw(newText);
     m_win.draw(loadText);
     m_win.draw(exitText);
     m_win.draw(rankText);
+    m_win.draw(t_settings);
     m_win.draw(nameText);
     m_win.draw(input);
     if (!(currname.getString() == "null")){m_win.draw(currname);}
@@ -102,7 +109,10 @@ void menu::buttons() {
     rankingButton = loadButton; rankingButton.setPosition({loadButton.getPosition().x,loadButton.getPosition().y + 45});
     rankText = loadText; rankText.setString("Ranking");
 
-    exitButton = rankingButton; exitButton.setPosition({rankingButton.getPosition().x,rankingButton.getPosition().y + 45});
+    settingsBtn = rankingButton;
+    settingsBtn.setPosition({rankingButton.getPosition().x,rankingButton.getPosition().y+45});
+
+    exitButton = settingsBtn; exitButton.setPosition({settingsBtn.getPosition().x,settingsBtn.getPosition().y + 45});
     exitText = newText; exitText.setString("Exit");
     centerTextToButton(loadText,loadButton);
     centerTextToButton(newText,newButton);
@@ -123,6 +133,8 @@ void menu::buttons() {
     confirm.setPosition({nameText.getPosition().x-30,nameText.getPosition().y + 90});
 
     currname.setPosition({m_text2.getPosition().x+115,m_text2.getPosition().y + 80});
+    t_settings = rankText; t_settings.setString("Settings");
+    centerTextToButton(t_settings,settingsBtn);
 
 }
 
@@ -134,12 +146,14 @@ void menu::buttonPressed( type t) {
         case type::loadgame: isLoadGame = true; break;
         case type::exitgame: isExit = true; break;
         case type::ranking : isRanking = true; break;
+        case type::setting : isSetting = true; break;
         case type::enterName : waitingName = true; break;
     }
 }
 
 void menu::ProcessEvent(game &game, sf::Event &event) {
     if (isRanking){rankScene.ProcessEvent(game,event);return;}
+    if (isSetting){setScene.ProcessEvent(game,event); return;}
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button==sf::Mouse::Button::Left) {
             auto &win = game.getWindow();
@@ -148,6 +162,7 @@ void menu::ProcessEvent(game &game, sf::Event &event) {
             if (mouseOver(win,exitButton)) {buttonPressed(type::exitgame);}
             if (mouseOver(win,rankingButton)) {buttonPressed(type::ranking);}
             if (mouseOver(win,enterName)) {buttonPressed(type::enterName);}else{waitingName = false;}
+            if (mouseOver(win,settingsBtn)) {buttonPressed(type::setting);}
         }
     }
     if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {

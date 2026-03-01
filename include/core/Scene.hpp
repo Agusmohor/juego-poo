@@ -41,11 +41,14 @@ public:
         //recive un boton junto a 2 texturas, cambia de textura el boton cuando el mouse esta encima
         sf::Vector2i mouse_pos(sf::Mouse::getPosition(win).x,sf::Mouse::getPosition(win).y);
         sf::Vector2f window_pos = win.mapPixelToCoords(mouse_pos);
+        button.setOutlineThickness(1);
 
         if (button.getGlobalBounds().contains(window_pos)) {
             button.setTexture(&botonSel);
+            button.setOutlineColor(sf::Color::White);
         }else{
             button.setTexture(&buton);
+            button.setOutlineColor(sf::Color::Black);
         }
     };
     virtual bool mouseOver(const sf::RenderWindow &win, const sf::RectangleShape &btn) {

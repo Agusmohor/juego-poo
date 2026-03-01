@@ -58,6 +58,7 @@ saveText(font),k1(font),k2(font),k3(font),k4(font), waitkey(font), saved(font), 
     volumeBack.setOrigin({250,17.5}); volumeBack.setFillColor({80,80,80});
     volumeBack.setOutlineColor(sf::Color::Black);volumeBack.setOutlineThickness(3);
     volumeBtn.setSize({10,34}); volumeBtn.setOrigin({5,17});
+    t_volume.setString("Master Volume: ");
     centerTextToButton(t_volume,volumeBack); t_volume.setCharacterSize(25);
 }
 
@@ -87,9 +88,9 @@ void settingsScene::update(float delta,game &m_game) {
     if (volumeBtn.getPosition().x > volumeBack.getGlobalBounds().position.x + volumeBack.getSize().x) {
         volumeBtn.setPosition({volumeBack.getGlobalBounds().position.x + volumeBack.getSize().x, volumeBack.getPosition().y});
     }
-    volume = volumeBtn.getGlobalBounds().position.x - volumeBack.getGlobalBounds().position.x;
+    volume = volumeBtn.getGlobalBounds().position.x - volumeBack.getGlobalBounds().position.x + 1;
     volume /= 5; volume += 1;
-    t_volume.setString(std::to_string(volume)+"%");
+    t_volume.setString("Master Volume: "+std::to_string(volume)+"%");
 }
 
 void settingsScene::draw(sf::RenderWindow &m_win) {
