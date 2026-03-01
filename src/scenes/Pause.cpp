@@ -54,9 +54,9 @@ void PauseScene::ProcessEvent(game &game, sf::Event &event) {
     auto& win = game.getWindow();
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button == sf::Mouse::Button::Left) {
-            if (clickOn(win,resume)){buttonPressed(type::resume);}
-            if (clickOn(win,exit_button)){buttonPressed(type::mainmenu);}
-            if (clickOn(win,setting)){buttonPressed(type::setting);}
+            if (mouseOver(win,resume)){buttonPressed(type::resume);}
+            if (mouseOver(win,exit_button)){buttonPressed(type::mainmenu);}
+            if (mouseOver(win,setting)){buttonPressed(type::setting);}
         }
     }
 }

@@ -48,7 +48,7 @@ public:
             button.setTexture(&buton);
         }
     };
-    virtual bool clickOn(const sf::RenderWindow &win, const sf::RectangleShape &btn) {
+    virtual bool mouseOver(const sf::RenderWindow &win, const sf::RectangleShape &btn) {
         //devuelve true si el mouse esta encima del shape
         auto mp = sf::Mouse::getPosition(win);
         auto wp = win.mapPixelToCoords(mp);

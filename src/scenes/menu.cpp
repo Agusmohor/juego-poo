@@ -143,11 +143,11 @@ void menu::ProcessEvent(game &game, sf::Event &event) {
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button==sf::Mouse::Button::Left) {
             auto &win = game.getWindow();
-            if (clickOn(win,newButton)) {buttonPressed(type::newgame);}
-            if (clickOn(win,loadButton)) {buttonPressed(type::loadgame);}
-            if (clickOn(win,exitButton)) {buttonPressed(type::exitgame);}
-            if (clickOn(win,rankingButton)) {buttonPressed(type::ranking);}
-            if (clickOn(win,enterName)) {buttonPressed(type::enterName);}else{waitingName = false;}
+            if (mouseOver(win,newButton)) {buttonPressed(type::newgame);}
+            if (mouseOver(win,loadButton)) {buttonPressed(type::loadgame);}
+            if (mouseOver(win,exitButton)) {buttonPressed(type::exitgame);}
+            if (mouseOver(win,rankingButton)) {buttonPressed(type::ranking);}
+            if (mouseOver(win,enterName)) {buttonPressed(type::enterName);}else{waitingName = false;}
         }
     }
     if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {

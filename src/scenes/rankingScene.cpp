@@ -94,7 +94,7 @@ void rankingScene::ProcessEvent(game &game, sf::Event &event) {
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button == sf::Mouse::Button::Left) {
             auto &win = game.getWindow();
-            if (clickOn(win,backButton)) {buttonPressed(type::back);}
+            if (mouseOver(win,backButton)) {buttonPressed(type::back);}
         }
     }
 }

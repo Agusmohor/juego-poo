@@ -184,7 +184,6 @@ void hud::caseHealth() {
         p.setPosition(life.getPosition());
         hp_fill.push_back(p);
     }
-    std::cout << playerHp << std::endl;
 }
 
 void hud::caseStamina() {

@@ -15,7 +15,7 @@ player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Te
     lClick = sf::Mouse::Button::Left;
     fhitbox.setFillColor(sf::Color::Red);
     fhitbox.setSize({4,4}); fhitbox.setOrigin({2,2});
-    health = 20;
+    health = 10;
 
 }
 

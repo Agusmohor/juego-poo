@@ -13,14 +13,6 @@ void HealingAbility::update(float dt,player& p){
     if (cooldownTimer <= 0.f) {p.setHealReady(true);}
 }
 
-bool HealingAbility::tryActive(){
-    static bool prev = false;
-    bool now ;
-    if (key == sf::Keyboard::Scancode::Unknown){now = false;}
-    now = sf::Keyboard::isKeyPressed(key);
-    bool isPressed = now && !prev;
-    prev = now;
-    return isPressed && cooldownTimer <= 0.f;
-}
+
 
 

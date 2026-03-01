@@ -104,7 +104,7 @@ void AudioManager::playPlayerDamaged() {
 }
 
 void AudioManager::playPlayerDeath() {
-    randomAudio(p_dead,dead_1,dead_2,dead_3);
+    randomAudio(p_dead,pdead_1,pdead_2,pdead_3);
     p_dead.play();
 }
 

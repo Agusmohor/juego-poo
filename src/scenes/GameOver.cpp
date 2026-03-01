@@ -58,8 +58,8 @@ void gameover::ProcessEvent(game &game, sf::Event &event) {
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button == sf::Mouse::Button::Left) {
             auto &win = game.getWindow();
-            if (clickOn(win,returnToMainMenu)){buttonPressed(type::mainmenu);}
-            if (clickOn(win,exit)){buttonPressed(type::exitgame);}
+            if (mouseOver(win,returnToMainMenu)){buttonPressed(type::mainmenu);}
+            if (mouseOver(win,exit)){buttonPressed(type::exitgame);}
         }
     }
 }

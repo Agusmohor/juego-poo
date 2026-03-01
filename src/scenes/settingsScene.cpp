@@ -99,12 +99,12 @@ void settingsScene::ProcessEvent(game &game, sf::Event &event) {
     auto &win = game.getWindow();
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button == sf::Mouse::Button::Left) {
-            if (clickOn(win,Ab1)){buttonPressed(type::Ab1);}
-            if (clickOn(win,Ab2)){buttonPressed(type::Ab2);}
-            if (clickOn(win,Ab3)){buttonPressed(type::Ab3);}
-            if (clickOn(win,Ab4)){buttonPressed(type::Ab4);}
-            if (clickOn(win,save)){buttonPressed(type::save);}
-            if (clickOn(win,exit)){buttonPressed(type::exitgame);}
+            if (mouseOver(win,Ab1)){buttonPressed(type::Ab1);}
+            if (mouseOver(win,Ab2)){buttonPressed(type::Ab2);}
+            if (mouseOver(win,Ab3)){buttonPressed(type::Ab3);}
+            if (mouseOver(win,Ab4)){buttonPressed(type::Ab4);}
+            if (mouseOver(win,save)){buttonPressed(type::save);}
+            if (mouseOver(win,exit)){buttonPressed(type::exitgame);}
         }
     }
     if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {

@@ -7,14 +7,11 @@
 
 class DashAbility : public Ability {
     float cooldownDuration = 5.f;
-    float cooldownTimer = 0.f;
     float dashTimer = 0.f;
     float dashDuration = 0.15f;
     bool active = false;
-    sf::Keyboard::Scancode key = sf::Keyboard::Scancode::Unknown;
 public:
     void update(float dt, player& p) override;
-    bool tryActive() override;
 };
 
 
