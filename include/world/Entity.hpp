@@ -20,10 +20,8 @@ protected:
     int state,health = 10;
     float m_speed;
     sf::Vector2i txScale;
-    sf::RectangleShape hitbox;
     std::vector<sf::FloatRect>* hitboxes;
     sf::Vector2f sprScale, pl_pos, prevPos, hitboxPrevPos;
-    sf::Color color;
     bool vivo = true;
     bool isHitting = false;
 
@@ -34,9 +32,9 @@ protected:
 
     virtual void changeColor(changeColor col) {
         switch (col) {
-            case changeColor::none: m_spr.setColor(color); break;
+            case changeColor::none: m_spr.setColor(sf::Color::White); break;
             case changeColor::damaged: m_spr.setColor(sf::Color::Red); break;
-            case changeColor::heal: m_spr.setColor(sf::Color::Green); break;
+            case changeColor::heal: m_spr.setColor(sf::Color::Blue); break;
         }
     }
 public:
@@ -45,16 +43,14 @@ public:
         txScale = sf::Vector2i(32,32); m_spr.setOrigin({16,16}); shadow.setOrigin({9,3});
         m_spr.setTextureRect({{0,0},{txScale}});
         hitbox.setSize({10,3}); hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4}); hitbox.setFillColor(sf::Color::Blue);
-        color = m_spr.getColor();
     }
 
     virtual void update(float delta,game &game) = 0;
     virtual void playAudios(game& game){};
 
     virtual void updateTexture()=0;
-    virtual void drawHitbox(sf::RenderWindow &m_win)=0;
     virtual void syncHitbox() = 0;
-    virtual void setHitboxes(std::vector<sf::FloatRect> &hitboxes) = 0;
+    virtual void setHitboxes(std::vector<sf::FloatRect> &hitboxes) {this->hitboxes = &hitboxes;};
     virtual void colx(const sf::FloatRect& hitbox) = 0;
     virtual void coly(const sf::FloatRect& hitbox) = 0;
 

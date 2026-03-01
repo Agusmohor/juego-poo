@@ -4,13 +4,12 @@
 
 tree::tree(sf::Vector2f coords) : obstacle()  {
     m_spr.setScale({2,2}); m_spr.setOrigin({4,4});
-    m_hitbox.setSize({9,6});
+    hitbox.setSize({9,6});
     m_spr.setTextureRect({{0,0},{64,64}}); m_spr.setScale({1,1});
     setPos(coords);
 }
 
 void tree::draw(sf::RenderWindow &m_win) {
-    // m_win.draw(m_hitbox);
     m_win.draw(m_spr);
 }
 
@@ -41,11 +40,11 @@ void tree::random(const sf::Texture &arbol, const sf::Texture &arbol2, const sf:
 void tree::setPos(sf::Vector2f pos) {
     m_spr.setPosition(pos);
     sf::Vector2f basePos = m_spr.getPosition();
-    m_hitbox.setPosition({basePos.x+24, basePos.y + 50});
+    hitbox.setPosition({basePos.x+24, basePos.y + 50});
 }
 
 sf::FloatRect tree::getHitbox() {
-    return m_hitbox.getGlobalBounds();
+    return hitbox.getGlobalBounds();
 }
 
 const sf::FloatRect tree::getGlobalBounds() const {return m_spr.getGlobalBounds();}

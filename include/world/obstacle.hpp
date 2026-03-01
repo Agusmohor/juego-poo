@@ -8,7 +8,6 @@ class obstacle : public drawble {
 protected:
     sf::Texture texture;
     sf::Sprite m_spr;
-    sf::RectangleShape m_hitbox;
 public:
     obstacle() : m_spr(texture){}
     virtual ~obstacle() = default;

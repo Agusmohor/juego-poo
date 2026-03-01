@@ -4,7 +4,7 @@
 
 zombie::zombie(const sf::Texture &sprite, const sf::Texture &m_shadow, sf::Vector2f coords) :  entity(sprite,m_shadow) {
     m_spr.setPosition({coords});
-    m_speed = 30; color = m_spr.getColor();
+    m_speed = 30;
     health = 2;
 }
 
@@ -66,11 +66,6 @@ void zombie::draw(sf::RenderWindow &m_win) {
 
 }
 
-void zombie::drawHitbox(sf::RenderWindow &m_win) {
-    hitbox.setFillColor(sf::Color::Red);
-    m_win.draw(hitbox);
-}
-
 void zombie::syncHitbox() {
      hitbox.setPosition({m_spr.getPosition().x-6,m_spr.getPosition().y+4});
 }
@@ -99,10 +94,6 @@ void zombie::coly(const sf::FloatRect& hitbox) {
         iscoly=true;
     }
 
-}
-
-void zombie::setHitboxes(std::vector<sf::FloatRect> &hitboxes) {
-    this->hitboxes = &hitboxes;
 }
 
 void zombie::move(float delta) {

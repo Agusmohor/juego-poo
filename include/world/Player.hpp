@@ -94,8 +94,6 @@ public:
     void playAudios(game &game) override;
     void draw(sf::RenderWindow &m_win) override;
     void updateTexture() override;
-    void drawHitbox(sf::RenderWindow &m_win) override;
-    void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
     const sf::Vector2f getPosition() const override;
     const sf::FloatRect getGlobalBounds() const override;
     void recieveDamage() override;

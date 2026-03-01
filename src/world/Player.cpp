@@ -16,7 +16,7 @@ player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Te
     fhitbox.setFillColor(sf::Color::Red);
     fhitbox.setSize({4,4}); fhitbox.setOrigin({2,2});
     health = 10;
-    color = m_spr.getColor();
+
 }
 
 void player::move(float delta) {
@@ -266,14 +266,6 @@ void player::coly(const sf::FloatRect& hitboxOther) {
         m_spr.setPosition({m_spr.getPosition().x,prevPos.y});
         syncHitbox();
     }
-}
-
-void player::setHitboxes(std::vector<sf::FloatRect> &hitboxes) {
-    this->hitboxes = &hitboxes;
-}
-
-void player::drawHitbox(sf::RenderWindow &m_win) {
-    m_win.draw(hitbox);
 }
 
 void player::syncHitbox() {

@@ -132,7 +132,6 @@ void match::updateView(game &m_gam){
 
 void match::draw(sf::RenderWindow &m_win){
     render(m_win);
-    m_win.setView(m_uiview);
 }
 
 
@@ -162,6 +161,8 @@ void match::render(sf::RenderWindow &m_win){
         p->draw(m_win);
     }
 
+    drawHitboxex(m_win);
+
     //view de UI
     m_win.setView(m_uiview);
 
@@ -176,6 +177,13 @@ void match::normalView(sf::RenderWindow& m_win) {
     m_view.setCenter(m_ply->getPosition());
     m_view.zoom(0.2);
     m_win.setView(m_view);
+}
+
+void match::drawHitboxex(sf::RenderWindow &win) {
+    if (!drawHitbox){return;}
+    for (auto &u : m_drawble) {
+            u->drawHitbox(win);
+    }
 }
 
 void match::hits() {
@@ -251,6 +259,9 @@ void match::isOver() {
 void match::ProcessEvent(game &game, sf::Event &event) {
     if (event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) {
         game.Pause();
+    }
+    if (auto *evt = event.getIf<sf::Event::KeyPressed>()) {
+        if (evt->code == sf::Keyboard::Key::F3){ drawHitbox = !drawHitbox; }
     }
 }
 

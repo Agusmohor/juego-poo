@@ -61,6 +61,7 @@ class match : public scene {
     std::vector<std::unique_ptr<zombie>> m_zombies;
     std::vector<std::unique_ptr<obstacle>> m_obtacles;
 
+    bool drawHitbox = false;
     std::vector<drawble*> m_drawble;
 
     std::vector<sf::FloatRect> m_hitboxes;
@@ -82,7 +83,7 @@ class match : public scene {
     void spawnObstacle();
     void spawnEnemies();
     void isOver();
-
+    void drawHitboxex(sf::RenderWindow &win);
 public:
     match();
     void doPause(game &m_gam);

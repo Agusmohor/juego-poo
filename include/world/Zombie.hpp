@@ -42,8 +42,6 @@ public:
     void update(float delta,game& game) override;
     void playAudios(game &game) override;
     void draw(sf::RenderWindow& m_win) override;
-    void drawHitbox(sf::RenderWindow &m_win) override;
-    void setHitboxes(std::vector<sf::FloatRect> &hitboxes) override;
     void recieveDamage() override;
     void recieveDamage(int i) override;
     const sf::FloatRect getGlobalBounds() const override;
