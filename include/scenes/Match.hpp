@@ -50,7 +50,6 @@ class match : public scene {
 
     sf::View m_view,m_uiview;
     sf::Vector2u m_winSize;
-    bool showMouseCoords = false;
 
     Resources m_res;
     obstacles m_obs;

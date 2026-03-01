@@ -2,9 +2,12 @@
 #include "world/Player.hpp"
 #include <iostream>
 
-hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui),m_heal(gui), overlay(gui),font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
+hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui),m_heal(gui), overlay(gui)
+ ,font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5), p_coords(font){
 
     if(!gui.loadFromFile("../assets/textures/entity/player/gui/gui.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_GUI_TEXTURE_FROM_FILE");
+    if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
+    font.setSmooth(false);
 
     size = sf::Vector2i(16,16);
     scale = sf::Vector2f(4,4);
@@ -14,11 +17,14 @@ hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_s
 
     create();
 
-    if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     text.setFont(font); text.setString("Press enter to exit");
     text.setCharacterSize(24);
     text.setFillColor(sf::Color(150,150,150));
     text.setPosition(sf::Vector2f(250,650));
+    p_coords = text; p_coords.setCharacterSize(20);
+    p_coords.setFillColor(sf::Color::White);
+    debugPos = sf::Vector2f(10,30);
+    p_coords.setPosition({debugPos});
 
     stamColor = life.getColor();
 }
@@ -110,6 +116,7 @@ void hud::draw(sf::RenderWindow &m_win){
     m_win.draw(m_dash);
     m_win.draw(m_fire);
     m_win.draw(m_heal);
+    if (debug){m_win.draw(p_coords);}
     // m_win.draw(life);
 }
 
@@ -119,35 +126,46 @@ void hud::update(){
 
 void hud::updateView() {
     //reposicionamiento del hud con el resize
-    for (auto &p : m_overlay){p.setPosition({p.getPosition().x,newpos-overlayPos.y});}
+    for (auto &p : m_overlay){p.setPosition({p.getPosition().x,newPos.y-overlayPos.y});}
     for (auto &p : hp_empty) {
-        p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
+        p.setPosition(sf::Vector2f(p.getPosition().x,newPos.y-pos.y));
     }
     for (auto &p : hp_fill) {
-        p.setPosition(sf::Vector2f(p.getPosition().x,newpos - p.getPosition().y));
+        p.setPosition(sf::Vector2f(p.getPosition().x,newPos.y - p.getPosition().y));
     }
     for (auto &p : stamina_empty) {
-        p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
+        p.setPosition(sf::Vector2f(p.getPosition().x,newPos.y-pos.y));
     }
     for (auto &p : stamina_bar) {
-        p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
+        p.setPosition(sf::Vector2f(p.getPosition().x,newPos.y-pos.y));
     }
-    m_shield.setPosition({m_shield.getPosition().x,newpos-abilPos.y});
-    m_dash.setPosition({m_dash.getPosition().x,newpos-abilPos.y});
-    m_fire.setPosition({m_fire.getPosition().x,newpos-abilPos.y});
-    m_heal.setPosition({m_heal.getPosition().x,newpos-abilPos.y});
+    m_shield.setPosition({m_shield.getPosition().x,newPos.y-abilPos.y});
+    m_dash.setPosition({m_dash.getPosition().x,newPos.y-abilPos.y});
+    m_fire.setPosition({m_fire.getPosition().x,newPos.y-abilPos.y});
+    m_heal.setPosition({m_heal.getPosition().x,newPos.y-abilPos.y});
+    p_coords.setPosition({});
 }
 
-void hud::moveGui(const sf::Vector2f &winview){
+void hud::onResize(const sf::Vector2f &newView){
     //mantener la gui centrada, independientemente del resize
-    newpos = winview.y;
+    newPos = newView;
 }
 
-void hud::checkPlayer(int health,int stamina, bool isStaminaEmpty) {
+void hud::ProcessEvent(game& game, sf::Event &event) {
+    const auto &win = game.getWindow();
+    sf::Vector2f fcoords = win.mapPixelToCoords(sf::Mouse::getPosition(win));
+    std::string x = std::to_string(fcoords.x); std::string y = std::to_string(fcoords.y);
+    std::string scoords = x+","+y;
+    if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {
+        if (evt->code == sf::Keyboard::Key::F3) {debug = !debug;}
+    }
+}
+
+void hud::checkPlayer(const player& p) {
     //carga de hp y stamina
-    playerHp = health;
-    playerStam = stamina;
-    this->isStaminaEmpty = isStaminaEmpty;
+    playerHp = p.getHealth();
+    playerStam = p.getStamina();
+    isStaminaEmpty = p.isStaminaEmpty();
 }
 
 void hud::caseHealth() {

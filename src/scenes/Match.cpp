@@ -118,8 +118,7 @@ void match::update(float delta,game &m_gam){
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && !spawn){spawnEnemies();}
     spawn = false;
 
-    m_hud.abilities(m_ply->getShieldReady(),m_ply->getDashReady(),m_ply->getFireReady(),m_ply->getHealReady());
-    m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
+    m_hud.checkPlayer(*m_ply);
     // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
 }
 
@@ -166,7 +165,7 @@ void match::render(sf::RenderWindow &m_win){
     //view de UI
     m_win.setView(m_uiview);
 
-    m_hud.moveGui(m_win.mapPixelToCoords(sf::Vector2i(m_uiview.getSize().x,m_uiview.getSize().y )));
+    m_hud.onResize(m_win.mapPixelToCoords(sf::Vector2i(m_uiview.getSize().x,m_uiview.getSize().y )));
     m_hud.draw(m_win);
 
 }
@@ -180,12 +179,12 @@ void match::normalView(sf::RenderWindow& m_win) {
 }
 
 void match::ProcessEvent(game &game, sf::Event &event) {
+    m_hud.ProcessEvent(game, event);
     if (event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) {
         game.Pause();
     }
     if (auto *evt = event.getIf<sf::Event::KeyPressed>()) {
-        if (evt->code == sf::Keyboard::Key::F3){ drawHitbox = !drawHitbox; }
-        if (evt->code == sf::Keyboard::Key::F4){showMouseCoords = !showMouseCoords; }
+        if (evt->code == sf::Keyboard::Key::F4){ drawHitbox = !drawHitbox; }
     }
 }
 
@@ -194,12 +193,7 @@ void match::specialFunctions(sf::RenderWindow &win) {
     for (auto &u : m_drawble) {
             u->drawHitbox(win);
     }
-    if (showMouseCoords) {
-        sf::Vector2f fcoords = win.mapPixelToCoords(sf::Mouse::getPosition(win));
-        std::string x = std::to_string(fcoords.x); std::string y = std::to_string(fcoords.y);
-        std::string scoords = x+","+y;
-        // win.draw(sf::Text(scoords));
-    }
+
 }
 
 void match::hits() {

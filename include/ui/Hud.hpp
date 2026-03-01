@@ -5,24 +5,26 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <vector>
+#include "world/Player.hpp"
 
 class hud{
-      sf::Texture gui;
+    sf::Texture gui;
     sf::Sprite life, m_shield, m_dash, m_fire, m_heal, overlay;
-    sf::Vector2f scale,pos,spos,abilPos, overlayPos;
+    sf::Vector2f scale,pos,spos,abilPos, overlayPos, debugPos, newPos;
     std::vector<sf::Sprite> hp_empty,hp_fill,stamina_bar,stamina_empty, m_overlay;
     sf::Vector2i size;
 
     sf::Font font;
-    sf::Text text;
+    sf::Text text, p_coords;
 
     sf::Clock timer;
 
     sf::Color stamColor;
 
     bool isDead = false;
+    bool debug = false;
     bool state, isStaminaEmpty;
-    int newpos, playerHp,playerStam;
+    int  playerHp,playerStam;
 
     void create();
     void caseHealth();
@@ -31,16 +33,17 @@ class hud{
     void deathMessege(sf::RenderWindow &m_win);
     void createLife(int num);
     void createStamina(int num);
+    void abilities(bool isShieldReady, bool isDashReady, bool isFireReady, bool isHealReady);
 
 public:
     hud();
     void update();
     void updateView();
     void draw(sf::RenderWindow &m_win);
-    void moveGui(const sf::Vector2f &winview);
+    void onResize(const sf::Vector2f &newView);
+    void ProcessEvent(game& game,sf::Event &event);
 
-    void checkPlayer(int health,int stamina, bool isStaminaEmpty);
-    void abilities(bool isShieldReady, bool isDashReady, bool isFireReady, bool isHealReady);
+    void checkPlayer(const player& p);
 
 };
 
