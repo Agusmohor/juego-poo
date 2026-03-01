@@ -18,7 +18,7 @@ enum struct moveState {
 };
 
 class player : public entity {
-    int stamina;
+    int stamina, stamina_full;
     float staminaRegenTimer = 0.f;
     float staminaRegenDur = 0.05f;
 

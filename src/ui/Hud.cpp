@@ -46,6 +46,7 @@ void hud::create() {
         p.setPosition({life.getPosition().x+38*i,life.getPosition().y});
         hp_empty.push_back(p);
     }
+    //crear void stamina_bar
     spos = sf::Vector2f((pos.x+38*5 ) + 10,pos.y);
     for (int i=0;i<6;i++) {
         sf::Sprite p=life;
@@ -90,7 +91,7 @@ void hud::createLife(int num) {
 
 void hud::createStamina(int num) {
     if (num < 0) num = 0;
-    if (num > 10) num = 10;
+    if (num > 6) num = 6;
     stamina_bar.clear();
     sf::Sprite p = life;
     if (!isStaminaEmpty) p.setTextureRect({{243,260},{size}});

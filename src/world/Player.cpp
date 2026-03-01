@@ -6,7 +6,7 @@
 #include <signal.h>
 
 
-player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Texture& shield, const sf::Texture& fball) :  entity(sprite,sha_tex),stamina(180), m_shield(shield), m_fireball(fball) {
+player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Texture& shield, const sf::Texture& fball) :  entity(sprite,sha_tex), m_shield(shield), m_fireball(fball) {
     fireballScale = sf::Vector2i(16,10); m_fireball.setTextureRect({{0,0},{fireballScale}});
     m_fireball.setScale(sprScale);
     m_shield.setOrigin({16,16}); m_fireball.setOrigin({8,5});
@@ -15,7 +15,7 @@ player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Te
     lClick = sf::Mouse::Button::Left;
     fhitbox.setFillColor(sf::Color::Red);
     fhitbox.setSize({4,4}); fhitbox.setOrigin({2,2});
-    health = 10;
+    health = 10; stamina = 1000; stamina_full = stamina;
 
 }
 
@@ -126,7 +126,7 @@ void player::updateTexture() {
 void player::speed(){
     m_speed = 50;
     if (staminaRegenTimer >= staminaRegenDur) {
-        if(stamina < 180){
+        if(stamina < stamina_full){
             stamina++;
         }
         staminaRegenTimer = 0.f;
@@ -136,8 +136,8 @@ void player::speed(){
         stamina--; m_speed *= 1.2; state = 2;
     }
 
-    if (stamina == 0) empty_stamina = true;
-    if (stamina == 180) empty_stamina = false;
+    if (stamina <= 0) empty_stamina = true;
+    if (stamina == stamina_full) empty_stamina = false;
 }
 
 bool player::cond(){
@@ -151,7 +151,7 @@ bool player::cond(){
 
 void player::update(float delta, game& game) {
     colorTimer -= delta;
-
+    std::cout << stamina << std::endl;
     //actualizar player
     texture();
     staminaRegenTimer += delta;
