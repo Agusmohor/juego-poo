@@ -15,7 +15,7 @@ player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Te
     lClick = sf::Mouse::Button::Left;
     fhitbox.setFillColor(sf::Color::Red);
     fhitbox.setSize({4,4}); fhitbox.setOrigin({2,2});
-    health = 10;
+    health = 20;
 
 }
 
@@ -280,7 +280,7 @@ void player::updateHealth() {
     }
     else {vivo = true;}
 
-    if (health >= 14) health = 14;
+    // if (health >= 14) health = 14;
 
 }
 

@@ -67,7 +67,7 @@ void hud::create() {
 void hud::createLife(int num) {
     hp_fill.clear();
     if (num < 0) num = 0;
-    if (num > 10) num = 10;
+    if (num > 1000) num = 1000;
     //rellena la healthbar con corazones rojos si num < 5, sino, con corazones amarillos
     life.setTextureRect({{224,224},{size}});
     sf::Sprite p = life;
@@ -80,7 +80,6 @@ void hud::createLife(int num) {
             c++;
         }
         hp_fill.push_back(p);
-        // std::cout << num << " " << i << " " << playerHp << " " << c << std::endl;
     }
 
 
@@ -125,7 +124,7 @@ void hud::updateView() {
         p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
     }
     for (auto &p : hp_fill) {
-        p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
+        p.setPosition(sf::Vector2f(p.getPosition().x,newpos - p.getPosition().y));
     }
     for (auto &p : stamina_empty) {
         p.setPosition(sf::Vector2f(p.getPosition().x,newpos-pos.y));
@@ -141,7 +140,7 @@ void hud::updateView() {
 
 void hud::moveGui(const sf::Vector2f &winview){
     //mantener la gui centrada, independientemente del resize
-        newpos = winview.y;
+    newpos = winview.y;
 }
 
 void hud::checkPlayer(int health,int stamina, bool isStaminaEmpty) {
@@ -185,6 +184,7 @@ void hud::caseHealth() {
         p.setPosition(life.getPosition());
         hp_fill.push_back(p);
     }
+    std::cout << playerHp << std::endl;
 }
 
 void hud::caseStamina() {

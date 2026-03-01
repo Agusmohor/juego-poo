@@ -50,6 +50,7 @@ class match : public scene {
 
     sf::View m_view,m_uiview;
     sf::Vector2u m_winSize;
+    bool showMouseCoords = false;
 
     Resources m_res;
     obstacles m_obs;
@@ -83,7 +84,7 @@ class match : public scene {
     void spawnObstacle();
     void spawnEnemies();
     void isOver();
-    void drawHitboxex(sf::RenderWindow &win);
+    void specialFunctions(sf::RenderWindow &win);
 public:
     match();
     void doPause(game &m_gam);

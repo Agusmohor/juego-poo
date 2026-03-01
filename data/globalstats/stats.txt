@@ -131,3 +131,8 @@ agus|0|0
 agus|0|0
 agus|0|0
 agus|0|2
+agus|0|1
+agus|14|61
+agus|0|31
+agus|19|85
+agus|0|3

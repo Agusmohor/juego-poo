@@ -118,7 +118,6 @@ void match::update(float delta,game &m_gam){
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K) && !spawn){spawnEnemies();}
     spawn = false;
 
-    m_hud.update();
     m_hud.abilities(m_ply->getShieldReady(),m_ply->getDashReady(),m_ply->getFireReady(),m_ply->getHealReady());
     m_hud.checkPlayer(m_ply->getHealth(),m_ply->getStamina(), m_ply->isStaminaEmpty());
     // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
@@ -127,6 +126,7 @@ void match::update(float delta,game &m_gam){
 void match::updateView(game &m_gam){
     m_winSize = m_gam.getWinSize();
     m_uiview = m_gam.getView();
+    m_hud.update();
     m_hud.updateView();
 }
 
@@ -161,7 +161,7 @@ void match::render(sf::RenderWindow &m_win){
         p->draw(m_win);
     }
 
-    drawHitboxex(m_win);
+    specialFunctions(m_win);
 
     //view de UI
     m_win.setView(m_uiview);
@@ -179,10 +179,26 @@ void match::normalView(sf::RenderWindow& m_win) {
     m_win.setView(m_view);
 }
 
-void match::drawHitboxex(sf::RenderWindow &win) {
+void match::ProcessEvent(game &game, sf::Event &event) {
+    if (event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) {
+        game.Pause();
+    }
+    if (auto *evt = event.getIf<sf::Event::KeyPressed>()) {
+        if (evt->code == sf::Keyboard::Key::F3){ drawHitbox = !drawHitbox; }
+        if (evt->code == sf::Keyboard::Key::F4){showMouseCoords = !showMouseCoords; }
+    }
+}
+
+void match::specialFunctions(sf::RenderWindow &win) {
     if (!drawHitbox){return;}
     for (auto &u : m_drawble) {
             u->drawHitbox(win);
+    }
+    if (showMouseCoords) {
+        sf::Vector2f fcoords = win.mapPixelToCoords(sf::Mouse::getPosition(win));
+        std::string x = std::to_string(fcoords.x); std::string y = std::to_string(fcoords.y);
+        std::string scoords = x+","+y;
+        // win.draw(sf::Text(scoords));
     }
 }
 
@@ -254,15 +270,6 @@ void match::spawnObstacle() {
 void match::isOver() {
     m_stats.timeAlive = time;
     m_stats.kills = kills;
-}
-
-void match::ProcessEvent(game &game, sf::Event &event) {
-    if (event.is<sf::Event::KeyPressed>() && event.getIf<sf::Event::KeyPressed>()->code == sf::Keyboard::Key::Escape) {
-        game.Pause();
-    }
-    if (auto *evt = event.getIf<sf::Event::KeyPressed>()) {
-        if (evt->code == sf::Keyboard::Key::F3){ drawHitbox = !drawHitbox; }
-    }
 }
 
 void match::setPlayerKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keyBinds) {
