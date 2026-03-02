@@ -88,7 +88,7 @@ void settingsScene::update(float delta,game &m_game) {
     if (volumeBtn.getPosition().x > volumeBack.getGlobalBounds().position.x + volumeBack.getSize().x) {
         volumeBtn.setPosition({volumeBack.getGlobalBounds().position.x + volumeBack.getSize().x, volumeBack.getPosition().y});
     }
-    volume = volumeBtn.getGlobalBounds().position.x - volumeBack.getGlobalBounds().position.x + 1;
+    volume = volumeBtn.getGlobalBounds().position.x - volumeBack.getGlobalBounds().position.x ;
     volume /= 5; volume += 1;
     t_volume.setString("Master Volume: "+std::to_string(volume)+"%");
 }
