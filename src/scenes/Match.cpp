@@ -10,7 +10,7 @@
 #include "scenes/GameOver.hpp"
 #include <string>
 
-match::match() :  m_hud() {
+match::match() :  m_hud(), t_waring(font){
     std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/mapa_ground.csv"; std::string grass = "../assets/textures/map/mapa_grass.csv";
 
     if (!m_res.tree1.loadFromFile("../assets/textures/trees/tree1.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
@@ -21,7 +21,11 @@ match::match() :  m_hud() {
     if (!m_res.shield.loadFromFile("../assets/textures/entity/player/shield.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHIELD_TEXTURE_FROM_FILE");}
     if (!m_res.fballskin.loadFromFile("../assets/textures/entity/player/fireball.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_FIREBALL_TEXTURE_FROM_FILE");}
     if (!m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_ZOMBIE_TEXTURE_FROM_FILE");}
+    if (!font.openFromFile("../assets/fonts/MineFont.ttf")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");}
 
+    WarningOverlay.setSize({1000,1000}); t_waring.setFont(font); WarningOverlay.setFillColor({0,0,0,0});
+    t_waring.setCharacterSize(40); t_waring.setFillColor(sf::Color::Red); t_waring.setStyle(sf::Text::Bold);
+    t_waring.setString("WARNING\nGET BACK");
 
     m_mapa.load(pngpath,ground,grass);
 
@@ -119,6 +123,8 @@ void match::update(float delta,game &m_gam){
 
     m_hud.checkPlayer(*m_ply);
     // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
+    playerIsOutOfRange();
+    centerTextToButton(t_waring,WarningOverlay);
 }
 
 void match::updateView(game &m_gam){
@@ -130,7 +136,8 @@ void match::updateView(game &m_gam){
 
 void match::draw(sf::RenderWindow &m_win){
     render(m_win);
-    playerIsOutOfRange(m_win);
+    m_win.draw(WarningOverlay);
+    if (p_spawn.isOut)m_win.draw(t_waring);
 }
 
 
@@ -286,9 +293,17 @@ void match::callSaveAndQuit(game &gam) {
     }
 }
 
-void match::playerIsOutOfRange(sf::RenderWindow &win) {
+void match::playerIsOutOfRange() {
     sf::Vector2f p = m_ply->getPosition();
     if (p.x < p_spawn.minTileX*32 || p.x > p_spawn.maxTileX*32 || p.y < p_spawn.minTileY*32 || p.y > p_spawn.maxTileY*32) {
-        std::cout << "out of range" << std::endl;
-    }
+        p_spawn.isOut = true;
+        if (p.x > p_spawn.maxTileX*32){p_spawn.dist = p.x - p_spawn.maxTileX*32 ;}
+        else if (p.x < p_spawn.minTileX*32){p_spawn.dist = p_spawn.minTileX*32 - p.x;}
+        else if (p.y < p_spawn.minTileY*32){p_spawn.dist = p_spawn.minTileY*32 - p.y;}
+        else if (p.y > p_spawn.maxTileY*32){p_spawn.dist = p.y - p_spawn.maxTileY*32;}
+
+        std::uint8_t alp = std::clamp((p_spawn.dist / p_spawn.maxDist) * 200,0.f,255.f);
+        WarningOverlay.setFillColor({0,0,0,alp});
+        std::cout << alp << std::endl;
+    }else{p_spawn.isOut = false;}
 }

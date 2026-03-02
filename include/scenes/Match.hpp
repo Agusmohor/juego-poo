@@ -45,6 +45,9 @@ struct playerSpawn {
     int minTileY = 25;
     int maxTileX = 43;
     int maxTileY = 43;
+    float maxDist = 200.f;
+    float dist = 0.f;
+    bool isOut = false;
 };
 
 class match : public scene {
@@ -56,6 +59,9 @@ class match : public scene {
     int kills = 0;
 
     hud m_hud;
+    sf::RectangleShape WarningOverlay;
+    sf::Font font;
+    sf::Text t_waring;
 
     sf::View m_view,m_uiview;
     sf::Vector2u m_winSize;
@@ -94,7 +100,7 @@ class match : public scene {
     void spawnEnemies();
     void isOver();
     void specialFunctions(sf::RenderWindow &win);
-    void playerIsOutOfRange(sf::RenderWindow &win);
+    void playerIsOutOfRange();
 public:
     match();
     void update(float delta,game &m_gam) override;
