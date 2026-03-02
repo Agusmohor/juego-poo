@@ -4,10 +4,9 @@
 // Version: 2024-01-03
 
 class InputText : public sf::Text {
-	
 public:
 	InputText() = default;
-	InputText(const sf::Font &font, int size=30, sf::Color color=sf::Color::Black) : sf::Text(font){
+	InputText(const sf::Font &font, int size=30, sf::Color color=sf::Color::Black) : sf::Text(font)  {
 		setFont(font);
 		setCharacterSize(size);
 		setFillColor(color);

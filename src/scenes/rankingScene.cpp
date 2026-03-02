@@ -43,6 +43,9 @@ void rankingScene::showVector(sf::RenderWindow &m_win) {
         sf::Text text(font,ss.str());
         text.setCharacterSize(20);
         text.setPosition({300,starty + i*space});
+        if (i==0){text.setFillColor({255,255,153});}
+        if (i==1){text.setFillColor({255,204,102});}
+        if (i==2){text.setFillColor({255,153,51});}
         m_win.draw(text);
     }
 }

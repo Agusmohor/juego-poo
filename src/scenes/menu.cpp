@@ -27,6 +27,7 @@ void menu::update(float delta,game &m_gam){
         m_gam.setStats(m_stats);
     }
     currname.setString(m_gam.getStats().name);
+    centerTextToButton(input,enterName);
 }
 
 void menu::draw(sf::RenderWindow &m_win){
@@ -42,7 +43,7 @@ void menu::draw(sf::RenderWindow &m_win){
 
 }
 
-void menu::dibujado(sf::RenderWindow &m_win){
+void menu::dibujado(sf::RenderWindow &m_win) {
     m_win.draw(m_text1);
     m_win.draw(m_text2);
 
@@ -58,7 +59,7 @@ void menu::dibujado(sf::RenderWindow &m_win){
     m_win.draw(rankText);
     m_win.draw(t_settings);
     m_win.draw(nameText);
-    m_win.draw(input);
+    if (waitingName) {m_win.draw(input);}
     if (!(currname.getString() == "null")){m_win.draw(currname);}
     if (notFound) {m_win.draw(notsavefound);}
     if (waitingName) {m_win.draw(confirm);}

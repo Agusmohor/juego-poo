@@ -18,6 +18,7 @@ void zombie::update(float delta,game &game) {
 void zombie::playAudios(game &game) {
     if (startDamageAudio && !startDeathAudio) {startDamageAudio = false;game.getAudio().playEntityDamaged(); }
     if (startDeathAudio){startDeathAudio = false; game.getAudio().playEntityDeath();}
+    if (startSwordAudio){startSwordAudio = false; game.getAudio().playSword();}
 }
 
 void zombie::updateTexture() {
@@ -189,7 +190,7 @@ const bool zombie::getHitStatus() const {
 }
 
 void zombie::setHitStatus(bool status) {
-    isHitting = status; if(status) {m_spr.setTextureRect({{0,256},{txScale}}); damage_consumed = false;}
+    isHitting = status; if(status) {m_spr.setTextureRect({{0,256},{txScale}}); damage_consumed = false; startSwordAudio = true;}
 }
 
 bool zombie::canDealDamage() const {

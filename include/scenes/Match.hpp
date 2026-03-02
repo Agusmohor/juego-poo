@@ -45,7 +45,7 @@ struct playerSpawn {
     int minTileY = 25;
     int maxTileX = 43;
     int maxTileY = 43;
-    float maxDist = 200.f;
+    float maxDist = 100.f;
     float dist = 0.f;
     bool isOut = false;
     float timer = 10.f;

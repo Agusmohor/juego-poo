@@ -153,3 +153,6 @@ popopene123|29|185
 frewgfre|26|126
 Agus|0|7
 Agus|0|6
+gredhg|0|22
+gredhg|7|35
+Agus|5|25
