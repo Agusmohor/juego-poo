@@ -19,7 +19,7 @@ void game::run(){
         if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
         if(!ispaused) curr_scene->update(delta,*this);
 
-        if (saveAndQuit){saveConfig(); saveAndQuit=false;}
+        if (saveAndQuit){saveProgress(); saveAndQuit=false;}
         if (isOver) {newProgress();}
         curr_scene->updateView(*this);
 

@@ -3,6 +3,7 @@
 
 #include "gameplay/Stats.hpp"
 #include "fstream"
+#include "iostream"
 #include "Keys.hpp"
 
 struct keybinds {
