@@ -22,5 +22,4 @@ CMakeLists.txt
 #generados
 *.user
 *.cache
-*.txt
 *.dat
