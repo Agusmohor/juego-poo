@@ -18,6 +18,8 @@ class rankingScene : public scene {
     void showVector(sf::RenderWindow &m_win);
     void createSave();
     void buttonPressed(type t) override;
+    void sortList();
+    void updateList();
 public:
     rankingScene();
     void update(float delta, game &m_gam) override;
@@ -25,7 +27,6 @@ public:
     void ProcessEvent(game &game, sf::Event &event) override;
 
     void load();
-    void sortList();
     void save(const stats& p);
     bool getBackRequest() const;
     void setBackRequest(bool back);

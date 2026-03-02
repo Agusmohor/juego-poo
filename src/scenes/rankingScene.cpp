@@ -81,6 +81,9 @@ void rankingScene::load() {
         aux.timeAlive = std::stof(line.substr(pos2+1));
         m_list.push_back(aux);
     }
+    sortList();
+    file.close();
+    updateList();
 }
 
 void rankingScene::save(const stats &p) {
@@ -113,3 +116,12 @@ bool rankingScene::getBackRequest() const {
 }
 
 void rankingScene::setBackRequest(bool back) {backmain = back;}
+
+void rankingScene::updateList() {
+    std::ofstream file("../data/globalstats/stats.txt", std::ios::trunc);
+    if (m_list.empty()) { return;}
+    if (m_list.size() > 10){m_list.resize(10);}
+    for (auto &p : m_list) {
+        file << p.name <<'|'<<p.kills<<'|'<<p.timeAlive<<'\n';
+    }
+}

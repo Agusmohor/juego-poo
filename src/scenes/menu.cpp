@@ -10,7 +10,7 @@ rankText(m_font1),notsavefound(m_font1), nameText(m_font1), currname(m_font1), i
 
 void menu::update(float delta,game &m_gam){
     if (!isOpened){isOpened = true;m_gam.getAudio().playMusic();}
-    if (m_gam.getIsOver()){rankScene.save(m_gam.getStats());rankScene.load(); rankScene.sortList();m_gam.setIsOver(false); }
+    if (m_gam.getIsOver()){rankScene.save(m_gam.getStats());rankScene.load(); m_gam.setIsOver(false); }
     if(isNewGame) {m_gam.newProgress(); m_gam.loadProgress();m_gam.setScene(new match);}
     if(isLoadGame) {
         if (!m_gam.loadProgress()) {notFound = true; isLoadGame = false;}
