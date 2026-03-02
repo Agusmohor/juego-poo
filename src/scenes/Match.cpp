@@ -26,7 +26,7 @@ match::match() :  m_hud(), t_waring(font){
     WarningOverlay.setSize({10000,10000}); t_waring.setFont(font); WarningOverlay.setFillColor({0,0,0,0});
     WarningOverlay.setPosition({-1000,-1000});
     t_waring.setCharacterSize(40); t_waring.setFillColor(sf::Color::Red); t_waring.setStyle(sf::Text::Bold);
-    t_waring.setString("WARNING\nGET BACK"); t_waring.setPosition({200,400}); t_waring.setOutlineColor(sf::Color::Black);
+    t_waring.setString("WARNING\nGET BACK"); t_waring.setPosition({180,400}); t_waring.setOutlineColor(sf::Color::Black);
     t_waring.setOutlineThickness(1.1);
 
     m_mapa.load(pngpath,ground,grass);
@@ -311,7 +311,7 @@ void match::playerIsOutOfRange(float delta) {
             p_spawn.cooldownTimer = p_spawn.cooldownDur;
         }
     }else{p_spawn.isOut = false; p_spawn.timer = 10;}
-    t_waring.setString("WARNING\nGET BACK "+std::to_string(p_spawn.timer));
+    t_waring.setString("           WARNING\nGET BACK "+std::to_string(p_spawn.timer));
     if (p_spawn.timer <= 0.f) {p_spawn.cooldownTimer -= delta;}
     if (p_spawn.timer <= 0.f){p_spawn.timer = 0.f;}
 }
