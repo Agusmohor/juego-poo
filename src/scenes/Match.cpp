@@ -135,7 +135,7 @@ void match::update(float delta,game &m_gam){
         m_gam.getAudio().stopDanger();
         isplaying = false;
     }
-
+    if (!m_ply->isAlive()) {m_gam.getAudio().stopDanger();}
 
 }
 
