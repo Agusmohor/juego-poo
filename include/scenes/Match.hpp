@@ -58,6 +58,9 @@ class match : public scene {
     bool ispressed = false;
     bool isgameover = false;
 
+    bool isplaying = false;
+    bool wasplaying = false;
+
     float time = 0;
     int kills = 0;
 

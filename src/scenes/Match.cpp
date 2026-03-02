@@ -126,6 +126,17 @@ void match::update(float delta,game &m_gam){
     m_hud.checkPlayer(*m_ply);
     // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
     playerIsOutOfRange(delta);
+    if (p_spawn.isOut) {
+        if (!isplaying) {
+            m_gam.getAudio().playDanger();
+            isplaying = true;
+        }
+    }else if (isplaying) {
+        m_gam.getAudio().stopDanger();
+        isplaying = false;
+    }
+
+
 }
 
 void match::updateView(game &m_gam){
