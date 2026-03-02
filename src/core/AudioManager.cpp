@@ -37,6 +37,7 @@ danger(danger_1),music(music_1),music_Over(musicOver_1)
     if (!danger_1.loadFromFile("../assets/sounds/danger.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!music_1.loadFromFile("../assets/sounds/music1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!music_2.loadFromFile("../assets/sounds/music2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
+    if (!music_3.loadFromFile("../assets/sounds/music3.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!musicOver_1.loadFromFile("../assets/sounds/music_over.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
 
     shieldStart.setBuffer(shield_1); shieldFinish.setBuffer(shield_2);
@@ -165,7 +166,7 @@ void AudioManager::stopDanger() {
 }
 
 void AudioManager::playMusic() {
-    randomAudio(music,music_1,music_2);
+    randomAudio(music,music_1,music_2,music_3);
     music.play();
 }
 

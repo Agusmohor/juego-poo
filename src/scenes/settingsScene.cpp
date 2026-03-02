@@ -81,14 +81,10 @@ void settingsScene::update(float delta,game &m_game) {
     k2.setString(keyToString(m_keys[1]));
     k3.setString(keyToString(m_keys[2]));
     k4.setString(keyToString(m_keys[3]));
-    if (isexit && isSave) {
+    if (isSave) {
         m_game.setKeyBinds(m_keys);
-        if (prevVol!=volume) {
-            m_game.setVolume(volume);
-        }
-        if (prevVolMusic!=volMusic) {
-            m_game.setVolMusic(volMusic);
-        }
+        m_game.setVolume(volume);
+        m_game.setVolMusic(volMusic);
         isSave = false;
     }
 
