@@ -23,9 +23,11 @@ match::match() :  m_hud(), t_waring(font){
     if (!m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_ZOMBIE_TEXTURE_FROM_FILE");}
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");}
 
-    WarningOverlay.setSize({1000,1000}); t_waring.setFont(font); WarningOverlay.setFillColor({0,0,0,0});
+    WarningOverlay.setSize({10000,10000}); t_waring.setFont(font); WarningOverlay.setFillColor({0,0,0,0});
+    WarningOverlay.setPosition({-1000,-1000});
     t_waring.setCharacterSize(40); t_waring.setFillColor(sf::Color::Red); t_waring.setStyle(sf::Text::Bold);
-    t_waring.setString("WARNING\nGET BACK");
+    t_waring.setString("WARNING\nGET BACK"); t_waring.setPosition({200,400}); t_waring.setOutlineColor(sf::Color::Black);
+    t_waring.setOutlineThickness(1.1);
 
     m_mapa.load(pngpath,ground,grass);
 
@@ -123,8 +125,7 @@ void match::update(float delta,game &m_gam){
 
     m_hud.checkPlayer(*m_ply);
     // if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::N) && !ispressed) {m_gam.setScene(new gameover); ispressed = true;}
-    playerIsOutOfRange();
-    centerTextToButton(t_waring,WarningOverlay);
+    playerIsOutOfRange(delta);
 }
 
 void match::updateView(game &m_gam){
@@ -293,9 +294,10 @@ void match::callSaveAndQuit(game &gam) {
     }
 }
 
-void match::playerIsOutOfRange() {
+void match::playerIsOutOfRange(float delta) {
     sf::Vector2f p = m_ply->getPosition();
     if (p.x < p_spawn.minTileX*32 || p.x > p_spawn.maxTileX*32 || p.y < p_spawn.minTileY*32 || p.y > p_spawn.maxTileY*32) {
+        p_spawn.timer -= delta;
         p_spawn.isOut = true;
         if (p.x > p_spawn.maxTileX*32){p_spawn.dist = p.x - p_spawn.maxTileX*32 ;}
         else if (p.x < p_spawn.minTileX*32){p_spawn.dist = p_spawn.minTileX*32 - p.x;}
@@ -304,6 +306,12 @@ void match::playerIsOutOfRange() {
 
         std::uint8_t alp = std::clamp((p_spawn.dist / p_spawn.maxDist) * 200,0.f,255.f);
         WarningOverlay.setFillColor({0,0,0,alp});
-        std::cout << alp << std::endl;
-    }else{p_spawn.isOut = false;}
+        if (p_spawn.cooldownTimer < 0.f && p_spawn.timer <= 0.f && m_ply->isAlive()) {
+            m_ply->recieveDamage();
+            p_spawn.cooldownTimer = p_spawn.cooldownDur;
+        }
+    }else{p_spawn.isOut = false; p_spawn.timer = 10;}
+    t_waring.setString("WARNING\nGET BACK "+std::to_string(p_spawn.timer));
+    if (p_spawn.timer <= 0.f) {p_spawn.cooldownTimer -= delta;}
+    if (p_spawn.timer <= 0.f){p_spawn.timer = 0.f;}
 }

@@ -48,6 +48,9 @@ struct playerSpawn {
     float maxDist = 200.f;
     float dist = 0.f;
     bool isOut = false;
+    float timer = 10.f;
+    float cooldownTimer = 0.f;
+    float cooldownDur = 0.6f;
 };
 
 class match : public scene {
@@ -100,7 +103,7 @@ class match : public scene {
     void spawnEnemies();
     void isOver();
     void specialFunctions(sf::RenderWindow &win);
-    void playerIsOutOfRange();
+    void playerIsOutOfRange(float delta);
 public:
     match();
     void update(float delta,game &m_gam) override;
