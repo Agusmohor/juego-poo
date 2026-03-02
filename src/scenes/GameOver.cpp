@@ -28,7 +28,7 @@ gameover::gameover() : font("../assets/fonts/MineFont.ttf"), text(font), text2(f
 
 void gameover::update(float delta, game &m_gam) {
     if (!isgameover) { m_stats = m_gam.getStats(); m_gam.setIsOver(true);isgameover = true; toText();}
-    if (mainmenu) m_gam.setScene(new menu);
+    if (mainmenu) {m_gam.getAudio().stopMusicOver();m_gam.setScene(new menu);}
     if (exitgame) m_gam.exit();
 }
 

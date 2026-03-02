@@ -34,6 +34,7 @@ class game {
     std::vector<treeSave> t_saves;
 
     int volume;
+    int music;
 
     AudioManager audio;
     ConfigManager config;
@@ -89,6 +90,8 @@ public:
 
     void setVolume(int vol);
     int getVolume() const;
+    void setVolMusic(int vol);
+    int getVolMusic() const;
 };
 
 #endif

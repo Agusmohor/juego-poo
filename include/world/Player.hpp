@@ -71,6 +71,7 @@ class player : public entity {
     bool startDeathAudio = false;
     bool isMoving = false;
     bool isRunning = false;
+    bool startOverMusic = false;
     moveState currState;
     moveState prevState;
 

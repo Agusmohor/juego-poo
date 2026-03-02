@@ -4,7 +4,7 @@
 
 AudioManager::AudioManager() : dash(dash_1), sword(sword_1), fire(fire_1),heal(heal_1),shieldStart(shield_1),shieldFinish(shield_2),
 e_damaged(damaged_1), e_dead(dead_1), p_damaged(pdamaged_1), p_dead(pdamaged_1), p_walk(pwalk_1),p_run(pwalk_1),s_dam(sdam_1),e_walk(pwalk_1),
-danger(danger_1)
+danger(danger_1),music(music_1),music_Over(musicOver_1)
 {
     if (!dash_1.loadFromFile("../assets/sounds/dash1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!dash_2.loadFromFile("../assets/sounds/dash2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
@@ -35,10 +35,13 @@ danger(danger_1)
     if (!sdam_2.loadFromFile("../assets/sounds/sdamage2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!sdam_3.loadFromFile("../assets/sounds/sdamage3.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
     if (!danger_1.loadFromFile("../assets/sounds/danger.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
+    if (!music_1.loadFromFile("../assets/sounds/music1.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
+    if (!music_2.loadFromFile("../assets/sounds/music2.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
+    if (!musicOver_1.loadFromFile("../assets/sounds/music_over.ogg")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_SOUND_FROM_FILE");
 
     shieldStart.setBuffer(shield_1); shieldFinish.setBuffer(shield_2);
     p_walk.setLooping(true); p_walk.setPitch(1.3); p_run.setLooping(true); p_run.setPitch(1.5);
-    danger.setLooping(true);
+    danger.setLooping(true); music.setLooping(true); music_Over.setLooping(true);
 
 }
 
@@ -58,6 +61,11 @@ void AudioManager::setVolume(float volume) {
     s_dam.setVolume(volume);
     e_walk.setVolume(volume);
     danger.setVolume(volume);
+}
+
+void AudioManager::setMusicVolume(float volume) {
+    music.setVolume(volume);
+    music_Over.setVolume(volume);
 }
 
 void AudioManager::randomAudio(sf::Sound &sound, const sf::SoundBuffer &buffer1, const sf::SoundBuffer &buffer2) {
@@ -154,4 +162,21 @@ void AudioManager::playDanger() {
 
 void AudioManager::stopDanger() {
     danger.stop();
+}
+
+void AudioManager::playMusic() {
+    randomAudio(music,music_1,music_2);
+    music.play();
+}
+
+void AudioManager::stopMusic() {
+    music.stop();
+}
+
+void AudioManager::playMusicOver() {
+    music_Over.play();
+}
+
+void AudioManager::stopMusicOver() {
+    music_Over.stop();
 }

@@ -204,6 +204,7 @@ void player::playAudios(game &game) {
     if (shieldDamaged){shieldDamaged = false; game.getAudio().playShieldDamaged();}
     if (startDamagedAudio){startDamagedAudio = false; game.getAudio().playPlayerDamaged();}
     if (startDeathAudio){startDeathAudio = false; game.getAudio().playPlayerDeath();}
+    if (!vivo && !startOverMusic){ startOverMusic = true; game.getAudio().playMusicOver();}
 }
 
 void player::draw(sf::RenderWindow& m_win) {

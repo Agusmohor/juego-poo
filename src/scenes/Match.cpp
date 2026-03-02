@@ -61,6 +61,8 @@ void match::update(float delta,game &m_gam){
         for (auto &trees : m_obtacles) {
             trees->random(m_res.tree1,m_res.tree2,m_res.tree3);
         }
+
+        m_gam.getAudio().stopMusic();
     }
     callSaveAndQuit(m_gam);
     setPlayerKeyBinds(m_gam.getKeyBinds());

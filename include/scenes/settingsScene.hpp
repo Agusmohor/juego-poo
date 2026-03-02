@@ -5,16 +5,17 @@
 
 
 class settingsScene : public scene{
-    sf::RectangleShape background, Ab1,Ab2,Ab3,Ab4, exit, save,volumeBack,volumeBtn;
+    sf::RectangleShape background, Ab1,Ab2,Ab3,Ab4, exit, save,volumeBack,musicBack,volumeBtn,musicBtn;
     sf::Texture boton,botonselec;
     sf::Font font;
-    sf::Text ab1Text,ab2Text,ab3Text,ab4Text, exitText,saveText, k1,k2,k3,k4, waitkey, saved, t_volume;
+    sf::Text ab1Text,ab2Text,ab3Text,ab4Text, exitText,saveText, k1,k2,k3,k4, waitkey, saved, t_volume,t_music;
     std::array<sf::Keyboard::Scancode,4> m_keys;
     bool waitingForKey = false;
     bool isexit = false; bool isSave = false;
     bool isRecentlyOpen = true;
     int volume = 0; int prevVol;
-    bool isvolume = false;
+    int volMusic = 0; int prevVolMusic;
+    bool isvolume = false; bool isMusic = false;
     action curraction;
 
     std::string keyToString(sf::Keyboard::Scancode key);

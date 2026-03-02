@@ -4,7 +4,7 @@
 
 
 settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab4Text(font), exitText(font),
-saveText(font),k1(font),k2(font),k3(font),k4(font), waitkey(font), saved(font), t_volume(font){
+saveText(font),k1(font),k2(font),k3(font),k4(font), waitkey(font), saved(font), t_volume(font),t_music(font){
     if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
@@ -60,6 +60,10 @@ saveText(font),k1(font),k2(font),k3(font),k4(font), waitkey(font), saved(font), 
     volumeBtn.setSize({10,34}); volumeBtn.setOrigin({5,17});
     t_volume.setString("Master Volume: ");
     centerTextToButton(t_volume,volumeBack); t_volume.setCharacterSize(25);
+
+    musicBack = volumeBack; musicBtn = volumeBtn; t_music = t_volume;
+    musicBack.setPosition({volumeBack.getPosition().x,volumeBack.getPosition().y+45});
+    centerTextToButton(t_music,musicBack);
 }
 
 void settingsScene::update(float delta,game &m_game) {
@@ -67,8 +71,11 @@ void settingsScene::update(float delta,game &m_game) {
         isRecentlyOpen = false;
         m_keys = m_game.getKeyBinds();
         volume = m_game.getVolume();
+        volMusic = m_game.getVolMusic();
+        prevVolMusic = volMusic;
         prevVol = volume;
-        volumeBtn.setPosition({volumeBack.getGlobalBounds().position.x + volume*5 ,volumeBack.getPosition().y});
+        volumeBtn.setPosition({volumeBack.getGlobalBounds().position.x + volume*5 + 1 ,volumeBack.getPosition().y});
+        musicBtn.setPosition({musicBack.getGlobalBounds().position.x + volMusic * 5 + 1,musicBack.getPosition().y});
     }
     k1.setString(keyToString(m_keys[0]));
     k2.setString(keyToString(m_keys[1]));
@@ -78,6 +85,9 @@ void settingsScene::update(float delta,game &m_game) {
         m_game.setKeyBinds(m_keys);
         if (prevVol!=volume) {
             m_game.setVolume(volume);
+        }
+        if (prevVolMusic!=volMusic) {
+            m_game.setVolMusic(volMusic);
         }
         isSave = false;
     }
@@ -91,6 +101,15 @@ void settingsScene::update(float delta,game &m_game) {
     volume = volumeBtn.getGlobalBounds().position.x - volumeBack.getGlobalBounds().position.x ;
     volume /= 5; volume += 1;
     t_volume.setString("Master Volume: "+std::to_string(volume)+"%");
+    if (musicBtn.getPosition().x < musicBack.getGlobalBounds().position.x) {
+        musicBtn.setPosition({musicBack.getGlobalBounds().position.x,musicBack.getPosition().y});
+    }
+    if (musicBtn.getPosition().x > musicBack.getGlobalBounds().position.x + musicBack.getSize().x) {
+        musicBtn.setPosition({musicBack.getGlobalBounds().position.x + musicBack.getSize().x,musicBack.getPosition().y});
+    }
+    volMusic = musicBtn.getGlobalBounds().position.x - musicBack.getGlobalBounds().position.x ;
+    volMusic /= 5; volMusic += 1;
+    t_music.setString("Music Volume: "+std::to_string(volMusic)+"%");
 }
 
 void settingsScene::draw(sf::RenderWindow &m_win) {
@@ -101,6 +120,7 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
     button_overlay(m_win,exit,botonselec,boton);
     button_overlay(m_win,save,botonselec,boton);
     button_overlay(m_win,volumeBtn,botonselec,boton);
+    button_overlay(m_win,musicBtn,botonselec,boton);
     m_win.draw(background);
     m_win.draw(Ab1);
     m_win.draw(Ab2);
@@ -121,7 +141,10 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
     m_win.draw(k4);
     m_win.draw(volumeBack);
     m_win.draw(volumeBtn);
+    m_win.draw(musicBack);
+    m_win.draw(musicBtn);
     m_win.draw(t_volume);
+    m_win.draw(t_music);
     if (waitingForKey){ m_win.draw(waitkey);}
 
 }
@@ -141,6 +164,7 @@ void settingsScene::ProcessEvent(game &game, sf::Event &event) {
             if (mouseOver(win,save)){buttonPressed(type::save);}
             if (mouseOver(win,exit)){buttonPressed(type::exitgame);}
             if (mouseOver(win,volumeBack)){isvolume = true;}
+            if (mouseOver(win,musicBack)){isMusic = true;}
         }
     }
     if (const auto* evt = event.getIf<sf::Event::KeyPressed>()) {
@@ -157,6 +181,12 @@ void settingsScene::ProcessEvent(game &game, sf::Event &event) {
         sf::Vector2f mpos = win.mapPixelToCoords(sf::Mouse::getPosition(win));
         volumeBtn.setPosition({mpos.x,volumeBack.getPosition().y});
 
+    }
+    if (isMusic && event.getIf<sf::Event::MouseButtonReleased>()){isMusic = false;}
+    if (isMusic) {
+        const auto &win = game.getWindow();
+        sf::Vector2f mpos = win.mapPixelToCoords(sf::Mouse::getPosition(win));
+        musicBtn.setPosition({mpos.x,musicBack.getPosition().y});
     }
 }
 

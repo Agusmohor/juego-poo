@@ -13,6 +13,7 @@ class ConfigManager {
     void makeConfig() {
         std::ofstream cfile("../data/config/config.txt", std::ios::trunc);
         cfile << "Volume = 100" <<std::endl;
+        cfile << "Music = 100"<<std::endl;
         cfile.close();
     }
 
@@ -88,7 +89,7 @@ public:
         t_saves.clear(); z_saves.clear(); p_saves = s;
     }
 
-    void loadConfig(stats& p_stats,int& vol,std::array<sf::Keyboard::Scancode, 4> &keys) {
+    void loadConfig(stats& p_stats,int& vol,int &music,std::array<sf::Keyboard::Scancode, 4> &keys) {
         {
             std::ifstream file("../data/config/config.txt");
             if(!file.is_open()) {
@@ -98,6 +99,8 @@ public:
             std::string aux;
             std::getline(file,aux);
             vol = std::stoi(aux.substr(aux.find("=")+1));
+            std::getline(file,aux);
+            music = std::stoi(aux.substr(aux.find("=")+1));
         }
         {
             std::ifstream file("../data/config/profile.txt") ;
@@ -124,9 +127,10 @@ public:
         }
     }
 
-    void saveConfig(const stats& p_stats,int vol, const std::array<sf::Keyboard::Scancode, 4> &keys) {
+    void saveConfig(const stats& p_stats,int vol,int& music, const std::array<sf::Keyboard::Scancode, 4> &keys) {
         std::ofstream configfile("../data/config/config.txt");
         configfile << "Volume = " << vol << std::endl;
+        configfile << "Music = " << music << std::endl;
         configfile.close();
 
         configfile.open("../data/config/profile.txt",std::ios::trunc);

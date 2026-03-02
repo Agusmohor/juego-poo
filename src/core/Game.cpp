@@ -13,6 +13,7 @@ void game::run(){
         // ve todos los eventos q ocurren en la ventana
         ProcessEvent();
         audio.setVolume(volume);
+        audio.setMusicVolume(music);
 
         m_win.clear();
         if(ispaused && m_pause != nullptr) m_pause->update(delta,*this);
@@ -153,11 +154,11 @@ void game::newProgress() {
 }
 
 void game::saveConfig() {
-    config.saveConfig(p_stats,volume,m_keys);
+    config.saveConfig(p_stats,volume,music,m_keys);
 }
 
 void game::loadConfig() {
-    config.loadConfig(p_stats,volume,m_keys);
+    config.loadConfig(p_stats,volume,music,m_keys);
 }
 
 void game::setSaveAndQuit(bool saq) {saveAndQuit = saq;}
@@ -198,4 +199,12 @@ void game::setVolume(int vol) {
 
 int game::getVolume() const {
     return volume;
+}
+
+void game::setVolMusic(int vol) {
+    music = vol;
+}
+
+int game::getVolMusic() const {
+    return music;
 }

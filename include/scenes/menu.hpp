@@ -26,6 +26,8 @@ class menu : public scene{
     bool notFound = false;
     bool waitingName = false;
 
+    bool isOpened = false;
+
     stats m_stats;
     InputText input;
     rankingScene rankScene;
