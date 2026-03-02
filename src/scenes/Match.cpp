@@ -58,8 +58,7 @@ void match::update(float delta,game &m_gam){
     }
     callSaveAndQuit(m_gam);
     setPlayerKeyBinds(m_gam.getKeyBinds());
-    // std::cout << m_zombies.size() << std::endl;
-    // std::cout << m_obtacles.size() << std::endl;
+
     spriteTimer += delta;
     if (spriteTimer >= spriteDur) {
         for (auto &tree : m_obtacles) {
@@ -94,10 +93,10 @@ void match::update(float delta,game &m_gam){
     //elimina todos los z, q cumplan con la condicion q no vivo, funcion inline
     m_zombies.erase(std::remove_if(m_zombies.begin(),m_zombies.end(),[](const std::unique_ptr<zombie>& z){return z->isDeathOver();}),m_zombies.end());
 
-    if (m_zombies.size() < zombies.getMinEnemies() || m_zombies.size() < zombies.getMaxEnemies() && zombies.spawnCooldownTimer <= 0.f ) {
-        spawnEnemies(); zombies.spawnCooldownTimer = zombies.spawnCooldownDur;
+    if (m_zombies.size() < z_spawn.getMinEnemies() || m_zombies.size() < z_spawn.getMaxEnemies() && z_spawn.spawnCooldownTimer <= 0.f ) {
+        spawnEnemies(); z_spawn.spawnCooldownTimer = z_spawn.spawnCooldownDur;
     }
-    zombies.spawnCooldownTimer -= delta;
+    z_spawn.spawnCooldownTimer -= delta;
 
     //si no esta vivo, y presiona enter, crea otro personaje :)
     if (!m_ply->isAlive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && !ispressed) {
@@ -131,6 +130,7 @@ void match::updateView(game &m_gam){
 
 void match::draw(sf::RenderWindow &m_win){
     render(m_win);
+    playerIsOutOfRange(m_win);
 }
 
 
@@ -235,9 +235,9 @@ void match::hits() {
 
 
 void match::spawnEnemies() {
-        int tx = zombies.minTilex + std::rand()%( zombies.maxTilex-zombies.minTilex + 1);
-        int ty = zombies.minTiley + std::rand()%( zombies.maxTiley-zombies.minTiley + 1);
-        if (!(tx >= zombies.minNTilex && tx <= zombies.maxNTilex && ty >= zombies.minNTiley && ty <= zombies.maxNTiley)) {
+        int tx = z_spawn.minTilex + std::rand()%( z_spawn.maxTilex-z_spawn.minTilex + 1);
+        int ty = z_spawn.minTiley + std::rand()%( z_spawn.maxTiley-z_spawn.minTiley + 1);
+        if (!(tx >= z_spawn.minNTilex && tx <= z_spawn.maxNTilex && ty >= z_spawn.minNTiley && ty <= z_spawn.maxNTiley)) {
             m_zombies.push_back(std::make_unique<zombie>(m_res.Zombie,m_res.shadow,sf::Vector2f(tx * 32,ty * 32)));
         }
 
@@ -245,10 +245,12 @@ void match::spawnEnemies() {
 }
 
 void match::spawnObstacle() {
-        for (int i=0;i<m_obs.maxTreeSpawn;i++) {
-            int tx = m_obs.minTilex + std::rand()%( m_obs.maxTilex-m_obs.minTilex + 1);
-            int ty = m_obs.minTiley + std::rand()%( m_obs.maxTiley-m_obs.minTiley + 1);
-            if (!(tx >= m_obs.minNTilex && tx <= m_obs.maxNTilex && ty >= m_obs.minNTiley && ty <= m_obs.maxNTiley)) {
+        for (int i=0;i<obs_spawn.maxTreeSpawn;i++) {
+            //genera coordenadas en tiles random
+            int tx = obs_spawn.minTilex + std::rand()%( obs_spawn.maxTilex-obs_spawn.minTilex + 1);
+            int ty = obs_spawn.minTiley + std::rand()%( obs_spawn.maxTiley-obs_spawn.minTiley + 1);
+            //chequea q no este en la zona de aparicion
+            if (!(tx >= obs_spawn.minNTilex && tx <= obs_spawn.maxNTilex && ty >= obs_spawn.minNTiley && ty <= obs_spawn.maxNTiley)) {
                 bool exists = false;
                 sf::Vector2f t_pos(tx*32,ty*32);
                 //si no existe ningun obstaculo en esas coords, entonces se crea
@@ -284,4 +286,9 @@ void match::callSaveAndQuit(game &gam) {
     }
 }
 
-
+void match::playerIsOutOfRange(sf::RenderWindow &win) {
+    sf::Vector2f p = m_ply->getPosition();
+    if (p.x < p_spawn.minTileX*32 || p.x > p_spawn.maxTileX*32 || p.y < p_spawn.minTileY*32 || p.y > p_spawn.maxTileY*32) {
+        std::cout << "out of range" << std::endl;
+    }
+}
