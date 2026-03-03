@@ -95,6 +95,7 @@ public:
             std::ifstream file("data/config/config.txt");
             if(!file.is_open()) {
                 makeConfig();
+                file.close(); file.clear();
                 file.open("data/config/config.txt");
             }
             std::string aux;
