@@ -12,6 +12,7 @@ class settingsScene : public scene{
     std::array<sf::Keyboard::Scancode,4> m_keys;
     bool waitingForKey = false;
     bool isexit = false; bool isSave = false;
+    bool showSave = false;
     bool isRecentlyOpen = true;
     int volume = 0; int prevVol;
     int volMusic = 0; int prevVolMusic;

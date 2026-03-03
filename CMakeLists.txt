@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # --- Ejecutable ---
-add_executable(juego_poo
+add_executable(juego_poo 
         src/main.cpp
         src/core/Game.cpp
         src/core/AudioManager.cpp
@@ -38,7 +38,7 @@ target_include_directories(juego_poo PRIVATE
 )
 
 # --- SFML 3 ---
-find_package(SFML REQUIRED COMPONENTS Graphics Window System Audio)
+find_package(SFML REQUIRED COMPONENTS Graphics Window System Audio )
 target_link_libraries(juego_poo
         PRIVATE
         SFML::Graphics

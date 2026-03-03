@@ -106,6 +106,7 @@ void settingsScene::update(float delta,game &m_game) {
     volMusic = musicBtn.getGlobalBounds().position.x - musicBack.getGlobalBounds().position.x ;
     volMusic /= 5; volMusic += 1;
     t_music.setString("Music Volume: "+std::to_string(volMusic)+"%");
+
 }
 
 void settingsScene::draw(sf::RenderWindow &m_win) {
@@ -124,7 +125,7 @@ void settingsScene::draw(sf::RenderWindow &m_win) {
     m_win.draw(Ab4);
     m_win.draw(exit);
     m_win.draw(save);
-    if (isSave) {m_win.draw(saved);}
+    if (showSave) { m_win.draw(saved);  }
     m_win.draw(ab1Text);
     m_win.draw(ab2Text);
     m_win.draw(ab3Text);
@@ -153,6 +154,7 @@ void settingsScene::ProcessEvent(game &game, sf::Event &event) {
     auto &win = game.getWindow();
     if (const auto* evt = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (evt->button == sf::Mouse::Button::Left) {
+            showSave = false;
             if (mouseOver(win,Ab1)){buttonPressed(type::Ab1);}
             if (mouseOver(win,Ab2)){buttonPressed(type::Ab2);}
             if (mouseOver(win,Ab3)){buttonPressed(type::Ab3);}
@@ -168,7 +170,6 @@ void settingsScene::ProcessEvent(game &game, sf::Event &event) {
             if (evt->code == sf::Keyboard::Key::Escape) {waitingForKey = false; return;;}
             setKey(evt->scancode);
             waitingForKey = false;
-            std::cout << keyToString(evt->scancode) << std::endl;
         }
     }
     if (isvolume && event.getIf<sf::Event::MouseButtonReleased>()){isvolume = false;}
@@ -192,7 +193,7 @@ void settingsScene::buttonPressed( type t) {
         case type::Ab2 : curraction = action::dash;waitingForKey = true; break;
         case type::Ab3 : curraction = action::fire;waitingForKey = true; break;
         case type::Ab4 : curraction = action::heal;waitingForKey = true; break;
-        case type::save : isSave = true; break;
+        case type::save: isSave = true; showSave = true; break;
         case type::exitgame : isexit = true; break;
     }
 }

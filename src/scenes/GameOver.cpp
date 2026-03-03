@@ -1,6 +1,7 @@
 #include "scenes/GameOver.hpp"
 #include "core/Game.hpp"
 
+#include <sstream>
 #include <iomanip>
 
 #include <iostream>

@@ -6,19 +6,30 @@
 *.run
 prueba
 juego
-.vscode/
 .idea/
-
+# Visual Studio
+.vscode/
+.vs/
+*.vcxproj.user
+# Build folders
+build/
+x64/
+Debug/
+Release/
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
+# Executables
+*.exe
 #temporales
 *.log
 *.tmp
 *.swp
 *.swo
-
 #archivos extra
 .DS_Store
 CMakeLists.txt
-
 #generados
 *.user
 *.cache

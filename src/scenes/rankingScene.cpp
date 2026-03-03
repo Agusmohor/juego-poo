@@ -1,6 +1,7 @@
 #include "scenes/rankingScene.hpp"
 #include "core/Game.hpp"
 
+#include <sstream>
 #include <algorithm>
 #include <iostream>
 

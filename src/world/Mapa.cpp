@@ -1,4 +1,5 @@
 #include "world/Mapa.hpp"
+#include <sstream>
 #include <fstream>
 
 
