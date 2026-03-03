@@ -5,9 +5,9 @@
 
 settingsScene::settingsScene() : ab1Text(font), ab2Text(font), ab3Text(font), ab4Text(font), exitText(font),
 saveText(font),k1(font),k2(font),k3(font),k4(font), waitkey(font), saved(font), t_volume(font),t_music(font){
-    if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
-    if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
-    if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    if (!font.openFromFile("assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
+    if(!boton.loadFromFile("assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    if(!botonselec.loadFromFile("assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     font.setSmooth(false);
 
     background.setSize({6000.f,6000.f});

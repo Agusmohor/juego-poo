@@ -7,9 +7,9 @@
 
 
 rankingScene::rankingScene() : backText(font), title(font){
-    if(!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
-    if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
-    if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    if(!font.openFromFile("assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
+    if(!boton.loadFromFile("assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    if(!botonselec.loadFromFile("assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
     font.setSmooth(false);
 
     backButton.setSize({220.f,35.f});
@@ -68,7 +68,7 @@ void rankingScene::sortList() {
 }
 
 void rankingScene::load() {
-    std::ifstream file("../data/globalstats/stats.txt");
+    std::ifstream file("data/globalstats/stats.txt");
     if (!file.is_open()) {createSave(); return;}
     stats aux;
     std::string line;
@@ -88,13 +88,13 @@ void rankingScene::load() {
 }
 
 void rankingScene::save(const stats &p) {
-    std::ofstream file("../data/globalstats/stats.txt", std::ios::app);
+    std::ofstream file("data/globalstats/stats.txt", std::ios::app);
     file << p.name <<'|'<<p.kills<<'|'<<p.timeAlive<<'\n';
 
 }
 
 void rankingScene::createSave() {
-    std::ofstream file("../data/globalstats/stats.txt", std::ios::app);
+    std::ofstream file("data/globalstats/stats.txt", std::ios::app);
 }
 
 void rankingScene::ProcessEvent(game &game, sf::Event &event) {
@@ -119,7 +119,7 @@ bool rankingScene::getBackRequest() const {
 void rankingScene::setBackRequest(bool back) {backmain = back;}
 
 void rankingScene::updateList() {
-    std::ofstream file("../data/globalstats/stats.txt", std::ios::trunc);
+    std::ofstream file("data/globalstats/stats.txt", std::ios::trunc);
     if (m_list.empty()) { return;}
     if (m_list.size() > 10){m_list.resize(10);}
     for (auto &p : m_list) {

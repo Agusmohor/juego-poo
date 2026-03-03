@@ -12,14 +12,14 @@ struct keybinds {
 
 class ConfigManager {
     void makeConfig() {
-        std::ofstream cfile("../data/config/config.txt", std::ios::trunc);
+        std::ofstream cfile("data/config/config.txt", std::ios::trunc);
         cfile << "Volume = 100" <<std::endl;
         cfile << "Music = 100"<<std::endl;
         cfile.close();
     }
 
     void makeProfile() {
-        std::ofstream file("../data/config/profile.txt");
+        std::ofstream file("data/config/profile.txt");
         file << "LastProfile = null" << std::endl;
         file.close();
     }
@@ -31,12 +31,12 @@ class ConfigManager {
         kb.shield = static_cast<int>(keys[0]); kb.dash = static_cast<int>(keys[1]);
         kb.fire = static_cast<int>(keys[2]); kb.heal = static_cast<int>(keys[3]);
 
-        std::ofstream cfile("../data/config/keybinds.dat", std::ios::binary | std::ios::trunc);
+        std::ofstream cfile("data/config/keybinds.dat", std::ios::binary | std::ios::trunc);
         cfile.write(reinterpret_cast<const char*>(&kb),sizeof(kb));
     }
 public:
     bool loadProgess(const stats &p_stats,playerSaves& p_saves,std::vector<zombieSave>& z_saves, std::vector<treeSave>& t_saves) {
-            std::string path = "../data/saves/" + p_stats.name + ".dat";
+            std::string path = "data/saves/" + p_stats.name + ".dat";
             std::ifstream file(path, std::ios::binary);
 
             if (!file.is_open()) return false;
@@ -64,7 +64,7 @@ public:
     }
 
     void saveProgess(const stats& stats,playerSaves& p_saves,std::vector<zombieSave>& z_saves, std::vector<treeSave>& t_saves) {
-            std::string path = "../data/saves/" + stats.name + ".dat";
+            std::string path = "data/saves/" + stats.name + ".dat";
             std::ofstream file(path, std::ios::binary | std::ios::trunc);
             file.write(reinterpret_cast<const char*>(&p_saves),sizeof(p_saves));
 
@@ -82,7 +82,7 @@ public:
     }
 
     void newProgress(const stats& p_stats,playerSaves& p_saves,std::vector<zombieSave>& z_saves, std::vector<treeSave>& t_saves) {
-        std::string path = "../data/saves/" + p_stats.name + ".dat";
+        std::string path = "data/saves/" + p_stats.name + ".dat";
         std::ofstream file(path, std::ios::binary | std::ios::trunc);
         playerSaves s;
         file.write(reinterpret_cast<const char*>(&s),sizeof(s));
@@ -92,10 +92,10 @@ public:
 
     void loadConfig(stats& p_stats,int& vol,int &music,std::array<sf::Keyboard::Scancode, 4> &keys) {
         {
-            std::ifstream file("../data/config/config.txt");
+            std::ifstream file("data/config/config.txt");
             if(!file.is_open()) {
                 makeConfig();
-                file.open("../data/config/config.txt");
+                file.open("data/config/config.txt");
             }
             std::string aux;
             std::getline(file,aux);
@@ -104,20 +104,20 @@ public:
             music = std::stoi(aux.substr(aux.find("=")+1));
         }
         {
-            std::ifstream file("../data/config/profile.txt") ;
+            std::ifstream file("data/config/profile.txt") ;
             if (!file.is_open()) {
                 makeProfile();
-                file.open("../data/config/profile.txt");
+                file.open("data/config/profile.txt");
             }
             std::string aux;
             std::getline(file,aux);
             p_stats.name = aux.substr(aux.find_last_of(' ')+1,aux.back());
         }
         {
-            std::ifstream file("../data/config/keybinds.dat", std::ios::binary);
+            std::ifstream file("data/config/keybinds.dat", std::ios::binary);
             if (!file.is_open()) {
                 makeKeyBinds(keys);
-                file.open("../data/config/keybinds.dat", std::ios::binary);
+                file.open("data/config/keybinds.dat", std::ios::binary);
             }
             keybinds kb;
             file.read(reinterpret_cast<char*>(&kb),sizeof(kb));
@@ -129,19 +129,19 @@ public:
     }
 
     void saveConfig(const stats& p_stats,int vol,int& music, const std::array<sf::Keyboard::Scancode, 4> &keys) {
-        std::ofstream configfile("../data/config/config.txt");
+        std::ofstream configfile("data/config/config.txt");
         configfile << "Volume = " << vol << std::endl;
         configfile << "Music = " << music << std::endl;
         configfile.close();
 
-        configfile.open("../data/config/profile.txt",std::ios::trunc);
+        configfile.open("data/config/profile.txt",std::ios::trunc);
         configfile << "LastProfile = "<< p_stats.name << std::endl;
 
         keybinds kb;
         kb.shield = static_cast<int>(keys[0]); kb.dash = static_cast<int>(keys[1]);
         kb.fire = static_cast<int>(keys[2]); kb.heal = static_cast<int>(keys[3]);
 
-        std::ofstream file("../data/config/keybinds.dat", std::ios::binary | std::ios::trunc);
+        std::ofstream file("data/config/keybinds.dat", std::ios::binary | std::ios::trunc);
         file.write(reinterpret_cast<const char*>(&kb),sizeof(kb));
         file.close();
     }

@@ -46,3 +46,17 @@ target_link_libraries(juego_poo
         SFML::System
         SFML::Audio
 )
+
+add_custom_target(copy_assets ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        ${CMAKE_BINARY_DIR}/assets
+)
+
+add_custom_command(TARGET juego_poo POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/data
+        $<TARGET_FILE_DIR:juego_poo>/data
+)
+
+add_dependencies(juego_poo copy_assets)

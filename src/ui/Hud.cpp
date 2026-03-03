@@ -2,11 +2,11 @@
 #include "world/Player.hpp"
 #include <iostream>
 
-hud::hud() : gui("../assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui),m_heal(gui), overlay(gui)
- ,font("../assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
+hud::hud() : gui("assets/textures/entity/player/gui/gui.png"), life(gui), m_shield(gui),m_dash(gui),m_fire(gui),m_heal(gui), overlay(gui)
+ ,font("assets/fonts/MineFont.ttf"), text(font,""), playerHp(5){
 
-    if(!gui.loadFromFile("../assets/textures/entity/player/gui/gui.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_GUI_TEXTURE_FROM_FILE");
-    if (!font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
+    if(!gui.loadFromFile("assets/textures/entity/player/gui/gui.png")) throw std::runtime_error("ERROR:COULD_NOT_OPEN_GUI_TEXTURE_FROM_FILE");
+    if (!font.openFromFile("assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");
     font.setSmooth(false);
 
     size = sf::Vector2i(16,16);

@@ -3,9 +3,9 @@
 #include <scenes/settingsScene.hpp>
 
 PauseScene::PauseScene():m_text(m_font,"Pause"), resumeText(m_font,""), settingText(m_font,""), exitText(m_font,""){
-    if (!m_font.openFromFile("../assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
-    if(!boton.loadFromFile("../assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
-    if(!botonselec.loadFromFile("../assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    if (!m_font.openFromFile("assets/fonts/MineFont.ttf")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT");
+    if(!boton.loadFromFile("assets/textures/Boton.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
+    if(!botonselec.loadFromFile("assets/textures/Botonselec.png")) throw std::runtime_error("ERROR:COULD_NOT_LOAD_BOTON_TEXTURE_FROM_FILE");
 
     m_font.setSmooth(false);
 

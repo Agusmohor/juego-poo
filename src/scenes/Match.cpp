@@ -11,17 +11,17 @@
 #include <string>
 
 match::match() :  m_hud(), t_waring(font){
-    std::string pngpath ="../assets/textures/map/tiles.png" ; std::string ground = "../assets/textures/map/mapa_ground.csv"; std::string grass = "../assets/textures/map/mapa_grass.csv";
+    std::string pngpath ="assets/textures/map/tiles.png" ; std::string ground = "assets/textures/map/mapa_ground.csv"; std::string grass = "assets/textures/map/mapa_grass.csv";
 
-    if (!m_res.tree1.loadFromFile("../assets/textures/trees/tree1.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
-    if (!m_res.tree2.loadFromFile("../assets/textures/trees/tree2.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
-    if (!m_res.tree3.loadFromFile("../assets/textures/trees/tree3.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
-    if (!m_res.Player.loadFromFile("../assets/textures/entity/player/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_PLAYER_TEXTURE_FROM_FILE");}
-    if (!m_res.shadow.loadFromFile("../assets/textures/entity/player/plshadow.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHADOW_TEXTURE_FROM_FILE");}
-    if (!m_res.shield.loadFromFile("../assets/textures/entity/player/shield.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHIELD_TEXTURE_FROM_FILE");}
-    if (!m_res.fballskin.loadFromFile("../assets/textures/entity/player/fireball.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_FIREBALL_TEXTURE_FROM_FILE");}
-    if (!m_res.Zombie.loadFromFile("../assets/textures/entity/zombie/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_ZOMBIE_TEXTURE_FROM_FILE");}
-    if (!font.openFromFile("../assets/fonts/MineFont.ttf")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");}
+    if (!m_res.tree1.loadFromFile("assets/textures/trees/tree1.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
+    if (!m_res.tree2.loadFromFile("assets/textures/trees/tree2.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
+    if (!m_res.tree3.loadFromFile("assets/textures/trees/tree3.png")) {throw std::runtime_error("ERROR:COULD_NOT_LOAD_TREE_TEXTURE_FROM_FILE");}
+    if (!m_res.Player.loadFromFile("assets/textures/entity/player/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_PLAYER_TEXTURE_FROM_FILE");}
+    if (!m_res.shadow.loadFromFile("assets/textures/entity/player/plshadow.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHADOW_TEXTURE_FROM_FILE");}
+    if (!m_res.shield.loadFromFile("assets/textures/entity/player/shield.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_SHIELD_TEXTURE_FROM_FILE");}
+    if (!m_res.fballskin.loadFromFile("assets/textures/entity/player/fireball.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_FIREBALL_TEXTURE_FROM_FILE");}
+    if (!m_res.Zombie.loadFromFile("assets/textures/entity/zombie/sprite.png")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_ZOMBIE_TEXTURE_FROM_FILE");}
+    if (!font.openFromFile("assets/fonts/MineFont.ttf")){throw std::runtime_error("ERROR:COULD_NOT_LOAD_FONT_FROM_FILE");}
 
     WarningOverlay.setSize({10000,10000}); t_waring.setFont(font); WarningOverlay.setFillColor({0,0,0,0});
     WarningOverlay.setPosition({-1000,-1000});
