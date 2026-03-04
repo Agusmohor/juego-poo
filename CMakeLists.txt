@@ -9,6 +9,7 @@ add_executable(juego_poo WIN32
         src/main.cpp
         src/core/Game.cpp
         src/core/AudioManager.cpp
+        src/core/ConfigManager.cpp
 
         src/gameplay/Abilities.cpp
         src/gameplay/Abilities.cpp
