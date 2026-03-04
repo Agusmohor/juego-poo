@@ -4,6 +4,10 @@ Este juego fue desarrollado como proyecto final para la materia **Programación 
 
 El proyecto está implementado en **C++** utilizando la biblioteca gráfica **SFML**.
 
+<img width="787" height="816" alt="imagen" src="https://github.com/user-attachments/assets/ed628b5e-42f2-42c8-b3f4-b4ca2317c991" />
+<img width="792" height="827" alt="imagen" src="https://github.com/user-attachments/assets/a8dcc3dc-5f2e-412b-b57e-4e9983d42462" />
+<img width="769" height="987" alt="imagen" src="https://github.com/user-attachments/assets/283b4e05-89bc-42a6-832b-3ff6773de181" />
+
 El objetivo fue aplicar conceptos de:
 
 - Programación Orientada a Objetos
