@@ -49,7 +49,8 @@ Source: https://nyknck.itch.io/pixelarteffectfx017
 
 Modifications:
 - Animation frames adjusted
-
+ 
+--------------------------------------------------
 MUSIC
 
 Generic 8-bit JRPG Soundtrack
@@ -71,3 +72,10 @@ The End - Dead Z Pandemic
 Author: TAD
 Source: https://opengameart.org/content/the-end-dead-z-pandemic
 License: CC0 
+--------------------------------------------------
+SOUND EFFECTS
+
+Some sound effects were generated using AI tools.
+
+Generated with ElevenLabs
+https://elevenlabs.io
