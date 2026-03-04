@@ -1,27 +1,93 @@
-#juego POO - Proyecto Final C++
+# Juego POO – Proyecto Final C++
 
-Este juego es el proyecto final de Programacion Orientada a Objetos.
-Juego desarrollado en C++ utilizando SFML para interfaz grafica
+Este juego fue desarrollado como proyecto final para la materia **Programación Orientada a Objetos** de la carrera **Ingeniería Informática – UNL FICH**.
 
-#estructura del juego
+El proyecto está implementado en **C++** utilizando la biblioteca gráfica **SFML**.
+
+El objetivo fue aplicar conceptos de:
+
+- Programación Orientada a Objetos
+- Manejo de archivos (binarios y texto)
+- Gestión de escenas
+- Sistema de entidades
+
+---
+
+# Características del juego
+
+- Movimiento del jugador
+- Sistema de habilidades
+- Enemigos con comportamiento básico
+- Obstáculos y colisiones
+- Sistema de stamina y vida
+- Sistema de ranking
+- Guardado de datos en archivos
+- Interfaz gráfica con HUD
+- Menú principal y escenas del juego
+
+---
+
+# Tecnologías utilizadas
+
+- **C++17 / C++20**
+- **SFML**
+- **Tiled (mapas)**
+- **Git / GitHub**
+
+---
+
+# Estructura del proyecto
 
 juego-poo/
-|-src/             #source
-|  |-main.cpp
-|  |-core/         # logica del juego 
-|  |-gameplay/     # jugabilidad(abilities)
-|  |-scenes/       # escenas del juego
-|  |-ui/           # interfaz grafica in-game
-|  |-wordl/        # objetos/entidades
-|-includes/        # todos los includes
-|-tests/           # carpeta separada para pruebas
-|-assets/          # texturas, sonidos, fuentes
-|  |-fonts/        # fuentes
-|  |-sounds/       # sonidos
-|  |-textures/     # texturas
-|-data/            # saves y configuraciones
-|  |-config/       # configs(keybinds/name/resolution)
-|  |-globalstats/  # ranking
-|  |-saves/        # partidas guardadas
-|-build/           # archivos compilados 
-|-README.md
+
+|-- src/ # código fuente
+| |-- main.cpp
+| |-- core/ # lógica principal del juego
+| |-- gameplay/ # sistema de habilidades
+| |-- scenes/ # escenas del juego
+| |-- ui/ # interfaz gráfica
+| |-- world/ # entidades y objetos
+|
+|-- includes/ # headers del proyecto
+|
+|-- tests/ # pruebas
+|
+|-- assets/ # recursos del juego
+| |-- fonts/
+| |-- sounds/
+| |-- textures/
+|
+|-- data/ # datos persistentes
+| |-- config/
+| |-- globalstats/
+| |-- saves/
+|
+|-- build/ # ejecutables compilados
+|
+|-- README.md
+|-- CREDITS.md
+
+
+Asegurate de que las carpetas **assets/** y **data/** estén en el mismo directorio que el ejecutable.
+
+---
+
+# Guardado de datos
+
+El juego utiliza archivos para almacenar:
+
+- configuraciones
+- ranking global
+- partidas guardadas
+
+Los datos se almacenan dentro de la carpeta:
+data/
+
+---
+
+# Créditos
+
+Este proyecto utiliza assets creados por artistas externos.
+
+Ver:
+CREDITS.md
