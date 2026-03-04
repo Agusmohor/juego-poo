@@ -4,7 +4,7 @@
 game::game(scene* f_scene) : m_win(sf::VideoMode({800,800}), "Juego Poo"), curr_scene(f_scene), ispaused(false), next_scene(nullptr),m_pause(nullptr){
     m_win.setFramerateLimit(60);
     loadConfig();
-    m_win.setSize({801,801});
+    m_win.setSize({800,801});
 }
 
 void game::run(){

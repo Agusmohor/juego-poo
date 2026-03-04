@@ -17,7 +17,7 @@ struct Resources {
 };
 
 struct enemiesSpawn {
-    int max_enemies = 5;
+    int max_enemies = 10;
     int min_enemies = 1;
     //rango de aparicion
     int minTilex = 20; int maxTilex = 47;

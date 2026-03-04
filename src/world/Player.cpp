@@ -15,7 +15,7 @@ player::player(const sf::Texture &sprite,const sf::Texture &sha_tex,const sf::Te
     lClick = sf::Mouse::Button::Left;
     fhitbox.setFillColor(sf::Color::Red);
     fhitbox.setSize({4,4}); fhitbox.setOrigin({2,2});
-    health = 10; stamina = 1000; stamina_full = stamina;
+    health = 10; stamina = 180; stamina_full = stamina;
 
 }
 

@@ -39,8 +39,8 @@ match::match() :  m_hud(), t_waring(font){
 void match::update(float delta,game &m_gam){
     time += delta;
     if (isRecentlyOpen) {
-        isRecentlyOpen = false;
-        if (m_gam.getPlayerSaves().time > 0 && m_gam.getPlayerSaves().time < 10000){time = m_gam.getPlayerSaves().time;}
+        isRecentlyOpen = false; 
+        if (m_gam.getPlayerSaves().time > 0 && m_gam.getPlayerSaves().time < 10000) { time = m_gam.getPlayerSaves().time; }
         if (!(m_gam.getPlayerSaves().kills <= 0)){kills = m_gam.getPlayerSaves().kills;}
         m_ply->setSaves(m_gam.getPlayerSaves());
         m_zombieSave = m_gam.getZombieSaves();
@@ -295,7 +295,9 @@ void match::setPlayerKeyBinds(const std::array<sf::Keyboard::Scancode,4>& keyBin
 
 void match::callSaveAndQuit(game &gam) {
     if (gam.getSaveAndQuit()) {
-        gam.setPlayerSaves(m_ply->getSaves());
+        playerSaves p = m_ply->getSaves();
+        p.kills += kills; p.time += time;
+        gam.setPlayerSaves(p);
         gam.clearTsaves(); gam.clearZsaves();
         for (auto &z : m_zombies) {
             gam.setZombieSaves(z->getSaves());
