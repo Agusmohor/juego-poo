@@ -70,8 +70,9 @@ License: CC-BY-SA 3.0
 
 The End - Dead Z Pandemic
 Author: TAD
-Source: https://opengameart.org/content/the-end-dead-z-pandemic
-License: CC0 
+source: https://opengameart.org/content/the-end-dead-z-pandemic
+License: CC0
+
 --------------------------------------------------
 SOUND EFFECTS
 
