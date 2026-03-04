@@ -90,4 +90,14 @@ data/
 Este proyecto utiliza assets creados por artistas externos.
 
 Ver:
-CREDITS.md
+[CREDITS.md](CREDITS.md)
+
+---
+
+# Licencia
+
+Código fuente: **Licencia MIT**.  
+Ver: [LICENSE](LICENSE)
+
+Assets (gráficos, sonidos, música, etc.): distintas licencias según el autor.  
+Consultar: [CREDITS.md](CREDITS.md)
