@@ -1,4 +1,4 @@
-# Juego POO – Proyecto Final C++ 
+# Juego POO – Proyecto Final C++
 
 Este juego fue desarrollado como proyecto final para la materia **Programación Orientada a Objetos** de la carrera **Ingeniería Informática – UNL FICH**.
 
